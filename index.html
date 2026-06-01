@@ -146,7 +146,7 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 
 <nav class="topbar">
   <div class="topbar-inner">
-<div class="logo" onclick="togglePremium()" style="cursor:pointer">Control<span>Prep</span></div>
+<div class="logo">Control<span>Prep</span></div>
     <div class="dnav" id="dnav">
 <button class="db active" id="db-home" onclick="go('home')">Inicio</button>
       <button class="db" id="db-topics" onclick="go('topics')">Temario</button>
@@ -2434,7 +2434,7 @@ const PP=[
 // STATE
 // ═══════════════════════════════════════════════════════
 let DEV_PREMIUM=false; // ⚠️ GO-LIVE: set to false and remove togglePremium()
-function togglePremium(){DEV_PREMIUM=!DEV_PREMIUM;alert('DEV_PREMIUM is now '+DEV_PREMIUM);renderHomeDashboard();updateHomeButtons();}
+
 let CT=null;
 let QS={qs:[],idx:0,sc:0,ans:false,exam:false,tmr:null,tl:0,paper:false};
 
