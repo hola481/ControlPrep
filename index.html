@@ -2530,6 +2530,7 @@ function go(id){
 goEl.classList.add('active');
   goEl.style.display=id==='conv2025'?'block':'flex';
   if(id==='legal-privacy'||id==='legal-terms'||id==='legal-cookies'){renderLegalContent();document.getElementById('cookie-banner').style.display='none';}
+if(id==='profile'){const lo=document.getElementById('profile-logged-out');const li=document.getElementById('profile-logged-in');const ed=document.getElementById('profile-email-display');if(_currentUser){if(lo)lo.style.display='none';if(li)li.style.display='block';if(ed)ed.textContent=_currentUser.email;}else{if(lo)lo.style.display='block';if(li)li.style.display='none';}}
 if(id==='faq')renderFAQ();
   ['home','topics','papers'].forEach(n=>{
     const b=document.getElementById('ni-'+n);
