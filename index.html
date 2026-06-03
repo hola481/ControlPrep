@@ -6129,10 +6129,9 @@ function updateHomeButtons(){
 }
 function dismissSplash(){
   localStorage.setItem('splashSeen','1');
+  go('home');
   if(!localStorage.getItem('_cp_auth_seen') && !_currentUser){
-    go('register-screen');
-  } else {
-    go('home');
+    setTimeout(()=>go('register-screen'), 300);
   }
 }
 
