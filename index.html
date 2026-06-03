@@ -4652,11 +4652,9 @@ function startCheckout(){
     return;
   }
   if(errEl)errEl.style.display='none';
-  // Require account before payment
+// Encourage account creation but don't block payment
   if(!_currentUser){
     localStorage.setItem('pendingCheckout',_billingPeriod);
-    go('login-screen');
-    return;
   }
   // Record consent with timestamp
   const consentRecord={terms:true,withdrawal:true,period:_billingPeriod,date:new Date().toISOString()};
