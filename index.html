@@ -144,12 +144,22 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 // ============================================================
-// SUPABASE CONFIG — replace with your actual values
+// SUPABASE CONFIG
 // ============================================================
 const SUPABASE_URL = 'https://eblozlkwavtijjrmefpt.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVibG96bGt3YXZ0aWpqcm1lZnB0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA0MjIyMzgsImV4cCI6MjA5NTk5ODIzOH0.AG3nGGrh5fFDEsbd6ePR9M4Bufwv5cmK0dtEuytm83g';
 const _sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 let _currentUser = null;
+
+// Generate or retrieve a unique device ID for this browser
+function getDeviceId(){
+  let did = localStorage.getItem('_cp_device_id');
+  if(!did){
+    did = 'dev_' + Math.random().toString(36).substr(2,9) + '_' + Date.now().toString(36);
+    localStorage.setItem('_cp_device_id', did);
+  }
+  return did;
+}
 
 async function sbInit(){
   const {data:{session}} = await _sb.auth.getSession();
@@ -170,12 +180,30 @@ async function sbInit(){
 
 async function checkPremiumStatus(){
   if(!_currentUser) return;
-  const {data, error} = await _sb.from('profiles').select('is_premium, premium_until').eq('id', _currentUser.id).single();
+  const {data} = await _sb.from('profiles').select('is_premium, premium_until').eq('id', _currentUser.id).single();
   if(data){
     const now = new Date();
     const premiumUntil = data.premium_until ? new Date(data.premium_until) : null;
     DEV_PREMIUM = data.is_premium && (!premiumUntil || premiumUntil > now);
   }
+}
+
+async function checkDeviceLimit(){
+  if(!_currentUser) return true;
+  const deviceId = getDeviceId();
+  const {data} = await _sb.from('profiles').select('devices').eq('id', _currentUser.id).single();
+  if(!data) return true;
+  const devices = data.devices || [];
+  // If this device is already registered, allow
+  if(devices.includes(deviceId)) return true;
+  // If fewer than 2 devices registered, add this one and allow
+  if(devices.length < 2){
+    const newDevices = [...devices, deviceId];
+    await _sb.from('profiles').update({devices: newDevices}).eq('id', _currentUser.id);
+    return true;
+  }
+  // 2 devices already registered and this isn't one of them
+  return false;
 }
 
 async function sbSignUp(email, password, name){
@@ -191,11 +219,27 @@ async function sbSignIn(email, password){
   const {data, error} = await _sb.auth.signInWithPassword({email, password});
   if(error) throw error;
   _currentUser = data.user;
+  // Check device limit
+  const allowed = await checkDeviceLimit();
+  if(!allowed){
+    await _sb.auth.signOut();
+    _currentUser = null;
+    throw new Error('Esta cuenta ya está activa en 2 dispositivos. Por favor cierra sesión en otro dispositivo antes de iniciar sesión aquí, o contacta con hola@controlprep.com.');
+  }
   await checkPremiumStatus();
   return data;
 }
 
 async function sbSignOut(){
+  // Remove this device from the registered devices list
+  if(_currentUser){
+    const deviceId = getDeviceId();
+    const {data} = await _sb.from('profiles').select('devices').eq('id', _currentUser.id).single();
+    if(data && data.devices){
+      const newDevices = data.devices.filter(d => d !== deviceId);
+      await _sb.from('profiles').update({devices: newDevices}).eq('id', _currentUser.id);
+    }
+  }
   await _sb.auth.signOut();
   _currentUser = null;
   DEV_PREMIUM = false;
@@ -4583,6 +4627,11 @@ function selectBilling(period){
     ab.style.cssText='flex:1;padding:10px;border-radius:10px;border:2px solid '+(period==='annual'?'#ffd166':'#1d3a5c')+';background:'+(period==='annual'?'rgba(255,209,102,.15)':'transparent')+';color:'+(period==='annual'?'#ffd166':'#5a8aaa')+';font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer';
   }
 }
+function skipAuth(){
+  localStorage.setItem('_cp_auth_seen','1');
+  go('home');
+}
+
 function startCheckout(){
   const consent=document.getElementById('checkout-consent');
   const errEl=document.getElementById('checkout-error');
@@ -6079,7 +6128,12 @@ function updateHomeButtons(){
 }
 function dismissSplash(){
   localStorage.setItem('splashSeen','1');
-  go('home');
+  // If user has never seen the auth screen, show it
+  if(!localStorage.getItem('_cp_auth_seen') && !_currentUser){
+    go('onboarding-auth');
+  } else {
+    go('home');
+  }
 }
 function showPremiumInfo(){
  alert('⭐ Premium — €24.99/mes o €189/año (4 meses gratis).\n\nIncluye todo lo que necesitas para preparar las oposiciones CTA:\n\n✓ 100+ preguntas premium por tema\n✓ ✓ Convocatorias anteriores\n✓ Simulacros ilimitados\n✓ 🇬🇧 Aviation English OACI\n✓ Módulo psicotécnico CTA\n✓ Sin anuncios');
@@ -6556,7 +6610,7 @@ cookieShowBanner();
 handleCheckoutReturn();
 sbInit();
 // Fix DOM nesting issue
-['topics','tdetail','qscreen','rscreen','papers','progress-screen','enaire-bridge','rv','planselect','glossary','bpracticas','search','profile','splash','aveng','feast','studyplan','legal-privacy','legal-terms','legal-cookies','faq','contact','conv2025','login-screen','register-screen','forgot-screen'].forEach(sid=>{
+['topics','tdetail','qscreen','rscreen','papers','progress-screen','enaire-bridge','rv','planselect','glossary','bpracticas','search','profile','splash','aveng','feast','studyplan','legal-privacy','legal-terms','legal-cookies','faq','contact','conv2025','login-screen','register-screen','forgot-screen','onboarding-auth'].forEach(sid=>{
   const el=document.getElementById(sid);
   if(el)document.body.appendChild(el);
 });
@@ -6649,7 +6703,7 @@ async function handleForgot(){
 
 <!-- LOGIN SCREEN -->
 <div class="screen" id="login-screen">
-  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span></div></div>
+  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="history.back()||go('home')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
   <div class="inner" style="padding-top:32px;padding-bottom:90px">
     <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:6px">Iniciar sesión</div>
     <div style="font-size:13px;color:#8cb8d8;margin-bottom:24px">Accede a tu cuenta ControlPrep</div>
@@ -6706,6 +6760,21 @@ async function handleForgot(){
       <input id="forgot-email" type="email" placeholder="tu@email.com" style="width:100%;padding:12px 14px;background:#0c1e35;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;box-sizing:border-box">
     </div>
     <button onclick="handleForgot()" style="width:100%;padding:14px;background:#00b4d8;color:#000;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer">Enviar enlace</button>
+  </div>
+</div>
+
+<!-- ONBOARDING AUTH SCREEN -->
+<div class="screen" id="onboarding-auth">
+  <div class="inner" style="padding-top:60px;padding-bottom:90px;display:flex;flex-direction:column;align-items:center">
+    <div style="font-size:48px;margin-bottom:16px">✈️</div>
+    <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:8px;text-align:center">Bienvenido a ControlPrep</div>
+    <div style="font-size:14px;color:#8cb8d8;margin-bottom:32px;text-align:center;line-height:1.6">Crea una cuenta gratuita para guardar tu progreso y acceder desde cualquier dispositivo</div>
+    <button onclick="go('register-screen');localStorage.setItem('_cp_auth_seen','1')" style="width:100%;padding:16px;background:#00b4d8;color:#000;border:none;border-radius:14px;font-family:'IBM Plex Sans',sans-serif;font-size:16px;font-weight:800;cursor:pointer;margin-bottom:12px">Crear cuenta gratis</button>
+    <button onclick="go('login-screen');localStorage.setItem('_cp_auth_seen','1')" style="width:100%;padding:14px;background:transparent;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:14px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:24px">Ya tengo cuenta</button>
+    <div onclick="skipAuth()" style="font-size:13px;color:#5a8aaa;cursor:pointer;text-decoration:underline">Continuar sin cuenta</div>
+    <div style="margin-top:24px;background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px 16px;font-size:12px;color:#5a8aaa;line-height:1.6;text-align:center">
+      Con una cuenta: guarda tu progreso, accede desde cualquier dispositivo, y si te haces Premium en el futuro podrás usarlo en hasta 2 dispositivos.
+    </div>
   </div>
 </div>
 </body>
