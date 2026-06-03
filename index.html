@@ -2567,7 +2567,7 @@ function go(id){
   const goEl=document.getElementById(id);
   if(!goEl){console.error('Screen not found:',id);return;}
 goEl.classList.add('active');
-  goEl.style.display=(id==='conv2025'||id==='login-screen'||id==='register-screen'||id==='forgot-screen')?'block':'flex';
+goEl.style.display=(id==='conv2025'||id==='login-screen'||id==='register-screen'||id==='forgot-screen'||id==='onboarding-auth')?'block':'flex';
   if(id==='legal-privacy'||id==='legal-terms'||id==='legal-cookies'){renderLegalContent();document.getElementById('cookie-banner').style.display='none';}
   if(id==='profile'){const section=document.getElementById('profile-auth-section');const ed=document.getElementById('profile-email-display');if(section){section.style.display=_currentUser?'block':'none';if(_currentUser&&ed)ed.textContent=_currentUser.email;}}
 if(id==='faq')renderFAQ();
