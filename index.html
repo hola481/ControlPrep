@@ -6140,9 +6140,6 @@ function updateHomeButtons(){
 function dismissSplash(){
   localStorage.setItem('splashSeen','1');
   go('home');
-  if(!localStorage.getItem('_cp_auth_seen') && !_currentUser){
-    setTimeout(()=>go('register-screen'), 300);
-  }
 }
 
 function showOnboardingModal(){
