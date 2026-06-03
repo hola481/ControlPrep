@@ -2579,11 +2579,11 @@ let QS={qs:[],idx:0,sc:0,ans:false,exam:false,tmr:null,tl:0,paper:false};
 // NAVIGATION
 // ═══════════════════════════════════════════════════════
 function go(id){
-  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='none';});
+  document.querySelectorAll('.screen').forEach(s=>{s.classList.remove('active');s.style.display='none';});document.querySelectorAll('.auth-overlay').forEach(o=>{o.style.display='none';});
   const goEl=document.getElementById(id);
   if(!goEl){console.error('Screen not found:',id);return;}
 goEl.classList.add('active');
-  goEl.style.display=(id==='conv2025'||id==='login-screen'||id==='register-screen'||id==='forgot-screen')?'block':'flex';
+  if(['login-screen','register-screen','forgot-screen'].includes(id)){document.querySelectorAll('.auth-overlay').forEach(o=>{o.style.display='none';});goEl.style.display='block';return;}goEl.style.display=id==='conv2025'?'block':'flex';
   if(id==='home'){const ap=document.getElementById('home-auth-prompt');if(ap){ap.style.display=(!_currentUser&&!localStorage.getItem('_cp_auth_seen'))?'block':'none';}}
   if(id==='home'){const ap=document.getElementById('home-auth-prompt');if(ap){ap.style.display=(!_currentUser&&!localStorage.getItem('_cp_auth_seen'))?'block':'none';}}
 if(id==='home'){const ap=document.getElementById('home-auth-prompt');if(ap){ap.style.display=(!_currentUser&&!localStorage.getItem('_cp_auth_seen'))?'block':'none';}}
@@ -6621,11 +6621,11 @@ cookieShowBanner();
 handleCheckoutReturn();
 sbInit();
 // Fix DOM nesting issue
-['login-screen','register-screen','forgot-screen','login-screen','register-screen','forgot-screen','topics','tdetail','qscreen','rscreen','papers','progress-screen','enaire-bridge','rv','planselect','glossary','bpracticas','search','profile','splash','aveng','feast','studyplan','legal-privacy','legal-terms','legal-cookies','faq','contact','conv2025'].forEach(sid=>{
+['login-screen','register-screen','forgot-screen','topics','tdetail','qscreen','rscreen','papers','progress-screen','enaire-bridge','rv','planselect','glossary','bpracticas','search','profile','splash','aveng','feast','studyplan','legal-privacy','legal-terms','legal-cookies','faq','contact','conv2025'].forEach(sid=>{
   const el=document.getElementById(sid);
   if(el)document.body.appendChild(el);
 });
-['cookie-banner','cookie-config'].forEach(id=>{
+['cookie-banner','cookie-config','login-screen','register-screen','forgot-screen'].forEach(id=>{
   const el=document.getElementById(id);
   if(el)document.body.appendChild(el);
 });
@@ -6713,7 +6713,7 @@ async function handleForgot(){
 </script>
 
 <!-- LOGIN SCREEN -->
-<div class="screen" id="login-screen">
+<div class="auth-overlay" id="login-screen" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9000;background:var(--bg);overflow-y:auto">
   <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="history.back()||go('home')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
   <div class="inner" style="padding-top:32px;padding-bottom:90px">
     <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:6px">Iniciar sesión</div>
@@ -6734,7 +6734,7 @@ async function handleForgot(){
 </div>
 
 <!-- REGISTER SCREEN -->
-<div class="screen" id="register-screen">
+<div class="auth-overlay" id="register-screen" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9000;background:var(--bg);overflow-y:auto">
   <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span></div></div>
   <div class="inner" style="padding-top:32px;padding-bottom:90px">
     <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:6px">Crear cuenta</div>
@@ -6759,7 +6759,7 @@ async function handleForgot(){
 </div>
 
 <!-- FORGOT PASSWORD SCREEN -->
-<div class="screen" id="forgot-screen">
+<div class="auth-overlay" id="forgot-screen" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-
   <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="go('login-screen')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
   <div class="inner" style="padding-top:32px;padding-bottom:90px">
     <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:6px">Recuperar contraseña</div>
