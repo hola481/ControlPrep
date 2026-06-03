@@ -4641,11 +4641,9 @@ function startCheckout(){
     return;
   }
   if(errEl)errEl.style.display='none';
-  // Require account before payment
+// Encourage account creation but don't block payment
   if(!_currentUser){
     localStorage.setItem('pendingCheckout',_billingPeriod);
-    go('login-screen');
-    return;
   }
   // Record consent with timestamp
   const consentRecord={terms:true,withdrawal:true,period:_billingPeriod,date:new Date().toISOString()};
@@ -6128,12 +6126,7 @@ function updateHomeButtons(){
 }
 function dismissSplash(){
   localStorage.setItem('splashSeen','1');
-  // If user has never seen the auth screen, show it
-  if(!localStorage.getItem('_cp_auth_seen') && !_currentUser){
-    go('onboarding-auth');
-  } else {
-    go('home');
-  }
+  go('home');
 }
 function showPremiumInfo(){
  alert('⭐ Premium — €24.99/mes o €189/año (4 meses gratis).\n\nIncluye todo lo que necesitas para preparar las oposiciones CTA:\n\n✓ 100+ preguntas premium por tema\n✓ ✓ Convocatorias anteriores\n✓ Simulacros ilimitados\n✓ 🇬🇧 Aviation English OACI\n✓ Módulo psicotécnico CTA\n✓ Sin anuncios');
