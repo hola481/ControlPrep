@@ -17,7 +17,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#050d1a;--sf:#0c1e35;--sf2:#132842;--bd:#1d3a5c;--ac:#00b4d8;--or:#f77f00;--gr:#2dc653;--rd:#e63946;--gd:#ffd166;--tx:#e8f4fd;--t2:#8cb8d8;--t3:#5a8aaa;--r:12px;--rl:18px}
 html{font-size:16px}
-body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{font-family:'IBM Plex Sans',sans-serif;background:#050d1a;color:var(--tx);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 .screen{display:none;min-height:100vh;flex-direction:column;width:100%;padding-bottom:70px}.screen.active{display:flex;width:100%}
 .inner{width:100%;max-width:700px;margin:0 auto;padding:0 18px}
 .topbar{background:var(--sf);border-bottom:1px solid var(--bd);padding:14px 18px;display:flex;align-items:center;position:sticky;top:0;z-index:100}
@@ -117,7 +117,7 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tx)
 .pcard{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:border-color .2s}
 .pcard:hover{border-color:#00b4d8}.pico{font-size:28px;flex-shrink:0}.pinf{flex:1}
 .pname{font-size:15px;font-weight:600;margin-bottom:3px}.pmeta{font-size:12px;color:#8cb8d8}
-#rv{position:fixed;inset:0;z-index:200;background:var(--bg);display:none;flex-direction:column}
+#rv{position:fixed;inset:0;z-index:200;background:#050d1a;display:none;flex-direction:column}
 #rv.open{display:flex}
 .rvh{background:var(--sf);border-bottom:1px solid var(--bd);padding:14px 18px;display:flex;align-items:center;gap:12px}
 .rvhi{width:100%;max-width:700px;margin:0 auto;display:flex;align-items:center;gap:12px}
@@ -257,6 +257,67 @@ async function sbResetPassword(email){
 </script>
 </head>
 <body>
+<!-- LOGIN SCREEN -->
+<div class="auth-overlay" id="login-screen" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9000;background:#050d1a;overflow-y:auto">
+  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="history.back()||go('home')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
+  <div class="inner" style="padding-top:32px;padding-bottom:90px">
+    <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:6px">Iniciar sesión</div>
+    <div style="font-size:13px;color:#8cb8d8;margin-bottom:24px">Accede a tu cuenta ControlPrep</div>
+    <div id="login-error" style="display:none;background:rgba(230,57,70,.1);border:1px solid #e63946;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#e63946"></div>
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:700;color:#8cb8d8;margin-bottom:6px">EMAIL</div>
+      <input id="login-email" type="email" placeholder="tu@email.com" style="width:100%;padding:12px 14px;background:#0c1e35;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;box-sizing:border-box">
+    </div>
+    <div style="margin-bottom:20px">
+      <div style="font-size:12px;font-weight:700;color:#8cb8d8;margin-bottom:6px">CONTRASEÑA</div>
+      <input id="login-password" type="password" placeholder="Tu contraseña" style="width:100%;padding:12px 14px;background:#0c1e35;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;box-sizing:border-box">
+    </div>
+    <button id="login-btn" onclick="handleLogin()" style="width:100%;padding:14px;background:#00b4d8;color:#000;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:12px">Entrar</button>
+    <button onclick="go('forgot-screen')" style="width:100%;padding:12px;background:transparent;color:#8cb8d8;border:1.5px solid #1d3a5c;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;cursor:pointer;margin-bottom:12px">¿Olvidaste tu contraseña?</button>
+    <div style="text-align:center;font-size:13px;color:#5a8aaa">¿No tienes cuenta? <span onclick="go('register-screen')" style="color:#00b4d8;cursor:pointer;font-weight:700">Regístrate gratis</span></div>
+  </div>
+</div>
+
+<!-- REGISTER SCREEN -->
+<div class="auth-overlay" id="register-screen" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9000;background:#050d1a;overflow-y:auto">
+  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span></div></div>
+  <div class="inner" style="padding-top:32px;padding-bottom:90px">
+    <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:6px">Crear cuenta</div>
+    <div style="font-size:13px;color:#8cb8d8;margin-bottom:24px">Únete a ControlPrep gratis</div>
+    <div id="register-error" style="display:none;background:rgba(230,57,70,.1);border:1px solid #e63946;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#e63946"></div>
+    <div id="register-success" style="display:none;background:rgba(45,198,83,.1);border:1px solid #2dc653;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#2dc653"></div>
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:700;color:#8cb8d8;margin-bottom:6px">NOMBRE</div>
+      <input id="register-name" type="text" placeholder="Tu nombre" style="width:100%;padding:12px 14px;background:#0c1e35;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;box-sizing:border-box">
+    </div>
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:700;color:#8cb8d8;margin-bottom:6px">EMAIL</div>
+      <input id="register-email" type="email" placeholder="tu@email.com" style="width:100%;padding:12px 14px;background:#0c1e35;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;box-sizing:border-box">
+    </div>
+    <div style="margin-bottom:20px">
+      <div style="font-size:12px;font-weight:700;color:#8cb8d8;margin-bottom:6px">CONTRASEÑA</div>
+      <input id="register-password" type="password" placeholder="Mínimo 8 caracteres" style="width:100%;padding:12px 14px;background:#0c1e35;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;box-sizing:border-box">
+    </div>
+    <button id="register-btn" onclick="handleRegister()" style="width:100%;padding:14px;background:#00b4d8;color:#000;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:12px">Crear cuenta gratis</button>
+    <div style="text-align:center;font-size:13px;color:#5a8aaa">¿Ya tienes cuenta? <span onclick="go('login-screen')" style="color:#00b4d8;cursor:pointer;font-weight:700">Inicia sesión</span></div>
+  </div>
+</div>
+
+<!-- FORGOT PASSWORD SCREEN -->
+<div class="auth-overlay" id="forgot-screen" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-
+  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="go('login-screen')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
+  <div class="inner" style="padding-top:32px;padding-bottom:90px">
+    <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:6px">Recuperar contraseña</div>
+    <div style="font-size:13px;color:#8cb8d8;margin-bottom:24px">Te enviaremos un enlace para restablecer tu contraseña</div>
+    <div id="forgot-error" style="display:none;background:rgba(230,57,70,.1);border:1px solid #e63946;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#e63946"></div>
+    <div id="forgot-success" style="display:none;background:rgba(45,198,83,.1);border:1px solid #2dc653;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#2dc653"></div>
+    <div style="margin-bottom:20px">
+      <div style="font-size:12px;font-weight:700;color:#8cb8d8;margin-bottom:6px">EMAIL</div>
+      <input id="forgot-email" type="email" placeholder="tu@email.com" style="width:100%;padding:12px 14px;background:#0c1e35;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;box-sizing:border-box">
+    </div>
+    <button onclick="handleForgot()" style="width:100%;padding:14px;background:#00b4d8;color:#000;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer">Enviar enlace</button>
+  </div>
+</div>
 
 <nav class="topbar">
   <div class="topbar-inner">
@@ -6144,7 +6205,7 @@ function updateHomeButtons(){
 }
 function dismissSplash(){
   localStorage.setItem('splashSeen','1');
-  go('home');
+  setTimeout(()=>go('home'),100);
 }
 function showPremiumInfo(){
  alert('⭐ Premium — €24.99/mes o €189/año (4 meses gratis).\n\nIncluye todo lo que necesitas para preparar las oposiciones CTA:\n\n✓ 100+ preguntas premium por tema\n✓ ✓ Convocatorias anteriores\n✓ Simulacros ilimitados\n✓ 🇬🇧 Aviation English OACI\n✓ Módulo psicotécnico CTA\n✓ Sin anuncios');
@@ -6712,67 +6773,6 @@ async function handleForgot(){
 }
 </script>
 
-<!-- LOGIN SCREEN -->
-<div class="auth-overlay" id="login-screen" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9000;background:var(--bg);overflow-y:auto">
-  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="history.back()||go('home')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
-  <div class="inner" style="padding-top:32px;padding-bottom:90px">
-    <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:6px">Iniciar sesión</div>
-    <div style="font-size:13px;color:#8cb8d8;margin-bottom:24px">Accede a tu cuenta ControlPrep</div>
-    <div id="login-error" style="display:none;background:rgba(230,57,70,.1);border:1px solid #e63946;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#e63946"></div>
-    <div style="margin-bottom:14px">
-      <div style="font-size:12px;font-weight:700;color:#8cb8d8;margin-bottom:6px">EMAIL</div>
-      <input id="login-email" type="email" placeholder="tu@email.com" style="width:100%;padding:12px 14px;background:#0c1e35;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;box-sizing:border-box">
-    </div>
-    <div style="margin-bottom:20px">
-      <div style="font-size:12px;font-weight:700;color:#8cb8d8;margin-bottom:6px">CONTRASEÑA</div>
-      <input id="login-password" type="password" placeholder="Tu contraseña" style="width:100%;padding:12px 14px;background:#0c1e35;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;box-sizing:border-box">
-    </div>
-    <button id="login-btn" onclick="handleLogin()" style="width:100%;padding:14px;background:#00b4d8;color:#000;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:12px">Entrar</button>
-    <button onclick="go('forgot-screen')" style="width:100%;padding:12px;background:transparent;color:#8cb8d8;border:1.5px solid #1d3a5c;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;cursor:pointer;margin-bottom:12px">¿Olvidaste tu contraseña?</button>
-    <div style="text-align:center;font-size:13px;color:#5a8aaa">¿No tienes cuenta? <span onclick="go('register-screen')" style="color:#00b4d8;cursor:pointer;font-weight:700">Regístrate gratis</span></div>
-  </div>
-</div>
-
-<!-- REGISTER SCREEN -->
-<div class="auth-overlay" id="register-screen" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9000;background:var(--bg);overflow-y:auto">
-  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span></div></div>
-  <div class="inner" style="padding-top:32px;padding-bottom:90px">
-    <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:6px">Crear cuenta</div>
-    <div style="font-size:13px;color:#8cb8d8;margin-bottom:24px">Únete a ControlPrep gratis</div>
-    <div id="register-error" style="display:none;background:rgba(230,57,70,.1);border:1px solid #e63946;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#e63946"></div>
-    <div id="register-success" style="display:none;background:rgba(45,198,83,.1);border:1px solid #2dc653;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#2dc653"></div>
-    <div style="margin-bottom:14px">
-      <div style="font-size:12px;font-weight:700;color:#8cb8d8;margin-bottom:6px">NOMBRE</div>
-      <input id="register-name" type="text" placeholder="Tu nombre" style="width:100%;padding:12px 14px;background:#0c1e35;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;box-sizing:border-box">
-    </div>
-    <div style="margin-bottom:14px">
-      <div style="font-size:12px;font-weight:700;color:#8cb8d8;margin-bottom:6px">EMAIL</div>
-      <input id="register-email" type="email" placeholder="tu@email.com" style="width:100%;padding:12px 14px;background:#0c1e35;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;box-sizing:border-box">
-    </div>
-    <div style="margin-bottom:20px">
-      <div style="font-size:12px;font-weight:700;color:#8cb8d8;margin-bottom:6px">CONTRASEÑA</div>
-      <input id="register-password" type="password" placeholder="Mínimo 8 caracteres" style="width:100%;padding:12px 14px;background:#0c1e35;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;box-sizing:border-box">
-    </div>
-    <button id="register-btn" onclick="handleRegister()" style="width:100%;padding:14px;background:#00b4d8;color:#000;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:12px">Crear cuenta gratis</button>
-    <div style="text-align:center;font-size:13px;color:#5a8aaa">¿Ya tienes cuenta? <span onclick="go('login-screen')" style="color:#00b4d8;cursor:pointer;font-weight:700">Inicia sesión</span></div>
-  </div>
-</div>
-
-<!-- FORGOT PASSWORD SCREEN -->
-<div class="auth-overlay" id="forgot-screen" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-
-  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="go('login-screen')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
-  <div class="inner" style="padding-top:32px;padding-bottom:90px">
-    <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:6px">Recuperar contraseña</div>
-    <div style="font-size:13px;color:#8cb8d8;margin-bottom:24px">Te enviaremos un enlace para restablecer tu contraseña</div>
-    <div id="forgot-error" style="display:none;background:rgba(230,57,70,.1);border:1px solid #e63946;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#e63946"></div>
-    <div id="forgot-success" style="display:none;background:rgba(45,198,83,.1);border:1px solid #2dc653;border-radius:10px;padding:10px 14px;margin-bottom:16px;font-size:13px;color:#2dc653"></div>
-    <div style="margin-bottom:20px">
-      <div style="font-size:12px;font-weight:700;color:#8cb8d8;margin-bottom:6px">EMAIL</div>
-      <input id="forgot-email" type="email" placeholder="tu@email.com" style="width:100%;padding:12px 14px;background:#0c1e35;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;box-sizing:border-box">
-    </div>
-    <button onclick="handleForgot()" style="width:100%;padding:14px;background:#00b4d8;color:#000;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer">Enviar enlace</button>
-  </div>
-</div>
 
 </body>
 </html>
