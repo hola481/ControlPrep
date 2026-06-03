@@ -2577,6 +2577,7 @@ function go(id){
 goEl.classList.add('active');
   goEl.style.display=(id==='conv2025'||id==='login-screen'||id==='register-screen'||id==='forgot-screen')?'block':'flex';
   if(id==='home'){const ap=document.getElementById('home-auth-prompt');if(ap){ap.style.display=(!_currentUser&&!localStorage.getItem('_cp_auth_seen'))?'block':'none';}}
+  if(id==='home'){const ap=document.getElementById('home-auth-prompt');if(ap){ap.style.display=(!_currentUser&&!localStorage.getItem('_cp_auth_seen'))?'block':'none';}}
   if(id==='legal-privacy'||id==='legal-terms'||id==='legal-cookies'){renderLegalContent();document.getElementById('cookie-banner').style.display='none';}
   if(id==='profile'){const section=document.getElementById('profile-auth-section');const ed=document.getElementById('profile-email-display');if(section){section.style.display=_currentUser?'block':'none';if(_currentUser&&ed)ed.textContent=_currentUser.email;}}
 if(id==='faq')renderFAQ();
