@@ -2663,6 +2663,16 @@ const MOTIVATIONAL=[
 function renderHomeDashboard(){
   const el=document.getElementById('home-dashboard');
   if(!el)return;
+  // Auth prompt banner
+  const existingBanner=document.getElementById('auth-prompt-banner');
+  if(existingBanner)existingBanner.remove();
+  if(!_currentUser&&!localStorage.getItem('_cp_auth_seen')){
+    const banner=document.createElement('div');
+    banner.id='auth-prompt-banner';
+    banner.style.cssText='background:#0c1e35;border:1.5px solid #00b4d8;border-radius:14px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px';
+    banner.innerHTML='<div style="font-size:13px;color:#8cb8d8;line-height:1.4;flex:1">💡 <strong style="color:#e8f4fd">Crea una cuenta gratis</strong> para guardar tu progreso en todos tus dispositivos</div><div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0"><button onclick="go(\'register-screen\')" style="padding:6px 12px;background:#00b4d8;color:#000;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer">Registrarse</button><button onclick="localStorage.setItem(\'_cp_auth_seen\',\'1\');document.getElementById(\'auth-prompt-banner\').remove()" style="padding:4px 8px;background:transparent;color:#5a8aaa;border:none;font-size:11px;cursor:pointer">No gracias</button></div>';
+    el.insertBefore(banner,el.firstChild);
+  }
   const now=new Date();
   const days=Math.ceil((EXAM_DATE-now)/(1000*60*60*24));
   const msg=MOTIVATIONAL[new Date().getDate()%MOTIVATIONAL.length];
