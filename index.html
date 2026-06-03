@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!-- v2 -->
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -2663,16 +2662,6 @@ const MOTIVATIONAL=[
 function renderHomeDashboard(){
   const el=document.getElementById('home-dashboard');
   if(!el)return;
-  // Auth prompt banner
-  const existingBanner=document.getElementById('auth-prompt-banner');
-  if(existingBanner)existingBanner.remove();
-  if(!_currentUser&&!localStorage.getItem('_cp_auth_seen')){
-    const banner=document.createElement('div');
-    banner.id='auth-prompt-banner';
-    banner.style.cssText='background:#0c1e35;border:1.5px solid #00b4d8;border-radius:14px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px';
-    banner.innerHTML='<div style="font-size:13px;color:#8cb8d8;line-height:1.4;flex:1">💡 <strong style="color:#e8f4fd">Crea una cuenta gratis</strong> para guardar tu progreso en todos tus dispositivos</div><div style="display:flex;flex-direction:column;gap:6px;flex-shrink:0"><button onclick="go(\'register-screen\')" style="padding:6px 12px;background:#00b4d8;color:#000;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer">Registrarse</button><button onclick="localStorage.setItem(\'_cp_auth_seen\',\'1\');document.getElementById(\'auth-prompt-banner\').remove()" style="padding:4px 8px;background:transparent;color:#5a8aaa;border:none;font-size:11px;cursor:pointer">No gracias</button></div>';
-    el.insertBefore(banner,el.firstChild);
-  }
   const now=new Date();
   const days=Math.ceil((EXAM_DATE-now)/(1000*60*60*24));
   const msg=MOTIVATIONAL[new Date().getDate()%MOTIVATIONAL.length];
@@ -4652,9 +4641,11 @@ function startCheckout(){
     return;
   }
   if(errEl)errEl.style.display='none';
-// Encourage account creation but don't block payment
+  // Require account before payment
   if(!_currentUser){
     localStorage.setItem('pendingCheckout',_billingPeriod);
+    go('login-screen');
+    return;
   }
   // Record consent with timestamp
   const consentRecord={terms:true,withdrawal:true,period:_billingPeriod,date:new Date().toISOString()};
@@ -6137,18 +6128,12 @@ function updateHomeButtons(){
 }
 function dismissSplash(){
   localStorage.setItem('splashSeen','1');
-  go('home');
-}
-
-function showOnboardingModal(){
-  const m = document.getElementById('onboarding-modal');
-  if(m) m.style.display='flex';
-}
-
-function hideOnboardingModal(){
-  const m = document.getElementById('onboarding-modal');
-  if(m) m.style.display='none';
-  localStorage.setItem('_cp_auth_seen','1');
+  // If user has never seen the auth screen, show it
+  if(!localStorage.getItem('_cp_auth_seen') && !_currentUser){
+    go('onboarding-auth');
+  } else {
+    go('home');
+  }
 }
 function showPremiumInfo(){
  alert('⭐ Premium — €24.99/mes o €189/año (4 meses gratis).\n\nIncluye todo lo que necesitas para preparar las oposiciones CTA:\n\n✓ 100+ preguntas premium por tema\n✓ ✓ Convocatorias anteriores\n✓ Simulacros ilimitados\n✓ 🇬🇧 Aviation English OACI\n✓ Módulo psicotécnico CTA\n✓ Sin anuncios');
@@ -6625,7 +6610,7 @@ cookieShowBanner();
 handleCheckoutReturn();
 sbInit();
 // Fix DOM nesting issue
-['topics','tdetail','qscreen','rscreen','papers','progress-screen','enaire-bridge','rv','planselect','glossary','bpracticas','search','profile','splash','aveng','feast','studyplan','legal-privacy','legal-terms','legal-cookies','faq','contact','conv2025','login-screen','register-screen','forgot-screen'].forEach(sid=>{
+['topics','tdetail','qscreen','rscreen','papers','progress-screen','enaire-bridge','rv','planselect','glossary','bpracticas','search','profile','splash','aveng','feast','studyplan','legal-privacy','legal-terms','legal-cookies','faq','contact','conv2025','login-screen','register-screen','forgot-screen','onboarding-auth'].forEach(sid=>{
   const el=document.getElementById(sid);
   if(el)document.body.appendChild(el);
 });
@@ -6779,15 +6764,19 @@ async function handleForgot(){
 </div>
 
 
-<!-- ONBOARDING MODAL -->
-<div id="onboarding-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(5,13,26,0.95);z-index:10000;flex-direction:column;justify-content:center;align-items:center;padding:24px">
-  <div style="width:100%;max-width:400px;background:#0c1e35;border:1.5px solid #1d3a5c;border-radius:20px;padding:28px 24px">
-    <div style="font-size:40px;margin-bottom:16px;text-align:center">✈️</div>
-    <div style="font-size:20px;font-weight:800;color:#e8f4fd;margin-bottom:8px;text-align:center">Bienvenido a ControlPrep</div>
-    <div style="font-size:13px;color:#8cb8d8;margin-bottom:24px;text-align:center;line-height:1.6">Crea una cuenta gratuita para guardar tu progreso y acceder desde cualquier dispositivo</div>
-    <button onclick="hideOnboardingModal();go('register-screen')" style="width:100%;padding:14px;background:#00b4d8;color:#000;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:10px">Crear cuenta gratis</button>
-    <button onclick="hideOnboardingModal();go('login-screen')" style="width:100%;padding:12px;background:transparent;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:16px">Ya tengo cuenta</button>
-    <div onclick="hideOnboardingModal()" style="font-size:13px;color:#5a8aaa;cursor:pointer;text-decoration:underline;text-align:center">Continuar sin cuenta</div>
+<!-- ONBOARDING AUTH SCREEN -->
+<div class="screen" id="onboarding-auth">
+  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span></div></div>
+  <div class="inner" style="padding-top:20px;padding-bottom:90px">
+    <div style="font-size:48px;margin-bottom:16px;text-align:center">✈️</div>
+    <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:8px;text-align:center">Bienvenido a ControlPrep</div>
+    <div style="font-size:14px;color:#8cb8d8;margin-bottom:32px;text-align:center;line-height:1.6">Crea una cuenta gratuita para guardar tu progreso y acceder desde cualquier dispositivo</div>
+    <button onclick="go('register-screen');localStorage.setItem('_cp_auth_seen','1')" style="width:100%;padding:16px;background:#00b4d8;color:#000;border:none;border-radius:14px;font-family:'IBM Plex Sans',sans-serif;font-size:16px;font-weight:800;cursor:pointer;margin-bottom:12px">Crear cuenta gratis</button>
+    <button onclick="go('login-screen');localStorage.setItem('_cp_auth_seen','1')" style="width:100%;padding:14px;background:transparent;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:14px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:24px">Ya tengo cuenta</button>
+    <div onclick="skipAuth()" style="font-size:13px;color:#5a8aaa;cursor:pointer;text-decoration:underline">Continuar sin cuenta</div>
+    <div style="margin-top:24px;background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px 16px;font-size:12px;color:#5a8aaa;line-height:1.6;text-align:center">
+      Con una cuenta: guarda tu progreso, accede desde cualquier dispositivo, y si te haces Premium en el futuro podrás usarlo en hasta 2 dispositivos.
+    </div>
   </div>
 </div>
 
