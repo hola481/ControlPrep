@@ -296,6 +296,14 @@ async function sbResetPassword(email){
       <button onclick="document.getElementById('home-auth-prompt').style.display='none';localStorage.setItem('_cp_auth_seen','1')" style="padding:10px 12px;background:transparent;color:#5a8aaa;border:none;font-size:16px;cursor:pointer">✕</button>
     </div>
   </div>
+  <div id="home-auth-prompt" style="display:none;background:#0c1e35;border:1.5px solid #00b4d8;border-radius:14px;padding:12px 16px;max-width:480px;margin:8px auto 0;width:100%;box-sizing:border-box">
+    <div style="font-size:13px;color:#8cb8d8;margin-bottom:10px;line-height:1.5">💡 <strong style="color:#e8f4fd">Crea una cuenta gratis</strong> para guardar tu progreso y acceder desde cualquier dispositivo</div>
+    <div style="display:flex;gap:8px">
+      <button onclick="go('register-screen')" style="flex:1;padding:10px;background:#00b4d8;color:#000;border:none;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Registrarse</button>
+      <button onclick="go('login-screen')" style="flex:1;padding:10px;background:transparent;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Iniciar sesión</button>
+      <button onclick="document.getElementById('home-auth-prompt').style.display='none';localStorage.setItem('_cp_auth_seen','1')" style="padding:10px 12px;background:transparent;color:#5a8aaa;border:none;font-size:16px;cursor:pointer">✕</button>
+    </div>
+  </div>
   <div id="home-static-btns" style="display:flex;flex-direction:column;gap:8px;max-width:480px;margin:0 auto;padding:0 18px"></div>  </div></div>
   <div style="height:70px"></div>
   <div style="text-align:center;padding:16px 20px 32px;border-top:1px solid #1d3a5c;margin-top:16px">
@@ -2578,6 +2586,7 @@ goEl.classList.add('active');
   goEl.style.display=(id==='conv2025'||id==='login-screen'||id==='register-screen'||id==='forgot-screen')?'block':'flex';
   if(id==='home'){const ap=document.getElementById('home-auth-prompt');if(ap){ap.style.display=(!_currentUser&&!localStorage.getItem('_cp_auth_seen'))?'block':'none';}}
   if(id==='home'){const ap=document.getElementById('home-auth-prompt');if(ap){ap.style.display=(!_currentUser&&!localStorage.getItem('_cp_auth_seen'))?'block':'none';}}
+if(id==='home'){const ap=document.getElementById('home-auth-prompt');if(ap){ap.style.display=(!_currentUser&&!localStorage.getItem('_cp_auth_seen'))?'block':'none';}}
   if(id==='legal-privacy'||id==='legal-terms'||id==='legal-cookies'){renderLegalContent();document.getElementById('cookie-banner').style.display='none';}
   if(id==='profile'){const section=document.getElementById('profile-auth-section');const ed=document.getElementById('profile-email-display');if(section){section.style.display=_currentUser?'block':'none';if(_currentUser&&ed)ed.textContent=_currentUser.email;}}
 if(id==='faq')renderFAQ();
@@ -2659,12 +2668,12 @@ const MOTIVATIONAL=[
   'Cada pregunta que practicas hoy es un punto más en el examen. Sigue adelante.',
   'Los controladores de tránsito aéreo protegen vidas. Tu esfuerzo tiene un propósito enorme.',
   'La concentración de hoy es la confianza del día del examen.',
-  '149 plazas. Miles de candidatos. Tú llevas ventaja — estás preparándote.',
+  'Plazas limitadas. Miles de candidatos. Tú llevas ventaja — estás preparándote.',
   'No estudies más. Estudia mejor. Repasa tus errores y conviértelos en aciertos.',
   'Un simulacro al día mantiene los nervios a raya.',
   'Conocer el temario es necesario. Practicarlo es imprescindible.',
   'Los grandes controladores no nacen — se forman. Estás en el camino correcto.',
-  'Cada tema que dominas es una puerta que se abre hacia las 149 plazas.',
+  'Cada tema que dominas es una puerta que se abre hacia las plazas disponibles.',
   'La repetición es la madre del aprendizaje. Vuelve a los temas difíciles.',
   'Hoy puede ser el día en que todo empiece a encajar. Abre un tema y compruébalo.',
 ];
@@ -2688,7 +2697,7 @@ let h='';
   const grEl=document.getElementById('home-greeting');
 if(cdEl){
     const countdownContent=EXAM_DATE
-      ?'<div style="text-align:center;flex-shrink:0"><div style="font-size:36px;font-weight:900;color:#00b4d8;line-height:1">'+days+'</div><div style="font-size:11px;color:#5a8aaa;font-weight:600;text-transform:uppercase;letter-spacing:.5px">días</div></div><div><div style="font-size:14px;font-weight:700;color:#e8f4fd;margin-bottom:2px">Para el examen de ENAIRE</div><div style="font-size:12px;color:#8cb8d8">Convocatoria 2026 · 149 plazas</div>'+(hasProgress?'<div style="margin-top:8px;height:4px;background:#1d3a5c;border-radius:2px;overflow:hidden"><div style="height:100%;width:'+Math.min(100,avgPct)+'%;background:#00b4d8;border-radius:2px"></div></div><div style="font-size:11px;color:#5a8aaa;margin-top:3px">Media actual: <strong style="color:#00b4d8">'+avgPct+'%</strong> en '+results.length+' tema'+(results.length>1?'s':'')+'</div>':'')+'</div>'
+      ?'<div style="text-align:center;flex-shrink:0"><div style="font-size:36px;font-weight:900;color:#00b4d8;line-height:1">'+days+'</div><div style="font-size:11px;color:#5a8aaa;font-weight:600;text-transform:uppercase;letter-spacing:.5px">días</div></div><div><div style="font-size:14px;font-weight:700;color:#e8f4fd;margin-bottom:2px">Para el examen de ENAIRE</div><div style="font-size:12px;color:#8cb8d8">Convocatoria 2026 · Tantas plazas</div>'+(hasProgress?'<div style="margin-top:8px;height:4px;background:#1d3a5c;border-radius:2px;overflow:hidden"><div style="height:100%;width:'+Math.min(100,avgPct)+'%;background:#00b4d8;border-radius:2px"></div></div><div style="font-size:11px;color:#5a8aaa;margin-top:3px">Media actual: <strong style="color:#00b4d8">'+avgPct+'%</strong> en '+results.length+' tema'+(results.length>1?'s':'')+'</div>':'')+'</div>'
 :'<div style="font-size:24px;flex-shrink:0">📅</div><div><div style="font-size:14px;font-weight:700;color:#e8f4fd;margin-bottom:4px">Convocatoria 2026 — fecha por determinar</div><div style="font-size:12px;color:#8cb8d8;line-height:1.5">ControlPrep se actualizará en cuanto ENAIRE publique la fecha oficial de la próxima convocatoria.</div></div>';
     cdEl.innerHTML='<div style="background:rgba(0,180,216,.08);border:1px solid rgba(0,180,216,.25);border-radius:14px;padding:16px;display:flex;align-items:center;gap:16px">'+countdownContent+'</div>';
   }
@@ -4206,16 +4215,15 @@ url:'https://images.unsplash.com/photo-1760243893571-f26598f13b50?w=800&auto=for
       tips:['Aviation image descriptions reward knowledge of procedures, not just what you see','Speculate about what the controller would be doing in this situation','Use conditional language: would be, might require, could indicate','Demonstrate understanding of the weather impact on operations'],
       checklist:['¿Has identificado las condiciones meteorológicas?','¿Has descrito las implicaciones operacionales?','¿Has mencionado el papel del controlador en esta situación?','¿Has usado condicionales con fluidez?'],
     },
-    {
-      title:'Panel de instrumentos de cabina de vuelo moderna',
-      url:'https://images.unsplash.com/photo-1583401614735-3a4bf2ba6e2b?w=800&auto=format&fit=crop',
-      vocab:['glass cockpit — cabina de vidrio','primary flight display (PFD) — pantalla de vuelo primaria','navigation display (ND) — pantalla de navegación','EFIS — sistema de instrumentos de vuelo electrónico','autopilot — piloto automático','FMS — sistema de gestión de vuelo','multifunction display (MFD) — pantalla multifunción'],
-      model:'This image shows the instrument panel of a modern commercial aircraft featuring a glass cockpit configuration. The traditional analogue gauges have been replaced by large multifunction screens. The primary flight displays show critical flight parameters such as attitude, airspeed and altitude, while the navigation displays show the aircraft\'s position and route. This type of cockpit is associated with fly-by-wire aircraft such as the Airbus A320 family or Boeing 787. The level of automation visible here significantly affects how crews interact with air traffic control systems.',
-      tips:['A glass cockpit signals a modern, highly automated aircraft','Connect the technology you see to how it affects ATC interaction and phraseology','Mention what each type of display does, not just its name','Show awareness that cockpit design affects pilot workload and communication'],
-      checklist:['¿Has identificado el tipo de cabina y lo que implica?','¿Has descrito la función de los diferentes instrumentos?','¿Has conectado la tecnología con las comunicaciones ATC?','¿Has demostrado vocabulario técnico de cabina?'],
+   {
+      title:'Operaciones en plataforma / Ground handling',
+      url:'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&auto=format&fit=crop',
+      vocab:['apron / ramp — plataforma','ground handling — servicios en tierra','marshaller — señalero','pushback — empuje hacia atrás','turnaround — rotación de aeronave','ground support equipment (GSE) — equipos de apoyo en tierra','stand / gate — puesto de estacionamiento'],
+      model:'This image shows airport ground operations on the apron. Several ground support vehicles are visible around a parked commercial aircraft. Ground handling encompasses all the services provided to an aircraft between arrival and departure, including refuelling, catering, baggage loading, and the coordination of the pushback. From an ATC perspective, ground controllers are responsible for managing the movement of aircraft and vehicles on the manoeuvring area, issuing taxi instructions and ensuring safe separation from other traffic and obstacles on the apron.',
+      tips:['Describe the types of vehicles and their likely functions','Connect ground operations to the role of ATC Ground frequency','Mention the coordination between airline operations, handling agents and ATC','Show awareness that ground congestion can delay departures and affect the overall traffic flow'],
+      checklist:['¿Has identificado los diferentes tipos de vehículos y su función?','¿Has mencionado el papel del control de tierra (ATC Ground)?','¿Has conectado las operaciones en plataforma con la gestión del tráfico?','¿Has usado vocabulario técnico de operaciones en tierra?'],
     },
   ];
-
   let h='<div style="padding:16px 0">'
     +'<div style="font-size:16px;font-weight:800;color:#e8f4fd;margin-bottom:4px">🖼️ Descripción de imágenes</div>'
     +'<div style="font-size:13px;color:#8cb8d8;margin-bottom:8px">En el examen ENAIRE te mostrarán una imagen y tendrás que describirla en inglés. Normalmente es una imagen de contexto aeronáutico.</div>'
@@ -4582,7 +4590,7 @@ function renderFAQ(){
   el.dataset.loaded='1';
   const faqs=[
     {cat:'Sobre la oposición',items:[
-      {q:'¿Cuántas plazas hay en la convocatoria?',a:'La convocatoria 2025 de ENAIRE ofrece 149 plazas para Controlador de Tránsito Aéreo (CTA). Es una de las convocatorias más grandes de los últimos años.'},
+      {q:'¿Cuántas plazas hay en la convocatoria?',a:'La convocatoria 2025 de ENAIRE ofrecio 149 plazas para Controlador de Tránsito Aéreo (CTA). Es una de las convocatorias más grandes de los últimos años.'},
       {q:'¿Cuántas fases tiene el proceso selectivo?',a:'El proceso tiene varias fases: Fase 1 (examen teórico de 50 preguntas sobre los 9 temas del temario), pruebas psicotécnicas FEAST, examen de inglés, reconocimiento médico y curso de formación en la Academia ENAIRE.'},
       {q:'¿Cuánto dura la Fase 1?',a:'El examen de la Fase 1 consta de 50 preguntas tipo test con 4 opciones de respuesta. La nota mínima para aprobar es 25/50 (50%). Las respuestas incorrectas no penalizan.'},
       {q:'¿Necesito conocimientos previos de aviación?',a:'No. La mayoría de candidatos comienzan desde cero. El temario oficial cubre todo lo necesario y ControlPrep te guía desde los conceptos más básicos.'},
@@ -6613,7 +6621,7 @@ cookieShowBanner();
 handleCheckoutReturn();
 sbInit();
 // Fix DOM nesting issue
-['login-screen','register-screen','forgot-screen','topics','tdetail','qscreen','rscreen','papers','progress-screen','enaire-bridge','rv','planselect','glossary','bpracticas','search','profile','splash','aveng','feast','studyplan','legal-privacy','legal-terms','legal-cookies','faq','contact','conv2025','onboarding-auth'].forEach(sid=>{
+['login-screen','register-screen','forgot-screen','login-screen','register-screen','forgot-screen','topics','tdetail','qscreen','rscreen','papers','progress-screen','enaire-bridge','rv','planselect','glossary','bpracticas','search','profile','splash','aveng','feast','studyplan','legal-privacy','legal-terms','legal-cookies','faq','contact','conv2025'].forEach(sid=>{
   const el=document.getElementById(sid);
   if(el)document.body.appendChild(el);
 });
@@ -6763,23 +6771,6 @@ async function handleForgot(){
       <input id="forgot-email" type="email" placeholder="tu@email.com" style="width:100%;padding:12px 14px;background:#0c1e35;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;box-sizing:border-box">
     </div>
     <button onclick="handleForgot()" style="width:100%;padding:14px;background:#00b4d8;color:#000;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer">Enviar enlace</button>
-  </div>
-</div>
-
-
-<!-- ONBOARDING AUTH SCREEN -->
-<div class="screen" id="onboarding-auth">
-  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span></div></div>
-  <div class="inner" style="padding-top:20px;padding-bottom:90px">
-    <div style="font-size:48px;margin-bottom:16px;text-align:center">✈️</div>
-    <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:8px;text-align:center">Bienvenido a ControlPrep</div>
-    <div style="font-size:14px;color:#8cb8d8;margin-bottom:32px;text-align:center;line-height:1.6">Crea una cuenta gratuita para guardar tu progreso y acceder desde cualquier dispositivo</div>
-    <button onclick="go('register-screen');localStorage.setItem('_cp_auth_seen','1')" style="width:100%;padding:16px;background:#00b4d8;color:#000;border:none;border-radius:14px;font-family:'IBM Plex Sans',sans-serif;font-size:16px;font-weight:800;cursor:pointer;margin-bottom:12px">Crear cuenta gratis</button>
-    <button onclick="go('login-screen');localStorage.setItem('_cp_auth_seen','1')" style="width:100%;padding:14px;background:transparent;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:14px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:24px">Ya tengo cuenta</button>
-    <div onclick="skipAuth()" style="font-size:13px;color:#5a8aaa;cursor:pointer;text-decoration:underline">Continuar sin cuenta</div>
-    <div style="margin-top:24px;background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px 16px;font-size:12px;color:#5a8aaa;line-height:1.6;text-align:center">
-      Con una cuenta: guarda tu progreso, accede desde cualquier dispositivo, y si te haces Premium en el futuro podrás usarlo en hasta 2 dispositivos.
-    </div>
   </div>
 </div>
 
