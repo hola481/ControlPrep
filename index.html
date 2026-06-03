@@ -2567,7 +2567,7 @@ function go(id){
   const goEl=document.getElementById(id);
   if(!goEl){console.error('Screen not found:',id);return;}
 goEl.classList.add('active');
-goEl.style.display=(id==='conv2025'||id==='login-screen'||id==='register-screen'||id==='forgot-screen'||id==='onboarding-auth')?'block':'flex';
+  goEl.style.display=(id==='conv2025'||id==='login-screen'||id==='register-screen'||id==='forgot-screen')?'block':'flex';
   if(id==='legal-privacy'||id==='legal-terms'||id==='legal-cookies'){renderLegalContent();document.getElementById('cookie-banner').style.display='none';}
   if(id==='profile'){const section=document.getElementById('profile-auth-section');const ed=document.getElementById('profile-email-display');if(section){section.style.display=_currentUser?'block':'none';if(_currentUser&&ed)ed.textContent=_currentUser.email;}}
 if(id==='faq')renderFAQ();
@@ -6767,7 +6767,7 @@ async function handleForgot(){
 <div class="screen" id="onboarding-auth">
   <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span></div></div>
   <div class="inner" style="padding-top:20px;padding-bottom:90px">
-    <div style="font-size:48px;margin-bottom:16px">✈️</div>
+    <div style="font-size:48px;margin-bottom:16px;text-align:center">✈️</div>
     <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:8px;text-align:center">Bienvenido a ControlPrep</div>
     <div style="font-size:14px;color:#8cb8d8;margin-bottom:32px;text-align:center;line-height:1.6">Crea una cuenta gratuita para guardar tu progreso y acceder desde cualquier dispositivo</div>
     <button onclick="go('register-screen');localStorage.setItem('_cp_auth_seen','1')" style="width:100%;padding:16px;background:#00b4d8;color:#000;border:none;border-radius:14px;font-family:'IBM Plex Sans',sans-serif;font-size:16px;font-weight:800;cursor:pointer;margin-bottom:12px">Crear cuenta gratis</button>
