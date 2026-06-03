@@ -346,7 +346,6 @@ async function sbResetPassword(email){
 <div class="hero"><div class="inner">
     <div class="hero-badge" style="display:none"></div>
     <h1 class="hero-title" style="font-size:clamp(20px,5vw,32px);white-space:nowrap">Tu camino al <span>Control Aéreo</span></h1>
-    <div id="home-countdown" style="margin-top:4px;font-size:14px;font-weight:700;color:#ffd166"></div>
     <div id="home-auth-prompt" style="display:none;background:#0c1e35;border:1.5px solid #00b4d8;border-radius:14px;padding:12px 16px;margin-top:10px;width:100%;box-sizing:border-box">
     <div style="font-size:13px;color:#8cb8d8;margin-bottom:10px;line-height:1.5">💡 <strong style="color:#e8f4fd">Crea una cuenta gratis</strong> para guardar tu progreso y acceder desde cualquier dispositivo</div>
     <div style="display:flex;gap:8px">
@@ -357,6 +356,7 @@ async function sbResetPassword(email){
   </div>
     <div id="home-greeting" style="margin-top:6px;font-size:16px;font-weight:600;color:#e8f4fd"></div>
 <div id="home-dashboard" style="margin-top:10px;display:flex!important;flex-direction:column!important;gap:8px;max-width:480px;margin-left:auto;margin-right:auto"></div>
+    <div id="home-countdown" style="margin-top:12px;font-size:14px;font-weight:700;color:#ffd166"></div>
  
    <div id="home-static-btns" style="display:flex;flex-direction:column;gap:8px;max-width:480px;margin:0 auto;padding:0 18px"></div>  </div></div>
   <div style="height:70px"></div>
@@ -4261,7 +4261,7 @@ url:'https://images.unsplash.com/photo-1760243893571-f26598f13b50?w=800&auto=for
     },
     {
       title:'Aeronave en aproximación con meteorología adversa',
-      url:'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&auto=format&fit=crop',
+      url:'https://images.unsplash.com/photo-1529074963764-98f45c47344b?w=800&auto=format&fit=crop',
       vocab:['approach — aproximación','instrument meteorological conditions (IMC) — condiciones meteorológicas de vuelo instrumental','visibility — visibilidad','cloud base — base de nubes','ILS — sistema de aterrizaje por instrumentos','go-around — aproximación frustrada','weather minima — mínimos meteorológicos'],
       model:'The image shows a commercial aircraft on approach to an airport in conditions of poor visibility. Cloud cover appears low and dense, which would suggest instrument meteorological conditions or IMC. In such conditions, the aircraft would be conducting an instrument approach, likely an ILS, guided by ground-based navigation aids. Air traffic controllers would be providing additional spacing between aircraft and may have applied speed restrictions. If visibility falls below published minima, a go-around or diversion might be required.',
       tips:['Aviation image descriptions reward knowledge of procedures, not just what you see','Speculate about what the controller would be doing in this situation','Use conditional language: would be, might require, could indicate','Demonstrate understanding of the weather impact on operations'],
@@ -6709,8 +6709,9 @@ async function handleLogin(){
   if(!email || !password){ errEl.textContent = 'Por favor introduce tu email y contraseña.'; errEl.style.display = 'block'; return; }
   btn.textContent = 'Entrando...'; btn.disabled = true;
   try {
-    await sbSignIn(email, password);
+await sbSignIn(email, password);
     btn.textContent = 'Entrar'; btn.disabled = false;
+    if(!localStorage.getItem('userName')) localStorage.setItem('userName', email.split('@')[0]);
     renderHomeDashboard(); updateHomeButtons();
     const pendingCheckout = localStorage.getItem('pendingCheckout');
     if(pendingCheckout){
@@ -6741,7 +6742,11 @@ async function handleRegister(){
   try {
     await sbSignUp(email, password, name);
     btn.textContent = 'Crear cuenta gratis'; btn.disabled = false;
-    succEl.textContent = '¡Cuenta creada! Revisa tu email para confirmar tu cuenta, luego inicia sesión.';
+succEl.innerHTML = '✅ <strong>¡Cuenta creada!</strong><br>Revisa tu bandeja de entrada y confirma tu email antes de iniciar sesión. Si no lo ves, mira en la carpeta de spam.';
+    succEl.style.display = 'block';
+    document.getElementById('register-name').value='';
+    document.getElementById('register-email').value='';
+    document.getElementById('register-password').value='';
     succEl.style.display = 'block';
   } catch(err) {
     btn.textContent = 'Crear cuenta gratis'; btn.disabled = false;
