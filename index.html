@@ -345,7 +345,7 @@ async function sbResetPassword(email){
 <div class="screen active" id="home">
 <div class="hero"><div class="inner">
     <div class="hero-badge" style="display:none"></div>
-    <h1 class="hero-title" style="font-size:clamp(20px,5vw,32px);white-space:nowrap">Tu camino al <span>Control Aéreo</span></h1>
+    <h1 class="hero-title" style="font-size:clamp(20px,5vw,32px);white-space:normal">Comprueba si estás preparado para superar el proceso de selección de <span>ENAIRE</span></h1>
     <div id="home-auth-prompt" style="display:none;background:#0c1e35;border:1.5px solid #00b4d8;border-radius:14px;padding:12px 16px;margin-top:10px;width:100%;box-sizing:border-box">
     <div style="font-size:13px;color:#8cb8d8;margin-bottom:10px;line-height:1.5">💡 <strong style="color:#e8f4fd">Crea una cuenta gratis</strong> para guardar tu progreso y acceder desde cualquier dispositivo</div>
     <div style="display:flex;gap:8px">
@@ -356,7 +356,7 @@ async function sbResetPassword(email){
   </div>
     <div id="home-greeting" style="margin-top:6px;font-size:16px;font-weight:600;color:#e8f4fd"></div>
 <div id="home-dashboard" style="margin-top:10px;display:flex!important;flex-direction:column!important;gap:8px;max-width:480px;margin-left:auto;margin-right:auto"></div>
-    <div id="home-countdown" style="margin-top:12px;font-size:14px;font-weight:700;color:#ffd166"></div>
+    <div id="home-countdown" style="margin-top:12px;max-width:480px;margin-left:auto;margin-right:auto;font-size:14px;font-weight:700;color:#ffd166"></div>
  
    <div id="home-static-btns" style="display:flex;flex-direction:column;gap:8px;max-width:480px;margin:0 auto;padding:0 18px"></div>  </div></div>
   <div style="height:70px"></div>
@@ -375,7 +375,7 @@ async function sbResetPassword(email){
 <!-- TOPICS -->
 <div class="screen" id="topics">
   <div class="ph"><div class="inner"><h2 class="pt">Temario Oficial ENAIRE</h2><p class="ps">Selecciona un tema para estudiar y practicar</p></div></div>
-<button onclick="showProgress()" style="display:block;width:100%;max-width:700px;margin:0 auto 14px;padding:13px;background:#0c1e35;color:#00b4d8;border:1.5px solid #1d3a5c;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer">📊 Ver mi progreso →</button>
+<button onclick="showProgress()" style="display:block;width:100%;max-width:700px;margin:0 auto 14px;padding:13px;background:#0c1e35;color:#00b4d8;border:1.5px solid #1d3a5c;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer">📊 Ver Mi Nivel de Preparación →</button>
 <div class="tgrid" id="tlist"></div>
   <div style="height:70px"></div>
 </div>
@@ -416,12 +416,13 @@ async function sbResetPassword(email){
 
 <!-- RESULTS -->
 <div class="screen" id="rscreen">
-  <div class="qhdr"><div class="qhdr-i"><div class="logo" style="font-size:14px">Resultados</div></div></div>
+  <div class="qhdr"><div class="qhdr-i"><div class="logo" style="font-size:14px">Nivel de preparación</div></div></div>
   <div class="rbody"><div class="ri">
     <div class="srng"><svg id="rsvg" viewBox="0 0 150 150"></svg><div class="snum" id="rscore">0</div><div class="sden" id="rden">de 10</div></div>
     <div class="rtit" id="rtit"></div>
     <div class="rsub" id="rsub"></div>
-    <div class="pbadge" id="rbadge"></div>
+<div class="pbadge" id="rbadge"></div>
+    <div id="rbench"></div>
     <div class="sgrid">
       <div class="sbox"><div class="sn" id="rcor" style="color:#2dc653">0</div><div class="sl">Correctas</div></div>
       <div class="sbox"><div class="sn" id="rwrg" style="color:#e63946">0</div><div class="sl">Incorrectas</div></div>
@@ -482,7 +483,7 @@ async function sbResetPassword(email){
 <div id="progress-screen" class="screen">
   <div style="background:#0c1e35;border-bottom:1px solid #1d3a5c;padding:14px 18px;display:flex;align-items:center;gap:12px;flex-shrink:0">
     <button onclick="go('topics')" style="padding:7px 12px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button>
-    <div style="font-size:15px;font-weight:700;color:#e8f4fd">Mi Progreso</div>
+    <div style="font-size:15px;font-weight:700;color:#e8f4fd">Mi Nivel de Preparación</div>
   </div>
   <div style="flex:1;overflow-y:auto;padding:16px" id="progress-body"></div>
 </div>
@@ -562,7 +563,7 @@ async function sbResetPassword(email){
           <button onclick="toggleProfileSection('ps-stats')" style="width:100%;display:flex;justify-content:space-between;align-items:center;padding:16px;background:none;border:none;cursor:pointer;font-family:'IBM Plex Sans',sans-serif">
             <div style="display:flex;align-items:center;gap:12px">
               <span style="font-size:20px">📊</span>
-              <span style="font-size:14px;font-weight:700;color:#e8f4fd">Estadísticas</span>
+              <span style="font-size:14px;font-weight:700;color:#e8f4fd">Evolución de preparación</span>
             </div>
             <span id="ps-stats-icon" style="color:#5a8aaa;font-size:18px">+</span>
           </button>
@@ -4261,7 +4262,7 @@ url:'https://images.unsplash.com/photo-1760243893571-f26598f13b50?w=800&auto=for
     },
     {
       title:'Aeronave en aproximación con meteorología adversa',
-      url:'https://images.unsplash.com/photo-1529074963764-98f45c47344b?w=800&auto=format&fit=crop',
+      url:'https://images.unsplash.com/photo-1651550443267-1f6ca34d29e6?w=800&auto=format&fit=crop',
       vocab:['approach — aproximación','instrument meteorological conditions (IMC) — condiciones meteorológicas de vuelo instrumental','visibility — visibilidad','cloud base — base de nubes','ILS — sistema de aterrizaje por instrumentos','go-around — aproximación frustrada','weather minima — mínimos meteorológicos'],
       model:'The image shows a commercial aircraft on approach to an airport in conditions of poor visibility. Cloud cover appears low and dense, which would suggest instrument meteorological conditions or IMC. In such conditions, the aircraft would be conducting an instrument approach, likely an ILS, guided by ground-based navigation aids. Air traffic controllers would be providing additional spacing between aircraft and may have applied speed restrictions. If visibility falls below published minima, a go-around or diversion might be required.',
       tips:['Aviation image descriptions reward knowledge of procedures, not just what you see','Speculate about what the controller would be doing in this situation','Use conditional language: would be, might require, could indicate','Demonstrate understanding of the weather impact on operations'],
@@ -6547,11 +6548,17 @@ function finishRender(){
   document.getElementById('rwrg').textContent=tot-QS.sc;
   document.getElementById('rpct').textContent=pct+'%';
   const tier=pct>=80?2:pct>=60?1:0;
-  document.getElementById('rtit').textContent=['Sigue practicando 💪','¡Buen trabajo! 👍','¡Excelente! 🎉'][tier];
-  document.getElementById('rsub').textContent=['Repasa las explicaciones y vuelve a intentarlo.','Vas por buen camino. Revisa los errores.','Estás en la senda correcta para superar la Fase 1.'][tier];
+const BENCHMARK_MIN=75,BENCHMARK_MAX=85;
+  const nivelLabel=pct>=75?'Nivel competitivo para aprobado':pct>=60?'Nivel intermedio':'Bajo nivel de preparación';
+  const gap=BENCHMARK_MIN-pct;
+  document.getElementById('rtit').textContent=nivelLabel;
+  const subMsgs=['Tu nivel actual está por debajo del perfil de candidatos aptos. Con práctica constante puedes alcanzarlo.','Vas por buen camino. Los candidatos que superan el proceso suelen estar entre el 75%–85% en esta fase.','Estás dentro del rango de los candidatos que superan el proceso de selección de ENAIRE.'];
+  document.getElementById('rsub').textContent=subMsgs[tier];
   const badge=document.getElementById('rbadge');
   badge.className='pbadge '+(pct>=50?'pass':'fail');
-  badge.textContent=pct>=50?'✓ APROBADO — por encima del 50% mínimo':'✗ SUSPENSO — mínimo 50% (25/50 en el examen real)';
+  badge.textContent=pct>=50?'✓ Por encima del mínimo (50%)':'✗ Por debajo del mínimo (50%)';
+  const benchEl=document.getElementById('rbench');
+  if(benchEl){if(pct<BENCHMARK_MIN){benchEl.innerHTML='<div style="margin-top:14px;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.3);border-radius:12px;padding:12px 14px"><div style="font-size:12px;font-weight:700;color:#e63946;margin-bottom:4px">📊 Nivel de preparación</div><div style="font-size:13px;color:#c8dff0">Te faltan <strong style=\"color:#ffd166\">'+gap+' puntos</strong> para alcanzar el rango de candidatos aptos ('+BENCHMARK_MIN+'%–'+BENCHMARK_MAX+'%)</div></div>';}else{benchEl.innerHTML='<div style="margin-top:14px;background:rgba(45,198,83,.08);border:1px solid rgba(45,198,83,.3);border-radius:12px;padding:12px 14px"><div style="font-size:12px;font-weight:700;color:#2dc653;margin-bottom:4px">📊 Nivel de preparación</div><div style="font-size:13px;color:#c8dff0">Estás dentro del rango de los candidatos que superan el proceso ('+BENCHMARK_MIN+'%–'+BENCHMARK_MAX+'%)</div></div>';}}
   const r=58,circ=2*Math.PI*r,dash=(pct/100)*circ,col=pct>=80?'#2dc653':pct>=60?'#ffd166':'#e63946';
   document.getElementById('rsvg').innerHTML='<circle cx="75" cy="75" r="'+r+'" fill="none" stroke="#1d3a5c" stroke-width="9"/><circle cx="75" cy="75" r="'+r+'" fill="none" stroke="'+col+'" stroke-width="9" stroke-dasharray="'+dash+' '+circ+'" stroke-dashoffset="'+circ/4+'" stroke-linecap="round" style="transition:stroke-dasharray .8s ease"/>';
 
@@ -6573,6 +6580,7 @@ if(QS.paper){
   } else {
     mkBtn('Volver a practicar','#00b4d8','#000000',null,()=>startQ(tid,false,false,null));
     mkBtn('Repetir simulacro','#f77f00','#000000',null,()=>startQ(tid,true,false,null));
+    if(!DEV_PREMIUM&&pct<75){const upBtn=document.createElement('button');upBtn.setAttribute('style','display:block;width:100%;padding:15px;background:linear-gradient(135deg,#1d3a5c,#0c2340);color:#ffd166;border:1.5px solid rgba(255,209,102,.4);border-radius:12px;font-family:\'IBM Plex Sans\',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px;text-align:left');upBtn.innerHTML='⭐ Mejorar mi nivel de preparación <span style="font-size:11px;font-weight:400;color:#8cb8d8;display:block;margin-top:2px">Tu nivel actual está por debajo del perfil de candidatos aptos</span>';upBtn.onclick=()=>go('planselect');acts.appendChild(upBtn);}
     // Show "Repasar errores" button with actual wrong questions
 // Wrong questions from THIS exam only
     const wrongQs=QS.navMode
