@@ -423,6 +423,7 @@ async function sbResetPassword(email){
     <div class="rsub" id="rsub"></div>
 <div class="pbadge" id="rbadge"></div>
     <div id="rbench"></div>
+    <div id="rnba"></div>
     <div class="sgrid">
       <div class="sbox"><div class="sn" id="rcor" style="color:#2dc653">0</div><div class="sl">Correctas</div></div>
       <div class="sbox"><div class="sn" id="rwrg" style="color:#e63946">0</div><div class="sl">Incorrectas</div></div>
@@ -837,6 +838,7 @@ async function sbResetPassword(email){
         <div style="text-align:center;font-size:11px;color:#5a8aaa;margin-top:8px">Cancela cuando quieras · Sin permanencia</div>
       </div>
     </div>
+    <div style="margin-top:10px;padding:10px 14px;background:rgba(255,209,102,.05);border-radius:10px;border:1px solid rgba(255,209,102,.15);font-size:12px;color:#8cb8d8;text-align:center">Este plan está optimizado automáticamente según tus áreas débiles detectadas en simulacros recientes.</div>
     <div style="margin-top:16px;padding:14px;background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;font-size:12px;color:#5a8aaa;text-align:center">
       💡 Por ahora disfruta del <strong style="color:#e8f4fd">plan gratuito completo</strong> — temario oficial, 50 preguntas por tema y simulacros semanales, sin coste.
     </div>
@@ -2800,13 +2802,14 @@ h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
 if(!DEV_PREMIUM){
     h+='<div style="background:linear-gradient(135deg,#0c1e35,#132842);border:1px solid rgba(255,209,102,.3);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px">'
       +'<div style="font-size:28px;flex-shrink:0">⭐</div>'
-      +'<div style="flex:1"><div style="font-size:13px;font-weight:700;color:#ffd166;margin-bottom:2px">Actualiza a Premium</div>'
+      +'<div style="flex:1"><div style="font-size:13px;font-weight:700;color:#ffd166;margin-bottom:2px">Mejora tu nivel de preparación</div>'
      +'<div style="font-size:12px;color:#8cb8d8">Sin anuncios · +1.275 preguntas · Simulacros ilimitados</div></div>'
     +'<button onclick="go(\'planselect\')" style="padding:8px 12px;background:#ffd166;color:#000;border:none;border-radius:8px;font-family:\'IBM Plex Sans\',sans-serif;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0">Ver →</button>'
       +'</div>'
       +'</div>';
   }
 h+='<button onclick="go(\'topics\')" style="display:block;width:100%;padding:14px;background:#00b4d8;color:#000;border:none;border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-top:6px">Empezar a estudiar →</button>';
+  if(hasProgress&&weak){const bclr=avgPct>=75?'rgba(45,198,83,.08)':'rgba(230,57,70,.08)';const bbd=avgPct>=75?'rgba(45,198,83,.3)':'rgba(230,57,70,.3)';const btc=avgPct>=75?'#2dc653':'#e63946';const blbl=avgPct>=75?'Estás dentro del rango de candidatos aptos (75%–85%)':'A '+(75-avgPct)+' puntos del rango de candidatos aptos (75%–85%)';const wImpact=weak.p.bestPct<50?'+10–15%':weak.p.bestPct<65?'+5–10%':'+3–5%';h+='<div style="margin-top:8px;background:#0c1e35;border:1.5px solid #1d3a5c;border-radius:12px;padding:12px 14px"><div style="font-size:11px;font-weight:700;color:#ffd166;margin-bottom:6px">🎯 Enfoque recomendado hoy</div><div style="display:flex;align-items:center;gap:10px"><span style="color:#e63946;font-size:16px">●</span><div style="flex:1"><div style="font-size:13px;font-weight:700;color:#e8f4fd">Tema '+weak.t.id+': '+weak.t.name+'</div><div style="font-size:11px;color:#8cb8d8;margin-top:2px">Puntuación actual: '+weak.p.bestPct+'% · Impacto estimado: <strong style=\"color:#2dc653\">'+wImpact+'</strong></div></div><button onclick=\"openTopic('+weak.t.id+')\" style=\"padding:8px 12px;background:#00b4d8;color:#000;border:none;border-radius:8px;font-family:\'IBM Plex Sans\',sans-serif;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0\">Practicar →</button></div></div>';}
   h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">'
     +(DEV_PREMIUM
      ?'<button onclick="openFeast()" style="padding:12px 8px;background:rgba(0,180,216,.08);color:#00b4d8;border:1.5px solid rgba(0,180,216,.3);border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">🧠 Psicotécnicos</button>'
@@ -6548,9 +6551,9 @@ function finishRender(){
   document.getElementById('rwrg').textContent=tot-QS.sc;
   document.getElementById('rpct').textContent=pct+'%';
   const tier=pct>=80?2:pct>=60?1:0;
-const BENCHMARK_MIN=75,BENCHMARK_MAX=85;
-  const nivelLabel=pct>=75?'Nivel competitivo para aprobado':pct>=60?'Nivel intermedio':'Bajo nivel de preparación';
-  const gap=BENCHMARK_MIN-pct;
+const BENCH_MIN=75,BENCH_MAX=85;
+  const nivelLabel=pct>=BENCH_MIN?'Nivel competitivo para aprobado':pct>=60?'Nivel intermedio':'Bajo nivel de preparación';
+  const gap=Math.max(0,BENCH_MIN-pct);
   document.getElementById('rtit').textContent=nivelLabel;
   const subMsgs=['Tu nivel actual está por debajo del perfil de candidatos aptos. Con práctica constante puedes alcanzarlo.','Vas por buen camino. Los candidatos que superan el proceso suelen estar entre el 75%–85% en esta fase.','Estás dentro del rango de los candidatos que superan el proceso de selección de ENAIRE.'];
   document.getElementById('rsub').textContent=subMsgs[tier];
@@ -6558,7 +6561,7 @@ const BENCHMARK_MIN=75,BENCHMARK_MAX=85;
   badge.className='pbadge '+(pct>=50?'pass':'fail');
   badge.textContent=pct>=50?'✓ Por encima del mínimo (50%)':'✗ Por debajo del mínimo (50%)';
   const benchEl=document.getElementById('rbench');
-  if(benchEl){if(pct<BENCHMARK_MIN){benchEl.innerHTML='<div style="margin-top:14px;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.3);border-radius:12px;padding:12px 14px"><div style="font-size:12px;font-weight:700;color:#e63946;margin-bottom:4px">📊 Nivel de preparación</div><div style="font-size:13px;color:#c8dff0">Te faltan <strong style=\"color:#ffd166\">'+gap+' puntos</strong> para alcanzar el rango de candidatos aptos ('+BENCHMARK_MIN+'%–'+BENCHMARK_MAX+'%)</div></div>';}else{benchEl.innerHTML='<div style="margin-top:14px;background:rgba(45,198,83,.08);border:1px solid rgba(45,198,83,.3);border-radius:12px;padding:12px 14px"><div style="font-size:12px;font-weight:700;color:#2dc653;margin-bottom:4px">📊 Nivel de preparación</div><div style="font-size:13px;color:#c8dff0">Estás dentro del rango de los candidatos que superan el proceso ('+BENCHMARK_MIN+'%–'+BENCHMARK_MAX+'%)</div></div>';}}
+  if(benchEl){if(pct<BENCH_MIN){benchEl.innerHTML='<div style="margin-top:12px;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.3);border-radius:12px;padding:12px 14px"><div style="font-size:12px;font-weight:700;color:#e63946;margin-bottom:4px">📊 Nivel de preparación</div><div style="font-size:13px;color:#c8dff0">'Te faltan <strong style=\"color:#ffd166\">'+gap+' puntos</strong> para alcanzar el rango de candidatos aptos ('+BENCH_MIN+'%–'+BENCH_MAX+'%)'}else{benchEl.innerHTML='<div style="margin-top:12px;background:rgba(45,198,83,.08);border:1px solid rgba(45,198,83,.3);border-radius:12px;padding:12px 14px"><div style="font-size:12px;font-weight:700;color:#2dc653;margin-bottom:4px">📊 Nivel de preparación</div><div style="font-size:13px;color:#c8dff0">Estás dentro del rango de los candidatos que superan el proceso ('+BENCH_MIN+'%–'+BENCH_MAX+'%)</div></div>';}}
   const r=58,circ=2*Math.PI*r,dash=(pct/100)*circ,col=pct>=80?'#2dc653':pct>=60?'#ffd166':'#e63946';
   document.getElementById('rsvg').innerHTML='<circle cx="75" cy="75" r="'+r+'" fill="none" stroke="#1d3a5c" stroke-width="9"/><circle cx="75" cy="75" r="'+r+'" fill="none" stroke="'+col+'" stroke-width="9" stroke-dasharray="'+dash+' '+circ+'" stroke-dashoffset="'+circ/4+'" stroke-linecap="round" style="transition:stroke-dasharray .8s ease"/>';
 
@@ -6578,17 +6581,32 @@ const acts=document.getElementById('racts');
 if(QS.paper){
     mkBtn('← Ver todos los exámenes','#1d3a5c','#e8f4fd','1.5px solid #2a5280',()=>go('papers'));
   } else {
-    mkBtn('Volver a practicar','#00b4d8','#000000',null,()=>startQ(tid,false,false,null));
-    mkBtn('Repetir simulacro','#f77f00','#000000',null,()=>startQ(tid,true,false,null));
-    if(!DEV_PREMIUM&&pct<75){const upBtn=document.createElement('button');upBtn.setAttribute('style','display:block;width:100%;padding:15px;background:linear-gradient(135deg,#1d3a5c,#0c2340);color:#ffd166;border:1.5px solid rgba(255,209,102,.4);border-radius:12px;font-family:\'IBM Plex Sans\',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:6px;text-align:left');upBtn.innerHTML='⭐ Mejorar mi nivel de preparación <span style="font-size:11px;font-weight:400;color:#8cb8d8;display:block;margin-top:2px">Tu nivel actual está por debajo del perfil de candidatos aptos</span>';upBtn.onclick=()=>go('planselect');acts.appendChild(upBtn);}
-    // Show "Repasar errores" button with actual wrong questions
-// Wrong questions from THIS exam only
+   // Next Best Actions
+    const allResults=T.map(t=>({t,p:PR.get(t.id)})).filter(x=>x.p);
+    const weakTopics=allResults.filter(x=>x.p.bestPct<75).sort((a,b)=>a.p.bestPct-b.p.bestPct).slice(0,3);
+    const nbaEl=document.getElementById('rnba');
+    if(nbaEl&&weakTopics.length>0){
+      let nbaH='<div style="margin-top:14px;background:#0c1e35;border:1.5px solid #1d3a5c;border-radius:12px;padding:14px"><div style="font-size:13px;font-weight:700;color:#ffd166;margin-bottom:10px">🎯 Siguiente paso recomendado</div>';
+      weakTopics.forEach((x,i)=>{
+        const impact=x.p.bestPct<50?'+10–15%':x.p.bestPct<65?'+5–10%':'+3–5%';
+        const dotColor=x.p.bestPct<50?'#e63946':x.p.bestPct<65?'#ffd166':'#8cb8d8';
+        nbaH+='<div style="margin-bottom:10px;padding-bottom:10px;border-bottom:'+(i<weakTopics.length-1?'1px solid #1d3a5c':'none')+'">';
+        nbaH+='<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:6px"><span style="color:'+dotColor+';flex-shrink:0">●</span><div><div style="font-size:13px;font-weight:700;color:#e8f4fd">Tema '+x.t.id+': '+x.t.name+'</div><div style="font-size:12px;color:#8cb8d8;margin-top:2px">Motivo: puntuación actual '+x.p.bestPct+'% · Impacto estimado: <strong style=\"color:#2dc653\">'+impact+'</strong></div></div></div>';
+        nbaH+='<button onclick="openTopic('+x.t.id+')" style="width:100%;padding:9px;background:rgba(0,180,216,.1);color:#00b4d8;border:1.5px solid rgba(0,180,216,.3);border-radius:9px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Practicar este tema →</button>';
+        nbaH+='</div>';
+      });
+      nbaH+='</div>';
+      nbaEl.innerHTML=nbaH;
+    } else if(nbaEl){nbaEl.innerHTML='';}
+    mkBtn('Mejorar este resultado','#00b4d8','#000000',null,()=>startQ(tid,false,false,null));
+    mkBtn('Practicar mis puntos débiles','#f77f00','#000000',null,()=>startQ(tid,true,false,null));
     const wrongQs=QS.navMode
       ? QS.qs.filter((q,i)=>{const given=QS.ans[i];const correct=q._ans!==undefined?q._ans:q.a;return given!==null&&given!==correct;})
       : (QS.wrongList||[]);
     if(wrongQs.length>0){
-      mkBtn('🔁 Repasar '+wrongQs.length+' pregunta'+(wrongQs.length>1?'s':'')+' fallada'+(wrongQs.length>1?'s':''),'#e63946','#fff',null,()=>startQ(tid,false,false,null,wrongQs));
+      mkBtn('🔁 Reducir brecha: repasar '+wrongQs.length+' pregunta'+(wrongQs.length>1?'s':'')+' fallada'+(wrongQs.length>1?'s':''),'#e63946','#fff',null,()=>startQ(tid,false,false,null,wrongQs));
     }
+    if(!DEV_PREMIUM&&pct<75){const upBtn=document.createElement('button');upBtn.setAttribute('style','display:block;width:100%;padding:15px;background:linear-gradient(135deg,#1d3a5c,#0c2340);color:#ffd166;border:1.5px solid rgba(255,209,102,.4);border-radius:12px;font-family:\'IBM Plex Sans\',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px;text-align:left');upBtn.innerHTML='⭐ Reducir mi brecha de preparación <span style="font-size:11px;font-weight:400;color:#8cb8d8;display:block;margin-top:2px">Tu nivel actual ('+pct+'%) está a '+gap+' puntos del rango de candidatos aptos ('+BENCH_MIN+'%–'+BENCH_MAX+'%)</span>';upBtn.onclick=()=>go('planselect');acts.appendChild(upBtn);}
     mkBtn('← Volver al tema','#1d3a5c','#e8f4fd','1.5px solid #2a5280',()=>go('tdetail'));
   }
 }
