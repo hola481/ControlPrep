@@ -6745,12 +6745,13 @@ if(QS.paper){
       mkBtn('🔁 Reducir brecha: repasar '+wrongQs.length+' pregunta'+(wrongQs.length>1?'s':'')+' fallada'+(wrongQs.length>1?'s':''),'#e63946','#fff',null,()=>startQ(tid,false,false,null,wrongQs));
     }
     if(!DEV_PREMIUM&&pct<75){const upBtn=document.createElement('button');upBtn.setAttribute('style','display:block;width:100%;padding:15px;background:linear-gradient(135deg,#1d3a5c,#0c2340);color:#ffd166;border:1.5px solid rgba(255,209,102,.4);border-radius:12px;font-family:\'IBM Plex Sans\',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px;text-align:left');upBtn.innerHTML='⭐ Reducir mi brecha de preparación <span style="font-size:11px;font-weight:400;color:#8cb8d8;display:block;margin-top:2px">Tu nivel actual ('+pct+'%) está a '+gap+' puntos del rango de candidatos aptos ('+BENCH_MIN+'%–'+BENCH_MAX+'%)</span>';upBtn.onclick=()=>go('planselect');acts.appendChild(upBtn);}
-    mkBtn('← Volver al tema','#1d3a5c','#e8f4fd','1.5px solid #2a5280',()=>go('tdetail'));
+mkBtn('← Volver al tema','#1d3a5c','#e8f4fd','1.5px solid #2a5280',()=>go('tdetail'));
   } else {
     // Landing mode — show plan choice
     const nbaEl=document.getElementById('rnba');
     if(nbaEl) nbaEl.innerHTML='';
     mkBtn('Mejorar este resultado →','#00b4d8','#000000',null,()=>go('landing-plan'));
+  }
   }
 }
 
