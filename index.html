@@ -547,7 +547,7 @@ async function sbResetPassword(email){
   <div class="rbody"><div class="ri">
     <div class="srng"><svg id="rsvg" viewBox="0 0 150 150"></svg><div class="snum" id="rscore">0</div><div class="sden" id="rden">de 10</div></div>
     <div class="rtit" id="rtit"></div>
-    <div class="rsub" id="rsub"></div>
+    <div class="rsub" id="rsub" style="font-size:16px;font-weight:600;color:#e8f4fd;line-height:1.6;margin-top:8px"></div>
 <div class="pbadge" id="rbadge"></div>
     <div id="rbench"></div>
     <div id="rnba"></div>
@@ -6750,7 +6750,7 @@ function finishRender(){
 const BENCH_MIN=75,BENCH_MAX=85;
   const nivelLabel=pct>=BENCH_MIN?'Nivel competitivo para aprobado':pct>=60?'Nivel intermedio':'Bajo nivel de preparación';
   const gap=Math.max(0,BENCH_MIN-pct);
-  document.getElementById('rtit').textContent=nivelLabel;
+ document.getElementById('rtit').textContent='';
  const subMsgs=['La mayoría de candidatos empieza por debajo del 50%. Con el plan de estudio adecuado, la diferencia es notable en pocas semanas.','Vas por buen camino. Los candidatos que superan el proceso suelen situarse entre el 75% y el 85%. ControlPrep te ayuda a cerrar esa brecha.','Estás en el rango de candidatos que superan el proceso. Ahora es el momento de consolidarlo con el plan completo.'];
   document.getElementById('rsub').textContent=subMsgs[tier];
   const badge=document.getElementById('rbadge');
