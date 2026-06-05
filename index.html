@@ -6678,19 +6678,16 @@ function finishRender(){
   go('rscreen');
   document.getElementById('rscore').textContent=QS.sc;
   document.getElementById('rden').textContent='de '+tot;
-  document.getElementById('rcor').textContent=QS.sc;
-  document.getElementById('rwrg').textContent=tot-QS.sc;
-  document.getElementById('rpct').textContent=pct+'%';
   const tier=pct>=80?2:pct>=60?1:0;
 const BENCH_MIN=75,BENCH_MAX=85;
   const nivelLabel=pct>=BENCH_MIN?'Nivel competitivo para aprobado':pct>=60?'Nivel intermedio':'Bajo nivel de preparación';
   const gap=Math.max(0,BENCH_MIN-pct);
   document.getElementById('rtit').textContent=nivelLabel;
-  const subMsgs=['Tu nivel actual está por debajo del perfil de candidatos aptos. Con práctica constante puedes alcanzarlo.','Vas por buen camino. Los candidatos que superan el proceso suelen estar entre el 75%–85% en esta fase.','Estás dentro del rango de los candidatos que superan el proceso de selección de ENAIRE.'];
+ const subMsgs=['La mayoría de candidatos empieza por debajo del 50%. Con el plan de estudio adecuado, la diferencia es notable en pocas semanas.','Vas por buen camino. Los candidatos que superan el proceso suelen situarse entre el 75% y el 85%. ControlPrep te ayuda a cerrar esa brecha.','Estás en el rango de candidatos que superan el proceso. Ahora es el momento de consolidarlo con el plan completo.'];
   document.getElementById('rsub').textContent=subMsgs[tier];
   const badge=document.getElementById('rbadge');
-  badge.className='pbadge '+(pct>=50?'pass':'fail');
-  badge.textContent=pct>=50?'✓ Por encima del mínimo (50%)':'✗ Por debajo del mínimo (50%)';
+  badge.className='pbadge';
+  badge.textContent='';
  const benchEl=document.getElementById('rbench');
   if(benchEl){
     const combinedMsg=pct>=BENCH_MIN?'✓ '+pct+'% — Dentro del rango de candidatos aptos ('+BENCH_MIN+'%–'+BENCH_MAX+'%). ¡Buen nivel!':pct>=50?'✓ Por encima del mínimo ('+pct+'%) — ¡enhorabuena! Pero tu nivel actual está por debajo del perfil de candidatos aptos ('+BENCH_MIN+'%–'+BENCH_MAX+'%). Con práctica constante puedes alcanzarlo.':'Tu puntuación actual es del '+pct+'%. El perfil de candidatos aptos se sitúa entre el '+BENCH_MIN+'% y el '+BENCH_MAX+'%. Con dedicación puedes cerrar esta brecha.';
