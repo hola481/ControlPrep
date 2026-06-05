@@ -341,46 +341,63 @@ async function sbResetPassword(email){
 
     <h1 style="font-size:clamp(24px,6vw,36px);font-weight:900;line-height:1.2;color:#e8f4fd;margin-bottom:16px">¿Estás preparado para superar el proceso de selección de <span style="color:#00b4d8">Control Aéreo</span>?</h1>
 
-    <p style="font-size:15px;color:#8cb8d8;line-height:1.7;margin-bottom:24px">Haz el test de nivel ahora y descubre en menos de 10 minutos si estás dentro del rango de candidatos que superan el proceso de selección de ENAIRE (75%–85%).</p>
-
-    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px">
-      <div style="display:flex;align-items:flex-start;gap:12px">
-        <span style="font-size:18px;flex-shrink:0">📊</span>
-        <div><div style="font-size:14px;font-weight:700;color:#e8f4fd;margin-bottom:2px">Tu nivel comparado con candidatos aptos</div><div style="font-size:13px;color:#8cb8d8">Los candidatos que superan el proceso suelen puntuar entre el 75% y el 85%. Verás exactamente dónde estás.</div></div>
-      </div>
-      <div style="display:flex;align-items:flex-start;gap:12px">
-        <span style="font-size:18px;flex-shrink:0">🎯</span>
-        <div><div style="font-size:14px;font-weight:700;color:#e8f4fd;margin-bottom:2px">Tu brecha real de preparación</div><div style="font-size:13px;color:#8cb8d8">No solo tu nota — sino exactamente cuántos puntos te separan del perfil de candidato apto.</div></div>
-      </div>
-      <div style="display:flex;align-items:flex-start;gap:12px">
-        <span style="font-size:18px;flex-shrink:0">📋</span>
-        <div><div style="font-size:14px;font-weight:700;color:#e8f4fd;margin-bottom:2px">Tu próximo paso concreto</div><div style="font-size:13px;color:#8cb8d8">Qué temas reforzar y en qué orden para cerrar esa brecha antes del examen.</div></div>
-      </div>
-    </div>
+<p style="font-size:18px;font-weight:700;color:#e8f4fd;margin-bottom:10px">Descubre en menos de 10 minutos si estás preparado para superar el proceso de selección de ENAIRE.</p>
+    <p style="font-size:14px;color:#8cb8d8;line-height:1.7;margin-bottom:24px">Haz el test de nivel y descubre en menos de 10 minutos si tu preparación está al nivel de los candidatos que superan la selección de ENAIRE.</p>
 
     <button onclick="startLandingTest()" style="display:block;width:100%;padding:18px;background:#00b4d8;color:#000;border:none;border-radius:14px;font-family:'IBM Plex Sans',sans-serif;font-size:17px;font-weight:800;cursor:pointer;margin-bottom:12px">👉 Empezar test de nivel ENAIRE →</button>
 
-    <button onclick="go('home')" style="display:block;width:100%;padding:12px;background:transparent;color:#5a8aaa;border:1.5px solid #1d3a5c;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;cursor:pointer;margin-bottom:28px">Explorar la app primero</button>
-
-    <div style="border-top:1px solid #1d3a5c;padding-top:20px">
-      <div style="font-size:12px;font-weight:700;color:#5a8aaa;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Temario oficial · 9 temas · Preguntas tipo examen real</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:12px;color:#8cb8d8">✓ Instituciones y Legislación</div>
-        <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:12px;color:#8cb8d8">✓ Códigos OACI/IATA</div>
-        <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:12px;color:#8cb8d8">✓ Meteorología Aeronáutica</div>
-        <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:12px;color:#8cb8d8">✓ Cartografía</div>
-        <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:12px;color:#8cb8d8">✓ Navegación y Equipos</div>
-        <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:12px;color:#8cb8d8">✓ Plan de Vuelo</div>
-        <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:12px;color:#8cb8d8">✓ Entorno Profesional</div>
-        <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:12px;color:#8cb8d8">✓ Factores Humanos</div>
-        <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:12px;color:#8cb8d8">✓ Aerodinámica</div>
-        <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:12px;color:#8cb8d8">✓ Inglés C1 · FEAST</div>
-      </div>
+    <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
+      <div style="font-size:13px;color:#8cb8d8">✓ Desarrollado con la colaboración de controladores de ENAIRE</div>
+      <div style="font-size:13px;color:#8cb8d8">✓ Más de 300 simulacros completados</div>
+      <div style="font-size:13px;color:#8cb8d8">✓ Todo al alcance de tu mano</div>
     </div>
 
   </div>
 </div>
+<!-- LANDING PLAN SCREEN -->
+<div class="screen" id="landing-plan">
+  <div class="inner" style="padding-top:32px;padding-bottom:90px;max-width:560px">
+    <h2 style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:6px">¿Cómo quieres estudiar?</h2>
+    <p style="font-size:14px;color:#8cb8d8;margin-bottom:24px">Elige tu plan de estudio</p>
 
+    <div style="background:#0c1e35;border:1.5px solid #1d3a5c;border-radius:16px;padding:18px;margin-bottom:14px">
+      <div style="font-size:18px;font-weight:800;color:#e8f4fd;margin-bottom:8px">🆓 Gratuito</div>
+      <div style="font-size:13px;color:#8cb8d8;margin-bottom:14px;line-height:1.6">Acceso completo al temario, 50 preguntas por tema y simulacros de práctica.</div>
+      <button onclick="localStorage.setItem('landingSeen','1');go('home')" style="display:block;width:100%;padding:13px;background:transparent;color:#00b4d8;border:1.5px solid #00b4d8;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer">→ Ir al temario</button>
+    </div>
+
+    <div style="background:linear-gradient(135deg,#0c1e35,#132842);border:1.5px solid rgba(255,209,102,.4);border-radius:16px;padding:18px;margin-bottom:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <div style="font-size:18px;font-weight:800;color:#ffd166">⭐ Premium</div>
+        <div style="text-align:right"><div style="font-size:20px;font-weight:900;color:#ffd166">€24.99<span style="font-size:12px;font-weight:400">/mes</span></div><div style="font-size:11px;color:#8cb8d8">o €189/año — ahorra 4 meses</div></div>
+      </div>
+      <div style="font-size:13px;color:#c8dff0;line-height:1.9;margin-bottom:14px">
+        ✓ Doble banco de preguntas — 100+ adicionales por tema<br>
+        ✓ Preguntas de convocatorias anteriores<br>
+        ✓ Simulacros ilimitados<br>
+        ✓ Repetición espaciada de errores<br>
+        ✓ Inglés Aeronáutico OACI<br>
+        ✓ Módulo psicotécnico — 13 ejercicios cognitivos<br>
+        ✓ Plan de estudio personalizado<br>
+        ✓ Sin anuncios
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:14px">
+        <button id="lp-btn-monthly" onclick="selectLandingBilling('monthly')" style="flex:1;padding:10px;background:#ffd166;color:#000;border:none;border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Mensual · €24.99</button>
+        <button id="lp-btn-annual" onclick="selectLandingBilling('annual')" style="flex:1;padding:10px;background:#1d3a5c;color:#ffd166;border:1.5px solid rgba(255,209,102,.3);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Anual · €189 ⭐</button>
+      </div>
+      <label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:14px;cursor:pointer">
+        <input type="checkbox" id="lp-consent" style="margin-top:3px;flex-shrink:0">
+        <span style="font-size:11px;color:#8cb8d8;line-height:1.5">Solicito el acceso inmediato al contenido digital de ControlPrep y reconozco que, una vez iniciado el servicio, pierdo mi derecho de desistimiento conforme al artículo 103 del Real Decreto Legislativo 1/2007. He leído y acepto los <span onclick="go('legal-terms')" style="color:#ffd166;cursor:pointer">Términos y Condiciones</span> y la <span onclick="go('legal-privacy')" style="color:#ffd166;cursor:pointer">Política de Privacidad</span>.</span>
+      </label>
+      <button onclick="startLandingCheckout()" style="display:block;width:100%;padding:14px;background:#ffd166;color:#000;border:none;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:8px">Suscribirse a Premium →</button>
+      <div style="font-size:11px;color:#5a8aaa;text-align:center">Cancela cuando quieras · Sin permanencia</div>
+    </div>
+
+    <div style="background:rgba(0,180,216,.06);border:1px solid rgba(0,180,216,.15);border-radius:12px;padding:12px 14px;font-size:12px;color:#8cb8d8;text-align:center;margin-bottom:16px">Este plan está optimizado automáticamente según tus áreas débiles detectadas en simulacros recientes.</div>
+
+    <div style="font-size:12px;color:#5a8aaa;text-align:center;line-height:1.6">💡 Por ahora disfruta del plan gratuito completo — temario oficial, 50 preguntas por tema y simulacros semanales, sin coste.</div>
+  </div>
+</div>
 <!-- SPLASH SCREEN -->
 <div class="screen" id="splash" style="justify-content:center;align-items:center;text-align:center">
   <div class="inner" style="padding:32px 24px;max-width:480px">
@@ -473,11 +490,6 @@ async function sbResetPassword(email){
 <div class="pbadge" id="rbadge"></div>
     <div id="rbench"></div>
     <div id="rnba"></div>
-    <div class="sgrid">
-      <div class="sbox"><div class="sn" id="rcor" style="color:#2dc653">0</div><div class="sl">Correctas</div></div>
-      <div class="sbox"><div class="sn" id="rwrg" style="color:#e63946">0</div><div class="sl">Incorrectas</div></div>
-      <div class="sbox"><div class="sn" id="rpct" style="color:#00b4d8">0%</div><div class="sl">Nota</div></div>
-    </div>
     <div class="racts" id="racts"></div>
   </div></div>
 </div>
@@ -6278,21 +6290,45 @@ function dismissSplash(){
   localStorage.setItem('splashSeen','1');
   setTimeout(()=>go('home'),100);
 }
-
+let _landingBilling='monthly';
+function selectLandingBilling(p){
+  _landingBilling=p;
+  document.getElementById('lp-btn-monthly').style.background=p==='monthly'?'#ffd166':'#1d3a5c';
+  document.getElementById('lp-btn-monthly').style.color=p==='monthly'?'#000':'#ffd166';
+  document.getElementById('lp-btn-annual').style.background=p==='annual'?'#ffd166':'#1d3a5c';
+  document.getElementById('lp-btn-annual').style.color=p==='annual'?'#000':'#ffd166';
+}
+function startLandingCheckout(){
+  const consent=document.getElementById('lp-consent');
+  if(!consent||!consent.checked){alert('Por favor acepta los términos antes de continuar.');return;}
+  _billingPeriod=_landingBilling;
+  startCheckout();
+}
 function startLandingTest(){
   localStorage.setItem('landingSeen','1');
-  go('home');
-  // Start a quick 10-question cross-topic test automatically
-  setTimeout(()=>{
-    const allQ=[];
-    Object.values(Q).forEach(qs=>allQ.push(...qs.filter(q=>q.tier==='free')));
-    const sample=allQ.sort(()=>Math.random()-.5).slice(0,10);
-    if(sample.length>0){
-      QS={qs:sample,idx:0,sc:0,exam:false,paper:false,navMode:false,ans:[],wrongList:[]};
-      renderQ();
-      go('qscreen');
-    }
-  },200);
+  // Pick max 2 questions per topic, shuffled within each topic
+  const perTopic=[];
+  Object.entries(Q).forEach(([tid,qs])=>{
+    const free=qs.filter(q=>q.tier==='free');
+    const shuffled=free.sort(()=>Math.random()-.5).slice(0,2);
+    shuffled.forEach(q=>perTopic.push({q,tid:parseInt(tid)}));
+  });
+  // Arrange so no two consecutive questions from same topic
+  const arranged=[];
+  const pool=[...perTopic].sort(()=>Math.random()-.5);
+  while(pool.length>0&&arranged.length<10){
+    const lastTid=arranged.length>0?arranged[arranged.length-1].tid:-1;
+    const idx=pool.findIndex(x=>x.tid!==lastTid);
+    if(idx>=0){arranged.push(pool.splice(idx,1)[0]);}
+    else{arranged.push(pool.shift());}
+  }
+  const sample=arranged.slice(0,10).map(x=>x.q);
+  if(sample.length>0){
+    QS={qs:sample,idx:0,sc:0,exam:false,paper:false,navMode:false,ans:[],wrongList:[],landingMode:true};
+    renderQ();
+    go('qscreen');
+  }
+},200);
 }
 function showPremiumInfo(){
  alert('⭐ Premium — €24.99/mes o €189/año (4 meses gratis).\n\nIncluye todo lo que necesitas para preparar las oposiciones CTA:\n\n✓ 100+ preguntas premium por tema\n✓ ✓ Convocatorias anteriores\n✓ Simulacros ilimitados\n✓ 🇬🇧 Aviation English OACI\n✓ Módulo psicotécnico CTA\n✓ Sin anuncios');
@@ -6435,10 +6471,13 @@ const correctIdx=q._ans!==undefined?q._ans:q.a;
     else btn.classList.add('dim');
   });
 
-  const fb=document.createElement('div');
+const fb=document.createElement('div');
   fb.className='fb '+(ok?'cor':'wrg');
 const qKey='note-'+(q.ref?q.ref.section+q.q.slice(0,20):'').replace(/[^a-z0-9]/gi,'');
 const savedNote=localStorage.getItem(qKey)||'';
+if(QS.landingMode){
+  fb.innerHTML='<div class="fbh">'+(ok?'✓ ¡Correcto!':'✗ Incorrecto')+'</div>';
+} else {
 fb.innerHTML='<div class="fbh">'+(ok?'✓ ¡Correcto!':'✗ Incorrecto')+'</div><div class="fbe">'+q.e+'</div>'
     +'<div class="fbr" onclick="openRef('+QS.idx+')"><div class="fbri">📖</div><div class="fbrt"><div class="fbrl">VER EN EL TEMARIO</div><div class="fbrv">'+q.ref.doc+' — '+q.ref.section+'</div></div><div class="fbra">→</div></div>'
     +'<div style="margin-top:10px;background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px">'
@@ -6447,6 +6486,7 @@ fb.innerHTML='<div class="fbh">'+(ok?'✓ ¡Correcto!':'✗ Incorrecto')+'</div>
     +'<button onclick="saveQNote(\''+qKey+'\')" style="margin-top:8px;padding:8px 16px;background:#1d3a5c;color:#00b4d8;border:1px solid #2a5280;border-radius:8px;font-family:\'IBM Plex Sans\',sans-serif;font-size:12px;font-weight:700;cursor:pointer">💾 Guardar nota</button>'
     +(savedNote?'<span id="qnote-saved-'+qKey+'" style="margin-left:10px;font-size:12px;color:#2dc653">✓ Guardado</span>':'<span id="qnote-saved-'+qKey+'"></span>')
     +'</div>';
+}
 document.getElementById('fbdiv').appendChild(fb);
   window.scrollTo({top:0,behavior:'smooth'});
 
@@ -6465,8 +6505,8 @@ setTimeout(()=>nxtBtn.scrollIntoView({behavior:'smooth',block:'center'}),100);
 function nextQ(){
   QS.idx++;
   QS.answered=false;
-  // Show ad every 5 questions for free users
-  if(!DEV_PREMIUM&&!QS.exam&&!QS.paper&&QS.idx>0&&QS.idx%5===0){
+  // Show ad every 5 questions for free users (not in landing mode)
+  if(!DEV_PREMIUM&&!QS.exam&&!QS.paper&&!QS.landingMode&&QS.idx>0&&QS.idx%5===0){
     showAdCard(()=>{renderQ();window.scrollTo(0,0);});
   } else {
     renderQ();
@@ -6652,8 +6692,14 @@ const BENCH_MIN=75,BENCH_MAX=85;
   const badge=document.getElementById('rbadge');
   badge.className='pbadge '+(pct>=50?'pass':'fail');
   badge.textContent=pct>=50?'✓ Por encima del mínimo (50%)':'✗ Por debajo del mínimo (50%)';
-  const benchEl=document.getElementById('rbench');
-  if(benchEl){if(pct<BENCH_MIN){benchEl.innerHTML='<div style="margin-top:12px;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.3);border-radius:12px;padding:12px 14px"><div style="font-size:12px;font-weight:700;color:#e63946;margin-bottom:4px">📊 Nivel de preparación</div><div style="font-size:13px;color:#c8dff0">Te faltan <strong style=\"color:#ffd166\">'+gap+' puntos</strong> para alcanzar el rango de candidatos aptos ('+BENCH_MIN+'%–'+BENCH_MAX+'%)'}else{benchEl.innerHTML='<div style="margin-top:12px;background:rgba(45,198,83,.08);border:1px solid rgba(45,198,83,.3);border-radius:12px;padding:12px 14px"><div style="font-size:12px;font-weight:700;color:#2dc653;margin-bottom:4px">📊 Nivel de preparación</div><div style="font-size:13px;color:#c8dff0">Estás dentro del rango de los candidatos que superan el proceso ('+BENCH_MIN+'%–'+BENCH_MAX+'%)</div></div>';}}
+ const benchEl=document.getElementById('rbench');
+  if(benchEl){
+    const combinedMsg=pct>=BENCH_MIN?'✓ '+pct+'% — Dentro del rango de candidatos aptos ('+BENCH_MIN+'%–'+BENCH_MAX+'%). ¡Buen nivel!':pct>=50?'✓ Por encima del mínimo ('+pct+'%) — ¡enhorabuena! Pero tu nivel actual está por debajo del perfil de candidatos aptos ('+BENCH_MIN+'%–'+BENCH_MAX+'%). Con práctica constante puedes alcanzarlo.':'Tu puntuación actual es del '+pct+'%. El perfil de candidatos aptos se sitúa entre el '+BENCH_MIN+'% y el '+BENCH_MAX+'%. Con dedicación puedes cerrar esta brecha.';
+    const benchBg=pct>=BENCH_MIN?'rgba(45,198,83,.08)':'rgba(0,180,216,.06)';
+    const benchBd=pct>=BENCH_MIN?'rgba(45,198,83,.3)':'rgba(0,180,216,.2)';
+    const benchTc=pct>=BENCH_MIN?'#2dc653':'#00b4d8';
+    benchEl.innerHTML='<div style="margin-top:12px;background:'+benchBg+';border:1px solid '+benchBd+';border-radius:12px;padding:12px 14px"><div style="font-size:12px;font-weight:700;color:'+benchTc+';margin-bottom:4px">📊 Tu nivel de preparación</div><div style="font-size:13px;color:#c8dff0;line-height:1.6">'+combinedMsg+'</div></div>';
+  }
   const r=58,circ=2*Math.PI*r,dash=(pct/100)*circ,col=pct>=80?'#2dc653':pct>=60?'#ffd166':'#e63946';
   document.getElementById('rsvg').innerHTML='<circle cx="75" cy="75" r="'+r+'" fill="none" stroke="#1d3a5c" stroke-width="9"/><circle cx="75" cy="75" r="'+r+'" fill="none" stroke="'+col+'" stroke-width="9" stroke-dasharray="'+dash+' '+circ+'" stroke-dashoffset="'+circ/4+'" stroke-linecap="round" style="transition:stroke-dasharray .8s ease"/>';
 
@@ -6673,7 +6719,8 @@ const acts=document.getElementById('racts');
 if(QS.paper){
     mkBtn('← Ver todos los exámenes','#1d3a5c','#e8f4fd','1.5px solid #2a5280',()=>go('papers'));
   } else {
-   // Next Best Actions
+  // Next Best Actions (not in landing mode)
+  if(!QS.landingMode){
     const allResults=T.map(t=>({t,p:PR.get(t.id)})).filter(x=>x.p);
     const weakTopics=allResults.filter(x=>x.p.bestPct<75).sort((a,b)=>a.p.bestPct-b.p.bestPct).slice(0,3);
     const nbaEl=document.getElementById('rnba');
@@ -6700,6 +6747,11 @@ if(QS.paper){
     }
     if(!DEV_PREMIUM&&pct<75){const upBtn=document.createElement('button');upBtn.setAttribute('style','display:block;width:100%;padding:15px;background:linear-gradient(135deg,#1d3a5c,#0c2340);color:#ffd166;border:1.5px solid rgba(255,209,102,.4);border-radius:12px;font-family:\'IBM Plex Sans\',sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:8px;text-align:left');upBtn.innerHTML='⭐ Reducir mi brecha de preparación <span style="font-size:11px;font-weight:400;color:#8cb8d8;display:block;margin-top:2px">Tu nivel actual ('+pct+'%) está a '+gap+' puntos del rango de candidatos aptos ('+BENCH_MIN+'%–'+BENCH_MAX+'%)</span>';upBtn.onclick=()=>go('planselect');acts.appendChild(upBtn);}
     mkBtn('← Volver al tema','#1d3a5c','#e8f4fd','1.5px solid #2a5280',()=>go('tdetail'));
+  } else {
+    // Landing mode — show plan choice
+    const nbaEl=document.getElementById('rnba');
+    if(nbaEl) nbaEl.innerHTML='';
+    mkBtn('Mejorar este resultado →','#00b4d8','#000000',null,()=>go('landing-plan'));
   }
 }
 
@@ -6793,7 +6845,7 @@ cookieShowBanner();
 handleCheckoutReturn();
 sbInit();
 // Fix DOM nesting issue
-['login-screen','register-screen','forgot-screen','landing','topics','tdetail','qscreen','rscreen','papers','progress-screen','enaire-bridge','rv','planselect','glossary','bpracticas','search','profile','splash','aveng','feast','studyplan','legal-privacy','legal-terms','legal-cookies','faq','contact','conv2025'].forEach(sid=>{  const el=document.getElementById(sid);
+['login-screen','register-screen','forgot-screen','landing','landing-plan','topics','tdetail','qscreen','rscreen','papers','progress-screen','enaire-bridge','rv','planselect','glossary','bpracticas','search','profile','splash','aveng','feast','studyplan','legal-privacy','legal-terms','legal-cookies','faq','contact','conv2025'].forEach(sid=>{  const el=document.getElementById(sid);
   if(el)document.body.appendChild(el);
 });
 ['cookie-banner','cookie-config','login-screen','register-screen','forgot-screen'].forEach(id=>{
