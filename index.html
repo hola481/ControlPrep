@@ -6718,8 +6718,7 @@ const acts=document.getElementById('racts');
 
 if(QS.paper){
     mkBtn('← Ver todos los exámenes','#1d3a5c','#e8f4fd','1.5px solid #2a5280',()=>go('papers'));
-  } else {
-  // Next Best Actions (not in landing mode)
+// Next Best Actions (not in landing mode)
   if(!QS.landingMode){
     const allResults=T.map(t=>({t,p:PR.get(t.id)})).filter(x=>x.p);
     const weakTopics=allResults.filter(x=>x.p.bestPct<75).sort((a,b)=>a.p.bestPct-b.p.bestPct).slice(0,3);
