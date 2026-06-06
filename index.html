@@ -417,21 +417,21 @@ async function sbResetPassword(email){
 </div>
 <!-- LANDING PLAN SCREEN -->
 <div class="screen" id="landing-plan">
-  <div class="inner" style="padding-top:32px;padding-bottom:90px;max-width:560px">
-    <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:12px"><h2 style="font-size:22px;font-weight:800;color:#e8f4fd;margin:0">¿Cómo quieres estudiar?</h2><span style="font-size:14px;color:#8cb8d8">Elige tu plan de estudio</span></div>
+ <div class="inner" style="padding-top:4px;padding-bottom:70px;max-width:560px">
+    <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:8px"><h2 style="font-size:20px;font-weight:800;color:#e8f4fd;margin:0">¿Cómo quieres estudiar?</h2><span style="font-size:13px;color:#8cb8d8">Elige tu plan</span></div>
 
-    <div style="background:#0c1e35;border:1.5px solid #1d3a5c;border-radius:16px;padding:18px;margin-bottom:14px">
-      <div style="font-size:18px;font-weight:800;color:#e8f4fd;margin-bottom:8px">🆓 Gratuito</div>
-      <div style="font-size:13px;color:#8cb8d8;margin-bottom:14px;line-height:1.6">Acceso completo al temario, 30 preguntas por tema y simulacros de práctica.</div>
-      <button onclick="localStorage.setItem('landingSeen','1');go('home')" style="display:block;width:100%;padding:13px;background:transparent;color:#00b4d8;border:1.5px solid #00b4d8;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer">→ Ir al temario</button>
+    <div style="background:#0c1e35;border:1.5px solid #1d3a5c;border-radius:14px;padding:12px 14px;margin-bottom:8px">
+      <div style="font-size:16px;font-weight:800;color:#e8f4fd;margin-bottom:4px">🆓 Gratuito</div>
+      <div style="font-size:12px;color:#8cb8d8;margin-bottom:10px;line-height:1.5">Acceso completo al temario, 30 preguntas por tema y simulacros de práctica.</div>
+      <button onclick="localStorage.setItem('landingSeen','1');go('home')" style="display:block;width:100%;padding:10px;background:transparent;color:#00b4d8;border:1.5px solid #00b4d8;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">→ Ir al temario</button>
     </div>
 
-    <div style="background:linear-gradient(135deg,#0c1e35,#132842);border:1.5px solid rgba(255,209,102,.4);border-radius:16px;padding:18px;margin-bottom:14px">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-        <div style="font-size:18px;font-weight:800;color:#ffd166">⭐ Premium</div>
-        <div style="text-align:right"><div style="font-size:20px;font-weight:900;color:#ffd166">€24.99<span style="font-size:12px;font-weight:400">/mes</span></div><div style="font-size:11px;color:#8cb8d8">o €189/año — ahorra 4 meses</div></div>
+    <div style="background:linear-gradient(135deg,#0c1e35,#132842);border:1.5px solid rgba(255,209,102,.4);border-radius:14px;padding:12px 14px;margin-bottom:8px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <div style="font-size:16px;font-weight:800;color:#ffd166">⭐ Premium</div>
+        <div style="text-align:right"><div style="font-size:18px;font-weight:900;color:#ffd166">€24.99<span style="font-size:11px;font-weight:400">/mes</span></div><div style="font-size:10px;color:#8cb8d8">o €189/año — ahorra 4 meses</div></div>
       </div>
-      <div style="font-size:13px;color:#c8dff0;line-height:1.7;margin-bottom:10px">
+      <div style="font-size:12px;color:#c8dff0;line-height:1.6;margin-bottom:8px">
         ✓ 120+ preguntas adicionales por tema<br>
         ✓ Preguntas de convocatorias anteriores<br>
         ✓ Simulacros ilimitados<br>
@@ -441,21 +441,21 @@ async function sbResetPassword(email){
         ✓ Plan de estudio personalizado<br>
         ✓ Sin anuncios
       </div>
-      <div style="display:flex;gap:8px;margin-bottom:10px">
-        <button id="lp-btn-monthly" onclick="selectLandingBilling('monthly')" style="flex:1;padding:10px;background:#ffd166;color:#000;border:none;border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Mensual · €24.99</button>
-        <button id="lp-btn-annual" onclick="selectLandingBilling('annual')" style="flex:1;padding:10px;background:#1d3a5c;color:#ffd166;border:1.5px solid rgba(255,209,102,.3);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Anual · €189 ⭐</button>
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <button id="lp-btn-monthly" onclick="selectLandingBilling('monthly')" style="flex:1;padding:8px;background:#ffd166;color:#000;border:none;border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Mensual · €24.99</button>
+        <button id="lp-btn-annual" onclick="selectLandingBilling('annual')" style="flex:1;padding:8px;background:#1d3a5c;color:#ffd166;border:1.5px solid rgba(255,209,102,.3);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Anual · €189 ⭐</button>
       </div>
-      <label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;cursor:pointer">
+      <label style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;cursor:pointer">
         <input type="checkbox" id="lp-consent" style="margin-top:3px;flex-shrink:0">
-        <span style="font-size:11px;color:#8cb8d8;line-height:1.5">Solicito el acceso inmediato al contenido digital de ControlPrep y reconozco que, una vez iniciado el servicio, pierdo mi derecho de desistimiento conforme al artículo 103 del Real Decreto Legislativo 1/2007. He leído y acepto los <span onclick="go('legal-terms')" style="color:#ffd166;cursor:pointer">Términos y Condiciones</span> y la <span onclick="go('legal-privacy')" style="color:#ffd166;cursor:pointer">Política de Privacidad</span>.</span>
+        <span style="font-size:10px;color:#8cb8d8;line-height:1.4">Solicito el acceso inmediato al contenido digital de ControlPrep y reconozco que, una vez iniciado el servicio, pierdo mi derecho de desistimiento conforme al artículo 103 del Real Decreto Legislativo 1/2007. He leído y acepto los <span onclick="go('legal-terms')" style="color:#ffd166;cursor:pointer">Términos y Condiciones</span> y la <span onclick="go('legal-privacy')" style="color:#ffd166;cursor:pointer">Política de Privacidad</span>.</span>
       </label>
-      <button onclick="startLandingCheckout()" style="display:block;width:100%;padding:14px;background:#ffd166;color:#000;border:none;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer;margin-bottom:8px">Suscribirse a Premium →</button>
-      <div style="font-size:11px;color:#5a8aaa;text-align:center">Cancela cuando quieras · Sin permanencia</div>
+      <button onclick="startLandingCheckout()" style="display:block;width:100%;padding:12px;background:#ffd166;color:#000;border:none;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:6px">Suscribirse a Premium →</button>
+      <div style="font-size:10px;color:#5a8aaa;text-align:center">Cancela cuando quieras · Sin permanencia</div>
     </div>
 
-    <div style="background:rgba(0,180,216,.06);border:1px solid rgba(0,180,216,.15);border-radius:12px;padding:12px 14px;font-size:12px;color:#8cb8d8;text-align:center;margin-bottom:16px">Este plan está optimizado automáticamente según tus áreas débiles detectadas en simulacros recientes.</div>
+    <div style="background:rgba(0,180,216,.06);border:1px solid rgba(0,180,216,.15);border-radius:10px;padding:8px 12px;font-size:11px;color:#8cb8d8;text-align:center;margin-bottom:8px">Este plan está optimizado automáticamente según tus áreas débiles detectadas en simulacros recientes.</div>
 
-    <div style="font-size:12px;color:#5a8aaa;text-align:center;line-height:1.6">💡 Por ahora disfruta del plan gratuito completo — temario oficial, 30 preguntas por tema y simulacros semanales, sin coste.</div>
+    <div style="font-size:11px;color:#5a8aaa;text-align:center;line-height:1.5">💡 Por ahora disfruta del plan gratuito completo — temario oficial, 30 preguntas por tema y simulacros semanales, sin coste.</div>
   </div>
 </div>
 <!-- SPLASH SCREEN -->
