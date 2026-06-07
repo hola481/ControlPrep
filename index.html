@@ -155,7 +155,7 @@ body{font-family:'IBM Plex Sans',sans-serif;background:#050d1a;color:var(--tx);m
   .hero-sub{font-size:17px;max-width:560px}
 
   /* Home dashboard fills the row and stays centred on desktop */
-  #home-dashboard,#home-countdown,#home-static-btns{max-width:100%!important;width:100%;margin-left:auto;margin-right:auto}
+#home-dashboard,#home-countdown,#home-static-btns,#home-phases,#home-qotd{max-width:100%!important;width:100%;margin-left:auto;margin-right:auto}
 
   /* Topic list wider cards */
   .tcard{padding:18px 20px}
@@ -434,7 +434,6 @@ async function sbResetPassword(email){
       </div>
       <div style="font-size:12px;color:#c8dff0;line-height:1.6;margin-bottom:8px">
         ✓ 120+ preguntas adicionales por tema<br>
-        ✓ Preguntas de convocatorias anteriores<br>
         ✓ Simulacros ilimitados<br>
         ✓ Repetición espaciada de errores<br>
         ✓ Inglés Aeronáutico OACI<br>
@@ -443,15 +442,14 @@ async function sbResetPassword(email){
         ✓ Sin anuncios
       </div>
       <div style="display:flex;gap:8px;margin-bottom:8px">
-        <button id="lp-btn-monthly" onclick="selectLandingBilling('monthly')" style="flex:1;padding:8px;background:#ffd166;color:#000;border:none;border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Mensual · €24.99</button>
-        <button id="lp-btn-annual" onclick="selectLandingBilling('annual')" style="flex:1;padding:8px;background:#1d3a5c;color:#ffd166;border:1.5px solid rgba(255,209,102,.3);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Anual · €189 ⭐</button>
+        <button id="lp-btn-monthly" onclick="selectLandingBilling('monthly')" style="flex:1;padding:8px;background:#1d3a5c;color:#ffd166;border:1.5px solid rgba(255,209,102,.3);border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Mensual · €24.99</button>
+        <button id="lp-btn-annual" onclick="selectLandingBilling('annual')" style="flex:1;padding:8px;background:#ffd166;color:#000;border:none;border-radius:8px;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer">Pago único · €189 ⭐</button>
       </div>
-      <label style="display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;cursor:pointer">
-        <input type="checkbox" id="lp-consent" style="margin-top:3px;flex-shrink:0">
-        <span style="font-size:10px;color:#8cb8d8;line-height:1.4">Solicito el acceso inmediato al contenido digital de ControlPrep y reconozco que, una vez iniciado el servicio, pierdo mi derecho de desistimiento conforme al artículo 103 del Real Decreto Legislativo 1/2007. He leído y acepto los <span onclick="go('legal-terms')" style="color:#ffd166;cursor:pointer">Términos y Condiciones</span> y la <span onclick="go('legal-privacy')" style="color:#ffd166;cursor:pointer">Política de Privacidad</span>.</span>
-      </label>
       <button onclick="startLandingCheckout()" style="display:block;width:100%;padding:12px;background:#ffd166;color:#000;border:none;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:800;cursor:pointer;margin-bottom:6px">Suscribirse a Premium →</button>
-      <div style="font-size:10px;color:#5a8aaa;text-align:center">Cancela cuando quieras · Sin permanencia</div>
+      <div style="font-size:11px;color:#2dc653;text-align:center;font-weight:700;margin-bottom:4px">✓ Garantía de 14 días — si no es para ti, te devolvemos el importe</div>
+      <div style="font-size:11px;color:#8cb8d8;text-align:center;margin-bottom:4px">189€/año = 15,75€/mes · menos que una hora de academia presencial</div>
+      <div style="text-align:center;margin-bottom:6px"><span style="display:inline-block;background:rgba(255,209,102,.12);color:#ffd166;border:1px solid rgba(255,209,102,.4);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700">✦ Desarrollado con controladores de ENAIRE</span></div>
+      <div style="font-size:10px;color:#5a8aaa;text-align:center">Sin permanencia</div>
     </div>
 
     <div style="background:rgba(0,180,216,.06);border:1px solid rgba(0,180,216,.15);border-radius:10px;padding:8px 12px;font-size:11px;color:#8cb8d8;text-align:center;margin-bottom:8px">Este plan está optimizado automáticamente según tus áreas débiles detectadas en simulacros recientes.</div>
@@ -483,9 +481,10 @@ async function sbResetPassword(email){
   </div>
     <div id="home-greeting" style="margin-top:6px;font-size:16px;font-weight:600;color:#e8f4fd"></div>
 <div id="home-dashboard" style="margin-top:10px;display:flex!important;flex-direction:column!important;gap:8px;max-width:480px;margin-left:auto;margin-right:auto"></div>
-    <div id="home-countdown" style="margin-top:12px;max-width:480px;margin-left:auto;margin-right:auto;font-size:14px;font-weight:700;color:#ffd166"></div>
- 
-   <div id="home-static-btns" style="display:flex;flex-direction:column;gap:8px;max-width:480px;margin:0 auto;padding:0 18px"></div>  </div></div>
+   <div id="home-phases" style="margin:16px auto 0;max-width:480px;width:100%"></div>
+   <div id="home-qotd" style="margin:16px auto 0;max-width:480px;width:100%"></div>
+   <div id="home-countdown" style="margin:16px auto 0;max-width:480px;margin-left:auto;margin-right:auto;font-size:14px;font-weight:700;color:#ffd166"></div>
+   <div id="home-static-btns" style="display:none"></div>  </div></div>
   <div style="height:70px"></div>
   <div style="text-align:center;padding:16px 20px 32px;border-top:1px solid #1d3a5c;margin-top:16px">
     <div style="font-size:11px;color:#2a5280;margin-bottom:8px">© 2026 ControlPrep · Todos los derechos reservados</div>
@@ -524,8 +523,8 @@ async function sbResetPassword(email){
     <div style="text-align:center;padding:40px 20px">
       <div style="font-size:48px;margin-bottom:16px">🎯</div>
       <div style="font-size:20px;font-weight:700;margin-bottom:8px">Simulacro de Tema</div>
-      <div style="font-size:14px;color:#8cb8d8;margin-bottom:24px">25 preguntas con temporizador de 25 minutos. Condiciones reales de examen.</div>
-      <button onclick="startQ(CT?CT.id:1,true,false,null)" style="display:block;width:100%;padding:16px;background:#00b4d8;color:#000;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:16px;font-weight:700;cursor:pointer">Iniciar simulacro →</button>
+      <div style="font-size:14px;color:#8cb8d8;margin-bottom:24px">25 preguntas con temporizador de 25 minutos. Condiciones reales de examen. ⭐ Función Premium.</div>
+      <button onclick="startTemaSim(CT?CT.id:1)" style="display:block;width:100%;padding:16px;background:#00b4d8;color:#000;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:16px;font-weight:700;cursor:pointer">Iniciar simulacro →</button>
     </div>
   </div></div></div>
 </div>
@@ -935,7 +934,6 @@ async function sbResetPassword(email){
         <div style="font-size:14px;font-weight:700;color:#ffd166;margin-bottom:10px">o €189/año — ahorra 4 meses</div>
         <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:16px">
           <div style="font-size:13px;color:#c8dff0">✓ Doble banco de preguntas — 100+ adicionales por tema</div>
-          <div style="font-size:13px;color:#c8dff0">✓ Preguntas de convocatorias anteriores</div>
           <div style="font-size:13px;color:#c8dff0">✓ Simulacros ilimitados</div>
           <div style="font-size:13px;color:#c8dff0">✓ Repetición espaciada de errores</div>
           <div style="font-size:13px;color:#c8dff0">✓ Inglés Aeronáutico OACI</div>
@@ -945,19 +943,16 @@ async function sbResetPassword(email){
         </div>
         <!-- Billing toggle -->
         <div style="display:flex;gap:8px;margin-bottom:16px">
-          <button id="btn-monthly" onclick="selectBilling('monthly')" style="flex:1;padding:10px;border-radius:10px;border:2px solid #ffd166;background:rgba(255,209,102,.15);color:#ffd166;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Mensual · €24.99</button>
-          <button id="btn-annual" onclick="selectBilling('annual')" style="flex:1;padding:10px;border-radius:10px;border:2px solid #1d3a5c;background:transparent;color:#5a8aaa;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Anual · €189 ⭐</button>
+          <button id="btn-monthly" onclick="selectBilling('monthly')" style="flex:1;padding:10px;border-radius:10px;border:2px solid #1d3a5c;background:transparent;color:#5a8aaa;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Mensual · €24.99</button>
+          <button id="btn-annual" onclick="selectBilling('annual')" style="flex:1;padding:10px;border-radius:10px;border:2px solid #ffd166;background:rgba(255,209,102,.15);color:#ffd166;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Pago único · €189 ⭐</button>
         </div>
         <!-- Consent checkbox -->
-        <div style="background:#081523;border:1px solid #1d3a5c;border-radius:10px;padding:12px;margin-bottom:12px">
-          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
-            <input type="checkbox" id="checkout-consent" style="width:18px;height:18px;margin-top:2px;accent-color:#00b4d8;cursor:pointer;flex-shrink:0">
-            <span style="font-size:12px;color:#8cb8d8;line-height:1.6">Solicito el acceso inmediato al contenido digital de ControlPrep y reconozco que, una vez iniciado el servicio, pierdo mi derecho de desistimiento conforme al artículo 103 del Real Decreto Legislativo 1/2007. He leído y acepto los <button onclick="go('legal-terms')" style="background:none;border:none;padding:0;font-family:'IBM Plex Sans',sans-serif;font-size:12px;color:#00b4d8;cursor:pointer;text-decoration:underline">Términos y Condiciones</button> y la <button onclick="go('legal-privacy')" style="background:none;border:none;padding:0;font-family:'IBM Plex Sans',sans-serif;font-size:12px;color:#00b4d8;cursor:pointer;text-decoration:underline">Política de Privacidad</button>.</span>
-          </label>
-        </div>
         <div id="checkout-error" style="display:none;font-size:12px;color:#e63946;margin-bottom:8px;padding:8px 12px;background:rgba(230,57,70,.08);border-radius:8px">Debes aceptar los términos para continuar.</div>
         <button id="checkout-btn" onclick="startCheckout()" style="width:100%;padding:14px;background:#ffd166;color:#000;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer">Suscribirse a Premium →</button>
-        <div style="text-align:center;font-size:11px;color:#5a8aaa;margin-top:8px">Cancela cuando quieras · Sin permanencia</div>
+        <div style="font-size:11px;color:#2dc653;text-align:center;font-weight:700;margin-top:8px">✓ Garantía de 14 días — si no es para ti, te devolvemos el importe</div>
+        <div style="font-size:11px;color:#8cb8d8;text-align:center;margin-top:4px">189€/año = 15,75€/mes · menos que una hora de academia presencial</div>
+        <div style="text-align:center;margin-top:6px"><span style="display:inline-block;background:rgba(255,209,102,.12);color:#ffd166;border:1px solid rgba(255,209,102,.4);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700">✦ Desarrollado con controladores de ENAIRE</span></div>
+        <div style="text-align:center;font-size:11px;color:#5a8aaa;margin-top:6px">Sin permanencia</div>
       </div>
     </div>
     <div style="margin-top:10px;padding:10px 14px;background:rgba(255,209,102,.05);border-radius:10px;border:1px solid rgba(255,209,102,.15);font-size:12px;color:#8cb8d8;text-align:center">Este plan está optimizado automáticamente según tus áreas débiles detectadas en simulacros recientes.</div>
@@ -2763,7 +2758,7 @@ function go(id){
   if(!goEl){console.error('Screen not found:',id);return;}
 goEl.classList.add('active');
   if(['login-screen','register-screen','forgot-screen'].includes(id)){document.querySelectorAll('.auth-overlay').forEach(o=>{o.style.display='none';});goEl.style.display='block';return;}goEl.style.display=id==='conv2025'?'block':'flex';
-  if(id==='home'){const ap=document.getElementById('home-auth-prompt');if(ap){ap.style.display=(!_currentUser&&!localStorage.getItem('_cp_auth_seen'))?'block':'none';}}
+  if(id==='home'){renderHomeDashboard();renderPhases();const ap=document.getElementById('home-auth-prompt');if(ap){ap.style.display=(!_currentUser&&!localStorage.getItem('_cp_auth_seen'))?'block':'none';}}
   if(id==='legal-privacy'||id==='legal-terms'||id==='legal-cookies'){renderLegalContent();document.getElementById('cookie-banner').style.display='none';}
   if(id==='profile'){const section=document.getElementById('profile-auth-section');const ed=document.getElementById('profile-email-display');if(section){section.style.display=_currentUser?'block':'none';if(_currentUser&&ed)ed.textContent=_currentUser.email;}}
 if(id==='faq')renderFAQ();
@@ -2886,6 +2881,52 @@ const MOTIVATIONAL=[
 'Un tema más, un paso más. ¡Ánimo!.',
 ];
 
+function cpLevel(){
+  var sim=null;try{sim=JSON.parse(localStorage.getItem('cp_lastSim')||'null');}catch(e){}
+  var done=T.map(function(t){return PR.get(t.id);}).filter(Boolean);
+  var avg=done.length?Math.round(done.reduce(function(s,p){return s+p.bestPct;},0)/done.length):null;
+  if(sim&&typeof sim.pct==='number')return {pct:sim.pct,evaluated:true};
+  if(avg!==null)return {pct:avg,evaluated:true};
+  return {pct:null,evaluated:false};
+}
+function renderPhases(){
+  var el=document.getElementById('home-phases');if(!el)return;
+  var done=T.map(function(t){return PR.get(t.id);}).filter(Boolean);
+  var _pl=cpLevel();var f1=_pl.evaluated?_pl.pct:null;
+  var pill,note;
+  if(f1===null){
+  pill='<span style="background:rgba(140,184,216,.12);color:#8cb8d8;border:1px solid rgba(140,184,216,.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">Sin evaluar</span>';
+    note='<div style="font-size:11px;color:#8cb8d8;margin-top:6px;line-height:1.4">Haz un simulacro para ver tu nivel. Aprobar (25/50) no basta: los que entran rondan el 75-85%.</div>';
+  } else if(f1>=75){
+    pill='<span style="background:rgba(45,198,83,.12);color:#2dc653;border:1px solid rgba(45,198,83,.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">'+f1+'% - Nivel competitivo</span>';
+    note='<div style="font-size:11px;color:#8cb8d8;margin-top:6px;line-height:1.4">Estas en el rango de los que entran (75-85%). Mantenlo.</div>';
+  } else if(f1>=50){
+    pill='<span style="background:rgba(247,127,0,.12);color:#f77f00;border:1px solid rgba(247,127,0,.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">'+f1+'% - Apto, no competitivo</span>';
+    note='<div style="font-size:11px;color:#8cb8d8;margin-top:6px;line-height:1.4">Superas el minimo, pero los que entran rondan el 75-85%. Te faltan '+(75-f1)+' puntos.</div>';
+  } else {
+    pill='<span style="background:rgba(230,57,70,.12);color:#e63946;border:1px solid rgba(230,57,70,.3);border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700">'+f1+'% - Por debajo del minimo</span>';
+    note='<div style="font-size:11px;color:#8cb8d8;margin-top:6px;line-height:1.4">Por debajo del 50%. El minimo es 25/50 y los que entran rondan el 75-85%.</div>';
+  }
+function btn(label,fn,kind){
+    var sty;
+    if(kind==='primary')sty='background:#00b4d8;color:#001a2e;border:none;';
+    else if(kind==='gold')sty='background:#ffd166;color:#3a2e00;border:none;';
+    else sty='background:rgba(0,180,216,.1);color:#00b4d8;border:1.5px solid rgba(0,180,216,.3);';
+    return '<button onclick="'+fn+'" style="width:100%;padding:11px;border-radius:9px;font-family:\'IBM Plex Sans\',sans-serif;font-size:14px;font-weight:800;cursor:pointer;margin-top:8px;'+sty+'">'+label+'</button>';
+  }
+  function card(num,color,title,desc,badge,extra,btns){
+    return '<div style="background:#0c1e35;border:1px solid #1d3a5c;border-left:3px solid '+color+';border-radius:14px;padding:14px;margin-bottom:10px;text-align:left">'
+      +'<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px"><div style="font-size:11px;font-weight:800;color:'+color+';text-transform:uppercase;letter-spacing:.5px">Fase '+num+'</div>'+(badge||'')+'</div>'
+      +'<div style="font-size:15px;font-weight:800;color:#e8f4fd;margin-bottom:2px">'+title+'</div>'
+      +'<div style="font-size:12px;color:#8cb8d8;line-height:1.5">'+desc+'</div>'+(extra||'')+btns
+      +'</div>';
+  }
+  var h='<div style="font-size:13px;font-weight:800;color:#00b4d8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;text-align:left">Las 3 Fases del proceso ENAIRE</div>';
+  h+=card('1','#00b4d8','Conocimientos, ingles, aptitudes y personalidad','Temario completo + simulacro de 50 preguntas con penalizacion, test de ingles y psicotecnicos.',pill,note,btn('Empezar a estudiar','go(\'topics\')','primary')+btn('Hacer simulacro Fase 1','startFullSimulacro()',''));
+  h+=card('2','#f77f00','Pruebas tipo FEAST y PDEA - en ingles','Simulador de aptitudes y multitarea para la prueba en ordenador. Mejora tu nivel de preparacion.','','',btn('\u2b50 Preparar Fase 2','openFeast()','gold'));
+  h+=card('3','#ffd166','Ingles oral (C1) y entrevistas','Ingles C1 enfocado al examen, mas guia de entrevista y dinamicas de grupo. Mejora tu nivel de preparacion.','','',btn('\u2b50 Preparar Fase 3','openAvEng()','gold'));
+  el.innerHTML=h;
+}
 function renderHomeDashboard(){
   const el=document.getElementById('home-dashboard');
   if(!el)return;
@@ -2911,85 +2952,30 @@ if(cdEl){
   }
   const userName=localStorage.getItem('userName');
   if(grEl)grEl.innerHTML=userName?'<div style="font-size:16px;font-weight:600;color:#e8f4fd;margin-top:6px">👋 Hola, '+userName+'</div>':'';
-// 1 — Streak + Study time side by side
- const studyMins=STT.total();
-  const thisWeek=STT.thisWeek();
-  const lastWeek=STT.lastWeek();
-  const avgWeek=STT.avgPerWeek();
+// 1 — Streak + global level (Premium) / honest per-tema (free) + locked global card
   const streak=ST.count();
   const flames=streak>=30?'🔥🔥🔥':streak>=14?'🔥🔥':'🔥';
-  const hrs=Math.floor(studyMins/60),mins=studyMins%60;
-  const timeStr=hrs>0?hrs+'h '+mins+'min':mins+' min';
-  function fmtMins(m){const h=Math.floor(m/60),mm=m%60;return h>0?h+'h '+mm+'min':mm+'min';}
-h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'
-    +'<div style="background:rgba(247,127,0,.08);border:1px solid rgba(247,127,0,.3);border-radius:12px;padding:8px;text-align:center;display:flex;align-items:center;gap:8px;justify-content:center">'
-    +'<div style="font-size:18px">'+flames+'</div>'
-    +'<div><div style="font-size:16px;font-weight:900;color:#f77f00">'+streak+'</div>'
-    +'<div style="font-size:10px;color:#8cb8d8">día'+(streak!==1?'s':'')+' seguido'+(streak!==1?'s':'')+'</div></div>'
-    +'</div>'
-    +'<div style="background:rgba(0,180,216,.06);border:1px solid rgba(0,180,216,.2);border-radius:12px;padding:8px;text-align:center;display:flex;align-items:center;gap:8px;justify-content:center">'
-    +'<div style="font-size:18px">⏱️</div>'
-    +'<div><div style="font-size:16px;font-weight:800;color:#00b4d8">'+timeStr+'</div>'
-    +'<div style="font-size:10px;color:#8cb8d8">total estudiado</div></div>'
-    +'</div>'
-    +'</div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px">'
-    +'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:8px;text-align:center">'
-    +'<div style="font-size:14px;font-weight:800;color:#00b4d8">'+fmtMins(thisWeek)+'</div>'
-    +'<div style="font-size:10px;color:#5a8aaa">esta semana</div>'
-    +'</div>'
-    +'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:8px;text-align:center">'
-    +'<div style="font-size:14px;font-weight:800;color:#8cb8d8">'+fmtMins(lastWeek)+'</div>'
-    +'<div style="font-size:10px;color:#5a8aaa">semana pasada</div>'
-    +'</div>'
-    +'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:8px;text-align:center">'
-    +'<div style="font-size:14px;font-weight:800;color:#2dc653">'+fmtMins(avgWeek)+'</div>'
-    +'<div style="font-size:10px;color:#5a8aaa">media semanal</div>'
-    +'</div>'
-    +'</div>';
-// 2 — Motivational message
+  var _lvl=cpLevel();
+  var _tg=T.map(function(t){var pr=PR.get(t.id);var v=pr?pr.bestPct+'%':'—';var c=!pr?'#5a8aaa':pr.bestPct>=75?'#2dc653':pr.bestPct>=50?'#ffd166':'#e63946';return '<div onclick="openTopic('+t.id+')" style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:8px;padding:6px 2px;text-align:center;cursor:pointer"><div style="font-size:14px">'+t.icon+'</div><div style="font-size:11px;font-weight:800;color:'+c+'">'+v+'</div></div>';}).join('');
+  var streakCard='<div style="background:rgba(247,127,0,.08);border:1px solid rgba(247,127,0,.3);border-radius:12px;padding:10px;text-align:center;display:flex;align-items:center;gap:8px;justify-content:center"><div style="font-size:18px">'+flames+'</div><div><div style="font-size:18px;font-weight:900;color:#f77f00">'+streak+'</div><div style="font-size:10px;color:#8cb8d8">día'+(streak!==1?'s':'')+' seguido'+(streak!==1?'s':'')+'</div></div></div>';
+  if(DEV_PREMIUM){
+    var lvlTxt=_lvl.evaluated?_lvl.pct+'%':'Sin evaluar';
+    var lvlCol=!_lvl.evaluated?'#8cb8d8':_lvl.pct>=75?'#2dc653':_lvl.pct>=50?'#ffd166':'#e63946';
+    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+streakCard+'<div style="background:rgba(0,180,216,.06);border:1px solid rgba(0,180,216,.25);border-radius:12px;padding:10px;text-align:center"><div style="font-size:10px;color:#8cb8d8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Nivel de preparación</div><div style="font-size:20px;font-weight:900;color:'+lvlCol+'">'+lvlTxt+'</div></div></div>';
+    if(_lvl.evaluated){var _gap=Math.max(0,75-_lvl.pct);h+='<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:10px 12px;text-align:center"><span style="font-size:12px;font-weight:700;color:'+(_lvl.pct>=75?'#2dc653':'#ffd166')+'">'+(_lvl.pct>=75?'✓ Dentro del rango competitivo (75-85%)':'A '+_gap+' punto'+(_gap!==1?'s':'')+' del rango competitivo (75-85%)')+'</span></div>';}
+    else{h+='<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:10px 12px;text-align:center"><span style="font-size:12px;color:#8cb8d8">Objetivo ENAIRE: <strong style="color:#00b4d8">75-85%</strong> · haz un simulacro para ver tu nivel</span></div>';}
+    h+='<div><div style="font-size:10px;color:#5a8aaa;text-transform:uppercase;letter-spacing:.5px;margin:4px 0 6px">Tu nivel por tema</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">'+_tg+'</div></div>';
+  } else {
+    h+=streakCard;
+    h+='<div><div style="font-size:10px;color:#5a8aaa;text-transform:uppercase;letter-spacing:.5px;margin:4px 0 6px">Tu rendimiento por tema · preguntas gratuitas</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">'+_tg+'</div></div>';
+    h+='<div onclick="go(\'planselect\')" style="background:linear-gradient(135deg,#0c1e35,#10233f);border:1px solid rgba(255,209,102,.35);border-radius:14px;padding:14px;cursor:pointer"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:16px">📊</span><span style="font-size:13px;font-weight:800;color:#ffd166">Nivel de preparación global</span><span style="margin-left:auto;font-size:10px;color:#ffd166">🔒 Premium</span></div><div style="font-size:12px;color:#8cb8d8;line-height:1.5;margin-bottom:10px">Tu nivel global y tu distancia al rango competitivo de candidatos aptos (75-85%) requieren una evaluación más completa que la muestra gratuita.</div><div style="background:#ffd166;color:#3a2e00;border-radius:9px;padding:9px;text-align:center;font-size:13px;font-weight:800">Desbloquear evaluación completa</div></div>';
+  }
+  // 2 — Motivational message
   h+='<div style="background:rgba(45,198,83,.06);border:1px solid rgba(45,198,83,.2);border-radius:12px;padding:10px 14px">'
     +'<div style="font-size:12px;color:#c8dff0;line-height:1.5;font-style:italic">"'+msg+'"</div>'
     +'</div>';
-// For free/unsubscribed users — show CTA buttons here
-if(!DEV_PREMIUM){
-    h+='<div style="background:linear-gradient(135deg,#0c1e35,#132842);border:1px solid rgba(255,209,102,.3);border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px">'
-      +'<div style="font-size:28px;flex-shrink:0">⭐</div>'
-      +'<div style="flex:1"><div style="font-size:13px;font-weight:700;color:#ffd166;margin-bottom:2px">Mejora tu nivel de preparación</div>'
-     +'<div style="font-size:12px;color:#8cb8d8">Sin anuncios · +1.275 preguntas · Simulacros ilimitados</div></div>'
-    +'<button onclick="go(\'planselect\')" style="padding:8px 12px;background:#ffd166;color:#000;border:none;border-radius:8px;font-family:\'IBM Plex Sans\',sans-serif;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;flex-shrink:0">Ver →</button>'
-      +'</div>'
-      +'</div>';
-  }
-h+='<button onclick="go(\'topics\')" style="display:block;width:100%;padding:14px;background:#00b4d8;color:#000;border:none;border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-top:6px">Empezar a estudiar →</button>';
-  if(hasProgress&&weak){const bclr=avgPct>=75?'rgba(45,198,83,.08)':'rgba(230,57,70,.08)';const bbd=avgPct>=75?'rgba(45,198,83,.3)':'rgba(230,57,70,.3)';const btc=avgPct>=75?'#2dc653':'#e63946';const blbl=avgPct>=75?'Estás dentro del rango de candidatos aptos (75%–85%)':'A '+(75-avgPct)+' puntos del rango de candidatos aptos (75%–85%)';const wImpact=weak.p.bestPct<50?'+10–15%':weak.p.bestPct<65?'+5–10%':'+3–5%';h+='<div style="margin-top:8px;background:#0c1e35;border:1.5px solid #1d3a5c;border-radius:12px;padding:12px 14px"><div style="font-size:11px;font-weight:700;color:#ffd166;margin-bottom:6px">🎯 Enfoque recomendado hoy</div><div style="display:flex;align-items:center;gap:10px"><span style="color:#e63946;font-size:16px">●</span><div style="flex:1"><div style="font-size:13px;font-weight:700;color:#e8f4fd">Tema '+weak.t.id+': '+weak.t.name+'</div><div style="font-size:11px;color:#8cb8d8;margin-top:2px">Puntuación actual: '+weak.p.bestPct+'% · Impacto estimado: <strong style=\"color:#2dc653\">'+wImpact+'</strong></div></div><button onclick=\"openTopic('+weak.t.id+')\" style=\"padding:8px 12px;background:#00b4d8;color:#000;border:none;border-radius:8px;font-family:\'IBM Plex Sans\',sans-serif;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0\">Practicar →</button></div></div>';}
-  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">'
-    +(DEV_PREMIUM
-     ?'<button onclick="openFeast()" style="padding:12px 8px;background:rgba(0,180,216,.08);color:#00b4d8;border:1.5px solid rgba(0,180,216,.3);border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">🧠 Psicotécnicos</button>'
-      :'<button onclick="alert(\'⭐ Psicotécnicos CTA es exclusivo del plan Premium.\')" style="padding:12px 8px;background:#0c1e35;color:#2a5280;border:1.5px solid #1d3a5c;border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:not-allowed">🔒 Psicotécnicos</button>')
-    +(DEV_PREMIUM
-      ?'<button onclick="openAvEng()" style="padding:12px 8px;background:rgba(255,209,102,.08);color:#ffd166;border:1.5px solid rgba(255,209,102,.3);border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Inglés C1</button>'
-      :'<button onclick="alert(\'⭐ Aviation English es exclusivo del plan Premium.\')" style="padding:12px 8px;background:#0c1e35;color:#2a5280;border:1.5px solid #1d3a5c;border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:not-allowed">🔒 English</button>')
-    +'</div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">'
-    +(DEV_PREMIUM
-      ?'<button onclick="openStudyPlan()" style="padding:12px 8px;background:rgba(45,198,83,.08);color:#2dc653;border:1.5px solid rgba(45,198,83,.3);border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">📅 Plan de estudios</button>'
-      :'<button onclick="alert(\'⭐ El plan de estudios personalizado es exclusivo del plan Premium.\')" style="padding:12px 8px;background:#0c1e35;color:#2a5280;border:1.5px solid #1d3a5c;border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:not-allowed">🔒 Plan de estudios</button>')
-    +'<button onclick="go(\'bpracticas\')" style="padding:12px 8px;background:rgba(45,198,83,.06);color:#2dc653;border:1.5px solid rgba(45,198,83,.2);border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">✅ Buenas prácticas</button>'
-    +'</div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">'
-    +(DEV_PREMIUM
-      ?'<button onclick="openPDEA()" style="padding:12px 8px;background:rgba(45,198,83,.08);color:#2dc653;border:1.5px solid rgba(45,198,83,.3);border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">PDEA</button>'
-      :'<button onclick="alert(\'El módulo PDEA es exclusivo del plan Premium.\')" style="padding:12px 8px;background:#0c1e35;color:#2a5280;border:1.5px solid #1d3a5c;border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:not-allowed">🔒 PDEA</button>')
-    +(DEV_PREMIUM
-      ?'<button onclick="openConductual()" style="padding:12px 8px;background:rgba(247,127,0,.08);color:#f77f00;border:1.5px solid rgba(247,127,0,.3);border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Conductual</button>'
-      :'<button onclick="alert(\'Conductual es exclusivo del plan Premium.\')" style="padding:12px 8px;background:#0c1e35;color:#2a5280;border:1.5px solid #1d3a5c;border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:not-allowed">🔒 Conductual</button>')
-    +'</div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px">'
-    +'<button onclick="startFullSimulacro()" style="padding:12px 8px;background:rgba(0,180,216,.06);color:#00b4d8;border:1.5px solid rgba(0,180,216,.2);border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">🎯 Simulacro'+(DEV_PREMIUM?'':'<span style="display:block;font-size:10px;font-weight:600;opacity:.7">1 por semana</span>')+'</button>'
-    +'<button onclick="openGlossary()" style="padding:12px 8px;background:rgba(90,138,170,.06);color:#5a8aaa;border:1.5px solid #1d3a5c;border-radius:14px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">📖 Glosario</button>'
-    +'</div>';
-// 3 — Question of the Day
+el.innerHTML=h;h='';
+  // 3 — Question of the Day
   const todayKey='qotd-'+new Date().toISOString().slice(0,10);
   const qotdDone=localStorage.getItem(todayKey+'done');
   const weakTid=weak?weak.t.id:Object.keys(Q).find(k=>Q[k]&&Q[k].length>0);
@@ -3016,80 +3002,7 @@ h+='<div style="background:rgba(255,209,102,.06);border:1px solid rgba(255,209,1
         +'</div>';
     }
   }
-// 4 — Daily Study Plan
-  const today=new Date().toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
-  const savedPlan=localStorage.getItem('studyPlanPrefs');
-  const planPrefs=savedPlan?JSON.parse(savedPlan):null;
-  const tasks=[];
-  if(DEV_PREMIUM&&planPrefs){
-    // Use personalised study plan
-  const ACT_LABELS={preguntas:'✏️ Preguntas',temario:'📖 Temario',simulacros:'🎯 Simulacro',feast:'🧠 Psicotécnicos',english:'🇬🇧 Aviation English',errores:'🔁 Repasar errores'};
-    const ACT_ACTIONS={preguntas:"go('topics')",temario:"go('topics')",simulacros:'startFullSimulacro()',feast:'openFeast()',english:'openAvEng()',errores:"go('topics')"};
-    const TOPICS_MAP={1:'⚖️ Legislación',2:'✈️ Códigos OACI',3:'🌦️ Meteorología',4:'🗺️ Cartografía',5:'📡 Navegación',6:'📋 Plan de Vuelo',7:'👔 Entorno Prof.',8:'🧠 Factores Humanos',9:'🛫 Aerodinámica'};
-    const exclActs=planPrefs.exclActivities||[];
-    const exclTops=planPrefs.exclTopics||[];
-    const prioActs=planPrefs.priorities||[];
-    const prioTops=planPrefs.priorityTopics||[];
-    const dayOfWeek=new Date().getDay();
-    const isRest=planPrefs.rest!=='none'&&parseInt(planPrefs.rest)===dayOfWeek;
-    const isWeekend=dayOfWeek===0||dayOfWeek===6;
-    const mins=isRest?0:(isWeekend?planPrefs.weekendMins:planPrefs.time);
-    if(isRest||mins===0){
-      tasks.push('😴 <strong>Día de descanso</strong> — ¡descansa y vuelve mañana con energía!');
-    } else {
-      // Build today's tasks from plan
-      const allActs=['preguntas','temario','simulacros','feast','english','errores'].filter(a=>!exclActs.includes(a));
-      const todayActs=prioActs.length>0?[...prioActs,...allActs.filter(a=>!prioActs.includes(a))]:allActs;
-      const allTops=Object.keys(TOPICS_MAP).filter(id=>!exclTops.includes(id));
-      const todayTops=prioTops.length>0?[...prioTops,...allTops.filter(t=>!prioTops.includes(t))]:allTops;
-      let used=0;let ai=0;let ti=0;
-      while(used<mins-5&&ai<todayActs.length*2){
-        const act=todayActs[ai%todayActs.length];
-        const isPrio=prioActs.includes(act);
-        const tMins=act==='simulacros'?40:act==='feast'?25:act==='english'?20:isPrio?30:20;
-        if(used+tMins>mins+5)break;
-        const needsTopic=act==='preguntas'||act==='temario'||act==='errores';
-        const topId=todayTops[ti%todayTops.length];
-        const topLabel=needsTopic?TOPICS_MAP[topId]:'';
-        const label=ACT_LABELS[act]+(topLabel?' · '+topLabel:'');
-        const action=ACT_ACTIONS[act];
-        tasks.push('<span onclick="'+action+'" style="cursor:pointer;color:inherit">'+label+'</span>'+(isPrio?' <span style="font-size:10px;color:#ffd166">★ prioritario</span>':'')+' <span style="font-size:11px;color:#5a8aaa">'+tMins+' min</span>');
-        used+=tMins;ai++;
-        if(needsTopic)ti++;
-      }
-    }
-  } else if(hasProgress){
-    // Fallback: use performance-based algorithm
-    const notDone=results.filter(x=>x.p.bestPct<100).sort((a,b)=>a.p.bestPct-b.p.bestPct);
-    const worstTwo=notDone.slice(0,2);
-    if(worstTwo[0]){
-      const pct=worstTwo[0].p.bestPct;
-      const qCount=pct<30?30:pct<60?20:10;
-      tasks.push('✏️ <strong>'+qCount+' preguntas</strong> de <strong>'+worstTwo[0].t.icon+' '+worstTwo[0].t.name+'</strong> <span style="color:#e63946">('+pct+'%)</span>');
-    }
-    if(worstTwo[1]){
-      tasks.push('📖 <strong>Repasar temario</strong> de <strong>'+worstTwo[1].t.icon+' '+worstTwo[1].t.name+'</strong> <span style="color:#f77f00">('+worstTwo[1].p.bestPct+'%)</span>');
-    }
-    const srItems=results.filter(x=>{const w=PR.getWeak(x.t.id);return Object.values(w).some(v=>v>0);});
-    if(srItems.length>0){
-      tasks.push('🔁 <strong>Repasar errores</strong> de <strong>'+srItems[0].t.icon+' '+srItems[0].t.name+'</strong>');
-    }
-  }
-  if(tasks.length>0){
-    const planLabel=(DEV_PREMIUM&&planPrefs)?'Tu plan de hoy':'Plan de hoy';
-    const verPlanBtn=(DEV_PREMIUM&&planPrefs)?'<button onclick="openStudyPlan()" style="font-size:11px;color:#5a8aaa;background:none;border:none;cursor:pointer">Ver plan completo →</button>':'';
-    const taskRows=tasks.map(function(task){return '<div style="display:flex;align-items:flex-start;gap:10px;padding:10px;background:#0c1e35;border-radius:10px;font-size:13px;color:#c8dff0;line-height:1.4">'+task+'</div>';}).join('');
-    h+='<div style="background:rgba(0,180,216,.06);border:1px solid rgba(0,180,216,.2);border-radius:16px;padding:16px">'
-      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">'
-      +'<div style="font-size:11px;font-weight:700;color:#00b4d8;text-transform:uppercase;letter-spacing:.5px">&#x1F4C5; '+planLabel+' · '+today+'</div>'
-      +verPlanBtn
-      +'</div>'
-      +'<div style="display:flex;flex-direction:column;gap:8px">'
-      +taskRows
-      +'</div>'
-      +'</div>';
-  }
-  el.innerHTML=h;
+var _q=document.getElementById('home-qotd');if(_q)_q.innerHTML=h;
 }
 function startFullSimulacro(){
   if(!DEV_PREMIUM){
@@ -3461,13 +3374,14 @@ function renderQTab(){
   const accessQ=DEV_PREMIUM?allQ:freeQ;
   el.innerHTML='<div style="margin-bottom:16px"><div style="font-size:18px;font-weight:700;margin-bottom:4px">'+CT.icon+' '+CT.name+'</div><div style="font-size:13px;color:#8cb8d8">'+freeQ.length+' preguntas gratuitas'+(premQ.length>0?' · '+premQ.length+' premium':'')+'</div></div>'
     +'<button onclick="startQ('+CT.id+',false,false,null)" style="display:block;width:100%;padding:16px;background:#00b4d8;color:#000;border:none;border-radius:12px;font-family:\'IBM Plex Sans\',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:10px">Practicar preguntas →</button>'
-    +'<button onclick="startQ('+CT.id+',true,false,null)" style="display:block;width:100%;padding:15px;background:#f77f00;color:#000;border:none;border-radius:12px;font-family:\'IBM Plex Sans\',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:20px">🎯 Simulacro cronometrado (25 min)</button>'
+    +'<button onclick="startTemaSim('+CT.id+')" style="display:block;width:100%;padding:15px;background:#f77f00;color:#000;border:none;border-radius:12px;font-family:\'IBM Plex Sans\',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:20px">🎯 Simulacro cronometrado (25 min)</button>'
     +(premQ.length>0?'<div style="background:rgba(255,209,102,.08);border:1px solid rgba(255,209,102,.2);border-radius:10px;padding:12px 14px;font-size:12px;color:#ffd166">⭐ <strong>Premium</strong> — Accede a '+premQ.length+' preguntas adicionales y simulacros ilimitados con el plan Premium.</div>':'');
 }
 
 // ═══════════════════════════════════════════════════════
 // START QUIZ
 // ═══════════════════════════════════════════════════════
+function startTemaSim(tid){if(!DEV_PREMIUM){alert('⭐ Los simulacros por tema son una función Premium. Practica gratis en "Preguntas", o hazte Premium para simulacros por tema.');go('planselect');return;}startQ(tid,true,false,null);}
 function startQ(tid,exam,isPaper,paperQs,customQs){
   let pool;
   if(customQs&&customQs.length){
@@ -4844,7 +4758,7 @@ function renderFAQ(){
     +'</div>';
   el.innerHTML=h;
 }
-let _billingPeriod='monthly';
+let _billingPeriod='annual';
 function selectBilling(period){
   _billingPeriod=period;
   const mb=document.getElementById('btn-monthly');
@@ -4860,14 +4774,7 @@ function skipAuth(){
 }
 
 function startCheckout(){
-  const consent=document.getElementById('checkout-consent');
-  const errEl=document.getElementById('checkout-error');
   const btn=document.getElementById('checkout-btn');
-  if(!consent||!consent.checked){
-    if(errEl)errEl.style.display='block';
-    return;
-  }
-  if(errEl)errEl.style.display='none';
 // Encourage account creation but don't block payment
   if(!_currentUser){
     localStorage.setItem('pendingCheckout',_billingPeriod);
@@ -4878,7 +4785,7 @@ function startCheckout(){
   // Get Price ID based on billing period
   const PRICE_IDS={
     monthly:'price_1TdZXRRqiUk30VqD6riCO69n',
-    annual:'price_1TdWM2RqiUk30VqDlZ32fjCN'
+    annual:'price_1TfnRNRqiUk30VqDqD8lefT9'
   };
   const priceId=PRICE_IDS[_billingPeriod];
   if(!priceId||priceId.startsWith('REPLACE')){
@@ -5514,6 +5421,8 @@ function renderFeastTips(){
     +'</div></div>'
     +'</div>';
 }
+function feastMark(id){try{var s=JSON.parse(localStorage.getItem('feastPracticed')||'{}');s[id]=1;localStorage.setItem('feastPracticed',JSON.stringify(s));}catch(e){}feastProgressUpdate();}
+function feastProgressUpdate(){var s;try{s=JSON.parse(localStorage.getItem('feastPracticed')||'{}');}catch(e){s={};}var n=Object.keys(s).length,t=14,el=document.getElementById('feast-progress');if(!el)return;var pp=Math.round(n/t*100);el.innerHTML='<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px 14px;margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:#00b4d8;margin-bottom:6px"><span>Tu progreso · Fase 2</span><span>'+n+' / '+t+' pruebas practicadas</span></div><div style="height:6px;background:#1d3a5c;border-radius:3px;overflow:hidden"><div style="height:100%;width:'+pp+'%;background:#00b4d8;border-radius:3px"></div></div></div>';}
 function initFeast(){
   const EXLIST=[
     {id:'seq',label:'1. Sequences'},{id:'spatial',label:'2. Spatial rotation'},
@@ -5576,13 +5485,14 @@ const activeList=lang==='es'?EXLIST_ES:EXLIST;
   const activeInstrs=lang==='es'?INSTRS_ES:INSTRS;
   activeList.forEach((e,i)=>{
     const t=document.createElement('button');t.className='ftab'+(i===0?' fon':'');t.textContent=e.label;
-    t.onclick=()=>{document.querySelectorAll('#feast-tabs .ftab').forEach(x=>x.classList.remove('fon'));document.querySelectorAll('#feast-exercises .fex').forEach(x=>x.style.display='none');t.classList.add('fon');document.getElementById('fex-'+e.id).style.display='block';};
+    t.onclick=()=>{feastMark(e.id);document.querySelectorAll('#feast-tabs .ftab').forEach(x=>x.classList.remove('fon'));document.querySelectorAll('#feast-exercises .fex').forEach(x=>x.style.display='none');t.classList.add('fon');document.getElementById('fex-'+e.id).style.display='block';};
     tabBar.appendChild(t);
     const ins=activeInstrs[e.id];
     const d=document.createElement('div');d.className='fex';d.id='fex-'+e.id;d.style.display=i===0?'block':'none';
     d.innerHTML='<div class="fi"><div class="fi-t">'+ins.title+'</div><div class="fi-b">'+ins.body+'</div><div class="fi-tip">'+ins.tip+'</div></div>';
     exCont.appendChild(d);
   });
+  (function(){var pb=document.getElementById('feast-progress');if(!pb){pb=document.createElement('div');pb.id='feast-progress';tabBar.parentNode.insertBefore(pb,tabBar);}if(activeList[0])feastMark(activeList[0].id);feastProgressUpdate();})();
   setTimeout(function(){if(window._initAudioEx)window._initAudioEx();},50);
   function mk2(tag,cls,txt){const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e;}
   function sfb2(id,ok,msg){const e=document.getElementById(id);if(e){e.className='ffb fon '+(ok?'fok':'fno');e.textContent=msg;}}
@@ -6362,7 +6272,7 @@ function dismissSplash(){
   localStorage.setItem('splashSeen','1');
   setTimeout(()=>go('home'),100);
 }
-let _landingBilling='monthly';
+let _landingBilling='annual';
 function selectLandingBilling(p){
   _landingBilling=p;
   document.getElementById('lp-btn-monthly').style.background=p==='monthly'?'#ffd166':'#1d3a5c';
@@ -6371,14 +6281,12 @@ function selectLandingBilling(p){
   document.getElementById('lp-btn-annual').style.color=p==='annual'?'#000':'#ffd166';
 }
 function startLandingCheckout(){
-  const consent=document.getElementById('lp-consent');
-  if(!consent||!consent.checked){alert('Por favor acepta los términos antes de continuar.');return;}
   _billingPeriod=_landingBilling;
   // Bypass the planselect consent check and go straight to Stripe
   const consentRecord={terms:true,withdrawal:true,period:_billingPeriod,date:new Date().toISOString()};
   localStorage.setItem('checkoutConsent',JSON.stringify(consentRecord));
   if(!_currentUser) localStorage.setItem('pendingCheckout',_billingPeriod);
-  const PRICE_IDS={monthly:'price_1TdZXRRqiUk30VqD6riCO69n',annual:'price_1TdWM2RqiUk30VqDlZ32fjCN'};
+  const PRICE_IDS={monthly:'price_1TdZXRRqiUk30VqD6riCO69n',annual:'price_1TfnRNRqiUk30VqDqD8lefT9'};
   const priceId=PRICE_IDS[_billingPeriod];
   const btn=document.querySelector('#landing-plan button[onclick="startLandingCheckout()"]');
   if(btn){btn.textContent='Procesando...';btn.disabled=true;}
@@ -6446,7 +6354,7 @@ function renderQ(){
 
   const chip=document.createElement('div');
   chip.className='chip';
-  chip.textContent=(CT||T[0]).icon+' '+(QS.paper?'Examen Oficial ENAIRE':(CT||T[0]).name);
+  chip.textContent=(CT||T[0]).icon+' '+(QS.paper?'Simulacro tipo examen':(CT||T[0]).name);
   b.appendChild(chip);
 
   if(QS.navMode){
@@ -6536,6 +6444,7 @@ function pick(idx){
     // Nav mode: just record answer, re-render
     QS.ans[QS.idx]=idx;
     renderQ();
+    setTimeout(function(){window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});},80);
     return;
   }
   // Practice mode: show feedback immediately
@@ -6600,13 +6509,14 @@ function nextQ(){
 function finishNavMode(){
   stopTmr();
   // Score nav mode — count correct answers
-  QS.sc=0;
+  QS.sc=0;var _wrong=0;
   QS.qs.forEach((q,i)=>{
     const given=QS.ans[i];
     const ca=q._ans!==undefined?q._ans:q.a;
     if(given===ca){QS.sc++;if(QS.tid)PR.saveRight(QS.tid,i);}
-    else if(given!==null&&QS.tid){PR.saveWrong(QS.tid,i);}
+    else if(given!==null&&given!==undefined){_wrong++;if(QS.tid)PR.saveWrong(QS.tid,i);}
   });
+  QS.penScore=Math.max(0,Math.round((QS.sc-0.33*_wrong)*10)/10);
 if(QS.tid)PR.save(QS.tid,QS.sc,QS.qs.length,true);
   ST.update();
   finishRender();
@@ -6758,10 +6668,10 @@ function finish(){
 }
 
 function finishRender(){
-  const tot=QS.qs.length,pct=Math.round((QS.sc/tot)*100);
+  const tot=QS.qs.length;const _net=(QS.navMode&&QS.penScore!==undefined)?QS.penScore:QS.sc;const pct=Math.round((_net/tot)*100);
   go('rscreen');
-  document.getElementById('rscore').textContent=QS.sc;
-  document.getElementById('rden').textContent='de '+tot;
+  document.getElementById('rscore').textContent=_net;
+  document.getElementById('rden').textContent='de '+tot+((QS.navMode&&QS.penScore!==undefined)?' \u00b7 min. 25 (penaliza -0,33)':'');
   const tier=pct>=80?2:pct>=60?1:0;
 const BENCH_MIN=75,BENCH_MAX=85;
   const nivelLabel=pct>=BENCH_MIN?'Nivel competitivo para aprobado':pct>=60?'Nivel intermedio':'Bajo nivel de preparación';
@@ -6786,7 +6696,8 @@ const BENCH_MIN=75,BENCH_MAX=85;
 const acts=document.getElementById('racts');
   acts.innerHTML='';
   const tid=CT?CT.id:1;
-  if(!QS.paper)PR.save(tid,QS.sc,tot,QS.exam);
+  if(!QS.paper&&QS.tid)PR.save(QS.tid,QS.sc,tot,QS.exam);
+  if(!QS.paper&&!QS.tid){try{localStorage.setItem('cp_lastSim',JSON.stringify({pct:pct,date:Date.now()}));}catch(e){}}
 
   function mkBtn(label,bg,fg,bd,fn){
     const b=document.createElement('button');
@@ -6882,6 +6793,7 @@ function renderPapers(){
 // ═══════════════════════════════════════════════════════
 renderTopics();
 renderHomeDashboard();
+renderPhases();
 loadProfile();
 initTTSVoice();
 updateHomeButtons();
