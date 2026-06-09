@@ -4775,9 +4775,13 @@ function skipAuth(){
 
 function startCheckout(){
   const btn=document.getElementById('checkout-btn');
-// Encourage account creation but don't block payment
+// Require an account before paying — Premium attaches to the user's account
   if(!_currentUser){
     localStorage.setItem('pendingCheckout',_billingPeriod);
+    if(btn){btn.textContent='Continuar al pago';btn.disabled=false;}
+    alert('Para activar Premium necesitas una cuenta. Así tu acceso queda guardado y funciona en tus dispositivos. Inicia sesión o crea una cuenta gratis y volverás aquí para completar el pago.');
+    go('login-screen');
+    return;
   }
   // Record consent with timestamp
   const consentRecord={terms:true,withdrawal:true,period:_billingPeriod,date:new Date().toISOString()};
@@ -4798,7 +4802,7 @@ function startCheckout(){
   fetch('/.netlify/functions/create-checkout-session',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({priceId,billingPeriod:_billingPeriod,consentRecord})
+    body:JSON.stringify({priceId,billingPeriod:_billingPeriod,consentRecord,userId:_currentUser&&_currentUser.id,email:_currentUser&&_currentUser.email)
   })
   .then(r=>r.json())
   .then(data=>{
@@ -6285,12 +6289,17 @@ function startLandingCheckout(){
   // Bypass the planselect consent check and go straight to Stripe
   const consentRecord={terms:true,withdrawal:true,period:_billingPeriod,date:new Date().toISOString()};
   localStorage.setItem('checkoutConsent',JSON.stringify(consentRecord));
-  if(!_currentUser) localStorage.setItem('pendingCheckout',_billingPeriod);
+  if(!_currentUser){
+    localStorage.setItem('pendingCheckout',_billingPeriod);
+    alert('Para activar Premium necesitas una cuenta. Así tu acceso queda guardado y funciona en tus dispositivos. Inicia sesión o crea una cuenta gratis y volverás aquí para completar el pago.');
+    go('login-screen');
+    return;
+  }
   const PRICE_IDS={monthly:'price_1TdZXRRqiUk30VqD6riCO69n',annual:'price_1TfnRNRqiUk30VqDqD8lefT9'};
   const priceId=PRICE_IDS[_billingPeriod];
   const btn=document.querySelector('#landing-plan button[onclick="startLandingCheckout()"]');
   if(btn){btn.textContent='Procesando...';btn.disabled=true;}
-  fetch('/.netlify/functions/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({priceId,billingPeriod:_billingPeriod,consentRecord})})
+  fetch('/.netlify/functions/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({priceId,billingPeriod:_billingPeriod,consentRecord,userId:_currentUser&&_currentUser.id,email:_currentUser&&_currentUser.email)})
   .then(r=>r.json())
   .then(data=>{if(data.url){window.location.href=data.url;}else{throw new Error(data.error||'Error desconocido');}})
   .catch(err=>{console.error('Checkout error:',err);if(btn){btn.textContent='Suscribirse a Premium →';btn.disabled=false;}alert('Ha habido un error al procesar el pago. Por favor inténtalo de nuevo.');});
