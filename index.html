@@ -4773,14 +4773,54 @@ function skipAuth(){
   go('home');
 }
 
+function cpPop(o){
+  o=o||{};
+  if(!document.getElementById('cp-pop-style')){
+    var st=document.createElement('style');
+    st.id='cp-pop-style';
+    st.textContent='@keyframes cpFade{from{opacity:0}to{opacity:1}}@keyframes cpPopIn{from{opacity:0;transform:translateY(16px) scale(.94)}to{opacity:1;transform:none}}@keyframes cpGlow{0%,100%{box-shadow:0 0 0 0 rgba(255,209,102,.5)}50%{box-shadow:0 0 0 16px rgba(255,209,102,0)}}';
+    document.head.appendChild(st);
+  }
+  var ov=document.createElement('div');
+  ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(4,11,22,.82);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:24px;animation:cpFade .22s ease';
+  var card=document.createElement('div');
+  card.style.cssText='position:relative;max-width:360px;width:100%;background:linear-gradient(165deg,#13294b 0%,#0a1830 100%);border:1px solid rgba(255,209,102,.4);border-radius:22px;padding:30px 24px 24px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.6);animation:cpPopIn .28s cubic-bezier(.2,.85,.25,1)';
+  var h='<div style="width:74px;height:74px;margin:0 auto 16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:38px;background:radial-gradient(circle at 50% 40%,rgba(255,209,102,.3),rgba(255,209,102,.05));animation:cpGlow 2.2s ease-in-out infinite">'+(o.icon||'🚀')+'</div>';
+  if(o.title)h+='<div style="font-size:21px;font-weight:900;color:#f2f8ff;letter-spacing:-.3px;margin-bottom:9px">'+o.title+'</div>';
+  if(o.msg)h+='<div style="font-size:14.5px;line-height:1.55;color:#9cc2e0;margin-bottom:22px">'+o.msg+'</div>';
+  card.innerHTML=h;
+  var b1=document.createElement('button');
+  b1.innerHTML=o.btn||'Continuar';
+  b1.style.cssText='width:100%;padding:15px;background:linear-gradient(90deg,#ffd166,#ffb703);color:#3a2a00;border:none;border-radius:13px;font-family:inherit;font-size:15.5px;font-weight:800;cursor:pointer;box-shadow:0 8px 22px rgba(255,183,3,.35);transition:transform .12s';
+  b1.onmouseover=function(){b1.style.transform='translateY(-1px)';};
+  b1.onmouseout=function(){b1.style.transform='none';};
+  b1.onclick=function(){if(ov.parentNode)document.body.removeChild(ov);if(o.onBtn)o.onBtn();};
+  card.appendChild(b1);
+  if(o.btn2){
+    var b2=document.createElement('button');
+    b2.innerHTML=o.btn2;
+    b2.style.cssText='width:100%;padding:13px;margin-top:9px;background:transparent;color:#8cb0d0;border:none;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer';
+    b2.onclick=function(){if(ov.parentNode)document.body.removeChild(ov);if(o.onBtn2)o.onBtn2();};
+    card.appendChild(b2);
+  }
+  if(o.foot){
+    var ft=document.createElement('div');
+    ft.style.cssText='margin-top:15px;font-size:11.5px;color:#6f93b3;line-height:1.4';
+    ft.innerHTML=o.foot;
+    card.appendChild(ft);
+  }
+  ov.appendChild(card);
+  ov.onclick=function(e){if(e.target===ov){document.body.removeChild(ov);if(o.onClose)o.onClose();}};
+  document.body.appendChild(ov);
+}
+
 function startCheckout(){
   const btn=document.getElementById('checkout-btn');
 // Require an account before paying — Premium attaches to the user's account
   if(!_currentUser){
     localStorage.setItem('pendingCheckout',_billingPeriod);
     if(btn){btn.textContent='Continuar al pago';btn.disabled=false;}
-    alert('Para activar Premium necesitas una cuenta. Así tu acceso queda guardado y funciona en tus dispositivos. Inicia sesión o crea una cuenta gratis y volverás aquí para completar el pago.');
-    go('login-screen');
+    cpPop({icon:'🚀',title:'Estás a un paso de Premium',msg:'Crea tu cuenta gratis para guardar tu progreso y desbloquear el acceso completo. Tu nivel, tus simulacros y tu pase quedan ligados a tu cuenta — disponibles en todos tus dispositivos.',btn:'Crear cuenta gratis →',onBtn:function(){go('register-screen');},btn2:'Ya tengo cuenta',onBtn2:function(){go('login-screen');},foot:'✓ Gratis para empezar · ✓ Garantía de 14 días al pagar'});
     return;
   }
   // Record consent with timestamp
@@ -6291,8 +6331,7 @@ function startLandingCheckout(){
   localStorage.setItem('checkoutConsent',JSON.stringify(consentRecord));
   if(!_currentUser){
     localStorage.setItem('pendingCheckout',_billingPeriod);
-    alert('Para activar Premium necesitas una cuenta. Así tu acceso queda guardado y funciona en tus dispositivos. Inicia sesión o crea una cuenta gratis y volverás aquí para completar el pago.');
-    go('login-screen');
+    cpPop({icon:'🚀',title:'Estás a un paso de Premium',msg:'Crea tu cuenta gratis para guardar tu progreso y desbloquear el acceso completo. Tu nivel, tus simulacros y tu pase quedan ligados a tu cuenta — disponibles en todos tus dispositivos.',btn:'Crear cuenta gratis →',onBtn:function(){go('register-screen');},btn2:'Ya tengo cuenta',onBtn2:function(){go('login-screen');},foot:'✓ Gratis para empezar · ✓ Garantía de 14 días al pagar'});
     return;
   }
   const PRICE_IDS={monthly:'price_1TdZXRRqiUk30VqD6riCO69n',annual:'price_1TfnRNRqiUk30VqDqD8lefT9'};
@@ -6914,13 +6953,19 @@ async function handleRegister(){
   btn.textContent = 'Creando cuenta...'; btn.disabled = true;
   try {
     await sbSignUp(email, password, name);
+    await sbSignIn(email, password);
+    if(!localStorage.getItem('userName')) localStorage.setItem('userName', name || email.split('@')[0]);
     btn.textContent = 'Crear cuenta gratis'; btn.disabled = false;
-succEl.innerHTML = '✅ <strong>¡Cuenta creada!</strong><br>Revisa tu bandeja de entrada y confirma tu email antes de iniciar sesión. Si no lo ves, mira en la carpeta de spam.';
-    succEl.style.display = 'block';
     document.getElementById('register-name').value='';
     document.getElementById('register-email').value='';
     document.getElementById('register-password').value='';
-    succEl.style.display = 'block';
+    renderHomeDashboard(); updateHomeButtons();
+    var _pc = localStorage.getItem('pendingCheckout');
+    if(_pc){
+      cpPop({icon:'🎉',title:'¡Cuenta creada!',msg:'Tu cuenta ya está lista y has iniciado sesión. Vamos a completar tu acceso Premium.',btn:'Continuar al pago →',onBtn:function(){localStorage.removeItem('pendingCheckout');_billingPeriod=_pc;go('planselect');},foot:'✓ Garantía de devolución de 14 días'});
+    } else {
+      cpPop({icon:'🎉',title:'¡Bienvenido a ControlPrep!',msg:'Tu cuenta ya está lista y has iniciado sesión. Empieza a preparar tu oposición ahora mismo.',btn:'Empezar →',onBtn:function(){go('home');}});
+    }
   } catch(err) {
     btn.textContent = 'Crear cuenta gratis'; btn.disabled = false;
     errEl.textContent = err.message; errEl.style.display = 'block';
