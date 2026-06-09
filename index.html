@@ -4802,7 +4802,7 @@ function startCheckout(){
   fetch('/.netlify/functions/create-checkout-session',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({priceId,billingPeriod:_billingPeriod,consentRecord,userId:_currentUser&&_currentUser.id,email:_currentUser&&_currentUser.email)
+    body:JSON.stringify({priceId,billingPeriod:_billingPeriod,consentRecord,userId:_currentUser&&_currentUser.id,email:_currentUser&&_currentUser.email})
   })
   .then(r=>r.json())
   .then(data=>{
@@ -6299,7 +6299,7 @@ function startLandingCheckout(){
   const priceId=PRICE_IDS[_billingPeriod];
   const btn=document.querySelector('#landing-plan button[onclick="startLandingCheckout()"]');
   if(btn){btn.textContent='Procesando...';btn.disabled=true;}
-  fetch('/.netlify/functions/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({priceId,billingPeriod:_billingPeriod,consentRecord,userId:_currentUser&&_currentUser.id,email:_currentUser&&_currentUser.email)})
+  fetch('/.netlify/functions/create-checkout-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({priceId,billingPeriod:_billingPeriod,consentRecord,userId:_currentUser&&_currentUser.id,email:_currentUser&&_currentUser.email})})
   .then(r=>r.json())
   .then(data=>{if(data.url){window.location.href=data.url;}else{throw new Error(data.error||'Error desconocido');}})
   .catch(err=>{console.error('Checkout error:',err);if(btn){btn.textContent='Suscribirse a Premium →';btn.disabled=false;}alert('Ha habido un error al procesar el pago. Por favor inténtalo de nuevo.');});
