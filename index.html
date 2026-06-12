@@ -63,32 +63,81 @@ body{font-family:'IBM Plex Sans',sans-serif;background:#050d1a;color:var(--tx);m
 .titem:hover{border-color:#00b4d8;background:rgba(0,180,216,.05)}
 .tico{width:46px;height:46px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
 .tinf{flex:1;min-width:0}.tname{font-size:14px;font-weight:600;margin-bottom:3px}.tmeta{font-size:12px;color:#8cb8d8}
-.tabbar{display:flex;background:var(--sf);border-bottom:1px solid var(--bd);padding:0 18px;overflow-x:auto}
-.tab{padding:14px 20px;font-size:14px;font-weight:500;color:#8cb8d8;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;flex-shrink:0;transition:color .15s,border-color .15s}
-.tab.active{color:#00b4d8;border-bottom-color:#00b4d8}.tab:hover:not(.active){color:#e8f4fd}
-.tc{display:none;flex:1;overflow-y:auto}.tc.active{display:block}
-.tsec{padding:24px 18px}.tsec .inner{display:flex;flex-direction:column;gap:16px}
-.dmeta{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r);padding:14px 16px}
-.dmeta-t{font-size:16px;font-weight:700;margin-bottom:4px}.dmeta-s{font-size:12px;color:#8cb8d8;font-family:'IBM Plex Mono',monospace}
-.dsec{background:var(--sf);border:1px solid var(--bd);border-radius:var(--rl);overflow:hidden}
-.dsec-h{background:var(--sf2);padding:14px 18px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;border-bottom:1px solid transparent}
-.dsec-h:hover{background:rgba(0,180,216,.08)}.dsec.open .dsec-h{border-bottom-color:var(--bd)}
-.dsec-n{background:rgba(0,180,216,.15);border:1px solid rgba(0,180,216,.3);border-radius:6px;padding:2px 8px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:#00b4d8;flex-shrink:0}
-.dsec-t{font-size:14px;font-weight:600;flex:1}
-.dchev{color:#8cb8d8;font-size:11px;transition:transform .2s;flex-shrink:0}.dsec.open .dchev{transform:rotate(90deg)}
-.dbody{display:none;padding:20px}.dsec.open .dbody{display:block}
-.dt{font-size:14px;line-height:1.8;color:#c8dff0}
+#topics{background:#eef5fb}
+.tl-head{padding:20px 16px 4px}
+.tl-title{font-size:22px;font-weight:700;color:#11243a;letter-spacing:-.01em}
+.tl-sub{font-size:13px;color:#5a7088;margin-top:3px}
+.tl-level{display:flex;align-items:center;gap:11px;width:calc(100% - 32px);margin:14px 16px 4px;padding:13px 15px;background:#fff;border:1px solid #dde8f1;border-radius:14px;cursor:pointer;text-align:left;font-family:'IBM Plex Sans',sans-serif}
+.tl-lic{width:38px;height:38px;border-radius:11px;background:rgba(0,180,216,.1);border:1px solid rgba(0,180,216,.25);display:grid;place-items:center;font-size:18px;flex-shrink:0}
+.tl-ltx{flex:1;min-width:0}
+.tl-ltx b{display:block;font-size:14px;color:#11243a;font-weight:600}
+.tl-ltx small{font-size:11.5px;color:#5a7088}
+.tl-lar{color:#0089ab;font-size:18px}
+.tl-seclbl{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#0089ab;margin:16px 16px 9px}
+#tlist{padding:0 16px}
+.tl-card{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid #dde8f1;border-radius:15px;padding:13px;margin-bottom:10px;cursor:pointer}
+.tl-ico{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;font-size:22px;flex-shrink:0;color:#fff}
+.tl-inf{flex:1;min-width:0}
+.tl-name{font-size:14.5px;font-weight:600;color:#11243a;line-height:1.25}
+.tl-meta{font-size:11.5px;color:#5a7088;margin-top:2px}
+.tl-prog{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0}
+.tl-pc{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px}
+.tl-bar{width:46px;height:5px;border-radius:99px;background:#e7eef5;overflow:hidden}
+.tl-bar>span{display:block;height:100%;border-radius:99px}
+.tl-chev{color:#bcccdb;font-size:20px;flex-shrink:0}
+#tdetail{background:#eef5fb}
+.dhero{background:linear-gradient(165deg,#0a1f38,#0c2a4a 80%);color:#eaf3fb;padding:14px 16px 16px}
+.dback{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:#9fbcd2;background:none;border:none;cursor:pointer;margin-bottom:10px;font-family:'IBM Plex Sans',sans-serif}
+.dtitle{display:flex;align-items:center;gap:12px}
+.dtico{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:22px;flex-shrink:0;color:#fff}
+.dtt{min-width:0}
+.dtt b{display:block;font-size:17px;font-weight:700;line-height:1.2;color:#eaf3fb}
+.dtt small{font-size:11.5px;color:#9fbcd2;display:block;margin-top:3px}
+.dchips{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
+.dchip{font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:#bcd3e6;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.13);border-radius:99px;padding:4px 10px}
+.dchip-ok{color:#7be0a0;border-color:rgba(123,224,160,.3);background:rgba(31,178,85,.12)}
+.dvoice{display:flex;gap:8px;margin-top:12px}
+.dvbtn{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;border-radius:10px;padding:9px 14px;cursor:pointer;font-family:'IBM Plex Sans',sans-serif}
+.dvbtn.primary{background:rgba(0,180,216,.14);color:#5fe0ff;border:1px solid rgba(0,180,216,.4)}
+.dvbtn.ghost{background:rgba(255,255,255,.05);color:#9fbcd2;border:1px solid rgba(255,255,255,.14)}
+.dsplay{flex-shrink:0;width:30px;height:30px;border-radius:8px;background:rgba(0,180,216,.1);border:1px solid rgba(0,180,216,.3);color:#0089ab;font-size:13px;cursor:pointer;display:grid;place-items:center}
+.tabbar{display:flex;gap:6px;background:#fff;border-bottom:1px solid #dde8f1;padding:10px 12px;overflow-x:auto}
+.tab{flex-shrink:0;font-size:12.5px;font-weight:600;color:#5a7088;background:#f1f6fb;border:1px solid #e2ebf3;border-radius:10px;padding:8px 13px;cursor:pointer;white-space:nowrap;transition:.12s}
+.tab.active{background:#00b4d8;color:#04202b;border-color:#00b4d8}
+.dsec{background:#fff;border:1px solid #dde8f1;border-radius:14px;overflow:hidden;margin-bottom:11px}
+.dsec.open .dsec-h{border-bottom-color:#e7eef5}
+.dsec-h{background:#fff;padding:13px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;border-bottom:1px solid transparent}
+.dsec-n{width:26px;height:26px;display:grid;place-items:center;background:rgba(0,180,216,.1);border-radius:8px;font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:600;color:#0089ab;flex-shrink:0}
+.dsec-t{font-size:14px;font-weight:600;flex:1;color:#11243a}
+.dchev{color:#bcccdb;font-size:11px;transition:transform .2s;flex-shrink:0}
+.dsec.open .dchev{transform:rotate(90deg)}
+.dbody{display:none;padding:4px 16px 16px}
+.dsec.open .dbody{display:block}
+.dcta{background:linear-gradient(150deg,#0a1f38,#0c2a4a);border-radius:16px;padding:17px;text-align:center;margin-top:4px}
+.ctab{width:100%;padding:13px;background:#00b4d8;color:#04202b;border:none;border-radius:11px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.dmeta{background:var(--sf2);border:1px solid var(--bd);border-radius:var(--r);padding:14px 16px}.dmeta-t{font-size:16px;font-weight:700;margin-bottom:4px}.dmeta-s{font-size:12px;color:#8cb8d8;font-family:'IBM Plex Mono',monospace}
+.dsec{background:#fff;border:1px solid #dde8f1;border-radius:14px;overflow:hidden;margin-bottom:11px}
+.dsec-h{background:#fff;padding:13px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;border-bottom:1px solid transparent}
+.dsec-h:hover{background:#f6fafd}
+.dsec.open .dsec-h{border-bottom-color:#e7eef5}
+.dsec-n{background:rgba(0,180,216,.1);border:1px solid rgba(0,180,216,.25);border-radius:8px;padding:3px 8px;min-width:24px;text-align:center;white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:600;color:#0089ab;flex-shrink:0}
+.dsec-t{font-size:14px;font-weight:600;flex:1;color:#11243a}
+.dchev{color:#bcccdb;font-size:11px;transition:transform .2s;flex-shrink:0}
+.dsec.open .dchev{transform:rotate(90deg)}
+.dbody{display:none;padding:4px 16px 16px}
+.dsec.open .dbody{display:block}
+.dt{font-size:14px;line-height:1.8;color:#37485c}
 .dt p{margin-bottom:12px}.dt p:last-child{margin-bottom:0}
-.dt strong{color:#e8f4fd;font-weight:600}.dt em{color:#8cb8d8}
-.dt h4{font-size:14px;font-weight:700;color:#e8f4fd;margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--bd)}
-.dt .callout{background:rgba(0,180,216,.1);border-left:3px solid #00b4d8;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;color:#d0eaf7}
-.dt .warn{background:rgba(247,127,0,.1);border-left:3px solid #f77f00;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;color:#ffd8a8}
+.dt strong{color:#11243a;font-weight:600}.dt em{color:#5a7088}
+.dt h4{font-size:14px;font-weight:700;color:#11243a;margin:16px 0 8px;padding-bottom:6px;border-bottom:1px solid #dde8f1}
+.dt .callout{background:rgba(0,180,216,.1);border-left:3px solid #00b4d8;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;color:#28425c}
+.dt .warn{background:rgba(247,127,0,.1);border-left:3px solid #f77f00;padding:12px 16px;border-radius:0 8px 8px 0;margin:14px 0;color:#6b4a12}
 .dt table{width:100%;border-collapse:collapse;font-size:13px;margin:14px 0}
-.dt th{background:var(--sf2);color:#e8f4fd;padding:9px 12px;text-align:left;border:1px solid var(--bd);font-weight:600;font-size:12px}
-.dt td{padding:9px 12px;border:1px solid var(--bd);color:#c8dff0;vertical-align:top;line-height:1.6}
-.dt td strong{color:#e8f4fd}
+.dt th{background:#eef5fb;color:#11243a;padding:9px 12px;text-align:left;border:1px solid #dde8f1;font-weight:600;font-size:12px}
+.dt td{padding:9px 12px;border:1px solid #dde8f1;color:#37485c;vertical-align:top;line-height:1.6}
+.dt td strong{color:#11243a}
 .dt ul,.dt ol{padding-left:20px;margin:8px 0;display:flex;flex-direction:column;gap:5px}.dt li{line-height:1.6}
-.dcta{padding:16px 20px;border-top:1px solid var(--bd);background:rgba(0,180,216,.05)}
+.dcta{background:linear-gradient(150deg,#0a1f38,#0c2a4a);border-radius:16px;padding:17px;text-align:center;margin-top:4px}
 .qhdr{background:var(--sf);border-bottom:1px solid var(--bd);padding:14px 18px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:50}
 .qhdr-i{width:100%;max-width:700px;margin:0 auto;display:flex;align-items:center;gap:12px}
 .qpt{flex:1;height:6px;background:var(--bd);border-radius:3px;overflow:hidden}
@@ -151,6 +200,7 @@ body{font-family:'IBM Plex Sans',sans-serif;background:#050d1a;color:var(--tx);m
 .hh-streak b{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;color:#ffb35c}
 .hh-greet{margin-top:13px;font-size:19px;font-weight:700;position:relative;z-index:2;color:#eaf3fb}.hh-greet span{color:#00b4d8}
 .hh-cd{margin-top:13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px 15px;display:flex;align-items:center;gap:14px;position:relative;z-index:2}
+.hh-hbar,.hh-greet,.hh-cd{max-width:480px;margin-left:auto;margin-right:auto}
 .hh-cdicon{flex-shrink:0;width:50px;height:50px;border-radius:13px;background:rgba(0,180,216,.12);border:1px solid rgba(0,180,216,.3);display:grid;place-items:center;font-size:24px}
 .hh-cdinfo{flex:1;min-width:0}
 .hh-cdt{font-size:13.5px;font-weight:600;color:#eaf3fb}
@@ -867,14 +917,23 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 
 <!-- TOPICS -->
 <div class="screen" id="topics">
-  <div class="ph"><div class="inner"><h2 class="pt">Temario Oficial ENAIRE</h2><p class="ps">Selecciona un tema para estudiar y practicar</p></div></div>
-<button onclick="showProgress()" style="display:block;width:100%;max-width:700px;margin:0 auto 14px;padding:13px;background:#0c1e35;color:#00b4d8;border:1.5px solid #1d3a5c;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer">📊 Ver Mi Nivel de Preparación →</button>
-<div class="tgrid" id="tlist"></div>
+  <div class="tl-head">
+    <h2 class="tl-title">Temario Oficial ENAIRE</h2>
+    <p class="tl-sub">Selecciona un tema para estudiar y practicar</p>
+  </div>
+  <button class="tl-level" onclick="showProgress()">
+    <div class="tl-lic">📊</div>
+    <div class="tl-ltx"><b>Mi nivel de preparación</b><small id="tlevel-sub">Consulta tu progreso global</small></div>
+    <div class="tl-lar">→</div>
+  </button>
+  <div class="tl-seclbl">Temas</div>
+  <div id="tlist"></div>
   <div style="height:70px"></div>
 </div>
 
 <!-- TOPIC DETAIL -->
 <div class="screen" id="tdetail">
+  <div id="tdetail-hero" class="dhero"></div>
   <div class="tabbar">
     <div class="tab active" data-tab="study" onclick="swTab('study')">📖 Estudiar</div>
     <div class="tab" data-tab="quiz" onclick="swTab('quiz')">✏️ Preguntas</div>
@@ -1011,6 +1070,14 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
         <div style="font-size:13px;font-weight:700;color:#2dc653;margin-bottom:4px">✅ Cuenta activa</div>
         <div id="profile-email-display" style="font-size:12px;color:#8cb8d8;margin-bottom:10px"></div>
         <button onclick="sbSignOut()" style="width:100%;padding:10px;background:transparent;color:#e63946;border:1.5px solid #e63946;border-radius:10px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Cerrar sesión</button>
+      </div>
+      <div id="profile-logged-out" style="background:#0c1e35;border:1.5px solid #00b4d8;border-radius:14px;padding:14px;display:none">
+        <div style="font-size:13px;font-weight:700;color:#e8f4fd;margin-bottom:4px">Crea tu cuenta gratis</div>
+        <div style="font-size:12px;color:#8cb8d8;margin-bottom:12px;line-height:1.5">Guarda tu progreso y accede desde hasta dos dispositivos.</div>
+        <div style="display:flex;gap:8px">
+          <button onclick="go('register-screen')" style="flex:1;padding:11px;background:#00b4d8;color:#04202b;border:none;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Registrarse</button>
+          <button onclick="go('login-screen')" style="flex:1;padding:11px;background:transparent;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Iniciar sesión</button>
+        </div>
       </div>
     </div>
     <div style="display:flex;flex-direction:column;gap:14px">
@@ -3756,7 +3823,7 @@ goEl.classList.add('active');
   if(['login-screen','register-screen','forgot-screen'].includes(id)){document.querySelectorAll('.auth-overlay').forEach(o=>{o.style.display='none';});goEl.style.display='block';return;}goEl.style.display=id==='conv2025'?'block':'flex';
   if(id==='home'){renderHomeDashboard();renderPhases();const ap=document.getElementById('home-auth-prompt');if(ap){ap.style.display=(!_currentUser&&!localStorage.getItem('_cp_auth_seen'))?'block':'none';}}
   if(id==='legal-privacy'||id==='legal-terms'||id==='legal-cookies'){renderLegalContent();document.getElementById('cookie-banner').style.display='none';}
-  if(id==='profile'){const section=document.getElementById('profile-auth-section');const ed=document.getElementById('profile-email-display');if(section){section.style.display=_currentUser?'block':'none';if(_currentUser&&ed)ed.textContent=_currentUser.email;}}
+  if(id==='profile'){const section=document.getElementById('profile-auth-section');const ed=document.getElementById('profile-email-display');if(section){section.style.display='block';var _li=document.getElementById('profile-logged-in');var _lo=document.getElementById('profile-logged-out');if(_li)_li.style.display=_currentUser?'block':'none';if(_lo)_lo.style.display=_currentUser?'none':'block';if(_currentUser&&ed)ed.textContent=_currentUser.email;}}
 if(id==='faq')renderFAQ();
   ['home','topics','papers'].forEach(n=>{
     const b=document.getElementById('ni-'+n);
@@ -4087,12 +4154,25 @@ function renderTopics(){
   el.innerHTML='';
   T.forEach(t=>{
     const allQ=Q[t.id]||[];
+    const pr=PR.get(t.id);
+    const pct=pr?pr.bestPct:null;
+    const col=pct===null?'#8aa0b5':pct>=75?'#1fb255':pct>=50?'#e8a317':'#e0524e';
+    const meta=(t.secs.length>0?t.secs.length+' secciones · ':'')+(allQ.length>0?allQ.length+' preguntas':'En preparación');
     const div=document.createElement('div');
-    div.className='titem';
-    div.innerHTML='<div class="tico" style="background:'+t.col+'">'+t.icon+'</div><div class="tinf"><div class="tname">'+t.name+'</div><div class="tmeta">'+(t.secs.length>0?t.secs.length+' secciones · ':'')+( allQ.length>0?allQ.length+' preguntas':'En preparación')+'</div></div><div style="color:#5a8aaa;font-size:18px">›</div>';
+    div.className='tl-card';
+    div.innerHTML='<div class="tl-ico" style="background:'+t.col+'">'+t.icon+'</div>'
+      +'<div class="tl-inf"><div class="tl-name">'+t.name+'</div><div class="tl-meta">'+meta+'</div></div>'
+      +'<div class="tl-prog"><div class="tl-pc" style="color:'+col+'">'+(pct===null?'—':pct+'%')+'</div><div class="tl-bar"><span style="width:'+(pct===null?0:pct)+'%;background:'+(pct===null?'transparent':col)+'"></span></div></div>'
+      +'<div class="tl-chev">›</div>';
     div.onclick=()=>openTopic(t.id);
     el.appendChild(div);
   });
+  const sub=document.getElementById('tlevel-sub');
+  if(sub){
+    const done=T.map(t=>PR.get(t.id)).filter(Boolean);
+    if(done.length){const avg=Math.round(done.reduce((a,p)=>a+p.bestPct,0)/done.length);sub.textContent='Media actual · '+avg+'% en '+done.length+' tema'+(done.length>1?'s':'');}
+    else sub.textContent='Aún sin progreso · empieza un tema';
+  }
 }
 
 // ═══════════════════════════════════════════════════════
@@ -4354,19 +4434,34 @@ function renderMnemo(){
 function renderTemario(){
   const el=document.getElementById('tcontent');
   const t=CT;
+  const hero=document.getElementById('tdetail-hero');
+  if(hero){
+    const pr=PR.get(t.id);const allQ=Q[t.id]||[];
+    hero.innerHTML='<button class="dback" onclick="go(\'topics\')">‹ Temario</button>'
+      +'<div class="dtitle"><div class="dtico" style="background:'+t.col+'">'+t.icon+'</div>'
+      +'<div class="dtt"><b>'+t.name+'</b><small>📚 '+t.doc+'</small></div></div>'
+      +'<div class="dchips"><div class="dchip">'+(t.secs?t.secs.length:0)+' secciones</div>'
+      +(allQ.length?'<div class="dchip">'+allQ.length+' preguntas</div>':'')
+      +(pr?'<div class="dchip dchip-ok">Tu mejor: '+pr.bestPct+'%</div>':'')+'</div>'
+      +'<div class="dvoice"><button class="dvbtn primary" id="tts-play-all" onclick="readAllSections()">▶ Escuchar todo</button>'
+      +'<button class="dvbtn ghost" onclick="showVoiceSelector()">⚙️ Voz</button></div>';
+  }
   if(!t.secs||!t.secs.length){
-    el.innerHTML='<div style="text-align:center;padding:40px 20px"><div style="font-size:40px;margin-bottom:12px">'+t.icon+'</div><div style="font-size:18px;font-weight:600;margin-bottom:8px">'+t.name+'</div><div style="font-size:14px;color:#8cb8d8;margin-bottom:20px">El contenido detallado de este tema está siendo preparado a partir del manual oficial de ENAIRE.</div><div style="background:var(--sf2);border:1px solid var(--bd);border-radius:12px;padding:16px;font-size:13px;color:#8cb8d8"><div style="font-weight:600;color:#e8f4fd;margin-bottom:6px">📚 Fuente oficial:</div><div>'+t.doc+'</div></div></div>';
+    el.innerHTML='<div style="text-align:center;padding:40px 20px"><div style="font-size:40px;margin-bottom:12px">'+t.icon+'</div><div style="font-size:18px;font-weight:600;margin-bottom:8px;color:#11243a">'+t.name+'</div><div style="font-size:14px;color:#5a7088;margin-bottom:20px">El contenido detallado de este tema está siendo preparado a partir del manual oficial de ENAIRE.</div><div style="background:#fff;border:1px solid #dde8f1;border-radius:12px;padding:16px;font-size:13px;color:#5a7088"><div style="font-weight:600;color:#11243a;margin-bottom:6px">📚 Fuente oficial:</div><div>'+t.doc+'</div></div></div>';
     return;
   }
-let h='<div class="dmeta"><div class="dmeta-t">'+t.icon+' '+t.name+'</div><div class="dmeta-s">📚 '+t.doc+'</div>'
-    +'<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">'
-    +'<button id="tts-play-all" onclick="readAllSections()" style="padding:8px 16px;background:#1d3a5c;color:#00b4d8;border:1px solid #00b4d8;border-radius:8px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer">▶ Escuchar todo</button>'
-    +'<button onclick="showVoiceSelector()" style="padding:8px 16px;background:#1d3a5c;color:#5a8aaa;border:1px solid #1d3a5c;border-radius:8px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:600;cursor:pointer">⚙️ Voz</button>'
-    +'</div></div>';
-  t.secs.forEach((s,i)=>{
-h+='<div class="dsec '+(i===0?'open':'')+'" id="ds'+t.id+'_'+i+'"><div class="dsec-h" onclick="toggleSec(\'ds'+t.id+'_'+i+'\')"><div class="dsec-n">'+s.id+'</div><div class="dsec-t">'+s.t+'</div><div style="display:flex;align-items:center;gap:8px"><button onclick="event.stopPropagation();readSection(\'ds'+t.id+'_'+i+'\')" style="padding:4px 10px;background:#1d3a5c;color:#00b4d8;border:1px solid #00b4d8;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap" title="Escuchar sección">🔊</button><div class="dchev">▶</div></div></div><div class="dbody">'+s.c+'</div></div>';
+  let h='';
+  t.secs.forEach((sec,i)=>{
+    h+='<div class="dsec'+(i===0?' open':'')+'" id="ds'+t.id+'_'+i+'">'
+      +'<div class="dsec-h" onclick="toggleSec(\'ds'+t.id+'_'+i+'\')">'
+      +'<div class="dsec-n">'+sec.id+'</div><div class="dsec-t">'+sec.t+'</div>'
+      +'<button class="dsplay" onclick="event.stopPropagation();readSection(\'ds'+t.id+'_'+i+'\')" title="Escuchar sección">🔊</button>'
+      +'<div class="dchev">▶</div></div>'
+      +'<div class="dbody">'+sec.c+'</div></div>';
   });
-  h+='<div class="dsec"><div class="dcta"><div style="font-size:14px;font-weight:600;margin-bottom:4px">¿Listo para practicar?</div><div style="font-size:13px;color:#8cb8d8;margin-bottom:12px">Pon a prueba lo que has estudiado con preguntas del examen oficial.</div><div style="display:flex;gap:10px"><button onclick="swTab(\'quiz\')" style="flex:1;padding:14px;background:#00b4d8;color:#000;border:none;border-radius:10px;font-family:\'IBM Plex Sans\',sans-serif;font-size:14px;font-weight:700;cursor:pointer">✏️ Preguntas</button><button onclick="openEnaire()" style="flex:1;padding:14px;background:#1d3a5c;color:#00b4d8;border:1.5px solid #00b4d8;border-radius:10px;font-family:\'IBM Plex Sans\',sans-serif;font-size:14px;font-weight:700;cursor:pointer;text-align:center">📄 Temario oficial</button></div></div></div>';
+  h+='<div class="dcta"><div style="font-size:15px;font-weight:700;color:#eaf3fb;margin-bottom:4px">¿Listo para practicar?</div>'
+    +'<div style="font-size:12.5px;color:#9fbcd2;margin-bottom:13px;line-height:1.5">Pon a prueba lo que has estudiado con preguntas del examen oficial.</div>'
+    +'<button class="ctab" onclick="swTab(\'quiz\')">✏️ Ir a las preguntas</button></div>';
   el.innerHTML=h;
 }
 
