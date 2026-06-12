@@ -26,7 +26,7 @@
 <meta name="twitter:description" content="Temario completo, preguntas de práctica, simulacros y psicotécnicos para las oposiciones de controlador (CTA) de ENAIRE.">
 <meta name="twitter:image" content="https://controlprep.com/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--bg:#050d1a;--sf:#0c1e35;--sf2:#132842;--bd:#1d3a5c;--ac:#00b4d8;--or:#f77f00;--gr:#2dc653;--rd:#e63946;--gd:#ffd166;--tx:#e8f4fd;--t2:#8cb8d8;--t3:#5a8aaa;--r:12px;--rl:18px}
@@ -143,6 +143,68 @@ body{font-family:'IBM Plex Sans',sans-serif;background:#050d1a;color:var(--tx);m
 .rvc{font-size:14px;color:#8cb8d8;line-height:1.7;margin-top:14px}
 .rvsl{display:flex;align-items:center;gap:8px;margin-top:20px;padding-top:16px;border-top:1px solid var(--bd);font-size:12px;font-family:'IBM Plex Mono',monospace;color:#8cb8d8}
 .rvsl a{color:#00b4d8;text-decoration:none}
+.hh-hero{position:relative;background:linear-gradient(165deg,#0a1f38,#0c2a4a 75%,#0e3258);color:#eaf3fb;padding:18px 16px 20px;overflow:hidden}
+.hh-scope{position:absolute;right:-80px;top:-70px;width:280px;height:280px;opacity:.5;pointer-events:none}
+.hh-hbar{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
+.hh-logo{font-weight:700;font-size:17px;color:#eaf3fb}.hh-logo span{color:#00b4d8}
+.hh-streak{display:flex;align-items:center;gap:5px;background:rgba(247,127,0,.16);border:1px solid rgba(247,127,0,.4);border-radius:999px;padding:5px 11px;font-size:10px;color:#f3c89a}
+.hh-streak b{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;color:#ffb35c}
+.hh-greet{margin-top:13px;font-size:19px;font-weight:700;position:relative;z-index:2;color:#eaf3fb}.hh-greet span{color:#00b4d8}
+.hh-cd{margin-top:13px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:13px 15px;display:flex;align-items:center;gap:14px;position:relative;z-index:2}
+.hh-cdicon{flex-shrink:0;width:50px;height:50px;border-radius:13px;background:rgba(0,180,216,.12);border:1px solid rgba(0,180,216,.3);display:grid;place-items:center;font-size:24px}
+.hh-cdinfo{flex:1;min-width:0}
+.hh-cdt{font-size:13.5px;font-weight:600;color:#eaf3fb}
+.hh-cds{font-size:11px;color:#9fbcd2;margin-top:1px}
+.hh-cdbadge{display:inline-block;margin-top:7px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#5fe0ff;background:rgba(0,180,216,.12);border:1px solid rgba(0,180,216,.3);border-radius:99px;padding:3px 9px}
+.hh-bar{margin-top:9px;height:6px;border-radius:99px;background:rgba(255,255,255,.13);overflow:hidden}
+.hh-bar>span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#00b4d8,#5fe0ff)}
+.hh-avg{font-size:11px;color:#9fbcd2;margin-top:5px}.hh-avg b{color:#00b4d8}
+.hh-body{max-width:480px;margin:0 auto;padding:4px 14px 16px}
+.hh-sec{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#0089ab;margin:16px 2px 9px}
+.hh-acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hh-act{border:none;border-radius:13px;padding:13px;font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px}
+.hh-pri{background:#00b4d8;color:#04202b;box-shadow:0 6px 16px rgba(0,180,216,.3)}
+.hh-sec2{background:#fff;color:#11243a;border:1.5px solid #dde8f1}
+.hh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.hh-tcell{background:#fff;border:1px solid #dde8f1;border-radius:12px;padding:10px 4px 9px;text-align:center;cursor:pointer}
+.hh-tic{font-size:19px}
+.hh-tpc{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;margin-top:3px}
+.hh-tnm{font-size:9px;color:#5a7088;margin-top:2px;line-height:1.15;height:22px;overflow:hidden}
+.hh-card{background:#fff;border:1px solid #dde8f1;border-radius:14px;padding:14px;color:#11243a}
+.hh-lvllbl{font-size:10px;color:#5a7088;text-transform:uppercase;letter-spacing:.06em}
+.hh-lvlval{font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600;margin-top:3px}
+.hh-lvlnote{font-size:11.5px;color:#5a7088;margin-top:6px;line-height:1.4}
+.hh-prem{background:linear-gradient(150deg,#0c2a4a,#0e3a63);border:1px solid #16527e;border-radius:16px;padding:15px;color:#eaf3fb;cursor:pointer}
+.hh-ph{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.hh-pt{font-size:13.5px;font-weight:700;color:#ffb703}
+.hh-plk{margin-left:auto;font-size:10px;color:#ffb703;font-family:'IBM Plex Mono',monospace}
+.hh-pd{font-size:12px;color:#bcd3e6;line-height:1.5;margin-bottom:12px}
+.hh-pb{background:#ffb703;color:#3a2a00;border-radius:10px;padding:11px;text-align:center;font-size:13.5px;font-weight:700}
+.hh-quote{background:rgba(31,178,85,.07);border:1px solid rgba(31,178,85,.22);border-radius:12px;padding:11px 14px;font-size:12.5px;font-style:italic;color:#2e6b46;line-height:1.5;margin-top:4px}
+.hh-qotd .hh-qh{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:#0089ab;margin-bottom:7px}
+.hh-qq{font-size:14px;font-weight:600;line-height:1.4;margin-bottom:10px;color:#11243a}
+.hh-qa{display:block;width:100%;background:#eef5fb;border:1px solid #dde8f1;border-radius:9px;padding:9px;font-size:12.5px;color:#11243a;margin-top:6px;cursor:pointer;text-align:left;font-family:'IBM Plex Sans',sans-serif}
+.hh-qdone{background:#eef5fb;border-radius:10px;padding:11px;font-size:12.5px;color:#1fb255}
+.hh-phases{display:grid;gap:9px}
+.hh-strip{display:grid;grid-template-columns:72px 1fr auto;align-items:center;background:#fff;border:1px solid #dde8f1;border-radius:12px;overflow:hidden}
+.hh-tag{align-self:stretch;background:#0a1f38;color:#cfe6f3;display:flex;flex-direction:column;justify-content:center;padding:10px 12px;border-right:3px solid #00b4d8}
+.hh-tag b{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px;color:#fff}
+.hh-tag small{font-size:9px;color:#8fb6d0}
+.hh-smid{padding:9px 12px;min-width:0}
+.hh-st{font-size:13px;font-weight:600;color:#11243a}
+.hh-ss{font-size:11px;color:#5a7088}
+.hh-pct{padding:0 14px;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:15px;color:#0089ab}
+.hh-recohdr{padding:12px 14px 5px;font-size:11.5px;color:#5a7088}
+.hh-planrow{display:flex;align-items:center;gap:11px;width:100%;background:none;border:none;border-bottom:1px solid #dde8f1;padding:11px 14px;cursor:pointer;text-align:left;font-family:'IBM Plex Sans',sans-serif}
+.hh-pdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.hh-ptxt{flex:1;display:flex;flex-direction:column;min-width:0}
+.hh-ptxt b{font-size:13px;font-weight:600;color:#11243a}
+.hh-ptxt small{font-size:11px;color:#5a7088}
+.hh-parr{color:#0089ab;font-size:16px}
+.hh-foot{text-align:center;padding:22px 6px 10px;color:#8aa0b5;font-size:10px;line-height:1.7}
+.hh-flinks{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:6px}
+.hh-flinks button{background:none;border:none;font-family:'IBM Plex Sans',sans-serif;font-size:10px;color:#8aa0b5;cursor:pointer;text-decoration:underline}
+#home{background:#eef5fb}
 .bnav{background:var(--sf);border-top:1px solid var(--bd);padding:8px 0 calc(8px + env(safe-area-inset-bottom));display:flex;justify-content:space-around;position:fixed;bottom:0;left:0;right:0;z-index:999}
 .ni{display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 8px;cursor:pointer;border-radius:8px;border:none;background:none;transition:background .15s}
 .ni:hover{background:rgba(0,180,216,.08)}.ni.active .nico,.ni.active .nlbl{color:#00b4d8}
@@ -410,25 +472,333 @@ async function sbResetPassword(email){
 
 <!-- LANDING PAGE -->
 <div class="screen" id="landing">
-  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span></div></div>
-  <div class="inner" style="padding-top:4px;padding-bottom:90px;max-width:560px">
+<style>
+.lp-root{
+  --navy:#0a1f38; --navy-2:#0c2a4a; --ink:#11243a; --muted:#5a7088;
+  --sky:#eef5fb; --sky-2:#e2eefb; --card:#ffffff; --line:#dbe6f0;
+  --cyan:#00b4d8; --cyan-d:#0089ab; --green:#1fb255; --gold:#ffb703; --gold-d:#e89e00;
+  --shadow:0 12px 34px rgba(12,42,74,.10); --shadow-s:0 4px 14px rgba(12,42,74,.08);
+}
+.lp-root *{box-sizing:border-box;margin:0;padding:0}
 
-    <div style="background:rgba(0,180,216,.08);border:1px solid rgba(0,180,216,.25);border-radius:12px;padding:8px 14px;display:inline-block;font-size:12px;font-weight:700;color:#00b4d8;margin-bottom:20px;letter-spacing:.5px">ENAIRE · CONVOCATORIA 2026 · ES TU MOMENTO</div>
+.lp-root{font-family:'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);background:var(--sky);line-height:1.5;-webkit-font-smoothing:antialiased;width:100%}
+.lp-wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.lp-mono{font-family:'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase}
+.lp-root a{color:inherit;text-decoration:none}
+.lp-btn{display:inline-flex;align-items:center;gap:9px;font-family:'IBM Plex Sans';font-weight:700;font-size:16px;border:none;border-radius:12px;padding:15px 26px;cursor:pointer;transition:transform .15s ease,box-shadow .15s ease}
+.lp-btn-primary{background:var(--cyan);color:#04202b;box-shadow:0 8px 22px rgba(0,180,216,.34)}
+.lp-btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,180,216,.42)}
+.lp-btn-gold{background:var(--gold);color:#3a2a00;box-shadow:0 8px 22px rgba(255,183,3,.32)}
+.lp-btn-gold:hover{transform:translateY(-2px)}
+.lp-btn-ghost{background:transparent;color:#dceaf6;border:1.5px solid rgba(255,255,255,.28)}
+.lp-btn-ghost:hover{border-color:var(--cyan);color:#fff}
 
-    <h1 style="font-size:clamp(24px,6vw,36px);font-weight:900;line-height:1.2;color:#e8f4fd;margin-bottom:16px">¿Estás preparado para superar el proceso de selección de <span style="color:#00b4d8">Control Aéreo</span>?</h1>
+/* ---------- HERO ---------- */
+.lp-hero{position:relative;background:linear-gradient(160deg,#0a1f38 0%,#0c2a4a 70%,#0e3258 100%);color:#eaf3fb;overflow:hidden;padding:26px 0 70px}
+.lp-scope{position:absolute;right:-180px;top:-60px;width:620px;height:620px;opacity:.5;pointer-events:none}
+.lp-hero-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
+.lp-logo{font-weight:700;font-size:21px;letter-spacing:-.01em}
+.lp-logo .lp-p{color:var(--cyan)}
+.lp-nav-mini{display:flex;gap:18px;align-items:center;font-size:14px;color:#bcd3e6}
+.lp-nav-mini a:hover{color:#fff}
+.lp-hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center;margin-top:46px}
+.lp-eyebrow{font-size:12px;color:var(--cyan);margin-bottom:18px;display:inline-block;padding:6px 12px;border:1px solid rgba(0,180,216,.35);border-radius:999px;background:rgba(0,180,216,.07)}
+h1.lp-head{font-size:46px;line-height:1.08;font-weight:700;letter-spacing:-.02em}
+h1.lp-head em{font-style:normal;color:var(--cyan)}
+.lp-sub{margin-top:18px;font-size:18px;color:#c4d8e8;max-width:540px}
+.lp-cta-row{margin-top:28px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.lp-cta-note{font-size:13px;color:#9fbcd2;display:flex;align-items:center;gap:7px}
+.lp-by-line{margin-top:26px;font-size:13.5px;color:#9fbcd2;display:flex;align-items:center;gap:9px}
+.lp-by-line b{color:#dceaf6;font-weight:600}
+.lp-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);display:inline-block}
 
-<p style="font-size:18px;font-weight:700;color:#e8f4fd;margin-bottom:10px">Descubre en menos de 10 minutos si estás preparado para superar el proceso de selección de ENAIRE.</p>
-    <p style="font-size:14px;color:#8cb8d8;line-height:1.7;margin-bottom:24px">Haz el test de nivel y descubre en menos de 10 minutos si tu preparación está al nivel de los candidatos que superan la selección de ENAIRE.</p>
+/* hero scope card (the "instrument" signature) */
+.lp-scope-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:20px;backdrop-filter:blur(4px)}
+.lp-scope-card .lp-lbl{font-size:11px;color:#8fb6d0}
+.lp-scope-card .lp-big{font-family:'IBM Plex Mono';font-size:15px;color:#eaf3fb;margin:3px 0 14px}
+.lp-gauge{height:9px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
+.lp-gauge>span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--cyan),#5fe0ff)}
+.lp-scope-stats{display:flex;gap:10px;margin-top:16px}
+.lp-scope-stats div{flex:1;background:rgba(255,255,255,.05);border-radius:11px;padding:11px 12px}
+.lp-scope-stats .lp-n{font-family:'IBM Plex Mono';font-size:19px;color:#fff;font-weight:600}
+.lp-scope-stats .lp-t{font-size:11px;color:#9fbcd2;margin-top:2px}
 
-    <button onclick="startLandingTest()" style="display:block;width:100%;padding:18px;background:#00b4d8;color:#000;border:none;border-radius:14px;font-family:'IBM Plex Sans',sans-serif;font-size:17px;font-weight:800;cursor:pointer;margin-bottom:12px">👉 Empezar test de nivel ENAIRE →</button>
+/* ---------- SECTION SHELL ---------- */
+.lp-section{padding:66px 0}
+.lp-kicker{font-size:12px;color:var(--cyan-d);margin-bottom:12px}
+.lp-h2{font-size:32px;font-weight:700;letter-spacing:-.02em;line-height:1.12}
+.lp-lead{color:var(--muted);font-size:17px;margin-top:12px;max-width:600px}
 
-    <div style="margin-top:16px;display:flex;flex-direction:column;gap:8px">
-      <div style="font-size:13px;color:#8cb8d8">✓ Desarrollado con la colaboración de controladores de ENAIRE</div>
-      <div style="font-size:13px;color:#8cb8d8">✓ Más de 300 simulacros completados</div>
-      <div style="font-size:13px;color:#8cb8d8">✓ Todo al alcance de tu mano</div>
+/* ---------- FOUNDER QUOTE ---------- */
+.lp-quote{background:linear-gradient(135deg,#0c2a4a,#0e3a63);color:#eaf3fb;border-radius:22px;padding:46px 44px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.lp-quote .lp-mark{font-family:'IBM Plex Mono';font-size:80px;line-height:.6;color:rgba(0,180,216,.4);position:absolute;top:26px;left:30px}
+.lp-quote p{font-size:22px;line-height:1.5;font-weight:500;position:relative;z-index:2;max-width:760px;margin-left:14px}
+.lp-quote .lp-sig{margin-top:22px;margin-left:14px;font-size:14px;color:var(--cyan);display:flex;align-items:center;gap:10px}
+.lp-quote .lp-badge{width:34px;height:34px;border-radius:9px;background:rgba(0,180,216,.16);display:grid;place-items:center;font-weight:700;color:#fff;font-size:14px}
+
+/* ---------- FLIGHT STRIPS (why) ---------- */
+.lp-strips{display:grid;gap:14px;margin-top:34px}
+.lp-strip{display:grid;grid-template-columns:118px 1fr;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-s)}
+.lp-strip .lp-tag{background:var(--navy);color:#cfe6f3;display:flex;flex-direction:column;justify-content:center;padding:18px;border-right:3px solid var(--cyan)}
+.lp-strip .lp-tag .lp-code{font-family:'IBM Plex Mono';font-weight:600;font-size:15px;color:#fff}
+.lp-strip .lp-tag .lp-sub{font-size:10.5px;color:#8fb6d0;margin-top:3px}
+.lp-strip .lp-body{padding:18px 20px}
+.lp-strip .lp-body h3{font-size:17px;margin-bottom:5px}
+.lp-strip .lp-body p{color:var(--muted);font-size:14.5px}
+.lp-strip.lp-gold .lp-tag{border-right-color:var(--gold)}
+.lp-strip.lp-green .lp-tag{border-right-color:var(--green)}
+
+/* ---------- SCREENSHOTS ---------- */
+.lp-shots{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;margin-top:38px}
+.lp-shot{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:var(--shadow-s);display:flex;gap:20px;align-items:center}
+.lp-shot .lp-txt h3{font-size:18px;margin-bottom:6px}
+.lp-shot .lp-txt p{color:var(--muted);font-size:14px}
+.lp-shot .lp-txt .lp-pill{display:inline-block;font-size:11px;font-family:'IBM Plex Mono';color:var(--cyan-d);background:#e3f6fb;padding:3px 9px;border-radius:99px;margin-bottom:10px}
+/* phone mock */
+.lp-phone{flex:0 0 138px;width:138px;height:262px;background:#081626;border-radius:22px;padding:9px;box-shadow:0 10px 24px rgba(8,22,38,.28);position:relative}
+.lp-phone .lp-scr{background:linear-gradient(180deg,#0a1f38,#0c2a4a);border-radius:15px;height:100%;padding:12px 10px;overflow:hidden;color:#dceaf6}
+.lp-phone .lp-notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:42px;height:5px;border-radius:99px;background:#1d3a5c;z-index:3}
+.lp-ph-h{font-size:10px;color:#9fbcd2;font-family:'IBM Plex Mono';margin:6px 0 9px}
+.lp-ph-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:9px;padding:8px;margin-bottom:7px}
+.lp-ph-card .lp-q{font-size:9.5px;line-height:1.35;color:#eaf3fb}
+.lp-ph-opt{font-size:9px;color:#bcd3e6;background:rgba(255,255,255,.05);border-radius:6px;padding:5px 7px;margin-top:5px;border:1px solid transparent}
+.lp-ph-opt.lp-ok{border-color:var(--green);color:#bff0cf}
+.lp-ph-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:4px}
+.lp-ph-grid i{aspect-ratio:1;border-radius:4px;background:rgba(255,255,255,.07)}
+.lp-ph-grid i.lp-on{background:rgba(255,209,102,.5)}
+.lp-ph-ring{width:54px;height:54px;border-radius:50%;margin:6px auto;background:conic-gradient(var(--green) 252deg,rgba(255,255,255,.1) 0);display:grid;place-items:center}
+.lp-ph-ring b{width:40px;height:40px;border-radius:50%;background:#0a1f38;display:grid;place-items:center;font-family:'IBM Plex Mono';font-size:12px;color:#fff}
+.lp-ph-svg{background:rgba(255,255,255,.05);border-radius:8px;padding:6px;margin-top:4px}
+
+/* ---------- PLANS ---------- */
+.lp-plans{display:grid;grid-template-columns:1fr 1.25fr;gap:22px;margin-top:38px;align-items:stretch}
+.lp-plan{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:30px;box-shadow:var(--shadow-s)}
+.lp-plan.lp-prem{background:linear-gradient(160deg,#0c2a4a,#0e3a63);color:#eaf3fb;border:1px solid #16527e;position:relative;box-shadow:var(--shadow)}
+.lp-plan .lp-ptag{font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.lp-plan.lp-prem .lp-ptag{color:var(--gold)}
+.lp-plan h3{font-size:23px;margin:8px 0}
+.lp-price{font-size:38px;font-weight:700;letter-spacing:-.02em}
+.lp-price small{font-size:15px;font-weight:500;color:var(--muted)}
+.lp-plan.lp-prem .lp-price small{color:#9fbcd2}
+.lp-save{font-size:13px;color:var(--gold-d);margin-top:4px}
+.lp-plan.lp-prem .lp-save{color:var(--gold)}
+.lp-feat{list-style:none;margin:20px 0 24px;display:grid;gap:10px}
+.lp-feat li{font-size:14.5px;display:flex;gap:9px;align-items:flex-start}
+.lp-feat li::before{content:"✓";color:var(--cyan);font-weight:700;flex:0 0 auto}
+.lp-plan.lp-prem .lp-feat li::before{color:#5fe0ff}
+.lp-plan .lp-btn{width:100%;justify-content:center}
+.lp-badge-pop{position:absolute;top:-12px;right:24px;background:var(--gold);color:#3a2a00;font-size:11px;font-weight:700;font-family:'IBM Plex Mono';letter-spacing:.06em;padding:5px 12px;border-radius:99px}
+
+/* ---------- FINAL CTA ---------- */
+.lp-final{background:linear-gradient(160deg,#0a1f38,#0c2a4a);color:#eaf3fb;text-align:center;border-radius:24px;padding:56px 30px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.lp-final h2{font-size:34px;font-weight:700;letter-spacing:-.02em;position:relative;z-index:2}
+.lp-final p{color:#c4d8e8;margin:14px 0 26px;font-size:17px;position:relative;z-index:2}
+.lp-root footer{text-align:center;color:var(--muted);font-size:13px;padding:36px 0 50px}
+
+@media(max-width:860px){
+  .lp-hero-grid{grid-template-columns:1fr}
+  h1.lp-head{font-size:36px}
+  .lp-shots,.lp-plans{grid-template-columns:1fr}
+  .lp-quote p{font-size:19px}
+  .lp-nav-mini{display:none}
+  .lp-scope{opacity:.28;right:-220px}
+}
+</style>
+<div class="lp-root">
+<!-- ================= HERO ================= -->
+<header class="lp-hero">
+  <svg class="lp-scope" viewBox="0 0 600 600" fill="none">
+    <g stroke="#00b4d8" stroke-opacity=".45">
+      <circle cx="300" cy="300" r="90"/><circle cx="300" cy="300" r="160"/>
+      <circle cx="300" cy="300" r="230"/><circle cx="300" cy="300" r="300"/>
+      <line x1="0" y1="300" x2="600" y2="300" stroke-opacity=".22"/>
+      <line x1="300" y1="0" x2="300" y2="600" stroke-opacity=".22"/>
+    </g>
+    <path d="M300 300 L300 40 A260 260 0 0 1 480 120 Z" fill="#00b4d8" fill-opacity=".10"/>
+    <circle cx="430" cy="180" r="6" fill="#1fb255"/><circle cx="210" cy="380" r="5" fill="#00b4d8"/>
+  </svg>
+  <div class="lp-wrap">
+    <div class="lp-hero-top">
+      <div class="lp-logo">Control<span class="lp-p">Prep</span></div>
+      <nav class="lp-nav-mini">
+        <a onclick="document.getElementById('lp-features').scrollIntoView({behavior:'smooth'})" style="cursor:pointer">Qué incluye</a>
+        <a onclick="document.getElementById('lp-plans').scrollIntoView({behavior:'smooth'})" style="cursor:pointer">Planes</a>
+        <a onclick="go('login-screen')" class="lp-btn lp-btn-ghost" style="padding:9px 16px;font-size:14px;cursor:pointer">Iniciar sesión</a>
+      </nav>
     </div>
 
+    <div class="lp-hero-grid">
+      <div>
+        <span class="lp-eyebrow lp-mono">ENAIRE · Convocatoria 2026</span>
+        <h1 class="lp-head">Tu camino al <em>control aéreo</em> empieza aquí.</h1>
+        <p class="lp-sub">Temario, simulacros, inglés avanzado y psicotécnicos en una sola app. Descubre en 10 minutos si estás al nivel del proceso de selección de ENAIRE.</p>
+        <div class="lp-cta-row">
+          <a onclick="startLandingTest()" class="lp-btn lp-btn-primary" style="cursor:pointer">Empezar test de nivel →</a>
+          <span class="lp-cta-note"><span class="lp-dot"></span>Gratis · 10 min · sin registro</span>
+        </div>
+        <div class="lp-by-line"><span class="lp-dot"></span><b>Diseñada por controladores,</b> para futuros controladores.</div>
+      </div>
+
+      <!-- signature: a "scope" instrument readout -->
+      <div class="lp-scope-card">
+        <div class="lp-lbl lp-mono">Test de nivel</div>
+        <div class="lp-big">› Comprobando tu preparación…</div>
+        <div class="lp-gauge"><span style="width:64%"></span></div>
+        <div class="lp-scope-stats">
+          <div><div class="lp-n">9</div><div class="lp-t">temas + inglés</div></div>
+          <div><div class="lp-n">13</div><div class="lp-t">psicotécnicos</div></div>
+          <div><div class="lp-n">∞</div><div class="lp-t">simulacros</div></div>
+        </div>
+      </div>
+    </div>
   </div>
+</header>
+
+<!-- ================= FOUNDER QUOTE ================= -->
+<section class="lp-section" style="padding-bottom:34px">
+  <div class="lp-wrap">
+    <div class="lp-quote">
+      <span class="lp-mark">"</span>
+      <p>Sabemos exactamente lo que exige el proceso de selección de ENAIRE, porque lo hemos vivido. Por eso creamos ControlPrep: para darte la preparación completa, exigente y honesta que nos habría gustado tener. Si de verdad quieres tu plaza, este es tu sitio — y el primer paso es tuyo.</p>
+      <div class="lp-sig"><span class="lp-badge">CP</span> El equipo de ControlPrep</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY / FLIGHT STRIPS ================= -->
+<section class="lp-section" id="lp-why" style="padding-top:20px">
+  <div class="lp-wrap">
+    <div class="lp-kicker lp-mono">Por qué ControlPrep</div>
+    <div class="lp-h2">Una preparación que habla tu idioma.</div>
+    <p class="lp-lead">Cada parte está pensada por quienes han pasado por la selección, no por una editorial genérica.</p>
+    <div class="lp-strips">
+      <div class="lp-strip">
+        <div class="lp-tag"><div class="lp-code">REAL</div><div class="lp-sub">fuentes oficiales</div></div>
+        <div class="lp-body"><h3>Contenido fiel al examen</h3><p>Temario y preguntas basados en las fuentes oficiales de ENAIRE, no en material de terceros sin contrastar.</p></div>
+      </div>
+      <div class="lp-strip lp-green">
+        <div class="lp-tag"><div class="lp-code">CTRL</div><div class="lp-sub">por controladores</div></div>
+        <div class="lp-body"><h3>Diseñada por controladores</h3><p>Quienes ya han superado el proceso saben qué se pregunta y cómo. Esa experiencia está en cada tema.</p></div>
+      </div>
+      <div class="lp-strip lp-gold">
+        <div class="lp-tag"><div class="lp-code">FULL</div><div class="lp-sub">todo en uno</div></div>
+        <div class="lp-body"><h3>Todo en un solo lugar</h3><p>Temario, simulacros, inglés avanzado y psicotécnicos. Sin saltar entre webs, apps y PDFs.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SCREENSHOTS ================= -->
+<section class="lp-section" id="lp-features" style="background:linear-gradient(180deg,#e2eefb,#eef5fb);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="lp-wrap">
+    <div class="lp-kicker lp-mono">Qué incluye</div>
+    <div class="lp-h2">Todo lo que necesitas para llegar preparado.</div>
+    <div class="lp-shots">
+
+      <!-- Resúmenes -->
+      <div class="lp-shot">
+        <div class="lp-phone"><div class="lp-notch"></div><div class="lp-scr">
+          <div class="lp-ph-h">RESÚMENES</div>
+          <div class="lp-ph-card"><div class="lp-q" style="font-weight:600">Clases de espacio aéreo</div>
+            <div class="lp-ph-svg"><svg viewBox="0 0 110 56" width="100%"><rect x="4" y="6" width="100" height="10" rx="2" fill="#00b4d8" fill-opacity=".5"/><rect x="4" y="20" width="100" height="10" rx="2" fill="#1fb255" fill-opacity=".5"/><rect x="4" y="34" width="100" height="10" rx="2" fill="#ffb703" fill-opacity=".5"/><text x="8" y="14" font-size="6" fill="#fff" font-family="monospace">A · IFR</text><text x="8" y="28" font-size="6" fill="#fff" font-family="monospace">C · IFR/VFR</text><text x="8" y="42" font-size="6" fill="#fff" font-family="monospace">G · libre</text></svg></div>
+          </div>
+          <div class="lp-ph-card"><div class="lp-q">Esquemas visuales y mnemotécnicas para fijar cada tema.</div></div>
+        </div></div>
+        <div class="lp-txt"><span class="lp-pill">RESÚMENES</span><h3>Resúmenes y esquemas visuales</h3><p>Cada tema condensado con diagramas y reglas mnemotécnicas para memorizar de verdad.</p></div>
+      </div>
+
+      <!-- Psicotécnicos -->
+      <div class="lp-shot">
+        <div class="lp-phone"><div class="lp-notch"></div><div class="lp-scr">
+          <div class="lp-ph-h">PSICOTÉCNICOS</div>
+          <div class="lp-ph-card"><div class="lp-q" style="font-weight:600">Memoria de trabajo</div>
+            <div class="lp-ph-grid"><i></i><i class="lp-on"></i><i></i><i class="lp-on"></i><i class="lp-on"></i><i></i><i></i><i></i><i></i><i></i><i class="lp-on"></i><i></i></div>
+          </div>
+          <div class="lp-ph-card" style="text-align:center"><div class="lp-ph-ring"><b>8/10</b></div><div class="lp-q" style="text-align:center">13 ejercicios cognitivos tipo FEAST</div></div>
+        </div></div>
+        <div class="lp-txt"><span class="lp-pill">PSICOTÉCNICOS</span><h3>13 ejercicios psicotécnicos</h3><p>Memoria, atención dividida, razonamiento espacial y más — la parte que más sorprende en la selección.</p></div>
+      </div>
+
+      <!-- Inglés -->
+      <div class="lp-shot">
+        <div class="lp-phone"><div class="lp-notch"></div><div class="lp-scr">
+          <div class="lp-ph-h">INGLÉS AVANZADO</div>
+          <div class="lp-ph-card"><div class="lp-q" style="font-weight:600">Completa la frase</div><div class="lp-q" style="margin-top:4px">"The crew had to ___ to an alternate airport."</div></div>
+          <div class="lp-ph-opt">diverge</div>
+          <div class="lp-ph-opt lp-ok">divert ✓</div>
+          <div class="lp-ph-opt">deviate</div>
+        </div></div>
+        <div class="lp-txt"><span class="lp-pill">INGLÉS AVANZADO</span><h3>Inglés avanzado</h3><p>Prepárate para la prueba de inglés de la selección, a nivel avanzado — con algún escenario de aviación de propina.</p></div>
+      </div>
+
+      <!-- Simulacros -->
+      <div class="lp-shot">
+        <div class="lp-phone"><div class="lp-notch"></div><div class="lp-scr">
+          <div class="lp-ph-h">SIMULACRO · 1/25</div>
+          <div class="lp-ph-card"><div class="lp-q" style="font-weight:600">¿Qué significa QNH?</div></div>
+          <div class="lp-ph-opt">Altitud de transición</div>
+          <div class="lp-ph-opt lp-ok">Reglaje para altitud sobre el mar ✓</div>
+          <div class="lp-ph-opt">Presión estándar 1013</div>
+          <div class="lp-ph-card" style="text-align:center;margin-top:7px"><div class="lp-q" style="text-align:center">Cronómetro · simulacros ilimitados</div></div>
+        </div></div>
+        <div class="lp-txt"><span class="lp-pill">SIMULACROS</span><h3>Simulacros cronometrados</h3><p>Practica en condiciones reales de examen, con repetición espaciada de tus errores.</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= PLANS ================= -->
+<section class="lp-section" id="lp-plans">
+  <div class="lp-wrap">
+    <div class="lp-kicker lp-mono">Planes</div>
+    <div class="lp-h2">Empieza gratis. Sube a Premium cuando quieras.</div>
+    <div class="lp-plans">
+      <div class="lp-plan">
+        <div class="lp-ptag">Gratuito</div>
+        <h3>Para empezar</h3>
+        <div class="lp-price">€0</div>
+        <ul class="lp-feat">
+          <li>Temario completo de los 9 temas</li>
+          <li>30 preguntas por tema</li>
+          <li>Simulacros de práctica</li>
+          <li>Test de nivel ENAIRE</li>
+        </ul>
+        <a onclick="localStorage.setItem('landingSeen','1');go('home')" class="lp-btn lp-btn-primary" style="cursor:pointer">Ir al temario</a>
+      </div>
+      <div class="lp-plan lp-prem">
+        <div class="lp-badge-pop">Recomendado</div>
+        <div class="lp-ptag">Premium</div>
+        <h3>Para conseguir tu plaza</h3>
+        <div class="lp-price">€24,99<small> /mes</small></div>
+        <div class="lp-save">o €189/año — ahorras 4 meses</div>
+        <ul class="lp-feat">
+          <li>120+ preguntas adicionales por tema</li>
+          <li>Simulacros ilimitados y cronometrados</li>
+          <li>Repetición espaciada de tus errores</li>
+          <li>Inglés avanzado para la prueba de ENAIRE</li>
+          <li>13 ejercicios psicotécnicos</li>
+          <li>Plan de estudio personalizado · sin anuncios</li>
+        </ul>
+        <a onclick="startLandingCheckout()" class="lp-btn lp-btn-gold" style="cursor:pointer">Hazte Premium</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINAL CTA ================= -->
+<section class="lp-section" style="padding-top:6px">
+  <div class="lp-wrap">
+    <div class="lp-final">
+      <h2>¿Estás al nivel? Compruébalo en 10 minutos.</h2>
+      <p>Haz el test de nivel gratuito y descubre exactamente dónde estás hoy.</p>
+      <a onclick="startLandingTest()" class="lp-btn lp-btn-primary" style="position:relative;z-index:2;cursor:pointer">Empezar test de nivel →</a>
+    </div>
+  </div>
+</section>
+
+<footer>ControlPrep · Preparación para el proceso de selección de Controlador de Tránsito Aéreo · ENAIRE</footer>
+</div>
 </div>
 <!-- LANDING PLAN SCREEN -->
 <div class="screen" id="landing-plan">
@@ -482,10 +852,7 @@ async function sbResetPassword(email){
 </div>
 <!-- HOME -->
 <div class="screen active" id="home">
-<div class="hero"><div class="inner">
-    <div class="hero-badge" style="display:none"></div>
-    <h1 class="hero-title" style="font-size:clamp(20px,5vw,32px);white-space:normal">Comprueba si estás preparado para superar el proceso de selección de <span>ENAIRE</span></h1>
-    <div id="home-auth-prompt" style="display:none;background:#0c1e35;border:1.5px solid #00b4d8;border-radius:14px;padding:12px 16px;margin-top:10px;width:100%;box-sizing:border-box">
+  <div id="home-auth-prompt" style="display:none;background:#0c1e35;border:1.5px solid #00b4d8;border-radius:14px;padding:12px 16px;margin:12px 14px 0;box-sizing:border-box">
     <div style="font-size:13px;color:#8cb8d8;margin-bottom:10px;line-height:1.5">💡 <strong style="color:#e8f4fd">Crea una cuenta gratis</strong> para guardar tu progreso y acceder desde hasta dos dispositivos</div>
     <div style="display:flex;gap:8px">
       <button onclick="go('register-screen')" style="flex:1;padding:10px;background:#00b4d8;color:#000;border:none;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Registrarse</button>
@@ -493,23 +860,7 @@ async function sbResetPassword(email){
       <button onclick="document.getElementById('home-auth-prompt').style.display='none';localStorage.setItem('_cp_auth_seen','1')" style="padding:10px 12px;background:transparent;color:#5a8aaa;border:none;font-size:16px;cursor:pointer">✕</button>
     </div>
   </div>
-    <div id="home-greeting" style="margin-top:6px;font-size:16px;font-weight:600;color:#e8f4fd"></div>
-<div id="home-dashboard" style="margin-top:10px;display:flex!important;flex-direction:column!important;gap:8px;max-width:480px;margin-left:auto;margin-right:auto"></div>
-   <div id="home-phases" style="margin:16px auto 0;max-width:480px;width:100%"></div>
-   <div id="home-qotd" style="margin:16px auto 0;max-width:480px;width:100%"></div>
-   <div id="home-countdown" style="margin:16px auto 0;max-width:480px;margin-left:auto;margin-right:auto;font-size:14px;font-weight:700;color:#ffd166"></div>
-   <div id="home-static-btns" style="display:none"></div>  </div></div>
-  <div style="height:70px"></div>
-  <div style="text-align:center;padding:16px 20px 32px;border-top:1px solid #1d3a5c;margin-top:16px">
-    <div style="font-size:11px;color:#2a5280;margin-bottom:8px">© 2026 ControlPrep · Todos los derechos reservados</div>
-    <div style="font-size:11px;color:#2a5280;margin-bottom:8px">ControlPrep no está afiliado con ENAIRE, EUROCONTROL ni ningún organismo oficial de aviación.</div>
-    <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
-      <button onclick="go('faq')" style="background:none;border:none;font-family:'IBM Plex Sans',sans-serif;font-size:11px;color:#2a5280;cursor:pointer;text-decoration:underline">Preguntas frecuentes</button>
-      <button onclick="go('legal-privacy')" style="background:none;border:none;font-family:'IBM Plex Sans',sans-serif;font-size:11px;color:#2a5280;cursor:pointer;text-decoration:underline">Política de Privacidad</button>
-      <button onclick="go('legal-terms')" style="background:none;border:none;font-family:'IBM Plex Sans',sans-serif;font-size:11px;color:#2a5280;cursor:pointer;text-decoration:underline">Términos y Condiciones</button>
-      <button onclick="go('legal-cookies')" style="background:none;border:none;font-family:'IBM Plex Sans',sans-serif;font-size:11px;color:#2a5280;cursor:pointer;text-decoration:underline">Política de Cookies</button>
-    </div>
-  </div>
+  <div id="home-dashboard" style="width:100%"></div>
 </div>
 
 <!-- TOPICS -->
@@ -3571,81 +3922,93 @@ function btn(label,fn,kind){
   el.innerHTML=h;
 }
 function renderHomeDashboard(){
-  const el=document.getElementById('home-dashboard');
-  if(!el)return;
-  const now=new Date();
-  const days=Math.ceil((EXAM_DATE-now)/(1000*60*60*24));
-  const msg=MOTIVATIONAL[new Date().getDate()%MOTIVATIONAL.length];
-
-  // Progress summary for returning users
+  const el=document.getElementById('home-dashboard'); if(!el)return;
+  const SHORT={1:'Instituciones',2:'Códigos OACI',3:'Meteorología',4:'Cartografía',5:'Navegación',6:'Plan de Vuelo',7:'Entorno Prof.',8:'Factores Hum.',9:'Aerodinámica'};
+  const prem=DEV_PREMIUM;
+  const userName=localStorage.getItem('userName');
   const results=T.map(t=>({t,p:PR.get(t.id)})).filter(x=>x.p);
   const hasProgress=results.length>0;
   const avgPct=hasProgress?Math.round(results.reduce((s,x)=>s+x.p.bestPct,0)/results.length):0;
-  const weak=hasProgress?results.reduce((a,b)=>a.p.bestPct<b.p.bestPct?a:b):null;
-
-let h='';
-// Countdown and greeting in dedicated divs
-  const cdEl=document.getElementById('home-countdown');
-  const grEl=document.getElementById('home-greeting');
-if(cdEl){
-    const countdownContent=EXAM_DATE
-      ?'<div style="text-align:center;flex-shrink:0"><div style="font-size:36px;font-weight:900;color:#00b4d8;line-height:1">'+days+'</div><div style="font-size:11px;color:#5a8aaa;font-weight:600;text-transform:uppercase;letter-spacing:.5px">días</div></div><div><div style="font-size:14px;font-weight:700;color:#e8f4fd;margin-bottom:2px">Para el examen de ENAIRE</div><div style="font-size:12px;color:#8cb8d8">Convocatoria 2026 · Tantas plazas</div>'+(hasProgress?'<div style="margin-top:8px;height:4px;background:#1d3a5c;border-radius:2px;overflow:hidden"><div style="height:100%;width:'+Math.min(100,avgPct)+'%;background:#00b4d8;border-radius:2px"></div></div><div style="font-size:11px;color:#5a8aaa;margin-top:3px">Media actual: <strong style="color:#00b4d8">'+avgPct+'%</strong> en '+results.length+' tema'+(results.length>1?'s':'')+'</div>':'')+'</div>'
-:'<div style="font-size:24px;flex-shrink:0">📅</div><div><div style="font-size:14px;font-weight:700;color:#e8f4fd;margin-bottom:4px">Convocatoria 2026 — fecha por determinar</div><div style="font-size:12px;color:#8cb8d8;line-height:1.5">ControlPrep se actualizará en cuanto ENAIRE publique la fecha oficial de la próxima convocatoria.</div></div>';
-    cdEl.innerHTML='<div style="background:rgba(0,180,216,.08);border:1px solid rgba(0,180,216,.25);border-radius:14px;padding:16px;display:flex;align-items:center;gap:16px">'+countdownContent+'</div>';
-  }
-  const userName=localStorage.getItem('userName');
-  if(grEl)grEl.innerHTML=userName?'<div style="font-size:16px;font-weight:600;color:#e8f4fd;margin-top:6px">👋 Hola, '+userName+'</div>':'';
-// 1 — Streak + global level (Premium) / honest per-tema (free) + locked global card
   const streak=ST.count();
-  const flames=streak>=30?'🔥🔥🔥':streak>=14?'🔥🔥':'🔥';
-  var _lvl=cpLevel();
-  var _tg=T.map(function(t){var pr=PR.get(t.id);var v=pr?pr.bestPct+'%':'—';var c=!pr?'#5a8aaa':pr.bestPct>=75?'#2dc653':pr.bestPct>=50?'#ffd166':'#e63946';return '<div onclick="openTopic('+t.id+')" style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:8px;padding:6px 2px;text-align:center;cursor:pointer"><div style="font-size:14px">'+t.icon+'</div><div style="font-size:11px;font-weight:800;color:'+c+'">'+v+'</div></div>';}).join('');
-  var streakCard='<div style="background:rgba(247,127,0,.08);border:1px solid rgba(247,127,0,.3);border-radius:12px;padding:10px;text-align:center;display:flex;align-items:center;gap:8px;justify-content:center"><div style="font-size:18px">'+flames+'</div><div><div style="font-size:18px;font-weight:900;color:#f77f00">'+streak+'</div><div style="font-size:10px;color:#8cb8d8">día'+(streak!==1?'s':'')+' seguido'+(streak!==1?'s':'')+'</div></div></div>';
-  if(DEV_PREMIUM){
+  const _lvl=cpLevel();
+  const msg=MOTIVATIONAL[new Date().getDate()%MOTIVATIONAL.length];
+  const nm=id=>SHORT[id]||((T.find(t=>t.id==id)||{}).name||'');
+
+  // ---- HERO (dark) ----
+  let hero='<div class="hh-hero">'
+    +'<svg class="hh-scope" viewBox="0 0 300 300" fill="none"><g stroke="#00b4d8" stroke-opacity=".4"><circle cx="150" cy="150" r="45"/><circle cx="150" cy="150" r="85"/><circle cx="150" cy="150" r="125"/><line x1="0" y1="150" x2="300" y2="150" stroke-opacity=".2"/><line x1="150" y1="0" x2="150" y2="300" stroke-opacity=".2"/></g><path d="M150 150 L150 25 A125 125 0 0 1 240 65 Z" fill="#00b4d8" fill-opacity=".10"/><circle cx="205" cy="95" r="4" fill="#1fb255"/></svg>'
+    +'<div class="hh-hbar"><div class="hh-logo">Control<span>Prep</span></div>'
+    +'<div class="hh-streak">🔥 <b>'+streak+'</b> <small>día'+(streak!==1?'s':'')+'</small></div></div>'
+    +'<div class="hh-greet">'+(userName?'Hola, <span>'+userName+'</span> 👋':'Bienvenido 👋')+'</div>'
+    +'<div class="hh-cd"><div class="hh-cdicon">📅</div><div class="hh-cdinfo">'
+    +'<div class="hh-cdt">Para el examen de ENAIRE</div>'
+    +'<div class="hh-cds">Convocatoria 2026 · Tantas plazas</div>'
+    +'<div class="hh-cdbadge">Fecha por determinar</div>'
+    +(hasProgress?'<div class="hh-bar"><span style="width:'+Math.min(100,avgPct)+'%"></span></div><div class="hh-avg">Media actual: <b>'+avgPct+'%</b> en '+results.length+' tema'+(results.length>1?'s':'')+'</div>':'<div class="hh-avg" style="margin-top:8px">Empieza un tema para ver aquí tu progreso.</div>')
+    +'</div></div></div>';
+
+  // ---- BODY (light) ----
+  let b='<div class="hh-body">';
+  // primary actions
+  b+='<div class="hh-sec">Continúa donde lo dejaste</div>'
+    +'<div class="hh-acts"><button class="hh-act hh-pri" onclick="go(\'topics\')">📚 Seguir estudiando</button>'
+    +'<button class="hh-act hh-sec2" onclick="startFullSimulacro()">⏱️ Simulacro</button></div>';
+  // topic grid (tier-aware label)
+  const tg=T.map(t=>{var pr=PR.get(t.id);var v=pr?pr.bestPct+'%':'—';var c=!pr?'#8aa0b5':pr.bestPct>=75?'#1fb255':pr.bestPct>=50?'#e8a317':'#e0524e';
+    return '<div class="hh-tcell" onclick="openTopic('+t.id+')"><div class="hh-tic">'+t.icon+'</div><div class="hh-tpc" style="color:'+c+'">'+v+'</div><div class="hh-tnm">'+nm(t.id)+'</div></div>';}).join('');
+  b+='<div class="hh-sec">Tu rendimiento por tema'+(prem?'':' · preguntas gratuitas')+'</div><div class="hh-grid">'+tg+'</div>';
+  // level card
+  b+='<div class="hh-sec">Tu nivel global</div>';
+  if(prem){
     var lvlTxt=_lvl.evaluated?_lvl.pct+'%':'Sin evaluar';
-    var lvlCol=!_lvl.evaluated?'#8cb8d8':_lvl.pct>=75?'#2dc653':_lvl.pct>=50?'#ffd166':'#e63946';
-    h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+streakCard+'<div style="background:rgba(0,180,216,.06);border:1px solid rgba(0,180,216,.25);border-radius:12px;padding:10px;text-align:center"><div style="font-size:10px;color:#8cb8d8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px">Nivel de preparación</div><div style="font-size:20px;font-weight:900;color:'+lvlCol+'">'+lvlTxt+'</div></div></div>';
-    if(_lvl.evaluated){var _gap=Math.max(0,75-_lvl.pct);h+='<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:10px 12px;text-align:center"><span style="font-size:12px;font-weight:700;color:'+(_lvl.pct>=75?'#2dc653':'#ffd166')+'">'+(_lvl.pct>=75?'✓ Dentro del rango competitivo (75-85%)':'A '+_gap+' punto'+(_gap!==1?'s':'')+' del rango competitivo (75-85%)')+'</span></div>';}
-    else{h+='<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:10px 12px;text-align:center"><span style="font-size:12px;color:#8cb8d8">Objetivo ENAIRE: <strong style="color:#00b4d8">75-85%</strong> · haz un simulacro para ver tu nivel</span></div>';}
-    h+='<div><div style="font-size:10px;color:#5a8aaa;text-transform:uppercase;letter-spacing:.5px;margin:4px 0 6px">Tu nivel por tema</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">'+_tg+'</div></div>';
+    var lvlCol=!_lvl.evaluated?'#5a7088':_lvl.pct>=75?'#1fb255':_lvl.pct>=50?'#e8a317':'#e0524e';
+    var note=_lvl.evaluated?(_lvl.pct>=75?'✓ Dentro del rango competitivo (75–85%).':'A '+Math.max(0,75-_lvl.pct)+' punto'+(Math.max(0,75-_lvl.pct)!==1?'s':'')+' del rango competitivo (75–85%).'):'Haz un simulacro para conocer tu nivel. El rango competitivo está en 75–85%.';
+    b+='<div class="hh-card" style="text-align:center"><div class="hh-lvllbl">Nivel de preparación</div><div class="hh-lvlval" style="color:'+lvlCol+'">'+lvlTxt+'</div><div class="hh-lvlnote">'+note+'</div></div>';
   } else {
-    h+=streakCard;
-    h+='<div><div style="font-size:10px;color:#5a8aaa;text-transform:uppercase;letter-spacing:.5px;margin:4px 0 6px">Tu rendimiento por tema · preguntas gratuitas</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">'+_tg+'</div></div>';
-    h+='<div onclick="go(\'planselect\')" style="background:linear-gradient(135deg,#0c1e35,#10233f);border:1px solid rgba(255,209,102,.35);border-radius:14px;padding:14px;cursor:pointer"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:16px">📊</span><span style="font-size:13px;font-weight:800;color:#ffd166">Nivel de preparación global</span><span style="margin-left:auto;font-size:10px;color:#ffd166">🔒 Premium</span></div><div style="font-size:12px;color:#8cb8d8;line-height:1.5;margin-bottom:10px">Tu nivel global y tu distancia al rango competitivo de candidatos aptos (75-85%) requieren una evaluación más completa que la muestra gratuita.</div><div style="background:#ffd166;color:#3a2e00;border-radius:9px;padding:9px;text-align:center;font-size:13px;font-weight:800">Desbloquear evaluación completa</div></div>';
+    b+='<div class="hh-prem" onclick="go(\'planselect\')"><div class="hh-ph"><span style="font-size:15px">📊</span><span class="hh-pt">Nivel de preparación global</span><span class="hh-plk">🔒 Premium</span></div><div class="hh-pd">Tu nivel global y tu distancia al rango competitivo de candidatos aptos (75–85%) requieren una evaluación más completa que la muestra gratuita.</div><div class="hh-pb">Desbloquear evaluación completa</div></div>';
   }
-  // 2 — Motivational message
-  h+='<div style="background:rgba(45,198,83,.06);border:1px solid rgba(45,198,83,.2);border-radius:12px;padding:10px 14px">'
-    +'<div style="font-size:12px;color:#c8dff0;line-height:1.5;font-style:italic">"'+msg+'"</div>'
-    +'</div>';
-el.innerHTML=h;h='';
-  // 3 — Question of the Day
+  // motivational
+  b+='<div class="hh-quote">"'+msg+'"</div>';
+  // question of the day
   const todayKey='qotd-'+new Date().toISOString().slice(0,10);
   const qotdDone=localStorage.getItem(todayKey+'done');
+  const weak=hasProgress?results.reduce((a,bb)=>a.p.bestPct<bb.p.bestPct?a:bb):null;
   const weakTid=weak?weak.t.id:Object.keys(Q).find(k=>Q[k]&&Q[k].length>0);
   if(weakTid){
-    const pool=(Q[weakTid]||[]).filter(q=>DEV_PREMIUM?true:q.tier==='free'||!q.tier);
+    const pool=(Q[weakTid]||[]).filter(q=>prem?true:(q.tier==='free'||!q.tier));
     if(pool.length>0){
-      const dayIdx=Math.floor(Date.now()/86400000)%pool.length;
-      const qotd=pool[dayIdx];
-      if(!qotd._shuffled){
-        const indices=[0,1,2,3].sort(()=>Math.random()-.5);
-        qotd._opts=indices.map(i=>qotd.o[i]);
-        qotd._ans=indices.indexOf(qotd.a);
-        qotd._shuffled=true;
-      }
-      const topicName=(T.find(t=>t.id==weakTid)||{}).name||'';
-h+='<div style="background:rgba(255,209,102,.06);border:1px solid rgba(255,209,102,.25);border-radius:12px;padding:12px">'
-        +'<div style="font-size:10px;font-weight:700;color:#ffd166;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">⭐ Pregunta del día · '+topicName+'</div>'
-        +'<div style="font-size:13px;font-weight:600;color:#e8f4fd;margin-bottom:10px;line-height:1.4">'+qotd.q+'</div>'
-        +(qotdDone?
-          '<div style="background:#0c1e35;border-radius:10px;padding:12px;font-size:13px;color:#2dc653">✓ Ya respondiste hoy. ¡Vuelve mañana!</div>'
-          :'<div style="display:flex;flex-direction:column;gap:8px" id="qotd-opts">'
-            +qotd._opts.map((o,i)=>'<button onclick="answerQotd('+i+','+qotd._ans+',\''+todayKey+'\')" style="padding:10px 14px;background:#0c1e35;color:#c8dff0;border:1.5px solid #1d3a5c;border-radius:10px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;text-align:left;cursor:pointer">'+String.fromCharCode(65+i)+'. '+o+'</button>').join('')
-            +'</div>')
+      const dayIdx=Math.floor(Date.now()/86400000)%pool.length; const qotd=pool[dayIdx];
+      if(!qotd._shuffled){const ix=[0,1,2,3].sort(()=>Math.random()-.5);qotd._opts=ix.map(i=>qotd.o[i]);qotd._ans=ix.indexOf(qotd.a);qotd._shuffled=true;}
+      b+='<div class="hh-sec">Pregunta del día</div><div class="hh-card hh-qotd"><div class="hh-qh">'+nm(weakTid)+'</div><div class="hh-qq">'+qotd.q+'</div>'
+        +(qotdDone?'<div class="hh-qdone">✓ Ya respondiste hoy. ¡Vuelve mañana!</div>':'<div id="qotd-opts">'+qotd._opts.map((o,i)=>'<button class="hh-qa" onclick="answerQotd('+i+','+qotd._ans+',\''+todayKey+'\')">'+String.fromCharCode(65+i)+' · '+o+'</button>').join('')+'</div>')
         +'</div>';
     }
   }
-var _q=document.getElementById('home-qotd');if(_q)_q.innerHTML=h;
+  // phases
+  const f1=_lvl.evaluated?_lvl.pct:(hasProgress?avgPct:null);
+  b+='<div class="hh-sec">Tu progreso por fase</div><div class="hh-phases">'
+    +'<div class="hh-strip"><div class="hh-tag"><b>FASE 1</b><small>teoría</small></div><div class="hh-smid"><div class="hh-st">Test teórico</div><div class="hh-ss">9 temas · 50 preguntas</div></div><div class="hh-pct">'+(f1!==null?f1+'%':'—')+'</div></div>'
+    +'<div class="hh-strip"><div class="hh-tag" style="border-right-color:#ffb703"><b>FASE 2</b><small>aptitudes</small></div><div class="hh-smid"><div class="hh-st">Psicotécnicos e inglés</div><div class="hh-ss">13 ejercicios · inglés avanzado</div></div><div class="hh-pct" style="color:#b87d00">—</div></div>'
+    +'</div>';
+  // study plan
+  let recos=[];
+  const started=results.slice().sort((a,bb)=>a.p.bestPct-bb.p.bestPct);
+  started.slice(0,2).forEach(x=>recos.push({id:x.t.id,name:nm(x.t.id),sub:'Refuerza · '+x.p.bestPct+'%',col:x.p.bestPct>=50?'#e8a317':'#e0524e'}));
+  T.filter(t=>!PR.get(t.id)).slice(0,1).forEach(t=>recos.push({id:t.id,name:nm(t.id),sub:'Aún sin practicar',col:'#8aa0b5'}));
+  if(recos.length===0){T.slice(0,3).forEach(t=>recos.push({id:t.id,name:nm(t.id),sub:'Empieza por aquí',col:'#00b4d8'}));}
+  const rows=recos.map((r,i)=>'<button class="hh-planrow"'+(i===recos.length-1?' style="border-bottom:none"':'')+' onclick="openTopic('+r.id+')"><span class="hh-pdot" style="background:'+r.col+'"></span><span class="hh-ptxt"><b>'+r.name+'</b><small>'+r.sub+'</small></span><span class="hh-parr">→</span></button>').join('');
+  b+='<div class="hh-sec">Tu plan de estudio</div><div class="hh-card" style="padding:0;overflow:hidden"><div class="hh-recohdr">Recomendado según tu progreso:</div>'+rows+'</div>';
+  if(prem){
+    b+='<button class="hh-act hh-pri" style="width:100%;margin-top:10px" onclick="go(\'studyplan\')">🗓️ Ver mi plan de estudio personalizado</button>';
+  } else {
+    b+='<div class="hh-prem" style="margin-top:10px" onclick="go(\'planselect\')"><div class="hh-ph"><span style="font-size:15px">🗓️</span><span class="hh-pt">Plan de estudio personalizado</span><span class="hh-plk">🔒 Premium</span></div><div class="hh-pd">Un calendario semanal a tu medida — con horas, objetivos y repaso espaciado — adaptado a tu fecha objetivo y a tus puntos débiles.</div><div class="hh-pb">Desbloquear mi plan personalizado</div></div>';
+  }
+  // footer
+  b+='<div class="hh-foot">© 2026 ControlPrep · Todos los derechos reservados<br>ControlPrep no está afiliado con ENAIRE, EUROCONTROL ni ningún organismo oficial de aviación.'
+    +'<div class="hh-flinks"><button onclick="go(\'faq\')">Preguntas frecuentes</button><button onclick="go(\'legal-privacy\')">Privacidad</button><button onclick="go(\'legal-terms\')">Términos</button><button onclick="go(\'legal-cookies\')">Cookies</button></div></div>';
+  b+='</div>';
+
+  el.innerHTML=hero+b;
 }
 function startFullSimulacro(){
   if(!DEV_PREMIUM){
@@ -5367,7 +5730,7 @@ function renderFAQ(){
     {cat:'Sobre ControlPrep',items:[
       {q:'¿Qué incluye el plan gratuito?',a:'El plan gratuito incluye acceso completo al temario de los 9 temas, 30 preguntas por tema y 1 simulacro completo por semana (50 preguntas).'},
       {q:'¿Qué incluye el plan Premium?',a:'Premium incluye todo lo del plan gratuito más: 50+ preguntas premium adicionales por tema, simulacros ilimitados, módulo FEAST psicotécnico completo, plan de estudios personalizado y acceso completo a Aviation English.'},
-      {q:'¿Puedo cancelar mi suscripción en cualquier momento?',a:'Sí. Puedes cancelar cuando quieras desde tu perfil. La cancelación es efectiva al final del período de facturación en curso y no se realizan reembolsos parciales.'},
+      {q:'¿Puedo cancelar mi suscripción en cualquier momento?',a:'Sí, si tienes la suscripción mensual: puedes cancelarla cuando quieras desde tu perfil y seguirá activa hasta el final del período en curso (no se hacen reembolsos parciales). El acceso anual es un pago único que no se renueva automáticamente: no hay nada que cancelar, simplemente caduca a los 12 meses. En ambos casos tienes una garantía de satisfacción de 14 días: si no es para ti, escríbenos a hola@controlprep.com y te devolvemos el importe.'},
       {q:'¿Las preguntas son las del examen real?',a:'Las preguntas de práctica están elaboradas por nuestro equipo basándose en el temario oficial. Los exámenes de convocatorias anteriores son preguntas representativas de exámenes pasados. ControlPrep no está afiliado con ENAIRE.'},
       {q:'¿Con qué frecuencia se actualiza el contenido?',a:'Actualizamos el contenido regularmente para reflejar los cambios en el temario oficial y añadir nuevas preguntas. Los usuarios Premium reciben todas las actualizaciones automáticamente.'},
       {q:'¿Funciona en móvil?',a:'Sí. ControlPrep está diseñado para funcionar perfectamente en móvil, tablet y escritorio. No necesitas instalar ninguna aplicación — funciona directamente desde el navegador.'},
@@ -5617,7 +5980,7 @@ function toggleFAQ(id){
 }
 function renderLegalContent(){
   const privacy=`<h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">1. Responsable del tratamiento</h3><p>Matthew Riley · NIE: Y6181069V · Calle Peñíscola 3, 07015, Palma de Mallorca, España · privacidad@controlprep.com</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">2. Datos que recopilamos</h3><p>Datos de registro (nombre, email), datos de pago procesados por Stripe, datos de uso almacenados localmente, y datos técnicos básicos (IP, navegador).</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">3. Finalidad</h3><p>Prestación del servicio, gestión de suscripciones, mejora de la aplicación y cumplimiento legal.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">4. Tus derechos</h3><p>Tienes derecho de acceso, rectificación, supresión, oposición, limitación y portabilidad. Escríbenos a privacidad@controlprep.com. Puedes reclamar ante la AEPD en <a href="https://www.aepd.es" style="color:#00b4d8">www.aepd.es</a>.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">5. Proveedores externos</h3><p>Stripe (pagos) y Netlify (hosting). Ninguno de ellos recibe tus datos con fines comerciales propios.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">6. Menores</h3><p>ControlPrep no está dirigido a menores de 16 años.</p>`;
-  const terms=`<h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">1. Titular</h3><p>Matthew Riley · NIE: Y6181069V · Calle Peñíscola 3, 07015, Palma de Mallorca, España · hola@controlprep.com</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">2. Aviso importante</h3><p>ControlPrep no está afiliado con ENAIRE, EUROCONTROL ni ningún organismo oficial de aviación. Las preguntas de convocatorias anteriores son de carácter representativo y no constituyen material oficial.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">3. Suscripción Premium</h3><p>Las suscripciones se facturan de forma recurrente a través de Stripe. Puedes cancelar en cualquier momento desde tu perfil. La cancelación es efectiva al final del período en curso.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">4. Derecho de desistimiento</h3><p>Conforme al artículo 103.a) del Real Decreto Legislativo 1/2007, el derecho de desistimiento no es aplicable a contenidos digitales una vez iniciada su ejecución con tu consentimiento expreso.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">5. Propiedad intelectual</h3><p>Todo el contenido de ControlPrep es propiedad de su titular. Queda prohibida su reproducción, distribución o uso para crear productos competidores.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">6. Ley aplicable</h3><p>Estos Términos se rigen por la legislación española. Resolución de litigios en línea: <a href="https://ec.europa.eu/consumers/odr" style="color:#00b4d8">ec.europa.eu/consumers/odr</a></p>`;
+  const terms=`<h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">1. Titular</h3><p>Matthew Riley · NIE: Y6181069V · Calle Peñíscola 3, 07015, Palma de Mallorca, España · hola@controlprep.com</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">2. Aviso importante</h3><p>ControlPrep no está afiliado con ENAIRE, EUROCONTROL ni ningún organismo oficial de aviación. Las preguntas de convocatorias anteriores son de carácter representativo y no constituyen material oficial.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">3. Pago y acceso Premium</h3><p>Ofrecemos dos modalidades de pago: <strong>(a) Suscripción mensual</strong>, facturada de forma recurrente a través de Stripe; puedes cancelarla en cualquier momento desde tu perfil y la cancelación es efectiva al final del período en curso. <strong>(b) Acceso anual mediante un pago único</strong>, que no es una suscripción de renovación automática: te otorga acceso Premium durante 12 meses y no se renueva ni se cobra de nuevo de forma automática.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">4. Desistimiento y garantía de satisfacción</h3><p>Conforme al artículo 103.a) del Real Decreto Legislativo 1/2007, el derecho legal de desistimiento no es aplicable a contenidos digitales una vez iniciada su ejecución con tu consentimiento expreso, que prestas al completar el pago. No obstante, ofrecemos voluntariamente una <strong>garantía de satisfacción de 14 días</strong>: si dentro de los 14 días naturales siguientes a tu compra consideras que ControlPrep no es para ti, escríbenos a hola@controlprep.com y te reembolsaremos el importe íntegro, por el mismo método de pago, en un plazo máximo de 14 días.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">5. Propiedad intelectual</h3><p>Todo el contenido de ControlPrep es propiedad de su titular. Queda prohibida su reproducción, distribución o uso para crear productos competidores.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">6. Ley aplicable</h3><p>Estos Términos se rigen por la legislación española. Resolución de litigios en línea: <a href="https://ec.europa.eu/consumers/odr" style="color:#00b4d8">ec.europa.eu/consumers/odr</a></p>`;
   const cookies=`<h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">1. Tecnologías utilizadas</h3><p>ControlPrep utiliza principalmente almacenamiento local (localStorage) del navegador para guardar tu progreso, preferencias y sesión. No se transmiten datos al servidor sin tu conocimiento.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">2. Cookies estrictamente necesarias</h3><p>Sesión de usuario, preferencias básicas y progreso de estudio. No requieren consentimiento.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">3. Cookies de terceros</h3><p>Stripe puede establecer cookies necesarias para el procesamiento seguro de pagos.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">4. Lo que NO usamos</h3><p>ControlPrep no utiliza cookies publicitarias, de seguimiento ni analíticas de terceros sin tu consentimiento previo.</p><h3 style="color:#e8f4fd;font-size:15px;margin:16px 0 6px">5. Gestión</h3><p>Puedes borrar el almacenamiento local desde las herramientas de desarrollo de tu navegador (F12). Ten en cuenta que esto eliminará tu progreso guardado.</p>`;
   const pc=document.getElementById('legal-privacy-content');
   const tc=document.getElementById('legal-terms-content');
@@ -6996,30 +7359,116 @@ function startLandingCheckout(){/* PREMIUM-LOCK: quitar estas 2 lineas al activa
   .then(data=>{if(data.url){window.location.href=data.url;}else{throw new Error(data.error||'Error desconocido');}})
   .catch(err=>{console.error('Checkout error:',err);if(btn){btn.textContent='Suscribirse a Premium →';btn.disabled=false;}alert('Ha habido un error al procesar el pago. Por favor inténtalo de nuevo.');});
 }
+const LANDING_POOL={
+inst:[
+{q:'¿Qué organización internacional establece las normas mundiales de la aviación civil?',o:['OACI (ICAO)','OTAN','FIFA','OMS'],a:0,tier:'free',e:'La OACI fija los estándares mundiales de la aviación civil.'},
+{q:'Las siglas AESA corresponden a la agencia de seguridad aérea de:',o:['Francia','España','Estados Unidos','Alemania'],a:1,tier:'free',e:'AESA es la Agencia Estatal de Seguridad Aérea de España.'},
+{q:'¿Qué entidad presta los servicios de control de tránsito aéreo en la mayor parte de España?',o:['ENAIRE','Iberia','Renfe','Correos'],a:0,tier:'free',e:'ENAIRE es el principal proveedor de servicios de navegación aérea en España.'},
+{q:'La agencia europea de seguridad aérea se conoce como:',o:['EASA','NASA','ESA','UEFA'],a:0,tier:'free',e:'EASA es la agencia de seguridad aérea de la Unión Europea.'},
+{q:'¿En qué ciudad tiene su sede la OACI?',o:['Madrid','París','Montreal','Bruselas'],a:2,tier:'free',e:'La OACI tiene su sede en Montreal, Canadá.'},
+{q:'¿Qué organización europea gestiona la red de navegación aérea y la afluencia de tráfico?',o:['EUROCONTROL','OPEP','UNESCO','OMC'],a:0,tier:'free',e:'EUROCONTROL coordina la gestión de la red de tránsito aéreo en Europa.'},
+{q:'El convenio internacional que dio origen a la OACI en 1944 es el Convenio de:',o:['Chicago','Varsovia','Roma','Tokio'],a:0,tier:'free',e:'La OACI nace del Convenio de Chicago de 1944.'},
+{q:'El programa europeo para modernizar la gestión del tránsito aéreo (Cielo Único) se denomina:',o:['SESAR','EGNOS','ERTMS','COPERNICUS'],a:0,tier:'free',e:'SESAR es el pilar tecnológico del Cielo Único Europeo.'}
+],
+cod:[
+{q:'El designador de tipo OACI del Boeing 737-800 es:',o:['A320','B738','B747','B788'],a:1,tier:'free',e:'El designador OACI del Boeing 737-800 es B738.'},
+{q:'El código IATA del aeropuerto de Madrid-Barajas es:',o:['BCN','MAD','LHR','CDG'],a:1,tier:'free',e:'MAD es el código IATA de Madrid-Barajas.'},
+{q:'El código IATA del aeropuerto de Barcelona-El Prat es:',o:['BCN','BIO','VLC','AGP'],a:0,tier:'free',e:'BCN corresponde al aeropuerto Barcelona-El Prat.'},
+{q:'¿Qué fabricante produce el modelo A320?',o:['Boeing','Embraer','Airbus','Bombardier'],a:2,tier:'free',e:'El A320 es fabricado por Airbus.'},
+{q:'Por su estela turbulenta, las aeronaves se clasifican en categorías como ligera, media y:',o:['Pesada (heavy)','Rápida','Pequeña','Ruidosa'],a:0,tier:'free',e:'Se agrupan por estela turbulenta en ligera, media y pesada (heavy).'},
+{q:'¿Cuántas letras tiene el indicador de lugar OACI de un aeropuerto?',o:['2','3','4','5'],a:2,tier:'free',e:'El indicador OACI de aeropuerto tiene 4 letras (p. ej. LEMD).'},
+{q:'El indicador de lugar OACI del aeropuerto de Madrid-Barajas es:',o:['LEMD','LEBL','LEPA','LFPG'],a:0,tier:'free',e:'LEMD es el indicador OACI de Madrid-Barajas (LEBL es Barcelona).'},
+{q:'Según la clasificación OACI por estela turbulenta, una aeronave de 136.000 kg o más es de categoría:',o:['Pesada (H)','Media (M)','Ligera (L)','Mínima'],a:0,tier:'free',e:'Las aeronaves de 136.000 kg o más son pesadas (H, heavy).'}
+],
+met:[
+{q:'La niebla afecta a la operación aérea porque reduce:',o:['La temperatura','La visibilidad','El ruido','El peso'],a:1,tier:'free',e:'La niebla reduce la visibilidad.'},
+{q:'Las nubes de tipo cumulonimbus (CB) se asocian a:',o:['Cielo despejado','Tormentas','Viento en calma','Frío extremo'],a:1,tier:'free',e:'Los cumulonimbos (CB) se asocian a tormentas y turbulencia.'},
+{q:'El instrumento que mide la presión atmosférica es el:',o:['Termómetro','Anemómetro','Barómetro','Higrómetro'],a:2,tier:'free',e:'El barómetro mide la presión atmosférica.'},
+{q:'El anemómetro mide:',o:['La humedad','La lluvia','La presión','La velocidad del viento'],a:3,tier:'free',e:'El anemómetro mide la velocidad del viento.'},
+{q:'El informe meteorológico rutinario de observación de un aeródromo se llama:',o:['NOTAM','METAR','PIREP','ATIS'],a:1,tier:'free',e:'El METAR es el informe meteorológico rutinario de observación.'},
+{q:'La niebla se forma cuando el aire se satura de:',o:['Humedad','Humo','Arena','Ozono'],a:0,tier:'free',e:'La niebla se forma al saturarse el aire de humedad.'},
+{q:'La presión atmosférica estándar al nivel del mar es de aproximadamente:',o:['1013 hPa','900 hPa','1100 hPa','1500 hPa'],a:0,tier:'free',e:'La atmósfera estándar al nivel del mar es de 1013,25 hPa.'},
+{q:'Las nubes bajas, grises y uniformes que cubren el cielo como una capa se denominan:',o:['Estratos','Cirros','Cúmulos','Yunques'],a:0,tier:'free',e:'Los estratos son nubes bajas y uniformes en forma de capa.'}
+],
+car:[
+{q:'En navegación, el Norte que apunta al Polo Norte geográfico es el Norte:',o:['Magnético','Verdadero','De cuadrícula','Solar'],a:1,tier:'free',e:'El Norte verdadero o geográfico apunta al Polo Norte geográfico.'},
+{q:'La latitud mide la posición respecto al:',o:['Meridiano de Greenwich','Ecuador','Polo Sur','Sol'],a:1,tier:'free',e:'La latitud mide la distancia angular al norte o sur del Ecuador.'},
+{q:'La longitud se mide a partir del meridiano de:',o:['Greenwich','Madrid','Roma','El Cairo'],a:0,tier:'free',e:'La longitud se mide desde el meridiano de Greenwich.'},
+{q:'Una milla náutica equivale aproximadamente a:',o:['1 km','1,852 km','5 km','10 km'],a:1,tier:'free',e:'Una milla náutica equivale a 1.852 metros.'},
+{q:'En una carta a escala 1:500.000, 1 cm en el mapa equivale a:',o:['500 m','5 km','50 km','500 km'],a:1,tier:'free',e:'A escala 1:500.000, 1 cm representa 5 km reales.'},
+{q:'Las líneas que unen puntos de igual altitud en un mapa se llaman:',o:['Isóbaras','Curvas de nivel','Meridianos','Paralelos'],a:1,tier:'free',e:'Las curvas de nivel unen puntos de igual altitud.'},
+{q:'En una carta a escala 1:1.000.000, 1 cm sobre el mapa representa:',o:['10 km','1 km','100 km','100 m'],a:0,tier:'free',e:'A escala 1:1.000.000, 1 cm equivale a 10 km.'},
+{q:'Las proyecciones cartográficas como Lambert o Mercator sirven para:',o:['Representar la Tierra curva sobre un plano','Medir la temperatura','Calcular el combustible','Predecir el tiempo'],a:0,tier:'free',e:'Las proyecciones representan la Tierra curva sobre un plano.'}
+],
+nav:[
+{q:'El sistema que guía al avión en su aproximación de precisión a la pista es el:',o:['ILS','GPS','NDB','ATIS'],a:0,tier:'free',e:'El ILS guía la aproximación de precisión a la pista.'},
+{q:'Las siglas GPS corresponden a un sistema de:',o:['Comunicación','Posicionamiento por satélite','Meteorología','Frenado'],a:1,tier:'free',e:'El GPS es un sistema de posicionamiento por satélite.'},
+{q:'El radar permite al controlador conocer principalmente:',o:['La posición de las aeronaves','El menú a bordo','El precio del billete','La marca del avión'],a:0,tier:'free',e:'El radar muestra la posición de las aeronaves.'},
+{q:'Un VOR es una radioayuda que proporciona al avión información de:',o:['Rumbo o radial','Temperatura','Combustible','Equipaje'],a:0,tier:'free',e:'El VOR proporciona azimut (radiales) para la navegación.'},
+{q:'El sistema ADS-B se utiliza principalmente para:',o:['La vigilancia: conocer la posición de las aeronaves','Servir comida','Medir el viento','Comunicar por voz'],a:0,tier:'free',e:'El ADS-B difunde automáticamente la posición de la aeronave (vigilancia).'},
+{q:'El equipo DME proporciona a la aeronave información de:',o:['Distancia a una estación','Temperatura exterior','Nivel de combustible','Hora local'],a:0,tier:'free',e:'El DME proporciona la distancia a una estación.'},
+{q:'En un sistema ILS, el guiado en el plano horizontal (eje de pista) lo proporciona el:',o:['Localizador (LOC)','Senda de descenso','DME','VOR'],a:0,tier:'free',e:'El localizador (LOC) del ILS da el guiado horizontal respecto al eje de pista.'},
+{q:'El sistema europeo basado en satélites que mejora la precisión del GPS se llama:',o:['EGNOS','GLONASS','GALILEO','LORAN'],a:0,tier:'free',e:'EGNOS es el sistema de aumentación europeo (SBAS) que mejora la precisión del GPS.'}
+],
+plan:[
+{q:'El documento que presenta el piloto con la ruta y los datos del vuelo se llama:',o:['Plan de vuelo','Tarjeta de embarque','Pasaporte','Factura'],a:0,tier:'free',e:'El plan de vuelo recoge ruta, niveles y datos del vuelo.'},
+{q:'Cuando hay más demanda que capacidad, a un vuelo se le asigna un slot, que es:',o:['Un asiento','Una franja horaria','Una maleta','Un copiloto'],a:1,tier:'free',e:'Un slot es una franja horaria para regular la afluencia de tráfico.'},
+{q:'Las siglas ATFM se refieren a la gestión de:',o:['Afluencia del tránsito aéreo','Aeropuertos','Tripulaciones','Equipajes'],a:0,tier:'free',e:'ATFM es la gestión de afluencia del tránsito aéreo.'},
+{q:'El objetivo principal de la gestión de afluencia (ATFM) es:',o:['Vender billetes','Equilibrar demanda y capacidad','Pintar aviones','Servir comida'],a:1,tier:'free',e:'La ATFM equilibra la demanda con la capacidad disponible.'},
+{q:'Un NOTAM es un aviso que informa a la tripulación sobre:',o:['Cambios o riesgos relevantes para el vuelo','El menú','La película','La música'],a:0,tier:'free',e:'El NOTAM informa de cambios o peligros relevantes para la operación.'},
+{q:'El nivel de vuelo (Flight Level) se expresa en:',o:['Centenares de pies','Kilómetros','Millas','Metros'],a:0,tier:'free',e:'El nivel de vuelo se expresa en centenares de pies (FL350 = 35.000 ft).'},
+{q:'En el plan de vuelo OACI, la letra I en las reglas de vuelo indica un vuelo:',o:['Instrumental (IFR)','Visual (VFR)','Internacional','Inmediato'],a:0,tier:'free',e:'En el plan de vuelo, la I indica reglas de vuelo instrumental (IFR).'},
+{q:'Es obligatorio presentar plan de vuelo, entre otros casos, para:',o:['Cualquier vuelo IFR','Solo vuelos militares','Solo vuelos nocturnos','Ningún vuelo'],a:0,tier:'free',e:'Debe presentarse plan de vuelo para cualquier vuelo IFR, entre otros casos.'}
+],
+prof:[
+{q:'El servicio de tránsito aéreo (ATS) tiene como objetivo principal:',o:['Prevenir colisiones y ordenar el tránsito','Vender billetes','Pilotar los aviones','Servir comida'],a:0,tier:'free',e:'El ATS previene colisiones y mantiene un movimiento ordenado del tránsito.'},
+{q:'Según ENAIRE, su propósito es que el vuelo sea seguro, rápido, eficiente y:',o:['Sostenible','Caro','Lento','Ruidoso'],a:0,tier:'free',e:'El propósito de ENAIRE es que el vuelo sea seguro, rápido, eficiente y sostenible.'},
+{q:'La gestión de afluencia del tráfico aéreo (ATFM) busca garantizar:',o:['La regularidad de los vuelos y la capacidad','El menú a bordo','El precio del billete','La música'],a:0,tier:'free',e:'La ATFM garantiza la regularidad de los vuelos ajustando demanda y capacidad.'},
+{q:'Una torre de control (TWR) presta servicio principalmente en:',o:['El aeródromo y sus inmediaciones','Alta mar','El espacio exterior','Las autopistas'],a:0,tier:'free',e:'La torre (TWR) controla el tráfico en el aeródromo y su entorno.'},
+{q:'Un centro de control de área (ACC) presta servicio al tránsito:',o:['En ruta','En la cafetería','En el aparcamiento','En la aduana'],a:0,tier:'free',e:'El ACC controla el tránsito en ruta dentro de su área.'},
+{q:'Las condiciones laborales de los controladores en España se regulan mediante:',o:['Un convenio colectivo','Un menú','Un horario de cine','Una guía turística'],a:0,tier:'free',e:'Las condiciones de los controladores se regulan mediante convenio colectivo.'},
+{q:'El servicio del ATS que facilita información útil para la realización segura de los vuelos, sin ejercer control, es el:',o:['Servicio de información de vuelo','Servicio de control de aeródromo','Servicio de aduanas','Servicio de catering'],a:0,tier:'free',e:'El servicio de información de vuelo (FIS) facilita datos útiles sin ejercer control.'},
+{q:'El servicio de alerta del ATS tiene por objeto:',o:['Notificar a los organismos de búsqueda y salvamento','Servir comida a bordo','Vender billetes','Gestionar el aparcamiento'],a:0,tier:'free',e:'El servicio de alerta notifica a búsqueda y salvamento las aeronaves que necesitan ayuda.'}
+],
+ffhh:[
+{q:'La fatiga en un controlador tiende a provocar:',o:['Mejor rendimiento','Más errores y menor atención','Mejor memoria','Ningún efecto'],a:1,tier:'free',e:'La fatiga reduce la atención y aumenta el riesgo de error.'},
+{q:'La conciencia situacional consiste en:',o:['Percibir y anticipar lo que ocurre alrededor','Dormir bien','Comer sano','Hablar idiomas'],a:0,tier:'free',e:'Es percibir, comprender y anticipar la situación del tráfico.'},
+{q:'El modelo SHELL, en factores humanos, describe la interacción entre:',o:['La persona y los demás elementos del sistema','Dos aviones','Dos aeropuertos','El sol y la luna'],a:0,tier:'free',e:'SHELL representa la interacción del elemento humano con software, hardware, entorno y otras personas.'},
+{q:'El estrés excesivo en tareas de control tiende a:',o:['Mejorar la concentración','Perjudicar el rendimiento','Aumentar la memoria','No influir'],a:1,tier:'free',e:'El estrés elevado degrada el rendimiento y la toma de decisiones.'},
+{q:'Cuando el piloto repite la instrucción recibida para confirmarla, se llama:',o:['Readback o colación','Karaoke','Eco','Resumen'],a:0,tier:'free',e:'El readback (colación) confirma que la instrucción se recibió correctamente.'},
+{q:'La buena comunicación y el trabajo en equipo entre controladores sirven para:',o:['Reducir errores','Perder tiempo','Gastar más','Nada útil'],a:0,tier:'free',e:'Mejoran la seguridad y reducen los errores.'},
+{q:'En el modelo SHELL, la L central (Liveware) representa:',o:['El ser humano','El software','El hardware','El entorno'],a:0,tier:'free',e:'En SHELL, la L central (Liveware) es el elemento humano.'},
+{q:'Una carga de trabajo mental muy elevada o muy baja en el controlador tiende a:',o:['Degradar el rendimiento','Mejorar siempre la atención','No afectar a la seguridad','Eliminar los errores'],a:0,tier:'free',e:'Tanto el exceso como el defecto de carga de trabajo mental degradan el rendimiento.'}
+],
+aero:[
+{q:'La fuerza aerodinámica que mantiene al avión en el aire se llama:',o:['Sustentación','Gravedad','Fricción','Empuje'],a:0,tier:'free',e:'La sustentación mantiene el avión en vuelo.'},
+{q:'Las cuatro fuerzas del vuelo son sustentación, peso, empuje y:',o:['Resistencia','Magnetismo','Presión','Sonido'],a:0,tier:'free',e:'Son sustentación, peso, empuje y resistencia (drag).'},
+{q:'La mayor parte de la sustentación de un avión la genera:',o:['El ala','La cola','El tren de aterrizaje','La ventanilla'],a:0,tier:'free',e:'El ala genera la mayor parte de la sustentación.'},
+{q:'La resistencia aerodinámica (drag) es una fuerza que:',o:['Impulsa el avión','Se opone a su avance','Lo eleva','Lo hace girar'],a:1,tier:'free',e:'La resistencia se opone al avance de la aeronave.'},
+{q:'En un avión a reacción, el empuje lo proporcionan:',o:['Los motores','Las alas','La cola','Las ruedas'],a:0,tier:'free',e:'Los motores a reacción proporcionan el empuje.'},
+{q:'La entrada en pérdida (stall) se produce cuando el ala:',o:['Deja de generar sustentación suficiente','Se queda sin combustible','Pierde la radio','Cierra una puerta'],a:0,tier:'free',e:'Ocurre cuando el ángulo de ataque es excesivo y el ala pierde sustentación.'},
+{q:'El ángulo formado entre la cuerda del perfil del ala y el viento relativo es el:',o:['Ángulo de ataque','Ángulo diedro','Ángulo de incidencia','Ángulo de planeo'],a:0,tier:'free',e:'El ángulo de ataque es el formado entre la cuerda del ala y el viento relativo.'},
+{q:'El movimiento de cabeceo (morro arriba/abajo) del avión se controla mediante:',o:['El timón de profundidad (elevadores)','El timón de dirección','Los alerones','Los flaps'],a:0,tier:'free',e:'El cabeceo se controla con los elevadores o timones de profundidad.'}
+],
+eng:[
+{q:'Elige la palabra correcta: The flight was ___ due to bad weather.',o:['delayed','delay','delaying','delays'],a:0,tier:'free',e:'Delayed (retrasado) es el participio correcto.'},
+{q:'¿Qué significa "runway"?',o:['Pista','Puerta de embarque','Maleta','Asiento'],a:0,tier:'free',e:'Runway significa pista.'},
+{q:'Completa: The pilot had to ___ to an alternate airport.',o:['divert','dinner','design','deliver'],a:0,tier:'free',e:'Divert significa desviarse a un aeropuerto alternativo.'},
+{q:'¿Qué significa "weather" en español?',o:['Tiempo meteorológico','Trigo','Rueda','Ala'],a:0,tier:'free',e:'Weather significa tiempo (meteorológico).'},
+{q:'Elige un sinónimo de "aircraft":',o:['airplane','airport','airline','airmail'],a:0,tier:'free',e:'Aircraft y airplane designan una aeronave.'},
+{q:'Completa: Please ___ your seatbelt during takeoff.',o:['fasten','fast','feast','foster'],a:0,tier:'free',e:'Fasten your seatbelt significa abróchese el cinturón.'},
+{q:'¿Qué significa "delay"?',o:['Retraso','Aterrizaje','Despegue','Aduana'],a:0,tier:'free',e:'Delay significa retraso.'}
+]
+};
 function startLandingTest(){
   localStorage.setItem('landingSeen','1');
-  // Pick max 2 questions per topic, shuffled within each topic
-  const perTopic=[];
-  Object.entries(Q).forEach(([tid,qs])=>{
-    const free=qs.filter(q=>q.tier==='free');
-    const shuffled=free.sort(()=>Math.random()-.5).slice(0,2);
-    shuffled.forEach(q=>perTopic.push({q,tid:parseInt(tid)}));
-  });
-  // Arrange so no two consecutive questions from same topic
-  const arranged=[];
-  const pool=[...perTopic].sort(()=>Math.random()-.5);
-  while(pool.length>0&&arranged.length<10){
-    const lastTid=arranged.length>0?arranged[arranged.length-1].tid:-1;
-    const idx=pool.findIndex(x=>x.tid!==lastTid);
-    if(idx>=0){arranged.push(pool.splice(idx,1)[0]);}
-    else{arranged.push(pool.shift());}
-  }
-  const sample=arranged.slice(0,10).map(x=>x.q);
-  if(sample.length>0){
-    QS={qs:sample,idx:0,sc:0,exam:false,paper:false,navMode:false,ans:[],wrongList:[],landingMode:true};
-    renderQ();
-    go('qscreen');
-  }
+  // Pool de nivel: una pregunta aleatoria por categoria (10), distinta cada vez
+  const rnd=a=>a[Math.floor(Math.random()*a.length)];
+  let sample=Object.values(LANDING_POOL).map(rnd).map(q=>({q:q.q,o:[q.o[0],q.o[1],q.o[2],q.o[3]],a:q.a,tier:'free',e:q.e}));
+  sample.sort(()=>Math.random()-.5);
+  QS={qs:sample,idx:0,sc:0,exam:false,paper:false,navMode:false,ans:[],wrongList:[],landingMode:true};
+  renderQ();
+  go('qscreen');
 }
 function showPremiumInfo(){
  alert('⭐ Premium — €24.99/mes o €189/año (4 meses gratis).\n\nIncluye todo lo que necesitas para preparar las oposiciones CTA:\n\n✓ 100+ preguntas premium por tema\n✓ ✓ Convocatorias anteriores\n✓ Simulacros ilimitados\n✓ 🇬🇧 Aviation English OACI\n✓ Módulo psicotécnico CTA\n✓ Sin anuncios');
@@ -7503,7 +7952,7 @@ STT.start();
 if(!localStorage.getItem('landingSeen')&&!localStorage.getItem('splashSeen')&&!localStorage.getItem('userName')){
   go('landing');
 } else if(!localStorage.getItem('splashSeen')&&!localStorage.getItem('userName')){
-  go('splash');
+  go('home');
 }
 renderPapers();
 // Cookie consent
