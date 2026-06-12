@@ -852,12 +852,14 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 </div>
 <!-- HOME -->
 <div class="screen active" id="home">
-  <div id="home-auth-prompt" style="display:none;background:#0c1e35;border:1.5px solid #00b4d8;border-radius:14px;padding:12px 16px;margin:12px 14px 0;box-sizing:border-box">
-    <div style="font-size:13px;color:#8cb8d8;margin-bottom:10px;line-height:1.5">💡 <strong style="color:#e8f4fd">Crea una cuenta gratis</strong> para guardar tu progreso y acceder desde hasta dos dispositivos</div>
-    <div style="display:flex;gap:8px">
-      <button onclick="go('register-screen')" style="flex:1;padding:10px;background:#00b4d8;color:#000;border:none;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Registrarse</button>
-      <button onclick="go('login-screen')" style="flex:1;padding:10px;background:transparent;color:#e8f4fd;border:1.5px solid #1d3a5c;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Iniciar sesión</button>
-      <button onclick="document.getElementById('home-auth-prompt').style.display='none';localStorage.setItem('_cp_auth_seen','1')" style="padding:10px 12px;background:transparent;color:#5a8aaa;border:none;font-size:16px;cursor:pointer">✕</button>
+ <div id="home-auth-prompt" style="display:none;background:#0b2038;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08)">
+    <div style="max-width:480px;margin:0 auto">
+      <div style="font-size:13px;color:#9fbcd2;margin-bottom:10px;line-height:1.5">💡 <strong style="color:#eaf3fb">Crea una cuenta gratis</strong> para guardar tu progreso y acceder desde hasta dos dispositivos</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button onclick="go('register-screen')" style="flex:1;padding:11px;background:#00b4d8;color:#04202b;border:none;border-radius:11px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Registrarse</button>
+        <button onclick="go('login-screen')" style="flex:1;padding:11px;background:transparent;color:#eaf3fb;border:1.5px solid rgba(255,255,255,.22);border-radius:11px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Iniciar sesión</button>
+        <button onclick="document.getElementById('home-auth-prompt').style.display='none';localStorage.setItem('_cp_auth_seen','1')" style="padding:8px 11px;background:transparent;color:#5a8aaa;border:none;font-size:16px;cursor:pointer">✕</button>
+      </div>
     </div>
   </div>
   <div id="home-dashboard" style="width:100%"></div>
