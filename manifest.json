@@ -3,6 +3,7 @@
   "short_name": "ControlPrep",
   "description": "Prepara las oposiciones de controlador de tránsito aéreo de ENAIRE. Temario completo, preguntas de práctica, simulacros y psicotécnicos.",
   "start_url": "/",
+  "id": "/",
   "display": "standalone",
   "background_color": "#050d1a",
   "theme_color": "#050d1a",
