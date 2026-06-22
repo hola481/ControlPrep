@@ -48,6 +48,7 @@
   .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #e6edf3;color:#36506a}
   .rrow span:last-child{font-family:'Courier New',monospace;font-weight:700;color:#16314c}
   .big{font-family:'Courier New',monospace;font-size:30px;font-weight:800;text-align:center;color:#e8730c;margin:6px 0 12px}
+  @media(min-width:820px){.wrap{max-width:1000px}.sec{max-width:760px;margin-left:auto;margin-right:auto}}
 </style>
 </head>
 <body>
@@ -132,7 +133,7 @@
   var W=0,H=0,DPR=Math.min(window.devicePixelRatio||1,2);
   function sizeCanvas(){
     var w=document.getElementById('scopeWrap').clientWidth;
-    W=w; H=Math.round(w*0.92);
+    W=w; H=Math.round(w*(w>=700?0.6:0.92));
     cv.style.height=H+'px'; cv.width=W*DPR; cv.height=H*DPR;
     ctx.setTransform(DPR,0,0,DPR,0,0);
   }

@@ -55,6 +55,7 @@
   .big2{font-family:'Courier New',monospace;font-size:32px;font-weight:800;color:#e8730c;text-align:center;margin-bottom:10px}
   .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #e6edf3}
   .rrow span:last-child{font-family:'Courier New',monospace;font-weight:700}
+  @media(min-width:820px){.wrap{max-width:1080px}#ctrl,.radio{max-width:760px;margin-left:auto;margin-right:auto}}
 </style>
 </head>
 <body>
@@ -140,7 +141,7 @@
 
   var cv=document.getElementById('scope'), ctx=cv.getContext('2d');
   var W=0,H=0,DPR=Math.min(window.devicePixelRatio||1,2);
-  function sizeCanvas(){var w=document.getElementById('scopeWrap').clientWidth;W=w;H=Math.round(w*0.92);cv.style.height=H+'px';cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);}
+  function sizeCanvas(){var w=document.getElementById('scopeWrap').clientWidth;W=w;H=Math.round(w*(w>=700?0.6:0.92));cv.style.height=H+'px';cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);}
   window.addEventListener('resize',function(){if(!running)sizeCanvas();});
 
   // ---- airway network ----
