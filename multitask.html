@@ -48,7 +48,7 @@
   .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #e6edf3;color:#36506a}
   .rrow span:last-child{font-family:'Courier New',monospace;font-weight:700;color:#16314c}
   .big{font-family:'Courier New',monospace;font-size:30px;font-weight:800;text-align:center;color:#e8730c;margin:6px 0 12px}
-  @media(min-width:820px){.wrap{max-width:1000px}.sec{max-width:760px;margin-left:auto;margin-right:auto}}
+  @media(min-width:820px){.wrap{max-width:1100px}#game[style*="block"]{display:grid !important;grid-template-columns:1fr 340px;grid-template-areas:'hud hud' 'scope sec';gap:10px 16px;align-items:start}#game .hud{grid-area:hud}#scopeWrap{grid-area:scope}.sec{grid-area:sec;margin-top:0}}
 </style>
 </head>
 <body>

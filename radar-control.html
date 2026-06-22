@@ -55,7 +55,7 @@
   .big2{font-family:'Courier New',monospace;font-size:32px;font-weight:800;color:#e8730c;text-align:center;margin-bottom:10px}
   .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #e6edf3}
   .rrow span:last-child{font-family:'Courier New',monospace;font-weight:700}
-  @media(min-width:820px){.wrap{max-width:1080px}#ctrl,.radio{max-width:760px;margin-left:auto;margin-right:auto}}
+  @media(min-width:820px){.wrap{max-width:1180px}#game[style*="block"]{display:grid !important;grid-template-columns:1fr 340px;grid-template-areas:'hud hud' 'scope ctrl' 'scope radio';gap:10px 16px;align-items:start}#game .hud{grid-area:hud}#scopeWrap{grid-area:scope}#ctrl{grid-area:ctrl;margin-top:0}.radio{grid-area:radio;margin-top:0}}
 </style>
 </head>
 <body>
