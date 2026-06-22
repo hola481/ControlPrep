@@ -77,6 +77,7 @@
       <div class="excap" id="excap"></div>
       <div class="leg" id="legend" style="margin-top:10px"></div>
     </div>
+    <div class="lang" id="levSel" style="position:static;margin:0 auto 12px;width:fit-content"><button id="lv1" class="on"></button><button id="lv2"></button></div>
     <button class="startbtn" id="startBtn">Start</button>
   </div>
 
@@ -118,7 +119,7 @@
       correct:"Correct", wrong:"Not quite", ansis:"Answer:", next:"Next", clockUnit:"o'clock",
       cor:"correct",
       results:"Results", accuracy:"Accuracy", avgtime:"Avg. time", bytask:"Accuracy by task",
-      t_bearing:"Bearing", t_rotated:"Rotated compass", t_clock:"Clock position", t_place:"Plotting"
+      t_bearing:"Bearing", t_rotated:"Rotated compass", t_clock:"Clock position", t_place:"Plotting", lvl1:"Level 1 \u00b7 easier", lvl2:"Level 2"
     },
     es:{
       title:"Sistema de coordenadas", sub:"Orientaci\u00f3n espacial y rumbos \u2014 prototipo",
@@ -137,7 +138,7 @@
       correct:"Correcto", wrong:"Casi", ansis:"Respuesta:", next:"Siguiente", clockUnit:"en punto",
       cor:"correctas",
       results:"Resultados", accuracy:"Precisi\u00f3n", avgtime:"Tiempo medio", bytask:"Precisi\u00f3n por tarea",
-      t_bearing:"Rumbo", t_rotated:"Br\u00fajula girada", t_clock:"Posici\u00f3n horaria", t_place:"Situar"
+      t_bearing:"Rumbo", t_rotated:"Br\u00fajula girada", t_clock:"Posici\u00f3n horaria", t_place:"Situar", lvl1:"Nivel 1 \u00b7 m\u00e1s f\u00e1cil", lvl2:"Nivel 2"
     }
   };
 
@@ -170,12 +171,19 @@
   function gClock(){var h=pick([0,30,60,90,120,150,180,210,240,270,300,330]),rel=pick([0,30,60,90,120,150,180,210,240,270,300,330]),b=norm(h+rel),c=rel/30;if(c===0)c=12;var r=pick([2,3]);return {type:'clock',rot:0,own:{h:h},targets:[{b:b,r:r}],b:b,h:h,ans:c,opts:clockOpts(c)};}
   function gPlace(){var b=pick([15,30,45,60,90,120,135,150,210,225,270,300,330]),r=pick([2,3]);return {type:'place',rot:0,targets:[],b:b,r:r,nm:20*r,ans:{b:b,r:r}};}
 
+  var level=1;
   function buildItems(){
     var arr=[];
-    for(var i=0;i<4;i++)arr.push(gBearing());
-    for(var i=0;i<5;i++)arr.push(gRotated());
-    for(var i=0;i<4;i++)arr.push(gClock());
-    for(var i=0;i<3;i++)arr.push(gPlace());
+    if(level===1){
+      for(var i=0;i<6;i++)arr.push(gBearing());
+      for(var i=0;i<6;i++)arr.push(gClock());
+      for(var i=0;i<4;i++)arr.push(gPlace());
+    } else {
+      for(var i=0;i<4;i++)arr.push(gBearing());
+      for(var i=0;i<5;i++)arr.push(gRotated());
+      for(var i=0;i<4;i++)arr.push(gClock());
+      for(var i=0;i<3;i++)arr.push(gPlace());
+    }
     shuffle(arr);
     var bi=-1; for(var i=0;i<arr.length;i++){if(arr[i].type==='bearing'){bi=i;break;}}
     if(bi>0){var t=arr[0];arr[0]=arr[bi];arr[bi]=t;}
@@ -397,8 +405,11 @@
     document.getElementById('startBtn').textContent = (results.length&&!active)?t.again:t.start;
     document.getElementById('enBtn').className=lang==='en'?'on':'';
     document.getElementById('esBtn').className=lang==='es'?'on':'';
+    document.getElementById('lv1').textContent=t.lvl1;document.getElementById('lv2').textContent=t.lvl2;document.getElementById('lv1').className=level===1?'on':'';document.getElementById('lv2').className=level===2?'on':'';
     if(active)renderItem();
   }
+  document.getElementById('lv1').onclick=function(){level=1;applyLang();};
+  document.getElementById('lv2').onclick=function(){level=2;applyLang();};
   document.getElementById('enBtn').onclick=function(){lang='en';applyLang();};
   document.getElementById('esBtn').onclick=function(){lang='es';applyLang();};
   document.getElementById('startBtn').onclick=function(){

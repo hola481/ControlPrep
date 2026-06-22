@@ -151,7 +151,6 @@
     var t=L[lang];
     var cards=document.querySelectorAll('#keys .key');
     cards[i].className='card key '+(ok?'good':'bad');
-    if(!ok) cards[correctIdx].className='card key good';
     Array.prototype.forEach.call(cards,function(el){el.classList.add('dis');el.onclick=null;});
     var fb=document.getElementById('tFb');
     fb.textContent= ok? '✓ '+t.correct : '✗ '+t.wrong;

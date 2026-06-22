@@ -90,6 +90,7 @@
       <div class="itext" id="iInstr"></div>
       <div class="ileg" id="iLeg"></div>
     </div>
+    <div class="lang" id="levSel" style="margin:0 0 12px;width:fit-content"><button id="lv1" class="on"></button><button id="lv2"></button></div>
     <button class="start" id="startBtn"></button>
   </div>
 
@@ -132,7 +133,7 @@
       band_ex:"Excellent \u2014 calm, separated, on time", band_good:"Good \u2014 a solid pair of hands",
       band_ok:"Fair \u2014 the picture got away from you at times", band_imp:"Work needed \u2014 build the scan and plan ahead",
       r_assumed:"Flights assumed", r_clean:"Clean hand-offs", r_wrong:"Hand-offs at wrong level",
-      r_loss:"Separation losses", r_missed:"Missed (timed out / left sector)"
+      r_loss:"Separation losses", r_missed:"Missed (timed out / left sector)", lvl1:"Level 1 \u00b7 slower", lvl2:"Level 2"
     },
     es:{
       title:"Multi Control", sub:"Gestiona un sector: asume, separa, transfiere \u2014 prototipo",
@@ -152,7 +153,7 @@
       band_ex:"Excelente \u2014 con calma, separado y a tiempo", band_good:"Bueno \u2014 buen control",
       band_ok:"Aceptable \u2014 a veces se te complic\u00f3 la imagen", band_imp:"A mejorar \u2014 trabaja el barrido y anticipa",
       r_assumed:"Vuelos asumidos", r_clean:"Transferencias correctas", r_wrong:"Transferencias a nivel err\u00f3neo",
-      r_loss:"P\u00e9rdidas de separaci\u00f3n", r_missed:"Perdidos (caducados / salieron del sector)"
+      r_loss:"P\u00e9rdidas de separaci\u00f3n", r_missed:"Perdidos (caducados / salieron del sector)", lvl1:"Nivel 1 \u00b7 m\u00e1s lento", lvl2:"Nivel 2"
     }
   };
 
@@ -180,6 +181,7 @@
   var startMs=0, ROUND=120000, lastTs=0, sweep=0;
   var score=0, assumed=0, cleanHO=0, wrongHO=0, losses=0, missed=0;
   var lastSpawn=0, panelAcc=0;
+  var level=1, spdMul=1, spawnMul=1, assumeT=9000;
   var lossActive={};
 
   function rnd(a,b){return a+Math.random()*(b-a);}
@@ -194,7 +196,7 @@
   function spawnInbox(){
     if(inbox.length>=3) return;
     var r=Math.floor(rnd(0,ROUTES.length));
-    inbox.push({id:nextId++, cs:cs(), route:r, fl:pick([310,320,330]), exitFl:pick(FLS), t:9000, t0:9000});
+    inbox.push({id:nextId++, cs:cs(), route:r, fl:pick([310,320,330]), exitFl:pick(FLS), t:assumeT, t0:assumeT});
   }
   function assume(id){
     var idx=-1; for(var i=0;i<inbox.length;i++) if(inbox[i].id===id) idx=i;
@@ -284,11 +286,11 @@
     if(remain<=0){ endGame(); return; }
     var dts=dt/1000;
     // spawn inbound
-    if(now-lastSpawn>rnd(4500,7500)){ spawnInbox(); lastSpawn=now; }
+    if(now-lastSpawn>rnd(4500,7500)*spawnMul){ spawnInbox(); lastSpawn=now; }
     // inbox timers
     for(var i=inbox.length-1;i>=0;i--){ inbox[i].t-=dt; if(inbox[i].t<=0){ inbox.splice(i,1); missed++; score-=15; } }
     // move + level + handoff state
-    var SPD=0.052*W*dts, REACH=0.022*W, HAND=0.16*W;
+    var SPD=0.052*W*dts*spdMul, REACH=0.022*W, HAND=0.16*W;
     for(var i=planes.length-1;i>=0;i--){ var p=planes[i];
       // level toward cleared
       if(Math.abs(p.fl-p.cleared)>0.4){ p.fl+=Math.sign(p.cleared-p.fl)*Math.min(Math.abs(p.cleared-p.fl),11*dts); }
@@ -361,6 +363,7 @@
     document.getElementById('game').style.display='block';
     sizeCanvas();
     planes=[]; inbox=[]; sel=null; nextId=1; lossActive={};
+    spdMul=level===1?0.62:1; spawnMul=level===1?1.5:1; assumeT=level===1?13000:9000;
     score=0; assumed=0; cleanHO=0; wrongHO=0; losses=0; missed=0;
     startMs=performance.now(); lastTs=0; lastSpawn=startMs-3000; panelAcc=0;
     running=true; played=true;
@@ -401,11 +404,14 @@
     document.getElementById('startBtn').textContent=played?t.again:t.start;
     document.getElementById('langEn').className=lang==='en'?'on':'';
     document.getElementById('langEs').className=lang==='es'?'on':'';
+    document.getElementById('lv1').textContent=t.lvl1;document.getElementById('lv2').textContent=t.lvl2;document.getElementById('lv1').className=level===1?'on':'';document.getElementById('lv2').className=level===2?'on':'';
     if(running||played) refreshPanels(); else { document.getElementById('phSel').textContent=t.phSel; }
   }
   document.getElementById('inbox').addEventListener('click',function(e){var b=e.target.closest('[data-as]'); if(b) assume(parseInt(b.getAttribute('data-as'),10));});
   document.getElementById('strips').addEventListener('click',function(e){var b=e.target.closest('[data-st]'); if(b) selectPlane(parseInt(b.getAttribute('data-st'),10));});
   document.getElementById('selPanel').addEventListener('click',function(e){var b=e.target.closest('[data-act]'); if(!b)return; var a=b.getAttribute('data-act'); if(a==='up')changeLevel(1); else if(a==='dn')changeLevel(-1); else if(a==='ho')handoff();});
+  document.getElementById('lv1').onclick=function(){level=1;applyLang();};
+  document.getElementById('lv2').onclick=function(){level=2;applyLang();};
   document.getElementById('langEn').onclick=function(){lang='en';applyLang();};
   document.getElementById('langEs').onclick=function(){lang='es';applyLang();};
   document.getElementById('startBtn').onclick=startGame;

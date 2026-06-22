@@ -66,6 +66,7 @@
       <div class="rule" id="iRule"></div>
       <div class="exleg" id="iEx"></div>
     </div>
+    <div class="lang" id="levSel" style="margin:0 0 12px;width:fit-content"><button id="lv1" class="on"></button><button id="lv2"></button></div>
     <button class="start" id="startBtn"></button>
   </div>
 
@@ -106,7 +107,7 @@
       band_ex:"Excellent \u2014 strong performance under load", band_good:"Good \u2014 solid, keep polishing",
       band_ok:"Fair \u2014 multitasking still costs you", band_imp:"Work needed \u2014 train divided attention",
       r_resolved:"Conflicts resolved", r_missed:"Conflicts missed", r_milok:"Military ignored \u2713",
-      r_rule:"Rule broken (military tapped)", r_false:"False taps", r_sec:"Secondary task"
+      r_rule:"Rule broken (military tapped)", r_false:"False taps", r_sec:"Secondary task", lvl1:"Level 1 \u00b7 slower", lvl2:"Level 2"
     },
     es:{
       title:"Monitorizaci\u00f3n y multitarea", sub:"Radar din\u00e1mico, reglas y atenci\u00f3n dividida \u2014 prototipo",
@@ -125,7 +126,7 @@
       band_ex:"Excelente \u2014 gran rendimiento bajo carga", band_good:"Bueno \u2014 s\u00f3lido, sigue puliendo",
       band_ok:"Aceptable \u2014 la multitarea a\u00fan te cuesta", band_imp:"A mejorar \u2014 entrena la atenci\u00f3n dividida",
       r_resolved:"Conflictos resueltos", r_missed:"Conflictos perdidos", r_milok:"Militares ignorados \u2713",
-      r_rule:"Regla incumplida (militar tocado)", r_false:"Toques en falso", r_sec:"Tarea secundaria"
+      r_rule:"Regla incumplida (militar tocado)", r_false:"Toques en falso", r_sec:"Tarea secundaria", lvl1:"Nivel 1 \u00b7 m\u00e1s lento", lvl2:"Nivel 2"
     }
   };
 
@@ -145,6 +146,7 @@
   var score=0, conflictsResolved=0, conflictsMissed=0, falseAlarms=0, decoysCorrect=0, decoysTapped=0;
   var secCorrect=0, secWrong=0, secTotal=0, lastSec=0;
   var lastDistractor=0, lastConflict=0;
+  var level=1, spdMul=1, slowMul=1;
   var DANGER=30, TAP_R=30;
   var labels=['IBE','RYR','VLG','AEA','DLH','AFR','BAW','EZY','TAP','SWR','KLM','UAE','THY','ELY'];
 
@@ -218,11 +220,11 @@
     if(edge===0){x=-20;y=rnd(20,H-20);} else if(edge===1){x=W+20;y=rnd(20,H-20);}
     else if(edge===2){x=rnd(20,W-20);y=-20;} else {x=rnd(20,W-20);y=H+20;}
     tx=rnd(W*0.2,W*0.8); ty=rnd(H*0.2,H*0.8);
-    var dx=tx-x,dy=ty-y,d=Math.hypot(dx,dy)||1,sp=rnd(22,34)/1000;
+    var dx=tx-x,dy=ty-y,d=Math.hypot(dx,dy)||1,sp=rnd(22,34)/1000*spdMul;
     planes.push({id:nextId++,x:x,y:y,vx:dx/d*sp*16,vy:dy/d*sp*16,cs:cs(),mil:Math.random()<0.25,conf:false});
   }
   function spawnConflict(now){
-    var cx=rnd(W*0.28,W*0.72), cy=rnd(H*0.28,H*0.72), travel=rnd(6000,8000);
+    var cx=rnd(W*0.28,W*0.72), cy=rnd(H*0.28,H*0.72), travel=rnd(6000,8000)/spdMul;
     var pid='c'+now+'_'+Math.floor(Math.random()*999), decoy=Math.random()<0.35;
     function mk(ang,mil){
       var dist=Math.min(W,H)*0.6, sx=cx+Math.cos(ang)*dist, sy=cy+Math.sin(ang)*dist;
@@ -264,9 +266,9 @@
     var remain=Math.max(0,ROUND-(now-startMs));
     document.getElementById('hTime').textContent=Math.ceil(remain/1000);
     if(remain<=0){ endGame(); return; }
-    if(now-lastDistractor>rnd(1500,2400)){ if(planes.length<10) spawnDistractor(); lastDistractor=now; }
-    if(now-lastConflict>rnd(3200,5000)){ spawnConflict(now); lastConflict=now; }
-    if(sec.state==='idle' && now-lastSec>rnd(2800,4600)){ secStart(now); }
+    if(now-lastDistractor>rnd(1500,2400)*slowMul){ if(planes.length<10) spawnDistractor(); lastDistractor=now; }
+    if(now-lastConflict>rnd(3200,5000)*slowMul){ spawnConflict(now); lastConflict=now; }
+    if(sec.state==='idle' && now-lastSec>rnd(2800,4600)*slowMul){ secStart(now); }
     secTick(now);
 
     var k=dt/16;
@@ -325,6 +327,7 @@
   }
 
   function startGame(){
+    spdMul=level===1?0.65:1; slowMul=level===1?1.5:1;
     var t=L[lang];
     document.getElementById('intro').style.display='none';
     document.getElementById('resultsHost').innerHTML='';
@@ -376,7 +379,10 @@
     var si=document.getElementById('secIdle'); if(si) si.textContent=t.secIdle;
     document.getElementById('langEn').className=lang==='en'?'on':'';
     document.getElementById('langEs').className=lang==='es'?'on':'';
+    document.getElementById('lv1').textContent=t.lvl1;document.getElementById('lv2').textContent=t.lvl2;document.getElementById('lv1').className=level===1?'on':'';document.getElementById('lv2').className=level===2?'on':'';
   }
+  document.getElementById('lv1').onclick=function(){level=1;applyLang();};
+  document.getElementById('lv2').onclick=function(){level=2;applyLang();};
   document.getElementById('langEn').onclick=function(){lang='en';applyLang();};
   document.getElementById('langEs').onclick=function(){lang='es';applyLang();};
   document.getElementById('startBtn').onclick=startGame;
