@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Radar Control</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:#eaf1f7;color:#1b2b3a;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;display:flex;justify-content:center;min-height:100vh}
+  .wrap{width:100%;max-width:460px;padding:14px}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  h1{font-size:15px;font-weight:800;color:#e8730c}
+  .sub{font-size:11px;color:#5f7488;margin-top:2px}
+  .lang{display:flex;border:1px solid #c7d6e4;border-radius:8px;overflow:hidden;flex-shrink:0}
+  .lang button{background:#fff;color:#5f7488;border:none;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer}
+  .lang button.on{background:#e8730c;color:#fff}
+  .note{background:#eaf3fb;border:1px solid #cfe0f0;border-left:3px solid #2f8fd6;border-radius:9px;padding:8px 10px;font-size:11.5px;color:#2f4d66;line-height:1.45;margin:10px 0}
+  #intro .introbox{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:14px}
+  .ititle{font-size:13px;font-weight:800;color:#e8730c;margin-bottom:6px}
+  .itext{font-size:12.5px;color:#36506a;line-height:1.5}
+  .legend{font-size:11.5px;color:#5f7488;line-height:1.7;margin-top:10px}
+  .legend b{color:#1b3a52}
+  .hud{display:flex;justify-content:space-between;font-size:12px;color:#5f7488;margin-bottom:8px}
+  .hud b{color:#16314c;font-family:'Courier New',monospace}
+  #scopeWrap{position:relative;background:#d4e3f2;border:1px solid #c0d2e4;border-radius:12px;overflow:hidden}
+  canvas{display:block;width:100%}
+  #ctrl{margin-top:10px;background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:11px 12px}
+  #ctrl.hidden{display:none}
+  .crow{display:flex;justify-content:space-between;align-items:center}
+  .ccs{font-family:'Courier New',monospace;font-weight:700;font-size:16px;color:#1f6fb8}
+  .cx{background:none;border:none;color:#8a9bb0;font-size:16px;cursor:pointer}
+  .cinfo{display:flex;justify-content:space-between;align-items:center;margin:6px 0 9px}
+  .cfl{font-size:13px;color:#5a6b7c}
+  .cfl b{font-family:'Courier New',monospace;font-size:20px;color:#16314c}
+  .chdg{font-family:'Courier New',monospace;font-size:12px;color:#5a6b7c}
+  .cdial{flex:0 0 auto}
+  .cbtns{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:8px}
+  .cbtns button{padding:11px 6px;border-radius:9px;border:1px solid #c7d6e4;background:#eef3f8;color:#1b3a5c;font-size:14px;font-weight:700;cursor:pointer}
+  .cbtns button.confirm{background:#e8730c;color:#fff;border:none}
+  .cbtns button:active{transform:scale(.97)}
+  .cexit{font-family:'Courier New',monospace;font-size:12px;font-weight:700;color:#1f8a5c}
+  .chrow{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:8px;margin-top:8px}
+  .chrow button{padding:10px 6px;border-radius:9px;border:1px solid #c7d6e4;background:#eef3f8;color:#1b3a5c;font-size:14px;font-weight:700;cursor:pointer}
+  .chrow button.direct{background:#1f8a5c;border:none;color:#fff}
+  .chrow button:active{transform:scale(.97)}
+  .radio{margin-top:10px;background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:11px 12px;min-height:78px;display:flex;flex-direction:column;justify-content:center}
+  .radio .rq{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:#8a9bb0;margin-bottom:5px}
+  .radio .rm{font-family:'Courier New',monospace;font-size:14px;color:#16314c;margin-bottom:9px}
+  .radio .ridle{font-size:12px;color:#8a9bb0;text-align:center}
+  .rbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .rbtns button{padding:10px;border-radius:9px;border:1px solid #c7d6e4;background:#eef3f8;color:#1b3a5c;font-size:13px;font-weight:700;cursor:pointer}
+  .start{margin-top:12px;width:100%;padding:14px;border:none;border-radius:11px;background:#e8730c;color:#fff;font-size:15px;font-weight:800;cursor:pointer}
+  .results{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:18px;margin-top:14px}
+  .results h2{font-size:15px;color:#e8730c;margin-bottom:6px;text-align:center}
+  .big2{font-family:'Courier New',monospace;font-size:32px;font-weight:800;color:#e8730c;text-align:center;margin-bottom:10px}
+  .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #e6edf3}
+  .rrow span:last-child{font-family:'Courier New',monospace;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><h1 id="tTitle">Radar Control</h1><div class="sub" id="tSub"></div></div>
+    <div class="lang"><button id="langEn" class="on">EN</button><button id="langEs">ES</button></div>
+  </div>
+  <div class="note" id="tNote"></div>
+
+  <div id="intro">
+    <div class="introbox">
+      <div class="ititle" id="iHow"></div>
+      <div class="itext" id="iInstr"></div>
+      <div class="legend" id="iLegend"></div>
+    </div>
+  </div>
+
+  <div id="game" style="display:none">
+    <div class="hud"><span id="tTime"></span><span id="tScore"></span><span id="tSep"></span></div>
+    <div id="scopeWrap"><canvas id="scope"></canvas></div>
+    <div id="ctrl" class="hidden">
+      <div class="crow"><span><span class="ccs" id="cCs"></span> <span class="cexit" id="cExit"></span></span><button class="cx" id="cClose">&#10005;</button></div>
+      <div class="cinfo">
+        <div class="cfl" id="cFlLbl">FL <b id="cPend"></b><span class="chdg" id="cHdg"></span></div>
+        <svg class="cdial" id="cDial" viewBox="0 0 60 60" width="56" height="56">
+          <circle cx="30" cy="30" r="27" fill="#f7fafd" stroke="#c7d6e4" stroke-width="2"></circle>
+          <line x1="30" y1="4" x2="30" y2="10" stroke="#8a9bb0" stroke-width="1.5"></line>
+          <line x1="56" y1="30" x2="50" y2="30" stroke="#cdd9e6" stroke-width="1.5"></line>
+          <line x1="30" y1="56" x2="30" y2="50" stroke="#cdd9e6" stroke-width="1.5"></line>
+          <line x1="4" y1="30" x2="10" y2="30" stroke="#cdd9e6" stroke-width="1.5"></line>
+          <text x="30" y="15" text-anchor="middle" font-size="8" fill="#8a9bb0" font-family="monospace">N</text>
+          <line id="cNeedle" x1="30" y1="30" x2="30" y2="10" stroke="#e8730c" stroke-width="2.6" stroke-linecap="round"></line>
+          <circle cx="30" cy="30" r="2.6" fill="#33485c"></circle>
+        </svg>
+      </div>
+      <div class="cbtns">
+        <button id="cDesc"></button>
+        <button id="cClimb"></button>
+        <button id="cConfirm" class="confirm"></button>
+      </div>
+      <div class="chrow">
+        <button id="cLeft"></button>
+        <button id="cRight"></button>
+        <button id="cDirect" class="direct"></button>
+      </div>
+    </div>
+    <div class="radio" id="radio">
+      <div class="ridle" id="rIdle"></div>
+      <div id="rActive" style="display:none">
+        <div class="rq" id="rQ"></div>
+        <div class="rm" id="rM"></div>
+        <div class="rbtns"><button id="rRel"></button><button id="rIrr"></button></div>
+      </div>
+    </div>
+  </div>
+
+  <button class="start" id="startBtn"></button>
+  <div id="resultsHost"></div>
+</div>
+
+<script>
+(function(){
+  var L={
+    en:{title:"Radar Control",sub:"ATC separation & R/T — prototype",
+      note:"The official assessment is conducted in English. We recommend training in English — switch to Spanish only if you need to. Best experienced on desktop (recommended for accuracy), though it works on mobile too.",
+      how:"How it works",
+      instr:"You are the controller. Aircraft fly the airways across your sector, each tagged with its callsign and flight level (FL). Two aircraft at the SAME level that pass too close is a loss of separation. Tap an aircraft, then climb or descend it and press CONFIRM to keep levels apart. Aircraft that cross cleanly score points; losses of separation cost you. You can also vector an aircraft Left/Right to turn it off its airway, then press DIRECT to send it to its exit fix (shown after the → on its tag). An aircraft that leaves the sector anywhere but its own exit costs you. The radio panel asks whether each call is for your sector.",
+      legend:"<b>Tap</b> an aircraft to select it · <b>climb/descend</b> + CONFIRM to change its level · <b>Left/Right</b> to vector, <b>DIRECT</b> to its exit fix · keep same-level traffic apart · answer the <b>radio</b> calls.",
+      time:"Time",score:"Score",sep:"Sep. losses",climb:"Climb",desc:"Descend",confirm:"CONFIRM",left:"Left",right:"Right",direct:"Direct",badexit:"Wrong exit",
+      rq:"Radio — is this call for your sector?",ridle:"Radio — calls will arrive during the exercise",rel:"Relevant",irr:"Irrelevant",
+      start:"Start",again:"Try again",results:"Results",exits:"Clean crossings",losses:"Separation losses",radioAcc:"Radio accuracy",finished:"Finished"},
+    es:{title:"Control radar",sub:"Separación ATC y radiotelefonía — prototipo",
+      note:"La prueba oficial se realiza en inglés. Recomendamos entrenar en inglés; cambia a español solo si lo necesitas. Mejor en ordenador (recomendado para mayor precisión), aunque también funciona en móvil.",
+      how:"Cómo funciona",
+      instr:"Eres el controlador. Las aeronaves vuelan las aerovías de tu sector, cada una con su indicativo y nivel de vuelo (FL). Dos aeronaves al MISMO nivel que pasan demasiado cerca es una pérdida de separación. Toca una aeronave, súbela o bájala de nivel y pulsa CONFIRMAR para mantener los niveles separados. Las que cruzan limpiamente suman puntos; las pérdidas de separación restan. También puedes vectorar una aeronave Izq./Der. para sacarla de su aerovía y pulsar DIRECTO para enviarla a su punto de salida (indicado tras la → en su etiqueta). Una aeronave que abandona el sector por un punto que no es el suyo te resta. El panel de radio te pregunta si cada llamada es de tu sector.",
+      legend:"<b>Toca</b> una aeronave para seleccionarla · <b>sube/baja</b> + CONFIRMAR para cambiar su nivel · <b>Izq./Der.</b> para vectorar, <b>DIRECTO</b> a su salida · separa el tráfico del mismo nivel · responde la <b>radio</b>.",
+      time:"Tiempo",score:"Puntos",sep:"Pérdidas sep.",climb:"Subir",desc:"Bajar",confirm:"CONFIRMAR",left:"Izq.",right:"Der.",direct:"Directo",badexit:"Salida incorrecta",
+      rq:"Radio — ¿es esta llamada de tu sector?",ridle:"Radio — llegarán llamadas durante el ejercicio",rel:"Relevante",irr:"Irrelevante",
+      start:"Empezar",again:"Repetir",results:"Resultados",exits:"Cruces limpios",losses:"Pérdidas de separación",radioAcc:"Precisión radio",finished:"Finalizado"}
+  };
+  var lang='en';
+
+  var cv=document.getElementById('scope'), ctx=cv.getContext('2d');
+  var W=0,H=0,DPR=Math.min(window.devicePixelRatio||1,2);
+  function sizeCanvas(){var w=document.getElementById('scopeWrap').clientWidth;W=w;H=Math.round(w*0.92);cv.style.height=H+'px';cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);}
+  window.addEventListener('resize',function(){if(!running)sizeCanvas();});
+
+  // ---- airway network ----
+  var FIX={
+    NW:[.22,.08], NE:[.63,.07], ER:[.93,.30], EL:[.93,.64],
+    SE:[.74,.93], SW:[.31,.94], WL:[.07,.72], WU:[.07,.37],
+    KA:[.40,.33], KB:[.66,.39], KC:[.52,.55], KD:[.37,.67], KE:[.69,.70]
+  };
+  var AIRWAYS=[['NW','KA'],['NE','KB'],['WU','KA'],['ER','KB'],['KA','KB'],['KA','KC'],['KB','KC'],
+    ['KC','KD'],['KC','KE'],['KD','KE'],['WL','KD'],['EL','KE'],['KD','SW'],['KE','SE'],['KA','KD'],['KB','KE']];
+  var ROUTES=[
+    ['NW','KA','KC','KE','SE'], ['NE','KB','KC','KD','SW'], ['WU','KA','KB','ER'],
+    ['WL','KD','KC','KB','ER'], ['EL','KE','KD','SW'], ['NW','KA','KD','SW'],
+    ['NE','KB','KE','SE'], ['WU','KA','KC','KD','SW'], ['EL','KE','KC','KB','ER'], ['WL','KD','KC','KA','NW']
+  ];
+  var labels=['IBE','RYR','VLG','AEA','DLH','AFR','BAW','EZY','TAP','SWR','KLM','UAE','THY','ELY','AZA','TVF'];
+  var FLs=[260,270,280,290,300,310,320,330,340,350];
+  var SPDS=[180,210,240,270,300,330,360,420,480], SPDSCALE=0.00030, MAXAC=7;
+
+  var running=false, planes=[], nextId=1, selected=null, pendingFL=0;
+  var startMs=0, ROUND=150000, lastTs=0;
+  var score=0, exits=0, losses=0, badExit=0, radioOk=0, radioTot=0, lossPairs={};
+  var lastSpawn=0, lastPair=0;
+  var radio={active:false,relevant:false,until:0};
+  var lastRadio=0;
+
+  function rnd(a,b){return a+Math.random()*(b-a);}
+  function pick(a){return a[Math.floor(Math.random()*a.length)];}
+  function cs(){return pick(labels)+Math.floor(rnd(100,999));}
+  function fixPos(k){return [FIX[k][0]*W,FIX[k][1]*H];}
+
+  function spawn(){
+    var keys=pick(ROUTES).slice();
+    if(Math.random()<0.5)keys.reverse();
+    var pts=keys.map(function(kk){return fixPos(kk);});
+    var dx=pts[1][0]-pts[0][0], dy=pts[1][1]-pts[0][1], dl=Math.hypot(dx,dy)||1;
+    planes.push({id:nextId++,cs:cs(),fl:pick(FLs),spd:pick(SPDS),pts:pts,seg:0,x:pts[0][0],y:pts[0][1],dirx:dx/dl,diry:dy/dl,conflict:false,hadLoss:false,exit:keys[keys.length-1],mode:'route'});
+  }
+  function routePts(keys){return keys.map(function(kk){return fixPos(kk);});}
+  function legLen(pts,i){return Math.hypot(pts[i+1][0]-pts[i][0],pts[i+1][1]-pts[i][1]);}
+  function placeOnRoute(pts,advance){
+    var seg=0,rem=advance;
+    while(seg<pts.length-2){var L=legLen(pts,seg);if(rem<=L)break;rem-=L;seg++;}
+    var L=legLen(pts,seg)||1,t=Math.min(1,rem/L);
+    return {pts:pts,seg:seg,x:pts[seg][0]+(pts[seg+1][0]-pts[seg][0])*t,y:pts[seg][1]+(pts[seg+1][1]-pts[seg][1])*t};
+  }
+  function mkPlane(pl,fl,exit,spd){var to=pl.pts[pl.seg+1],dx=to[0]-pl.x,dy=to[1]-pl.y,dl=Math.hypot(dx,dy)||1;
+    return {id:nextId++,cs:cs(),fl:fl,spd:spd,pts:pl.pts,seg:pl.seg,x:pl.x,y:pl.y,dirx:dx/dl,diry:dy/dl,conflict:false,hadLoss:false,exit:exit,mode:'route'};}
+  // deliberate, resolvable conflict: two inbounds to the same junction, same level, synced arrival
+  function spawnPair(){
+    var J=pick(['KA','KB','KD','KE']);
+    var cand=[];
+    for(var i=0;i<ROUTES.length;i++){
+      for(var dir=0;dir<2;dir++){
+        var kk=dir?ROUTES[i].slice().reverse():ROUTES[i].slice();
+        if(kk[1]===J)cand.push({keys:kk,app:kk[0]});
+      }
+    }
+    if(cand.length<2){spawn();return;}
+    var a=pick(cand);
+    var others=cand.filter(function(c){return c.app!==a.app;});
+    if(!others.length){spawn();return;}
+    var b=pick(others);
+    var pa=routePts(a.keys),pb=routePts(b.keys);
+    var dA=legLen(pa,0),dB=legLen(pb,0),base=Math.min(dA,dB);
+    var plA=placeOnRoute(pa,dA-base),plB=placeOnRoute(pb,dB-base);
+    var fl=pick(FLs), sp=pick(SPDS);
+    planes.push(mkPlane(plA,fl,a.keys[a.keys.length-1],sp));planes.push(mkPlane(plB,fl,b.keys[b.keys.length-1],sp));
+  }
+  function removePlane(p,i){if(selected===p)deselect();planes.splice(i,1);updHud();}
+  function cleanExit(p,i){if(!p.hadLoss){exits++;score+=25;}removePlane(p,i);}
+  function boundaryExit(p,i){
+    var ex=fixPos(p.exit),dd=Math.hypot(p.x-ex[0],p.y-ex[1]);
+    if(dd<70 && !p.hadLoss){exits++;score+=25;} else {badExit++;score-=20;}
+    removePlane(p,i);
+  }
+
+  function updHud(){
+    var t=L[lang];
+    document.getElementById('tScore').innerHTML=t.score+' <b>'+score+'</b>';
+    document.getElementById('tSep').innerHTML=t.sep+' <b>'+losses+'</b>';
+  }
+
+  function radioStart(now){
+    var rel=Math.random()<0.55 && planes.length>0;
+    var call=rel?pick(planes).cs:cs();
+    radio.active=true; radio.relevant=rel; radio.until=now+5600; radioTot++;
+    var t=L[lang];
+    document.getElementById('rIdle').style.display='none';
+    document.getElementById('rActive').style.display='block';
+    document.getElementById('rQ').textContent=t.rq;
+    document.getElementById('rM').textContent=call+' — '+pick(['request climb','report heading','contact next sector','squawk ident','say intentions']);
+  }
+  function radioEnd(ans){
+    radio.active=false;var t=L[lang];
+    document.getElementById('rActive').style.display='none';
+    document.getElementById('rIdle').style.display='block';
+    if(ans===null){document.getElementById('rIdle').textContent='—';score-=5;}
+    else if(ans===radio.relevant){radioOk++;score+=12;document.getElementById('rIdle').textContent='✓';}
+    else {score-=8;document.getElementById('rIdle').textContent='✗';}
+    lastRadio=performance.now();updHud();
+  }
+  document.getElementById('rRel').onclick=function(){if(radio.active)radioEnd(true);};
+  document.getElementById('rIrr').onclick=function(){if(radio.active)radioEnd(false);};
+
+  function selectPlane(p){
+    selected=p; pendingFL=p.fl; var t=L[lang];
+    document.getElementById('ctrl').className='';
+    document.getElementById('cCs').textContent=p.cs;
+    document.getElementById('cExit').textContent='→ '+p.exit;
+    document.getElementById('cClimb').textContent='▲ '+t.climb;
+    document.getElementById('cDesc').textContent='▼ '+t.desc;
+    document.getElementById('cConfirm').textContent=t.confirm;
+    document.getElementById('cLeft').textContent='◄ '+t.left;
+    document.getElementById('cRight').textContent=t.right+' ►';
+    document.getElementById('cDirect').textContent=t.direct+' '+p.exit;
+    updPend(); updDial();
+  }
+  function updPend(){document.getElementById('cPend').textContent=pendingFL;}
+  function updDial(){if(!selected)return;var hdg=(Math.atan2(selected.dirx,-selected.diry)*180/Math.PI+360)%360;var n=document.getElementById('cNeedle');if(n)n.setAttribute('transform','rotate('+Math.round(hdg)+' 30 30)');var h=document.getElementById('cHdg');if(h)h.textContent=' \u00b7 HDG '+('00'+Math.round(hdg)).slice(-3);}
+  function deselect(){selected=null;document.getElementById('ctrl').className='hidden';}
+  document.getElementById('cClose').onclick=deselect;
+  document.getElementById('cClimb').onclick=function(){if(selected){pendingFL=Math.min(400,pendingFL+10);updPend();}};
+  document.getElementById('cDesc').onclick=function(){if(selected){pendingFL=Math.max(100,pendingFL-10);updPend();}};
+  document.getElementById('cConfirm').onclick=function(){if(selected){selected.fl=pendingFL;deselect();}};
+  function turn(deg){if(!selected)return;var p=selected;p.mode='vector';var a=Math.atan2(p.diry,p.dirx)+deg*Math.PI/180;p.dirx=Math.cos(a);p.diry=Math.sin(a);updDial();}
+  document.getElementById('cLeft').onclick=function(){turn(-18);};
+  document.getElementById('cRight').onclick=function(){turn(18);};
+  document.getElementById('cDirect').onclick=function(){if(selected){selected.mode='direct';deselect();}};
+
+  cv.addEventListener('pointerdown',function(e){
+    if(!running)return;
+    var r=cv.getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top;
+    var best=null,bd=28;
+    for(var i=0;i<planes.length;i++){var p=planes[i],d=Math.hypot(p.x-px,p.y-py);if(d<bd){bd=d;best=p;}}
+    if(best)selectPlane(best); else deselect();
+  });
+
+  function update(now,dt){
+    var remain=Math.max(0,ROUND-(now-startMs));
+    document.getElementById('tTime').innerHTML=L[lang].time+' <b>'+Math.ceil(remain/1000)+'</b>';
+    if(remain<=0){endGame();return;}
+    if(now-lastSpawn>rnd(8000,13000)){
+      if(planes.length<=MAXAC-2 && now-lastPair>rnd(14000,21000)){spawnPair();lastPair=now;}
+      else if(planes.length<MAXAC){spawn();}
+      lastSpawn=now;
+    }
+    if(!radio.active && now-lastRadio>rnd(6500,9500))radioStart(now);
+    if(radio.active && now>radio.until)radioEnd(null);
+
+    var k=dt/16;
+    for(var i=planes.length-1;i>=0;i--){
+      var p=planes[i]; p.conflict=false;
+      if(p.mode==='route'){
+        var to=p.pts[p.seg+1], dx=to[0]-p.x, dy=to[1]-p.y, d=Math.hypot(dx,dy);
+        if(d<4){
+          p.seg++;
+          if(p.seg>=p.pts.length-1){ cleanExit(p,i); continue; }
+          to=p.pts[p.seg+1]; dx=to[0]-p.x; dy=to[1]-p.y; d=Math.hypot(dx,dy)||1;
+        }
+        p.dirx=dx/d; p.diry=dy/d;
+      } else if(p.mode==='direct'){
+        var ex=fixPos(p.exit), dx=ex[0]-p.x, dy=ex[1]-p.y, d=Math.hypot(dx,dy)||1;
+        if(d<6){ cleanExit(p,i); continue; }
+        p.dirx=dx/d; p.diry=dy/d;
+      }
+      var v=p.spd*SPDSCALE; p.x+=p.dirx*v*k; p.y+=p.diry*v*k;
+      if(p.mode==='vector' && (p.x<-8||p.x>W+8||p.y<-8||p.y>H+8)){ boundaryExit(p,i); continue; }
+    }
+    for(var a=0;a<planes.length;a++)for(var b=a+1;b<planes.length;b++){
+      var p=planes[a],q=planes[b]; if(p.fl!==q.fl)continue;
+      var dd=Math.hypot(p.x-q.x,p.y-q.y);
+      if(dd<36){p.conflict=true;q.conflict=true;}
+      if(dd<18){var key=Math.min(p.id,q.id)+'_'+Math.max(p.id,q.id);if(!lossPairs[key]){lossPairs[key]=1;losses++;score-=40;p.hadLoss=true;q.hadLoss=true;updHud();}}
+    }
+  }
+
+  function render(){
+    ctx.clearRect(0,0,W,H);ctx.fillStyle='#d4e3f2';ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='#ffffff';ctx.lineWidth=9;ctx.lineCap='round';
+    for(var i=0;i<AIRWAYS.length;i++){var a=fixPos(AIRWAYS[i][0]),b=fixPos(AIRWAYS[i][1]);ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();}
+    ctx.lineCap='butt';
+    ctx.fillStyle='rgba(40,70,100,.40)';ctx.font='bold 9px Courier New';ctx.textAlign='center';
+    ctx.fillText('000',W/2,11);ctx.fillText('180',W/2,H-3);
+    ctx.textAlign='right';ctx.fillText('090',W-4,H/2);
+    ctx.textAlign='left';ctx.fillText('270',4,H/2);
+    for(var kk in FIX){var p=fixPos(kk);ctx.fillStyle='#f4c01e';ctx.strokeStyle='#c79a10';ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(p[0],p[1],5,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.fillStyle='#33485c';ctx.font='bold 10px Courier New';ctx.fillText(kk,p[0]+7,p[1]-5);}
+    for(var i=0;i<planes.length;i++){var p=planes[i];
+      var sel=selected===p, col=p.conflict?'#e23b3b':sel?'#e8a317':'#1f7ad6';
+      ctx.strokeStyle='rgba(20,45,70,.55)';ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x+p.dirx*14,p.y+p.diry*14);ctx.stroke();
+      ctx.fillStyle=col;ctx.beginPath();ctx.arc(p.x,p.y,5,0,Math.PI*2);ctx.fill();
+      if(sel){ctx.strokeStyle='#e8a317';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x,p.y,11,0,Math.PI*2);ctx.stroke();}
+      if(p.conflict){ctx.strokeStyle='rgba(226,59,59,.5)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x,p.y,13,0,Math.PI*2);ctx.stroke();}
+      ctx.fillStyle=p.conflict?'#b5202a':'#16314c';ctx.font='9px Courier New';
+      ctx.fillText(p.cs,p.x+9,p.y-4);ctx.fillText('FL'+p.fl+' '+p.spd+'kn \u2192'+p.exit,p.x+9,p.y+6);
+    }
+    if(selected)updDial();
+  }
+
+  function loop(ts){if(!running)return;if(!lastTs)lastTs=ts;var dt=Math.min(50,ts-lastTs);lastTs=ts;update(ts,dt);if(running){render();requestAnimationFrame(loop);}}
+
+  function start(){
+    planes=[];selected=null;score=0;exits=0;losses=0;badExit=0;radioOk=0;radioTot=0;lossPairs={};nextId=1;
+    radio.active=false;document.getElementById('rActive').style.display='none';
+    document.getElementById('ctrl').className='hidden';
+    document.getElementById('rIdle').style.display='block';document.getElementById('rIdle').textContent=L[lang].ridle;
+    document.getElementById('intro').style.display='none';
+    document.getElementById('resultsHost').innerHTML='';
+    document.getElementById('game').style.display='block';
+    sizeCanvas();
+    document.getElementById('startBtn').style.display='none';
+    startMs=performance.now();lastTs=0;lastSpawn=startMs;lastPair=startMs-9000;lastRadio=startMs;spawn();
+    running=true;updHud();
+    requestAnimationFrame(loop);
+  }
+
+  function endGame(){
+    running=false;var t=L[lang];
+    document.getElementById('game').style.display='none';
+    var racc=radioTot?Math.round(radioOk/radioTot*100):0;
+    document.getElementById('resultsHost').innerHTML=
+      '<div class="results"><h2>'+t.results+'</h2><div class="big2">'+score+'</div>'
+      +'<div class="rrow"><span>'+t.exits+'</span><span>'+exits+'</span></div>'
+      +'<div class="rrow"><span>'+t.losses+'</span><span>'+losses+'</span></div>'
+      +'<div class="rrow"><span>'+t.badexit+'</span><span>'+badExit+'</span></div>'
+      +'<div class="rrow"><span>'+t.radioAcc+'</span><span>'+radioOk+'/'+radioTot+' ('+racc+'%)</span></div></div>';
+    var sb=document.getElementById('startBtn');sb.textContent=t.again;sb.style.display='block';
+  }
+
+  function applyLang(){
+    var t=L[lang];document.documentElement.lang=lang;
+    document.getElementById('tTitle').textContent=t.title;
+    document.getElementById('tSub').textContent=t.sub;
+    document.getElementById('tNote').textContent=t.note;
+    document.getElementById('iHow').textContent=t.how;
+    document.getElementById('iInstr').textContent=t.instr;
+    document.getElementById('iLegend').innerHTML=t.legend;
+    document.getElementById('langEn').className=lang==='en'?'on':'';
+    document.getElementById('langEs').className=lang==='es'?'on':'';
+    if(document.getElementById('game').style.display==='none' && !document.querySelector('.results'))
+      document.getElementById('startBtn').textContent=t.start;
+    if(!radio.active)document.getElementById('rIdle').textContent=t.ridle;
+    document.getElementById('rRel').textContent=t.rel;document.getElementById('rIrr').textContent=t.irr;
+    if(running)updHud();
+  }
+  document.getElementById('langEn').onclick=function(){lang='en';applyLang();};
+  document.getElementById('langEs').onclick=function(){lang='es';applyLang();};
+  document.getElementById('startBtn').onclick=start;
+  applyLang();
+})();
+</script>
+</body>
+</html>

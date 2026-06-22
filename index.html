@@ -215,11 +215,11 @@ body{font-family:'IBM Plex Sans',sans-serif;background:#050d1a;color:var(--tx);m
 .hh-act{border:none;border-radius:13px;padding:13px;font-family:'IBM Plex Sans',sans-serif;font-weight:700;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px}
 .hh-pri{background:#00b4d8;color:#04202b;box-shadow:0 6px 16px rgba(0,180,216,.3)}
 .hh-sec2{background:#fff;color:#11243a;border:1.5px solid #dde8f1}
-.hh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.hh-tcell{background:#fff;border:1px solid #dde8f1;border-radius:12px;padding:10px 4px 9px;text-align:center;cursor:pointer}
-.hh-tic{font-size:19px}
-.hh-tpc{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;margin-top:3px}
-.hh-tnm{font-size:9px;color:#5a7088;margin-top:2px;line-height:1.15;height:22px;overflow:hidden}
+.hh-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.hh-tcell{background:#fff;border:1px solid #dde8f1;border-radius:10px;padding:7px 4px 6px;text-align:center;cursor:pointer}
+.hh-tic{font-size:15px}
+.hh-tpc{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:13px;margin-top:2px}
+.hh-tnm{font-size:8.5px;color:#5a7088;margin-top:2px;line-height:1.1;height:18px;overflow:hidden}
 .hh-card{background:#fff;border:1px solid #dde8f1;border-radius:14px;padding:14px;color:#11243a}
 .hh-lvllbl{font-size:10px;color:#5a7088;text-transform:uppercase;letter-spacing:.06em}
 .hh-lvlval{font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600;margin-top:3px}
@@ -774,7 +774,7 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
       <!-- Inglés -->
       <div class="lp-shot">
         <div class="lp-phone"><div class="lp-notch"></div><div class="lp-scr">
-          </div><img class="lp-img" src="lp-inglés.jpg" alt="Inglés aeronáutico en ControlPrep"><div style="display:none"><div class="lp-ph-h">INGLÉS AVANZADO</div>
+          </div><img class="lp-img" src="lp-ingles.jpg" alt="Inglés aeronáutico en ControlPrep"><div style="display:none"><div class="lp-ph-h">INGLÉS AVANZADO</div>
           <div class="lp-ph-card"><div class="lp-q" style="font-weight:600">Completa la frase</div><div class="lp-q" style="margin-top:4px">"The crew had to ___ to an alternate airport."</div></div>
           <div class="lp-ph-opt">diverge</div>
           <div class="lp-ph-opt lp-ok">divert ✓</div>
@@ -2595,7 +2595,7 @@ const Q={
 {q:'Según el Anexo 4, ¿quién es responsable de la producción cartográfica?',o:['Cada Estado, de su propia producción cartográfica','La OACI directamente','EUROCONTROL','La Unión Europea'],a:0,tier:'premium',e:'Cada Estado es responsable de su propia producción cartográfica, atendiendo a las necesidades de sus servicios de tránsito aéreo.',ref:{doc:'Manual de Cartografía ENAIRE, nov. 2024',section:'4.1.1 — Generalidades',text:'Cada Estado es responsable de su propia producción cartográfica.'}},
 {q:'Además del Anexo 4, ¿qué otro Anexo de OACI deben cumplir las cartas en sus especificaciones?',o:['El Anexo 15','El Anexo 6','El Anexo 11','El Anexo 2'],a:0,tier:'premium',e:'Las cartas deben cumplir las especificaciones de OACI recogidas en los Anexos 4 y 15.',ref:{doc:'Manual de Cartografía ENAIRE, nov. 2024',section:'4.1.1 — Generalidades',text:'Las cartas deben cumplir las especificaciones de los Anexos 4 y 15 de OACI.'}},
 {q:'Según el Anexo 4, las cartas aeronáuticas deben ser:',o:['De interpretación rápida','Lo más detalladas posible aunque sean complejas','Publicadas solo en inglés','Iguales en todos los Estados sin excepción'],a:0,tier:'premium',e:'El Anexo 4 establece que las cartas deben ser de interpretación rápida, buscando un equilibrio entre uniformidad y requisitos operacionales.',ref:{doc:'Manual de Cartografía ENAIRE, nov. 2024',section:'4.1.1 — Generalidades',text:'El Anexo 4 establece que las cartas deben ser de interpretación rápida.'}},
-{q:'¿En qué tres caracteres se clasifican las cartas aeronáuticas?',o:['Nacionales, internacionales y locales','Visuales, instrumentales y mixtas','Antiguas, actuales y futuras','Obligatorias, opcionales y condicionalmente necesarias'],a:3,tier:'premium',e:'Las cartas se clasifican, según su carácter, en obligatorias, opcionales y condicionalmente necesarias.',ref:{doc:'Manual de Cartografía ENAIRE, nov. 2024',section:'4.2 — Carácter de las cartas',text:'Las cartas se clasifican en obligatorias, opcionales y condicionalmente necesarias.'}},
+{q:'¿En qué tres características se clasifican las cartas aeronáuticas?',o:['Nacionales, internacionales y locales','Visuales, instrumentales y mixtas','Antiguas, actuales y futuras','Obligatorias, opcionales y condicionalmente necesarias'],a:3,tier:'premium',e:'Las cartas se clasifican, según su carácter, en obligatorias, opcionales y condicionalmente necesarias.',ref:{doc:'Manual de Cartografía ENAIRE, nov. 2024',section:'4.2 — Carácter de las cartas',text:'Las cartas se clasifican en obligatorias, opcionales y condicionalmente necesarias.'}},
 {q:'Las cartas aeronáuticas opcionales solo deben producirse si:',o:['Lo exige OACI siempre','Las pide una aerolínea','En opinión de las autoridades estatales contribuyen a la seguridad, regularidad y eficiencia de las operaciones','Existe presupuesto'],a:2,tier:'premium',e:'Las cartas opcionales solo deben producirse si, según las autoridades estatales, contribuyen a la seguridad, regularidad y eficiencia de las operaciones.',ref:{doc:'Manual de Cartografía ENAIRE, nov. 2024',section:'4.2.2 — Cartas opcionales',text:'Las cartas opcionales solo deben producirse si contribuyen a la seguridad, regularidad y eficiencia de las operaciones.'}},
 {q:'¿Cuál de las siguientes es una carta aeronáutica opcional?',o:['Plano de Aeródromo - OACI','Carta de aproximación por instrumentos','Carta de área obligatoria','El Plano de Estacionamiento y Atraque de Aeronaves - OACI'],a:3,tier:'premium',e:'Entre las cartas opcionales figura el Plano de Estacionamiento y Atraque de Aeronaves - OACI.',ref:{doc:'Manual de Cartografía ENAIRE, nov. 2024',section:'4.2.2 — Cartas opcionales',text:'El Plano de Estacionamiento y Atraque de Aeronaves - OACI es una carta opcional.'}},
 {q:'El Plano de Obstáculos de Aeródromo - OACI Tipo B es una carta:',o:['Obligatoria','Condicionalmente necesaria','Prohibida','Opcional'],a:3,tier:'premium',e:'El Plano de Obstáculos de Aeródromo - OACI Tipo B figura entre las cartas opcionales.',ref:{doc:'Manual de Cartografía ENAIRE, nov. 2024',section:'4.2.2 — Cartas opcionales',text:'El Plano de Obstáculos de Aeródromo - OACI Tipo B es una carta opcional.'}},
@@ -3988,7 +3988,7 @@ function btn(label,fn,kind){
   }
   var h='<div style="font-size:13px;font-weight:800;color:#00b4d8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;text-align:left">Las 3 Fases del proceso ENAIRE</div>';
   h+=card('1','#00b4d8','Conocimientos, inglés, aptitudes y personalidad','Temario completo + simulacro de 50 preguntas con penalizacion, test de inglés y psicotecnicos.',pill,note,btn('Teoría','go(\'topics\')','primary')+btn('Inglés C1','openAvEng()','')+btn('Aptitudes','openFeast()','')+btn('Simulacro Fase 1','startFullSimulacro()',''));
-  h+=card('2','#f77f00','Pruebas tipo FEAST y psicométricos - en inglés','Simulador de aptitudes y multitarea para la prueba en ordenador. Mejora tu nivel de preparacion.','','',btn('\u2b50 Preparar Fase 2','openFeast()','gold'));
+  h+=card('2','#f77f00','Pruebas psicométricas y de multitarea - en inglés','Simulador de aptitudes y multitarea para la prueba en ordenador. Mejora tu nivel de preparacion.','','',btn('\u2b50 Preparar Fase 2','openFase2()','gold'));
   h+=card('3','#ffd166','Inglés oral (C1) y entrevistas','Inglés C1 enfocado al examen, mas guia de entrevista y dinamicas de grupo. Mejora tu nivel de preparacion.','','',btn('\u2b50 Preparar Fase 3','openAvEng()','gold'));
   el.innerHTML=h;
 }
@@ -4050,9 +4050,7 @@ function renderHomeDashboard(){
     if(pool.length>0){
       const dayIdx=Math.floor(Date.now()/86400000)%pool.length; const qotd=pool[dayIdx];
       if(!qotd._shuffled){const ix=[0,1,2,3].sort(()=>Math.random()-.5);qotd._opts=ix.map(i=>qotd.o[i]);qotd._ans=ix.indexOf(qotd.a);qotd._shuffled=true;}
-      b+='<div class="hh-sec">Pregunta del día</div><div class="hh-card hh-qotd"><div class="hh-qh">'+nm(weakTid)+'</div><div class="hh-qq">'+qotd.q+'</div>'
-        +(qotdDone?'<div class="hh-qdone">✓ Ya respondiste hoy. ¡Vuelve mañana!</div>':'<div id="qotd-opts">'+qotd._opts.map((o,i)=>'<button class="hh-qa" onclick="answerQotd('+i+','+qotd._ans+',\''+todayKey+'\')">'+String.fromCharCode(65+i)+' · '+o+'</button>').join('')+'</div>')
-        +'</div>';
+      if(!localStorage.getItem(todayKey+'seen')){window._pendingQotd={q:qotd.q,opts:qotd._opts,ans:qotd._ans,topic:nm(weakTid),key:todayKey};}
     }
   }
   // phases
@@ -4079,7 +4077,7 @@ function renderHomeDashboard(){
     +'<div class="hh-flinks"><button onclick="go(\'faq\')">Preguntas frecuentes</button><button onclick="go(\'legal-privacy\')">Privacidad</button><button onclick="go(\'legal-terms\')">Términos</button><button onclick="go(\'legal-cookies\')">Cookies</button></div></div>';
   b+='</div>';
 
-  el.innerHTML=hero+b;
+  el.innerHTML=hero+b; if(window._pendingQotd){var pq=window._pendingQotd;window._pendingQotd=null;setTimeout(function(){var hs=document.getElementById('home');if(hs&&hs.classList.contains('active'))showQotdPopup(pq.q,pq.opts,pq.ans,pq.topic,pq.key);},350);}
 }
 function startFullSimulacro(){
   if(!DEV_PREMIUM){
@@ -6469,6 +6467,51 @@ const uniqueTopics=topicPool.filter((t,i,a)=>a.findIndex(x=>x.id===t.id)===i);
   html+='</div></div>';
   el.innerHTML=html;
 }
+function fase2List(){return [
+  {f:'radar-control.html',i:'🛬',t:'Control radar',d:'Separa el tráfico en vivo, cambia niveles y vectoriza'},
+  {f:'coordinate-system.html',i:'🧭',t:'Coordenadas y rumbos',d:'Orientación espacial y rotación mental'},
+  {f:'planning-ability.html',i:'🗂️',t:'Planificación',d:'Secuenciar aterrizajes bajo reglas'},
+  {f:'perspective.html',i:'👤',t:'Perspectiva',d:'Izquierda o derecha desde otra vista'},
+  {f:'rules.html',i:'🃏',t:'Deducción de reglas',d:'Descubre y aplica la regla oculta'},
+  {f:'multitask.html',i:'🎯',t:'Multitarea',d:'Atención dividida bajo carga'}
+];}
+function ensureFase2Ov(){
+  var ov=document.getElementById('fase2ov');
+  if(!ov){ov=document.createElement('div');ov.id='fase2ov';ov.style.cssText='position:fixed;inset:0;z-index:99999;background:#eaf1f7;overflow:auto;font-family:-apple-system,Segoe UI,Roboto,sans-serif';document.body.appendChild(ov);}
+  return ov;
+}
+function openFase2(){
+  if(!DEV_PREMIUM){
+    alert('⭐ La preparación de Fase 2 es exclusiva del plan Premium. Seis simuladores avanzados para las pruebas por ordenador (control radar, planificación, orientación espacial, multitarea y más), incluidos en Premium — €24.99/mes.');
+    return;
+  }
+  var ov=ensureFase2Ov();
+  var tiles=fase2List().map(function(m){
+    return '<button class="f2tile" data-f="'+m.f+'" data-t="'+m.t+'" style="text-align:left;display:flex;gap:12px;align-items:center;background:#fff;border:1px solid #d6e0ea;border-radius:14px;padding:14px;cursor:pointer;width:100%">'
+      +'<span style="font-size:26px;flex:0 0 auto">'+m.i+'</span>'
+      +'<span><span style="display:block;font-size:15px;font-weight:800;color:#16314c">'+m.t+'</span>'
+      +'<span style="display:block;font-size:12px;color:#5f7488;margin-top:2px">'+m.d+'</span></span></button>';
+  }).join('');
+  ov.innerHTML='<div style="max-width:520px;margin:0 auto;padding:16px 14px 30px">'
+    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">'
+    +'<div style="font-size:18px;font-weight:800;color:#e8730c">Fase 2 · Pruebas por ordenador</div>'
+    +'<button id="f2close" style="background:none;border:none;font-size:22px;color:#8a9bb0;cursor:pointer">✕</button></div>'
+    +'<div style="font-size:12.5px;color:#5f7488;line-height:1.5;margin-bottom:14px">Seis simuladores para entrenar las habilidades de las pruebas por ordenador. En inglés; recomendado en ordenador, también funciona en móvil.</div>'
+    +'<div style="display:grid;gap:10px">'+tiles+'</div></div>';
+  document.getElementById('f2close').onclick=closeFase2;
+  Array.prototype.forEach.call(ov.querySelectorAll('.f2tile'),function(b){
+    b.onclick=function(){openFase2Module(b.getAttribute('data-f'),b.getAttribute('data-t'));};
+  });
+}
+function openFase2Module(file,title){
+  var ov=ensureFase2Ov();
+  ov.innerHTML='<div style="display:flex;align-items:center;gap:10px;height:50px;padding:0 12px;background:#fff;border-bottom:1px solid #d6e0ea;position:sticky;top:0">'
+    +'<button id="f2back" style="background:none;border:none;font-size:15px;font-weight:700;color:#1f6fb8;cursor:pointer">‹ Volver</button>'
+    +'<span style="font-size:14px;font-weight:700;color:#16314c">'+title+'</span></div>'
+    +'<iframe src="'+file+'" style="width:100%;height:calc(100vh - 50px);border:0;display:block"></iframe>';
+  document.getElementById('f2back').onclick=openFase2;
+}
+function closeFase2(){var ov=document.getElementById('fase2ov');if(ov)ov.remove();}
 function openFeast(){
   if(!DEV_PREMIUM){
     alert('⭐ Psicotécnicos CTA es exclusivo del plan Premium.\n\nAccede a 13 ejercicios cognitivos para entrenar las habilidades que evalúan las pruebas de selección CTA, incluido en el plan Premium — €24.99/mes.');
@@ -7415,6 +7458,31 @@ function answerQotd(chosen,correct,key){
   });
   localStorage.setItem(key+'done','1');
   setTimeout(()=>renderHomeDashboard(),1200);
+}
+function showQotdPopup(q,opts,ans,topic,key){
+  if(document.getElementById('qotd-overlay'))return;
+  var ov=document.createElement('div');ov.id='qotd-overlay';
+  ov.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(6,18,33,.74);display:flex;align-items:center;justify-content:center;padding:20px';
+  var oh=opts.map(function(o,i){return '<button class="hh-qa" onclick="answerQotdModal('+i+','+ans+',\''+key+'\')">'+String.fromCharCode(65+i)+' \u00b7 '+o+'</button>';}).join('');
+  ov.innerHTML='<div class="hh-card hh-qotd" style="max-width:430px;width:100%;position:relative;max-height:88vh;overflow:auto">'
+    +'<button onclick="closeQotd()" aria-label="Cerrar" style="position:absolute;top:6px;right:9px;background:none;border:none;color:#8fb6d0;font-size:22px;line-height:1;cursor:pointer">\u00d7</button>'
+    +'<div class="hh-qh" style="margin-top:2px">Pregunta del d\u00eda \u00b7 '+topic+'</div>'
+    +'<div class="hh-qq">'+q+'</div>'
+    +'<div id="qotd-opts">'+oh+'</div></div>';
+  ov.addEventListener('click',function(e){if(e.target===ov)closeQotd();});
+  document.body.appendChild(ov);
+  localStorage.setItem(key+'seen','1');
+}
+function closeQotd(){var ov=document.getElementById('qotd-overlay');if(ov)ov.remove();}
+function answerQotdModal(chosen,correct,key){
+  var opts=document.getElementById('qotd-opts');if(!opts)return;
+  var btns=opts.querySelectorAll('button');
+  btns.forEach(function(b,i){b.disabled=true;
+    if(i===correct)b.style.cssText=b.style.cssText+'background:rgba(45,198,83,.2);border-color:#2dc653;color:#1a7a37;font-weight:700';
+    else if(i===chosen)b.style.cssText=b.style.cssText+'background:rgba(230,57,70,.13);border-color:#e63946;color:#c0303c';});
+  localStorage.setItem(key+'done','1');
+  var card=document.querySelector('#qotd-overlay .hh-qotd');
+  if(card){var c=document.createElement('button');c.className='hh-pb';c.style.cssText='margin-top:12px;width:100%;cursor:pointer;border:none';c.textContent=(chosen===correct?'\u00a1Correcto! Cerrar':'Cerrar');c.onclick=closeQotd;card.appendChild(c);}
 }
 function updateHomeButtons(){
   const el=document.getElementById('home-static-btns');

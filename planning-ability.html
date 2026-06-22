@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Planning Ability</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#eaf1f7;color:#1b2b3a;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;touch-action:manipulation}
+  .wrap{max-width:460px;margin:0 auto;padding:14px 14px 30px;position:relative}
+  .lang{position:absolute;top:12px;right:12px;display:flex;border:1px solid #c7d6e4;border-radius:8px;overflow:hidden}
+  .lang button{background:#fff;color:#5f7488;border:none;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer}
+  .lang button.on{background:#e8730c;color:#fff}
+  h1{font-size:20px;margin:2px 0 2px;color:#16314c}
+  .sub{font-size:12.5px;color:#5f7488;margin-bottom:10px}
+  .note{font-size:11.5px;color:#2f4d66;background:#eaf3fb;border:1px solid #cfe0f0;border-left:3px solid #2f8fd6;border-radius:9px;padding:8px 10px;margin-bottom:12px;line-height:1.45}
+
+  .introbox{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:14px;margin-bottom:12px}
+  .introbox h2{font-size:14px;color:#e8730c;margin:0 0 6px}
+  .introbox p{font-size:13px;line-height:1.5;color:#36506a;margin:0 0 10px}
+  .introbox b{color:#16314c}
+  .exrow{display:flex;justify-content:space-between;align-items:center;background:#f3f7fb;border:1px solid #dce6f0;border-radius:8px;padding:7px 10px;margin:5px 0;font-size:12.5px}
+  .exrow .cs{font-family:'Courier New',monospace;font-weight:700;color:#1f6fb8}
+  .exrow .calc{color:#5f7488}
+  .exrow .ord{font-family:'Courier New',monospace;font-weight:800;color:#e8730c}
+  .excap{font-size:11.5px;color:#5f7488;margin-top:6px;line-height:1.45}
+
+  .modesel{margin:14px 0 4px}
+  .modesel .mt{font-size:12px;color:#5f7488;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px}
+  .modebtns{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .modebtns button{text-align:left;padding:11px 12px;border-radius:11px;border:1px solid #c7d6e4;background:#fff;color:#36506a;cursor:pointer}
+  .modebtns button.on{border-color:#e8730c;background:#fff5ec;box-shadow:0 0 0 1px #e8730c inset}
+  .modebtns .ml{font-size:15px;font-weight:800;color:#16314c;display:block}
+  .modebtns .mr{font-size:11px;color:#5f7488;display:block;margin-top:3px;line-height:1.35}
+
+  .startbtn{width:100%;margin-top:12px;padding:14px;border-radius:12px;border:none;background:#e8730c;color:#fff;font-size:16px;font-weight:800;cursor:pointer}
+
+  .hud{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:#5f7488;margin:6px 2px 4px}
+  .hud b{color:#16314c}
+  .tasktag{font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#fff;background:#5f7488;border-radius:6px;padding:2px 7px}
+  .q{font-size:13.5px;line-height:1.45;color:#1b3a52;background:#fff;border:1px solid #d6e0ea;border-radius:11px;padding:11px 12px;margin:7px 0}
+  .q .hl{color:#c96a08;font-weight:700}
+  .rule{font-size:12px;color:#5f7488;margin:2px 2px 8px}
+  .rule b{color:#c96a08;font-family:'Courier New',monospace}
+
+  .newban{display:flex;justify-content:space-between;align-items:center;background:#eafaf1;border:1px solid #b6e3cb;border-radius:10px;padding:9px 11px;margin-bottom:8px}
+  .newban .lab{font-size:11px;color:#1f8a5c;text-transform:uppercase;letter-spacing:.05em}
+  .newban .cs{font-family:'Courier New',monospace;font-weight:800;color:#15784e;font-size:15px}
+  .newban .metrics .m{font-family:'Courier New',monospace;font-size:13px;color:#2c6e4f;margin-left:9px}
+
+  .board{position:relative;margin-top:2px}
+  .boardflow{margin-top:2px}
+  .card{display:flex;align-items:center;background:#fff;border:1px solid #d2e0ec;border-radius:10px;padding:0 11px;height:56px;left:0;right:0;box-shadow:0 1px 2px rgba(20,50,80,.05)}
+  .board .card{position:absolute;touch-action:none}
+  .boardflow .card{position:relative;margin-bottom:8px}
+  .card.lift{box-shadow:0 8px 20px rgba(30,70,110,.25);border-color:#e8730c;background:#fff7f0}
+  .card.isnew{border-color:#2e9a68;background:#effaf3}
+  .card.target{border-color:#e8a317;background:#fff8e8;box-shadow:0 0 0 1px #e8a317 inset}
+  .card.inelig{opacity:.5}
+  .card.inelig .metrics .m:last-child{text-decoration:line-through;color:#c0392b}
+  .card .badge{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;font-family:'Courier New',monospace;background:#eef3f8;color:#5f7488;margin-right:11px;flex:0 0 auto}
+  .card.assigned .badge{background:#e8730c;color:#fff}
+  .card .handle{color:#9bb1c6;font-size:18px;margin-right:11px;cursor:grab;flex:0 0 auto;width:18px;text-align:center}
+  .card .cs{font-family:'Courier New',monospace;font-weight:700;color:#1f6fb8;font-size:15px;flex:1}
+  .card .metrics{display:flex;gap:12px}
+  .card .metrics .m{font-family:'Courier New',monospace;font-size:13px;color:#3a5470}
+  .card.sel{border-color:#e8a317;background:#fff8e8;box-shadow:0 0 0 1px #e8a317 inset}
+  .card.reveal-ok{border-color:#2e9a68;background:#effaf3}
+  .card.reveal-bad{border-color:#d06a76;background:#fdeef0}
+
+  .gap{height:12px;border-radius:6px;margin:3px 0;cursor:pointer;background:repeating-linear-gradient(90deg,#cdddec 0 8px,transparent 8px 16px);opacity:.6}
+  .gap.sel{opacity:1;background:#e8730c;height:14px}
+  .gap.reveal{opacity:1;background:#2e9a68}
+
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+  .opts button{padding:13px 6px;border-radius:11px;border:1px solid #c7d6e4;background:#fff;color:#1b3a5c;font-size:15px;font-weight:700;cursor:pointer}
+  .opts button.good{background:#effaf3;border-color:#2e9a68;color:#15784e}
+  .opts button.bad{background:#fdeef0;border-color:#d06a76;color:#b22}
+  .opts button:disabled{cursor:default}
+
+  .controls{display:flex;gap:9px;margin-top:10px}
+  .controls button{flex:1;padding:12px;border-radius:11px;border:1px solid #c7d6e4;background:#eef3f8;color:#1b3a5c;font-size:14px;font-weight:700;cursor:pointer}
+  .controls button.primary{background:#e8730c;color:#fff;border:none}
+  .controls button:disabled{opacity:.45;cursor:default}
+
+  .fb{margin-top:9px;font-size:13px;font-weight:600;min-height:18px;line-height:1.4}
+  .fb.ok{color:#1f8a5c}
+  .fb.no{color:#c0392b}
+  .fbsub{font-size:12px;color:#5f7488;font-weight:500;margin-top:3px}
+  .next{width:100%;margin-top:9px;padding:13px;border-radius:11px;border:1px solid #c7d6e4;background:#eef3f8;color:#1b3a5c;font-size:15px;font-weight:700;cursor:pointer}
+
+  .results{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:18px;margin-top:6px}
+  .results h2{font-size:15px;color:#e8730c;margin:0 0 4px;text-align:center}
+  .big{font-size:44px;font-weight:800;text-align:center;color:#16314c;line-height:1.1;margin:2px 0 10px}
+  .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 2px;border-top:1px solid #e6edf3;color:#36506a}
+  .rrow span:last-child{font-weight:700;color:#16314c}
+  .rsec{font-size:11.5px;color:#5f7488;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 2px}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="lang"><button id="enBtn" class="on">EN</button><button id="esBtn">ES</button></div>
+  <h1 id="title">Planning Ability</h1>
+  <div class="sub" id="sub">Sequencing &amp; scheduling — prototype</div>
+  <div class="note" id="note"></div>
+
+  <div id="intro">
+    <div class="introbox" id="introbox">
+      <h2 id="howT">How it works</h2>
+      <p id="instr"></p>
+      <div id="example"></div>
+      <div class="excap" id="excap"></div>
+      <div class="modesel">
+        <div class="mt" id="modeT">Choose how you'll answer</div>
+        <div class="modebtns">
+          <button id="dragMode"><span class="ml" id="dragL">Drag</span><span class="mr" id="dragR"></span></button>
+          <button id="tapMode"><span class="ml" id="tapL">Tap</span><span class="mr" id="tapR"></span></button>
+        </div>
+      </div>
+    </div>
+    <button class="startbtn" id="startBtn">Start</button>
+  </div>
+
+  <div id="game" class="hidden">
+    <div class="hud"><span id="prog">1 / 13</span><span id="tasktag" class="tasktag"></span><span id="correctHud"></span></div>
+    <div class="q" id="qtext"></div>
+    <div id="answerHost"></div>
+    <div class="fb" id="fb"></div>
+    <button class="next hidden" id="nextBtn"></button>
+  </div>
+
+  <div id="resultsHost"></div>
+</div>
+
+<script>
+  var lang='en';
+  var mode = (('ontouchstart' in window)||navigator.maxTouchPoints>0) && window.innerWidth<820 ? 'tap':'drag';
+
+  var L={
+    en:{
+      title:"Planning Ability", sub:"Sequencing & scheduling — prototype",
+      note:"The official assessment is conducted in English. We recommend training in English; switch to Spanish only if you need to. Best experienced on desktop (recommended for accuracy), though it works on mobile too.",
+      how:"How it works",
+      instr:"Aircraft are inbound to one runway. Each shows a <b>distance</b> and a <b>ground speed</b> \u2014 its time to the runway is distance \u00f7 speed. Slower-but-closer can land before faster-but-further, so you must reason it out, not eyeball it. You will: put a set of arrivals in <b>landing order</b>; <b>insert</b> a new arrival into an ordered stream; spot the pair that would land <b>too close together</b>; and, with a <b>speed limit</b> in force, count how many eligible aircraft land before a given one.",
+      excap:"Time to runway = distance \u00f7 speed. Here BBB (5:00) lands first, then AAA (6:00), then CCC (8:00).",
+      ex:[["AAA","30 \u00f7 300 = 6:00","2"],["BBB","20 \u00f7 240 = 5:00","1"],["CCC","24 \u00f7 180 = 8:00","3"]],
+      modeT:"Choose how you'll answer",
+      dragL:"Drag", dragR:"closer to the system these tests use \u2014 best on desktop",
+      tapL:"Tap", tapR:"best on mobile / touch",
+      start:"Start", again:"Try again",
+      tag_seq:"Sequence", tag_insert:"Insert", tag_sep:"Separation", tag_elig:"Eligibility",
+      q_seq_drag:"Drag the aircraft into <span class='hl'>landing order</span> \u2014 first to land at the top.",
+      q_seq_tap:"Tap the aircraft in <span class='hl'>landing order</span> \u2014 tap the first to land, then the next, and so on.",
+      q_insert_drag:"A new arrival (green) has joined. Drag it to its correct place in the <span class='hl'>landing order</span>.",
+      q_insert_tap:"A new arrival has joined. Tap the <span class='hl'>gap</span> where it slots into the landing order.",
+      q_sep:"These are in landing order. Tap the <span class='hl'>two aircraft</span> that would land too close together.",
+      q_elig:function(cs){return "A speed limit is in force (below). How many aircraft land <span class='hl'>before "+cs+"</span>?";},
+      eligrule:function(lo,hi){return "Only aircraft between <b>"+lo+"</b> and <b>"+hi+" kt</b> may land.";},
+      aircraftw:"aircraft", land_before:"land before",
+      newlab:"New arrival",
+      rule:function(s){return "Minimum separation required: <b>"+s+"</b>";},
+      submit:"Submit", undo:"Undo", clearb:"Clear", next:"Next",
+      correct:"Correct", wrong:"Not quite", order_was:"Landing order:", tooclose:"Too close:", gap:"gap",
+      results:"Results", accuracy:"Accuracy", avgtime:"Avg. time", bytask:"Accuracy by task", cor:"correct",
+      need_all:"order all aircraft", need_two:"select two aircraft"
+    },
+    es:{
+      title:"Capacidad de planificaci\u00f3n", sub:"Secuenciaci\u00f3n y programaci\u00f3n \u2014 prototipo",
+      note:"La prueba oficial se realiza en ingl\u00e9s. Recomendamos entrenar en ingl\u00e9s; cambia a espa\u00f1ol solo si lo necesitas. Mejor en ordenador (recomendado para mayor precisi\u00f3n), aunque tambi\u00e9n funciona en m\u00f3vil.",
+      how:"C\u00f3mo funciona",
+      instr:"Las aeronaves se aproximan a una pista. Cada una muestra una <b>distancia</b> y una <b>velocidad</b> \u2014 su tiempo a la pista es distancia \u00f7 velocidad. Una m\u00e1s lenta pero cercana puede aterrizar antes que una r\u00e1pida pero lejana, as\u00ed que hay que razonarlo. Tendr\u00e1s que: ordenar llegadas por <b>orden de aterrizaje</b>; <b>insertar</b> una nueva llegada en una secuencia ya ordenada; detectar el par que aterrizar\u00eda <b>demasiado junto</b>; y, con un <b>l\u00edmite de velocidad</b> en vigor, contar cu\u00e1ntas aeronaves elegibles aterrizan antes de una dada.",
+      excap:"Tiempo a pista = distancia \u00f7 velocidad. Aqu\u00ed BBB (5:00) aterriza primero, luego AAA (6:00) y despu\u00e9s CCC (8:00).",
+      ex:[["AAA","30 \u00f7 300 = 6:00","2"],["BBB","20 \u00f7 240 = 5:00","1"],["CCC","24 \u00f7 180 = 8:00","3"]],
+      modeT:"Elige c\u00f3mo responder",
+      dragL:"Arrastrar", dragR:"m\u00e1s parecido al sistema de estas pruebas \u2014 mejor en escritorio",
+      tapL:"Tocar", tapR:"mejor en m\u00f3vil / t\u00e1ctil",
+      start:"Empezar", again:"Repetir",
+      tag_seq:"Secuencia", tag_insert:"Insertar", tag_sep:"Separaci\u00f3n", tag_elig:"Elegibilidad",
+      q_seq_drag:"Arrastra las aeronaves al <span class='hl'>orden de aterrizaje</span> \u2014 la primera arriba.",
+      q_seq_tap:"Toca las aeronaves en <span class='hl'>orden de aterrizaje</span> \u2014 primero la que aterriza antes, luego la siguiente, etc.",
+      q_insert_drag:"Una nueva llegada (verde) se ha incorporado. Arr\u00e1strala a su lugar en el <span class='hl'>orden de aterrizaje</span>.",
+      q_insert_tap:"Una nueva llegada se ha incorporado. Toca el <span class='hl'>hueco</span> donde encaja en el orden de aterrizaje.",
+      q_sep:"Est\u00e1n en orden de aterrizaje. Toca las <span class='hl'>dos aeronaves</span> que aterrizar\u00edan demasiado juntas.",
+      q_elig:function(cs){return "Hay un l\u00edmite de velocidad en vigor (abajo). \u00bfCu\u00e1ntas aeronaves aterrizan <span class='hl'>antes de "+cs+"</span>?";},
+      eligrule:function(lo,hi){return "Solo pueden aterrizar aeronaves entre <b>"+lo+"</b> y <b>"+hi+" kt</b>.";},
+      aircraftw:"aeronaves", land_before:"aterrizan antes de",
+      newlab:"Nueva llegada",
+      rule:function(s){return "Separaci\u00f3n m\u00ednima requerida: <b>"+s+"</b>";},
+      submit:"Enviar", undo:"Deshacer", clearb:"Borrar", next:"Siguiente",
+      correct:"Correcto", wrong:"Casi", order_was:"Orden de aterrizaje:", tooclose:"Demasiado juntas:", gap:"sep.",
+      results:"Resultados", accuracy:"Precisi\u00f3n", avgtime:"Tiempo medio", bytask:"Precisi\u00f3n por tarea", cor:"correctas",
+      need_all:"ordena todas las aeronaves", need_two:"selecciona dos aeronaves"
+    }
+  };
+
+  // ---- helpers ----
+  function pick(a){return a[Math.floor(Math.random()*a.length)];}
+  function rnd(a,b){return a+Math.random()*(b-a);}
+  function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function etaStr(min){var s=Math.round(min*60),m=Math.floor(s/60),ss=s%60;return m+':'+('0'+ss).slice(-2);}
+  var AIR=['IBE','RYR','VLG','AEA','DLH','AFR','BAW','EZY','TAP','SWR','KLM','UAE','THY','AZA'];
+  function uniqCs(used){var c;var g=0;do{c=pick(AIR)+Math.floor(rnd(10,99));g++;}while(used.indexOf(c)>=0&&g<50);return c;}
+  function ascending(arr){for(var i=0;i<arr.length-1;i++)if(arr[i].eta>arr[i+1].eta+0.001)return false;return true;}
+
+  // ---- generators ----
+  function makePlanes(n){
+    var ps=[],used=[],g=0;
+    while(ps.length<n&&g++<800){
+      var spd=pick([180,210,240,270,300,330]);
+      var dist=Math.round(rnd(12,66));
+      var eta=dist/spd*60;
+      if(eta<3||eta>20)continue;
+      if(ps.some(function(p){return Math.abs(p.eta-eta)<0.7;}))continue;
+      var c=uniqCs(used); used.push(c);
+      ps.push({cs:c,dist:dist,spd:spd,eta:eta});
+    }
+    return ps;
+  }
+  function gSeq(){
+    var ps=makePlanes(pick([4,5])); if(ps.length<4)return gSeq();
+    return {type:'seq',planes:ps};
+  }
+  function gInsert(){
+    var ps=makePlanes(5); if(ps.length<5)return gInsert();
+    var sorted=ps.slice().sort(function(a,b){return a.eta-b.eta;});
+    var ni=Math.floor(rnd(0,sorted.length));
+    var np=sorted[ni]; np.isNew=true;
+    var est=sorted.filter(function(p){return p!==np;});
+    var correctGap=0; for(var i=0;i<est.length;i++){if(est[i].eta<np.eta)correctGap++;}
+    return {type:'insert',est:est,np:np,correctGap:correctGap,planes:sorted};
+  }
+  function gSep(){
+    var n=pick([4,5]),minSep=1.0,t=rnd(3,5),ps=[],used=[],viol=Math.floor(rnd(0,n-1));
+    for(var i=0;i<n;i++){
+      var c=uniqCs(used); used.push(c);
+      ps.push({cs:c,eta:t,_showEta:true});
+      var gap=(i===viol)?rnd(0.45,0.82):rnd(1.25,2.2);
+      t+=gap;
+    }
+    return {type:'sep',planes:ps,minSep:minSep,viol:viol};
+  }
+  function countOpts(c,maxN){
+    var s=[c],v,cand=[c+1,c-1,c+2,c-2,c+3,c-3];
+    for(var i=0;i<cand.length&&s.length<4;i++){v=cand[i];if(v>=0&&v<=maxN&&s.indexOf(v)<0)s.push(v);}
+    v=0;while(s.length<4&&v<=maxN){if(s.indexOf(v)<0)s.push(v);v++;}
+    v=maxN+1;while(s.length<4){if(s.indexOf(v)<0)s.push(v);v++;}
+    return shuffle(s);
+  }
+  function gElig(){
+    var n=pick([5,6]);
+    var lo=pick([240,260,280,300]),hi=lo+pick([110,120,130,140]);
+    var pool=[180,200,220,240,260,280,300,320,340,360,380,400,420];
+    var ps=[],used=[],g=0;
+    while(ps.length<n&&g++<900){
+      var spd=pick(pool),dist=Math.round(rnd(12,66)),eta=dist/spd*60;
+      if(eta<3||eta>22)continue;
+      var elig=(spd>=lo&&spd<=hi);
+      if(elig&&ps.some(function(p){return p.elig&&Math.abs(p.eta-eta)<0.5;}))continue;
+      var c=uniqCs(used);used.push(c);
+      ps.push({cs:c,dist:dist,spd:spd,eta:eta,elig:elig});
+    }
+    var el=ps.filter(function(p){return p.elig;}),inl=ps.filter(function(p){return !p.elig;});
+    if(el.length<3||inl.length<1)return gElig();
+    var sorted=el.slice().sort(function(a,b){return a.eta-b.eta;});
+    var target=pick(sorted),correct=0;
+    for(var i=0;i<sorted.length;i++){if(sorted[i]!==target&&sorted[i].eta<target.eta)correct++;}
+    return {type:'elig',planes:ps,lo:lo,hi:hi,target:target,correct:correct,opts:countOpts(correct,el.length-1)};
+  }
+  function buildItems(){
+    var arr=[];
+    for(var i=0;i<4;i++)arr.push(gSeq());
+    for(var i=0;i<3;i++)arr.push(gInsert());
+    for(var i=0;i<3;i++)arr.push(gSep());
+    for(var i=0;i<3;i++)arr.push(gElig());
+    shuffle(arr);
+    var si=-1;for(var i=0;i<arr.length;i++){if(arr[i].type==='seq'){si=i;break;}}
+    if(si>0){var t=arr[0];arr[0]=arr[si];arr[si]=t;}
+    return arr;
+  }
+
+  // ---- run state ----
+  var items=[],idx=0,results=[],answered=false,active=false;
+  var order=[],tapSeq=[],chosenGap=null,selPair=[];
+
+  function start(){
+    items=buildItems();idx=0;results=[];active=true;
+    document.getElementById('intro').style.display='none';
+    document.getElementById('resultsHost').innerHTML='';
+    document.getElementById('game').classList.remove('hidden');
+    renderItem();
+  }
+  function tally(){var c=0;for(var i=0;i<results.length;i++)if(results[i].ok)c++;return c;}
+
+  var itemStart=0;
+  function renderItem(){
+    var it=items[idx],t=L[lang];
+    answered=false;order=[];tapSeq=[];chosenGap=null;selPair=[];
+    document.getElementById('prog').textContent=(idx+1)+' / '+items.length;
+    document.getElementById('correctHud').innerHTML=tally()+' <b>'+t.cor+'</b>';
+    document.getElementById('tasktag').textContent=t['tag_'+it.type];
+    document.getElementById('fb').textContent='';document.getElementById('fb').className='fb';
+    var nb=document.getElementById('nextBtn');nb.classList.add('hidden');
+    var host=document.getElementById('answerHost');host.innerHTML='';
+    var q;
+    if(it.type==='seq'){q=mode==='drag'?t.q_seq_drag:t.q_seq_tap;}
+    else if(it.type==='insert'){q=mode==='drag'?t.q_insert_drag:t.q_insert_tap;}
+    else if(it.type==='sep'){q=t.q_sep;}
+    else {q=t.q_elig(it.target.cs);}
+    document.getElementById('qtext').innerHTML=q;
+    if(it.type==='seq'){ order=shuffle(it.planes.slice()); mode==='drag'?renderDrag(host):renderTapOrder(host); }
+    else if(it.type==='insert'){ if(mode==='drag'){ order=it.est.concat([it.np]); renderDrag(host);} else { renderInsertTap(host,it);} }
+    else if(it.type==='sep'){ renderSep(host,it); }
+    else { renderElig(host,it); }
+    itemStart=performance.now();
+  }
+
+  function card(p){
+    var c=document.createElement('div');c.className='card'+(p.isNew?' isnew':'');
+    var left = p._showEta ? '<span class="badge"></span>' : '<span class="handle">\u2261</span>';
+    var metric = p._showEta ? ('<span class="m">'+etaStr(p.eta)+'</span>')
+              : ('<span class="m">'+p.dist+' NM</span><span class="m">'+p.spd+' kt</span>');
+    c.innerHTML=left+'<span class="cs">'+p.cs+'</span><span class="metrics">'+metric+'</span>';
+    return c;
+  }
+
+  // ----- DRAG ordering -----
+  var ROWH=64,dragState=null;
+  function renderDrag(host){
+    var board=document.createElement('div');board.className='board';board.id='board';
+    board.style.height=(order.length*ROWH)+'px';
+    order.forEach(function(p,i){
+      var c=card(p);c.style.top=(i*ROWH)+'px';c.dataset.j=i;
+      c.onpointerdown=function(e){startDrag(e,c,i);};
+      board.appendChild(c);
+    });
+    host.appendChild(board);
+    addControls(host,[{id:'sub',cls:'primary',txt:L[lang].submit,fn:evaluate}]);
+  }
+  function startDrag(e,c,i){
+    if(answered)return;e.preventDefault();
+    var board=document.getElementById('board');
+    dragState={card:c,idx:i,startY:e.clientY,base:i*ROWH,target:i,board:board};
+    c.classList.add('lift');c.style.zIndex=20;c.style.transition='none';
+    Array.prototype.forEach.call(board.children,function(ch){if(ch!==c)ch.style.transition='top .12s ease';});
+    if(c.setPointerCapture)try{c.setPointerCapture(e.pointerId);}catch(x){}
+    window.addEventListener('pointermove',onDrag);window.addEventListener('pointerup',endDrag);window.addEventListener('pointercancel',endDrag);
+  }
+  function onDrag(e){
+    if(!dragState)return;var d=dragState,dy=e.clientY-d.startY,top=d.base+dy;
+    d.card.style.top=top+'px';
+    var t=Math.max(0,Math.min(order.length-1,Math.round((top+ROWH/2)/ROWH)));d.target=t;
+    Array.prototype.forEach.call(d.board.children,function(ch){
+      if(ch===d.card)return;var j=parseInt(ch.dataset.j,10),slot=j;
+      if(t>d.idx&&j>d.idx&&j<=t)slot=j-1;
+      else if(t<d.idx&&j<d.idx&&j>=t)slot=j+1;
+      ch.style.top=(slot*ROWH)+'px';
+    });
+  }
+  function endDrag(){
+    if(!dragState)return;var d=dragState;
+    window.removeEventListener('pointermove',onDrag);window.removeEventListener('pointerup',endDrag);window.removeEventListener('pointercancel',endDrag);
+    var moved=order.splice(d.idx,1)[0];order.splice(d.target,0,moved);
+    dragState=null;
+    var host=document.getElementById('answerHost');host.innerHTML='';renderDrag(host);
+  }
+
+  // ----- TAP ordering -----
+  function renderTapOrder(host){
+    var board=document.createElement('div');board.className='boardflow';
+    order.forEach(function(p,i){
+      var c=card(p);c.dataset.j=i;c.onclick=function(){tapToggle(i);};
+      board.appendChild(c);
+    });
+    host.appendChild(board);
+    addControls(host,[
+      {id:'undo',txt:L[lang].undo,fn:tapUndo},
+      {id:'sub',cls:'primary',txt:L[lang].submit,fn:evaluate}
+    ]);
+    refreshTap();
+  }
+  function tapToggle(i){
+    if(answered)return;var pos=tapSeq.indexOf(i);
+    if(pos>=0)tapSeq.splice(pos,1); else tapSeq.push(i);
+    refreshTap();
+  }
+  function tapUndo(){ if(answered)return; tapSeq.pop(); refreshTap(); }
+  function refreshTap(){
+    var board=document.querySelector('#answerHost .boardflow');if(!board)return;
+    Array.prototype.forEach.call(board.children,function(ch){
+      var j=parseInt(ch.dataset.j,10),pos=tapSeq.indexOf(j),b=ch.querySelector('.badge');
+      if(pos>=0){ch.classList.add('assigned');if(b)b.textContent=(pos+1);}
+      else{ch.classList.remove('assigned');if(b)b.textContent='';}
+    });
+    // badge swap: tap cards use handle by default; ensure a badge exists
+    Array.prototype.forEach.call(board.children,function(ch){
+      if(!ch.querySelector('.badge')){var h=ch.querySelector('.handle');if(h){var b=document.createElement('span');b.className='badge';h.replaceWith(b);}}
+    });
+    var sub=document.getElementById('btn_sub');if(sub)sub.disabled=(tapSeq.length!==order.length);
+  }
+
+  // ----- INSERT tap (gaps) -----
+  function renderInsertTap(host,it){
+    var t=L[lang];
+    var ban=document.createElement('div');ban.className='newban';
+    ban.innerHTML='<span><span class="lab">'+t.newlab+'</span> <span class="cs">'+it.np.cs+'</span></span>'
+      +'<span class="metrics"><span class="m">'+it.np.dist+' NM</span><span class="m">'+it.np.spd+' kt</span></span>';
+    host.appendChild(ban);
+    var board=document.createElement('div');board.className='boardflow';
+    for(var g=0;g<=it.est.length;g++){
+      board.appendChild(makeGap(g));
+      if(g<it.est.length){var c=card(it.est[g]);board.appendChild(c);}
+    }
+    host.appendChild(board);
+    addControls(host,[{id:'sub',cls:'primary',txt:t.submit,fn:evaluate}]);
+    var sub=document.getElementById('btn_sub');if(sub)sub.disabled=true;
+  }
+  function makeGap(g){
+    var d=document.createElement('div');d.className='gap';d.dataset.g=g;
+    d.onclick=function(){
+      if(answered)return;chosenGap=g;
+      var host=document.getElementById('answerHost');
+      Array.prototype.forEach.call(host.querySelectorAll('.gap'),function(x){x.classList.toggle('sel',parseInt(x.dataset.g,10)===g);});
+      var sub=document.getElementById('btn_sub');if(sub)sub.disabled=false;
+    };
+    return d;
+  }
+
+  // ----- SEPARATION (select pair) -----
+  function renderSep(host,it){
+    var t=L[lang];
+    var r=document.createElement('div');r.className='rule';r.innerHTML=t.rule(etaStr(it.minSep));host.appendChild(r);
+    var board=document.createElement('div');board.className='boardflow';
+    it.planes.forEach(function(p,i){
+      var c=card(p);c.dataset.j=i;c.onclick=function(){sepToggle(i,c);};
+      board.appendChild(c);
+    });
+    host.appendChild(board);
+    addControls(host,[{id:'sub',cls:'primary',txt:t.submit,fn:evaluate}]);
+    var sub=document.getElementById('btn_sub');if(sub)sub.disabled=true;
+  }
+  function sepToggle(i,c){
+    if(answered)return;var pos=selPair.indexOf(i);
+    if(pos>=0){selPair.splice(pos,1);c.classList.remove('sel');}
+    else{ if(selPair.length>=2){var first=selPair.shift();var fc=document.querySelector('#answerHost .card[data-j="'+first+'"]');if(fc)fc.classList.remove('sel');} selPair.push(i);c.classList.add('sel'); }
+    var sub=document.getElementById('btn_sub');if(sub)sub.disabled=(selPair.length!==2);
+  }
+
+  // ----- ELIGIBILITY (count under a speed rule) -----
+  function renderElig(host,it){
+    var t=L[lang];
+    var r=document.createElement('div');r.className='rule';r.innerHTML=t.eligrule(it.lo,it.hi);host.appendChild(r);
+    var board=document.createElement('div');board.className='boardflow';
+    it.planes.forEach(function(p){var c=card(p);if(p===it.target)c.classList.add('target');board.appendChild(c);});
+    host.appendChild(board);
+    var grid=document.createElement('div');grid.className='opts';
+    it.opts.forEach(function(o){
+      var b=document.createElement('button');b.textContent=o+' '+t.aircraftw;b._val=o;
+      b.onclick=function(){answerElig(o,b,it);};grid.appendChild(b);
+    });
+    host.appendChild(grid);
+  }
+  function answerElig(o,btn,it){
+    if(answered)return;var t=L[lang];var ok=(o===it.correct);
+    Array.prototype.forEach.call(document.querySelectorAll('#answerHost .opts button'),function(b){b.disabled=true;if(b._val===it.correct)b.classList.add('good');});
+    if(!ok)btn.classList.add('bad');
+    var cards=document.querySelectorAll('#answerHost .boardflow .card');
+    it.planes.forEach(function(p,i){var c=cards[i];if(!c)return;if(!p.elig)c.classList.add('inelig');else if(p!==it.target&&p.eta<it.target.eta)c.classList.add('reveal-ok');});
+    finish(ok,it.correct+' '+t.land_before+' '+it.target.cs);
+  }
+
+  // ----- controls -----
+  function addControls(host,btns){
+    var row=document.createElement('div');row.className='controls';
+    btns.forEach(function(b){
+      var el=document.createElement('button');el.id='btn_'+b.id;el.textContent=b.txt;
+      if(b.cls)el.className=b.cls;el.onclick=b.fn;row.appendChild(el);
+    });
+    host.appendChild(row);
+  }
+
+  // ----- evaluate -----
+  function orderList(planes){return planes.map(function(p){return p.cs+' '+etaStr(p.eta);}).join(' \u00b7 ');}
+  function evaluate(){
+    if(answered)return;var it=items[idx],t=L[lang],ok=false,sub='';
+    if(it.type==='seq'){
+      var res= mode==='drag'? order : tapSeq.map(function(i){return order[i];});
+      if(mode==='tap'&&tapSeq.length!==order.length)return;
+      ok=ascending(res);
+      sub=t.order_was+' '+orderList(it.planes.slice().sort(function(a,b){return a.eta-b.eta;}));
+    } else if(it.type==='insert'){
+      if(mode==='drag'){ ok=ascending(order); }
+      else { if(chosenGap===null)return; ok=(chosenGap===it.correctGap); }
+      sub=t.order_was+' '+orderList(it.planes.slice().sort(function(a,b){return a.eta-b.eta;}));
+      if(mode==='tap')revealGap(it);
+    } else {
+      if(selPair.length!==2)return;
+      var s=selPair.slice().sort(function(a,b){return a-b;});
+      ok=(s[0]===it.viol&&s[1]===it.viol+1);
+      var g=it.planes[it.viol+1].eta-it.planes[it.viol].eta;
+      sub=t.tooclose+' '+it.planes[it.viol].cs+' & '+it.planes[it.viol+1].cs+' ('+t.gap+' '+etaStr(g)+')';
+      revealSep(it);
+    }
+    finish(ok,sub);
+  }
+  function revealGap(it){
+    var host=document.getElementById('answerHost');
+    Array.prototype.forEach.call(host.querySelectorAll('.gap'),function(x){
+      x.classList.toggle('reveal',parseInt(x.dataset.g,10)===it.correctGap);
+    });
+  }
+  function revealSep(it){
+    var cards=document.querySelectorAll('#answerHost .boardflow .card');
+    if(cards[it.viol])cards[it.viol].classList.add('reveal-bad');
+    if(cards[it.viol+1])cards[it.viol+1].classList.add('reveal-bad');
+  }
+  function finish(ok,sub){
+    answered=true;var t=L[lang];
+    results.push({ok:ok,t:(performance.now()-itemStart)/1000,type:items[idx].type});
+    var fb=document.getElementById('fb');fb.className='fb '+(ok?'ok':'no');
+    fb.innerHTML=(ok?t.correct:t.wrong)+'<div class="fbsub">'+sub+'</div>';
+    document.getElementById('correctHud').innerHTML=tally()+' <b>'+t.cor+'</b>';
+    // lock controls
+    var sb=document.getElementById('btn_sub');if(sb)sb.disabled=true;
+    var ub=document.getElementById('btn_undo');if(ub)ub.disabled=true;
+    var nb=document.getElementById('nextBtn');nb.classList.remove('hidden');
+    nb.textContent= idx>=items.length-1 ? t.results : t.next;
+  }
+  function next(){ if(!answered)return; idx++; if(idx>=items.length)showResults(); else renderItem(); }
+
+  function showResults(){
+    active=false;document.getElementById('game').classList.add('hidden');
+    var t=L[lang],total=results.length,c=tally(),acc=total?Math.round(c/total*100):0;
+    var avg=total?results.reduce(function(s,r){return s+r.t;},0)/total:0;
+    var rows='';['seq','insert','sep','elig'].forEach(function(ty){
+      var sg=results.filter(function(r){return r.type===ty;});if(!sg.length)return;
+      var sc=sg.filter(function(r){return r.ok;}).length;
+      rows+='<div class="rrow"><span>'+t['tag_'+ty]+'</span><span>'+sc+'/'+sg.length+'</span></div>';
+    });
+    document.getElementById('resultsHost').innerHTML=
+      '<div class="results"><h2>'+t.results+'</h2><div class="big">'+acc+'%</div>'
+      +'<div class="rrow"><span>'+t.accuracy+'</span><span>'+c+'/'+total+'</span></div>'
+      +'<div class="rrow"><span>'+t.avgtime+'</span><span>'+avg.toFixed(1)+' s</span></div>'
+      +'<div class="rsec">'+t.bytask+'</div>'+rows+'</div>';
+    var sb=document.getElementById('startBtn');sb.textContent=t.again;
+    document.getElementById('intro').style.display='block';
+    document.getElementById('introbox').style.display='none';
+  }
+
+  // ----- intro / lang -----
+  function renderExample(){
+    var t=L[lang],host=document.getElementById('example');host.innerHTML='';
+    t.ex.forEach(function(r){
+      var d=document.createElement('div');d.className='exrow';
+      d.innerHTML='<span class="cs">'+r[0]+'</span><span class="calc">'+r[1]+'</span><span class="ord">'+(r[2]==='-'?'':r[2])+'</span>';
+      host.appendChild(d);
+    });
+  }
+  function applyMode(){
+    document.getElementById('dragMode').className=mode==='drag'?'on':'';
+    document.getElementById('tapMode').className=mode==='tap'?'on':'';
+  }
+  function applyLang(){
+    var t=L[lang];document.documentElement.lang=lang;
+    document.getElementById('title').textContent=t.title;
+    document.getElementById('sub').textContent=t.sub;
+    document.getElementById('note').textContent=t.note;
+    document.getElementById('howT').textContent=t.how;
+    document.getElementById('instr').innerHTML=t.instr;
+    document.getElementById('excap').textContent=t.excap;
+    document.getElementById('modeT').textContent=t.modeT;
+    document.getElementById('dragL').textContent=t.dragL;
+    document.getElementById('dragR').textContent=t.dragR;
+    document.getElementById('tapL').textContent=t.tapL;
+    document.getElementById('tapR').textContent=t.tapR;
+    document.getElementById('startBtn').textContent=(results.length&&!active)?t.again:t.start;
+    document.getElementById('enBtn').className=lang==='en'?'on':'';
+    document.getElementById('esBtn').className=lang==='es'?'on':'';
+    renderExample();
+    if(active)renderItem();
+  }
+  document.getElementById('enBtn').onclick=function(){lang='en';applyLang();};
+  document.getElementById('esBtn').onclick=function(){lang='es';applyLang();};
+  document.getElementById('dragMode').onclick=function(){mode='drag';applyMode();};
+  document.getElementById('tapMode').onclick=function(){mode='tap';applyMode();};
+  document.getElementById('startBtn').onclick=function(){document.getElementById('introbox').style.display='block';start();};
+  document.getElementById('nextBtn').onclick=next;
+
+  applyMode();applyLang();
+</script>
+</body>
+</html>

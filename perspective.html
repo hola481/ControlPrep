@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Perspective</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:#eaf1f7;color:#1b2b3a;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;display:flex;justify-content:center;min-height:100vh}
+  .wrap{width:100%;max-width:440px;padding:14px}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  h1{font-size:15px;font-weight:800;color:#e8730c}
+  .sub{font-size:11px;color:#5f7488;margin-top:2px}
+  .lang{display:flex;border:1px solid #c7d6e4;border-radius:8px;overflow:hidden;flex-shrink:0}
+  .lang button{background:#fff;color:#5f7488;border:none;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer}
+  .lang button.on{background:#e8730c;color:#fff}
+  .note{background:#eaf3fb;border:1px solid #cfe0f0;border-left:3px solid #2f8fd6;border-radius:9px;padding:8px 10px;font-size:11.5px;color:#2f4d66;line-height:1.45;margin:10px 0}
+  #intro .introbox{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:14px}
+  .ititle{font-size:13px;font-weight:800;color:#e8730c;margin-bottom:6px}
+  .itext{font-size:12.5px;color:#36506a;line-height:1.5}
+  .exrow{display:flex;gap:12px;align-items:center;margin-top:12px;background:#f3f7fb;border:1px solid #dce6f0;border-radius:10px;padding:10px}
+  .exfig{width:96px;flex-shrink:0}
+  .exfig svg{width:100%;height:auto;display:block}
+  .excap{font-size:11.5px;color:#36506a;line-height:1.4}
+  .hud{display:flex;justify-content:space-between;font-size:12px;color:#5f7488;margin-bottom:8px}
+  .hud b{color:#16314c;font-family:'Courier New',monospace}
+  .instr{font-size:12.5px;color:#36506a;line-height:1.45;margin-bottom:10px;text-align:center}
+  .stage{background:#fff;border:1px solid #d6e0ea;border-radius:14px;padding:12px;display:flex;justify-content:center;align-items:center;min-height:300px}
+  .stage svg{width:100%;max-width:300px;height:auto}
+  .q{font-size:16px;font-weight:700;text-align:center;margin:14px 0 10px;min-height:22px;color:#16314c}
+  .ans{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .ans button{padding:15px;border-radius:11px;border:1px solid #c7d6e4;background:#fff;color:#1b3a5c;font-size:16px;font-weight:700;cursor:pointer}
+  .ans button:active{transform:scale(.98)}
+  .ans button:disabled{opacity:.7}
+  .fb{text-align:center;font-weight:700;font-size:14px;margin-top:10px;min-height:20px}
+  .start{margin-top:12px;width:100%;padding:14px;border:none;border-radius:11px;background:#e8730c;color:#fff;font-size:15px;font-weight:800;cursor:pointer}
+  .results{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:18px;margin-top:14px;text-align:center}
+  .results h2{font-size:15px;color:#e8730c;margin-bottom:10px}
+  .big{font-family:'Courier New',monospace;font-size:34px;font-weight:800;color:#e8730c}
+  .rsub{font-size:13px;color:#5f7488;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><h1 id="tTitle">Perspective</h1><div class="sub" id="tSub">Perspective taking — prototype</div></div>
+    <div class="lang"><button id="langEn" class="on">EN</button><button id="langEs">ES</button></div>
+  </div>
+  <div class="note" id="tNote"></div>
+
+  <div id="intro">
+    <div class="introbox">
+      <div class="ititle" id="iHow"></div>
+      <div class="itext" id="iInstr"></div>
+      <div class="exrow">
+        <div class="exfig" id="exFig"></div>
+        <div class="excap" id="exCap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="game" style="display:none">
+    <div class="hud"><span id="tItem"></span><span id="tScore"></span></div>
+    <div class="instr" id="tInstr"></div>
+    <div class="stage" id="stage"></div>
+    <div class="q" id="tQ"></div>
+    <div class="ans"><button id="bLeft"></button><button id="bRight"></button></div>
+    <div class="fb" id="tFb"></div>
+  </div>
+
+  <button class="start" id="startBtn"></button>
+  <div id="resultsHost"></div>
+</div>
+
+<script>
+(function(){
+  var L={
+    en:{title:"Perspective",sub:"Perspective taking — prototype",
+      note:"The official assessment is conducted in English. We recommend training in English — switch to Spanish only if you need to. Best on desktop (recommended for accuracy), though it works on mobile too.",
+      instr:"Answer from the figure's OWN left and right — imagine you are standing where they are, facing the way they face.",
+      q:"Which side is {d} on?",left:"Left",right:"Right",
+      start:"Start",again:"Try again",item:"Item",score:"Score",
+      correct:"Correct",wrong:"Incorrect",results:"Results",acc:"accuracy",avg:"avg",done:"Finished",
+      shapes:{circle:"circle",square:"square",triangle:"triangle",diamond:"diamond",hexagon:"hexagon"},
+      colors:{red:"red",blue:"blue",green:"green",yellow:"yellow",magenta:"magenta",cyan:"cyan"},
+      how:"How it works",
+      exCap:"This figure faces you, so its left and right are mirrored from yours. The red circle is on the figure's right — even though you see it on your left.",
+      desc:function(c,s){return "the "+c+" "+s;}},
+    es:{title:"¿Izquierda o derecha?",sub:"Toma de perspectiva — prototipo",
+      note:"La prueba oficial se realiza en inglés. Recomendamos entrenar en inglés; cambia a español solo si lo necesitas. Mejor en ordenador (recomendado para mayor precisión), aunque también funciona en móvil.",
+      instr:"Responde desde la izquierda y la derecha DE LA FIGURA: imagina que estás en su lugar, orientado como ella.",
+      q:"¿En qué lado está {d}?",left:"Izquierda",right:"Derecha",
+      start:"Empezar",again:"Repetir",item:"Ítem",score:"Aciertos",
+      correct:"Correcto",wrong:"Incorrecto",results:"Resultados",acc:"precisión",avg:"media",done:"Finalizado",
+      shapes:{circle:"círculo",square:"cuadrado",triangle:"triángulo",diamond:"rombo",hexagon:"hexágono"},
+      colors:{red:"rojo",blue:"azul",green:"verde",yellow:"amarillo",magenta:"magenta",cyan:"cian"},
+      how:"Cómo funciona",
+      exCap:"Esta figura está de frente, así que su izquierda y derecha están invertidas respecto a las tuyas. El círculo rojo está a la derecha de la figura, aunque tú lo veas a tu izquierda.",
+      desc:function(c,s){return "el "+s+" "+c;}}
+  };
+  var lang='en';
+  var COL={red:'#e0322f',blue:'#2546e0',green:'#22c247',yellow:'#f2c200',magenta:'#d61fd6',cyan:'#13c4d6'};
+  var SHAPES=['circle','square','triangle','diamond','hexagon'];
+  var COLORS=['red','blue','green','yellow','magenta','cyan'];
+
+  var TOTAL=14;
+  var idx=0, correct=0, times=[], cur=null, answered=false, startedAt=0;
+
+  function rnd(a,b){return a+Math.random()*(b-a);}
+  function pick(a){return a[Math.floor(Math.random()*a.length)];}
+
+  function objSVG(cx,cy,shape,color){
+    var f=COL[color], st='stroke="#0a1f38" stroke-width="2"', r=16;
+    if(shape==='circle') return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+f+'" '+st+'/>';
+    if(shape==='square') return '<rect x="'+(cx-r)+'" y="'+(cy-r)+'" width="'+(2*r)+'" height="'+(2*r)+'" rx="3" fill="'+f+'" '+st+'/>';
+    if(shape==='triangle') return '<polygon points="'+cx+','+(cy-r-2)+' '+(cx+r+2)+','+(cy+r)+' '+(cx-r-2)+','+(cy+r)+'" fill="'+f+'" '+st+'/>';
+    if(shape==='diamond') return '<polygon points="'+cx+','+(cy-r-2)+' '+(cx+r+2)+','+cy+' '+cx+','+(cy+r+2)+' '+(cx-r-2)+','+cy+'" fill="'+f+'" '+st+'/>';
+    // hexagon
+    var pts=[];for(var i=0;i<6;i++){var a=Math.PI/6+i*Math.PI/3;pts.push((cx+Math.cos(a)*(r+1)).toFixed(1)+','+(cy+Math.sin(a)*(r+1)).toFixed(1));}
+    return '<polygon points="'+pts.join(' ')+'" fill="'+f+'" '+st+'/>';
+  }
+
+  function figure(facing,flip,leftObj,rightObj){
+    var tf='';
+    var front=facing==='front', up=flip==='down';
+    if(front && !up) tf='translate(300,0) scale(-1,1)';
+    else if(!front && up) tf='rotate(180 150 150)';
+    else if(front && up) tf='translate(0,300) scale(1,-1)';
+    var col='#34516b', hair='#6b4a2f', hd='#4a3320', skin='#e8c4a0';
+    var head;
+    if(front){
+      head='<circle cx="150" cy="70" r="27" fill="'+skin+'" stroke="'+col+'" stroke-width="3"/>'
+        +'<path d="M124 66 Q126 43 150 43 Q174 43 176 66 Q165 53 150 53 Q135 53 124 66 Z" fill="'+hair+'"/>'
+        +'<circle cx="140" cy="69" r="3.4" fill="#11243a"/><circle cx="160" cy="69" r="3.4" fill="#11243a"/>'
+        +'<path d="M138 80 Q150 89 162 80" stroke="#11243a" stroke-width="3" fill="none" stroke-linecap="round"/>';
+    } else {
+      head='<circle cx="150" cy="70" r="27" fill="'+hair+'" stroke="'+col+'" stroke-width="3"/>'
+        +'<circle cx="125" cy="74" r="4.5" fill="'+skin+'" stroke="'+col+'" stroke-width="1.5"/>'
+        +'<circle cx="175" cy="74" r="4.5" fill="'+skin+'" stroke="'+col+'" stroke-width="1.5"/>'
+        +'<line x1="150" y1="45" x2="150" y2="93" stroke="'+hd+'" stroke-width="2"/>'
+        +'<path d="M131 89 Q150 98 169 89" stroke="'+hd+'" stroke-width="2" fill="none"/>';
+    }
+    var bodyG='<g stroke="'+col+'" stroke-width="11" stroke-linecap="round" fill="none">'
+      +'<line x1="150" y1="100" x2="150" y2="108"/>'              // neck
+      +'<line x1="150" y1="118" x2="150" y2="188"/>'             // torso
+      +'<line x1="150" y1="126" x2="56" y2="150"/>'              // left arm (local-left)
+      +'<line x1="150" y1="126" x2="244" y2="150"/>'             // right arm (local-right)
+      +'<line x1="150" y1="188" x2="120" y2="234"/>'             // left leg
+      +'<line x1="150" y1="188" x2="180" y2="234"/>'             // right leg
+      +'</g>'
+      +head;
+    var objs=objSVG(52,150,leftObj.shape,leftObj.color)+objSVG(248,150,rightObj.shape,rightObj.color);
+    return '<svg viewBox="0 0 300 300"><g transform="'+tf+'">'+bodyG+objs+'</g></svg>';
+  }
+
+  function newItem(){
+    var facing=pick(['front','back']), flip=pick(['up','up','down']); // ~1/3 inverted
+    // two distinct objects
+    var c1=pick(COLORS), s1=pick(SHAPES);
+    var c2,s2; do{c2=pick(COLORS);s2=pick(SHAPES);}while(c2===c1);
+    var leftObj={color:c1,shape:s1,side:'left'};   // figure's left
+    var rightObj={color:c2,shape:s2,side:'right'}; // figure's right
+    var target=Math.random()<0.5?leftObj:rightObj;
+    cur={facing:facing,flip:flip,leftObj:leftObj,rightObj:rightObj,target:target,answer:target.side};
+    answered=false; startedAt=performance.now();
+    renderItem();
+  }
+
+  function renderItem(){
+    var t=L[lang];
+    document.getElementById('stage').innerHTML=figure(cur.facing,cur.flip,cur.leftObj,cur.rightObj);
+    var d=t.desc(t.colors[cur.target.color],t.shapes[cur.target.shape]);
+    document.getElementById('tQ').textContent=t.q.replace('{d}',d);
+    document.getElementById('tItem').textContent=t.item+' '+(idx+1)+'/'+TOTAL;
+    document.getElementById('tScore').textContent=t.score+': '+correct;
+    document.getElementById('bLeft').textContent=t.left;
+    document.getElementById('bRight').textContent=t.right;
+    document.getElementById('bLeft').disabled=false;
+    document.getElementById('bRight').disabled=false;
+    document.getElementById('tFb').textContent='';
+  }
+
+  function answer(side){
+    if(answered||!cur) return;
+    answered=true;
+    times.push(performance.now()-startedAt);
+    var ok=side===cur.answer;
+    if(ok) correct++;
+    var t=L[lang];
+    var fb=document.getElementById('tFb');
+    fb.textContent= ok? '✓ '+t.correct : '✗ '+t.wrong;
+    fb.style.color= ok? '#1f8a5c':'#e23b3b';
+    document.getElementById('bLeft').disabled=true;
+    document.getElementById('bRight').disabled=true;
+    document.getElementById('tScore').textContent=t.score+': '+correct;
+    setTimeout(function(){
+      idx++;
+      if(idx>=TOTAL) showResults(); else newItem();
+    },850);
+  }
+
+  function showResults(){
+    var t=L[lang];
+    document.getElementById('game').style.display='none';
+    var avg=times.length? (times.reduce(function(a,b){return a+b;},0)/times.length/1000).toFixed(1):'0';
+    var acc=Math.round(correct/TOTAL*100);
+    document.getElementById('resultsHost').innerHTML=
+      '<div class="results"><h2>'+t.results+'</h2><div class="big">'+correct+'/'+TOTAL+'</div>'
+      +'<div class="rsub">'+acc+'% '+t.acc+' · '+avg+'s '+t.avg+'</div></div>';
+    var sb=document.getElementById('startBtn'); sb.textContent=t.again; sb.style.display='block';
+  }
+
+  function start(){
+    idx=0;correct=0;times=[];
+    document.getElementById('intro').style.display='none';
+    document.getElementById('resultsHost').innerHTML='';
+    document.getElementById('game').style.display='block';
+    document.getElementById('startBtn').style.display='none';
+    newItem();
+  }
+
+  function applyLang(){
+    var t=L[lang];
+    document.documentElement.lang=lang;
+    document.getElementById('tTitle').textContent=t.title;
+    document.getElementById('tSub').textContent=t.sub;
+    document.getElementById('tNote').textContent=t.note;
+    document.getElementById('tInstr').textContent=t.instr;
+    document.getElementById('iHow').textContent=t.how;
+    document.getElementById('iInstr').textContent=t.instr;
+    document.getElementById('exCap').textContent=t.exCap;
+    document.getElementById('exFig').innerHTML=figure('front','up',{color:'blue',shape:'square'},{color:'red',shape:'circle'});
+    document.getElementById('langEn').className= lang==='en'?'on':'';
+    document.getElementById('langEs').className= lang==='es'?'on':'';
+    var sb=document.getElementById('startBtn');
+    if(document.getElementById('game').style.display==='none' && !document.querySelector('.results'))
+      sb.textContent=t.start;
+    if(cur && document.getElementById('game').style.display!=='none') renderItem();
+  }
+
+  document.getElementById('langEn').onclick=function(){lang='en';applyLang();};
+  document.getElementById('langEs').onclick=function(){lang='es';applyLang();};
+  document.getElementById('startBtn').onclick=start;
+  document.getElementById('bLeft').onclick=function(){answer('left');};
+  document.getElementById('bRight').onclick=function(){answer('right');};
+  applyLang();
+})();
+</script>
+</body>
+</html>

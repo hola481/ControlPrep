@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Coordinate System</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#eaf1f7;color:#1b2b3a;font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:460px;margin:0 auto;padding:14px 14px 28px;position:relative}
+  .lang{position:absolute;top:12px;right:12px;display:flex;border:1px solid #c7d6e4;border-radius:8px;overflow:hidden}
+  .lang button{background:#fff;color:#5f7488;border:none;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer}
+  .lang button.on{background:#e8730c;color:#fff}
+  h1{font-size:20px;margin:2px 0 2px;color:#16314c}
+  .sub{font-size:12.5px;color:#5f7488;margin-bottom:10px}
+  .note{font-size:11.5px;color:#2f4d66;background:#eaf3fb;border:1px solid #cfe0f0;border-left:3px solid #2f8fd6;border-radius:9px;padding:8px 10px;margin-bottom:12px;line-height:1.45}
+
+  .introbox{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:14px;margin-bottom:12px}
+  .introbox h2{font-size:14px;color:#e8730c;margin:0 0 6px}
+  .introbox p{font-size:13px;line-height:1.5;color:#36506a;margin:0 0 10px}
+  .introbox .leg{font-size:12px;color:#5f7488;line-height:1.5}
+  .introbox b{color:#16314c}
+  #introCanvasWrap{width:200px;margin:8px auto 4px}
+  #introCanvas{width:100%;display:block;border-radius:10px;background:#d4e3f2}
+  .excap{font-size:11.5px;color:#5f7488;text-align:center;margin-top:4px}
+
+  #scopeWrap{width:100%;aspect-ratio:1/1}
+  #scope{width:100%;display:block;border-radius:14px;background:#d4e3f2;border:1px solid #c0d2e4}
+
+  .hud{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;color:#5f7488;margin:8px 2px 6px}
+  .hud b{color:#16314c}
+  .q{font-size:14px;line-height:1.45;color:#1b3a52;background:#fff;border:1px solid #d6e0ea;border-radius:11px;padding:11px 12px;margin:8px 0}
+  .q .hl{color:#c96a08;font-weight:700}
+
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:6px}
+  .opts button{padding:14px 6px;border-radius:11px;border:1px solid #c7d6e4;background:#fff;color:#1b3a5c;font-size:17px;font-weight:700;font-family:'Courier New',monospace;cursor:pointer}
+  .opts button:active{transform:scale(.98)}
+  .opts button.good{background:#effaf3;border-color:#2e9a68;color:#15784e}
+  .opts button.bad{background:#fdeef0;border-color:#d06a76;color:#b22}
+  .opts button:disabled{opacity:.96;cursor:default}
+
+  .placebar{margin-top:6px}
+  .placebar .hint{font-size:12.5px;color:#5f7488;margin-bottom:8px}
+  .confirm{width:100%;padding:13px;border-radius:11px;border:none;background:#e8730c;color:#fff;font-size:15px;font-weight:800;cursor:pointer}
+  .confirm:disabled{background:#cdd9e6;color:#8a9bb0;cursor:default}
+
+  .fb{margin-top:9px;font-size:13px;font-weight:600;min-height:20px}
+  .fb.ok{color:#1f8a5c}
+  .fb.no{color:#c0392b}
+  .next{width:100%;margin-top:9px;padding:13px;border-radius:11px;border:1px solid #c7d6e4;background:#eef3f8;color:#1b3a5c;font-size:15px;font-weight:700;cursor:pointer}
+
+  .startbtn{width:100%;margin-top:6px;padding:14px;border-radius:12px;border:none;background:#e8730c;color:#fff;font-size:16px;font-weight:800;cursor:pointer}
+
+  .results{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:18px;margin-top:6px}
+  .results h2{font-size:15px;color:#e8730c;margin:0 0 4px;text-align:center}
+  .big{font-size:44px;font-weight:800;text-align:center;color:#16314c;line-height:1.1;margin:2px 0 10px}
+  .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 2px;border-top:1px solid #e6edf3;color:#36506a}
+  .rrow span:last-child{font-weight:700;color:#16314c}
+  .rsec{font-size:11.5px;color:#5f7488;text-transform:uppercase;letter-spacing:.06em;margin:12px 0 2px}
+  .hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="lang"><button id="enBtn" class="on">EN</button><button id="esBtn">ES</button></div>
+  <h1 id="title">Coordinate System</h1>
+  <div class="sub" id="sub">Spatial orientation &amp; bearings — prototype</div>
+  <div class="note" id="note">The official assessment is conducted in English. We recommend training in English; switch to Spanish only if you need to.</div>
+
+  <!-- INTRO -->
+  <div id="intro">
+    <div class="introbox">
+      <h2 id="howT">How it works</h2>
+      <p id="instr"></p>
+      <div id="introCanvasWrap"><canvas id="introCanvas" width="200" height="200"></canvas></div>
+      <div class="excap" id="excap"></div>
+      <div class="leg" id="legend" style="margin-top:10px"></div>
+    </div>
+    <button class="startbtn" id="startBtn">Start</button>
+  </div>
+
+  <!-- GAME -->
+  <div id="game" class="hidden">
+    <div class="hud"><span id="prog">1 / 16</span><span id="correctHud"></span></div>
+    <div id="scopeWrap"><canvas id="scope"></canvas></div>
+    <div class="q" id="qtext"></div>
+    <div id="answerHost"></div>
+    <div class="fb" id="fb"></div>
+    <button class="next hidden" id="nextBtn"></button>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="resultsHost"></div>
+</div>
+
+<script>
+  var DPR=Math.min(window.devicePixelRatio||1,2);
+  var cv=document.getElementById('scope'), ctx=cv.getContext('2d');
+  var W=0,H=0, SC={cx:0,cy:0,R:0};
+  var lang='en';
+
+  var L={
+    en:{
+      title:"Coordinate System", sub:"Spatial orientation & bearings — prototype",
+      note:"The official assessment is conducted in English. We recommend training in English; switch to Spanish only if you need to. Best on desktop (recommended for accuracy), though it works on mobile too.",
+      how:"How it works",
+      instr:"Read the radar scope. Bearings are measured in degrees clockwise from North (000\u2013360): 090 is East, 180 South, 270 West. Most questions ask the bearing from the centre to a contact (T). Some scopes are rotated so North is not at the top \u2014 read the bearing from the red N marker. Others give your aircraft a heading and ask the contact's clock position. One type is reversed: you tap the scope to plot a contact at a given bearing and range.",
+      excap:"Here the contact bears 045\u00b0 (north-east) from the centre.",
+      legend:"<b>Bearing</b> \u2014 read the angle clockwise from N \u00b7 <b>Rotated</b> \u2014 N is not up, measure from the marker \u00b7 <b>Clock</b> \u2014 relative to your nose (12 = ahead) \u00b7 <b>Plot</b> \u2014 tap, then confirm.",
+      start:"Start", again:"Try again",
+      q_bearing:"What is the bearing from the centre (\u25b2) to the contact (<span class='hl'>T</span>)?",
+      q_rotated:"What is the true bearing to the contact (<span class='hl'>T</span>)? <b>North is rotated</b> \u2014 measure clockwise from the red <b>N</b> marker.",
+      q_clock:function(h){return "Your aircraft (\u25b2) is heading <span class='hl'>"+fmtB(h)+"\u00b0</span>. At what clock position is the contact (<span class='hl'>T</span>)?";},
+      q_place:function(b,nm){return "Plot a contact on bearing <span class='hl'>"+fmtB(b)+"\u00b0</span>, range <span class='hl'>"+nm+" NM</span>. Tap the scope, then Confirm.";},
+      taphint:"Tap the scope to drop the contact, then Confirm.",
+      confirm:"Confirm position",
+      correct:"Correct", wrong:"Not quite", ansis:"Answer:", next:"Next", clockUnit:"o'clock",
+      cor:"correct",
+      results:"Results", accuracy:"Accuracy", avgtime:"Avg. time", bytask:"Accuracy by task",
+      t_bearing:"Bearing", t_rotated:"Rotated compass", t_clock:"Clock position", t_place:"Plotting"
+    },
+    es:{
+      title:"Sistema de coordenadas", sub:"Orientaci\u00f3n espacial y rumbos \u2014 prototipo",
+      note:"La prueba oficial se realiza en ingl\u00e9s. Recomendamos entrenar en ingl\u00e9s; cambia a espa\u00f1ol solo si lo necesitas. Mejor en ordenador (recomendado para mayor precisi\u00f3n), aunque tambi\u00e9n funciona en m\u00f3vil.",
+      how:"C\u00f3mo funciona",
+      instr:"Lee la pantalla radar. Los rumbos se miden en grados en sentido horario desde el Norte (000\u2013360): 090 es Este, 180 Sur, 270 Oeste. La mayor\u00eda de preguntas piden el rumbo del centro a un contacto (T). Algunas pantallas est\u00e1n giradas y el Norte no est\u00e1 arriba \u2014 lee el rumbo desde la marca roja N. Otras dan un rumbo a tu aeronave y piden la posici\u00f3n horaria del contacto. Un tipo es inverso: tocas la pantalla para situar un contacto en un rumbo y distancia dados.",
+      excap:"Aqu\u00ed el contacto est\u00e1 a 045\u00b0 (noreste) del centro.",
+      legend:"<b>Rumbo</b> \u2014 \u00e1ngulo horario desde N \u00b7 <b>Girada</b> \u2014 N no est\u00e1 arriba, mide desde la marca \u00b7 <b>Horaria</b> \u2014 respecto a tu morro (12 = al frente) \u00b7 <b>Situar</b> \u2014 toca y confirma.",
+      start:"Empezar", again:"Repetir",
+      q_bearing:"\u00bfCu\u00e1l es el rumbo del centro (\u25b2) al contacto (<span class='hl'>T</span>)?",
+      q_rotated:"\u00bfCu\u00e1l es el rumbo verdadero al contacto (<span class='hl'>T</span>)? <b>El Norte est\u00e1 girado</b> \u2014 mide en sentido horario desde la marca roja <b>N</b>.",
+      q_clock:function(h){return "Tu aeronave (\u25b2) vuela rumbo <span class='hl'>"+fmtB(h)+"\u00b0</span>. \u00bfEn qu\u00e9 posici\u00f3n horaria est\u00e1 el contacto (<span class='hl'>T</span>)?";},
+      q_place:function(b,nm){return "Sit\u00faa un contacto en rumbo <span class='hl'>"+fmtB(b)+"\u00b0</span>, distancia <span class='hl'>"+nm+" NM</span>. Toca la pantalla y confirma.";},
+      taphint:"Toca la pantalla para situar el contacto, luego Confirmar.",
+      confirm:"Confirmar posici\u00f3n",
+      correct:"Correcto", wrong:"Casi", ansis:"Respuesta:", next:"Siguiente", clockUnit:"en punto",
+      cor:"correctas",
+      results:"Resultados", accuracy:"Precisi\u00f3n", avgtime:"Tiempo medio", bytask:"Precisi\u00f3n por tarea",
+      t_bearing:"Rumbo", t_rotated:"Br\u00fajula girada", t_clock:"Posici\u00f3n horaria", t_place:"Situar"
+    }
+  };
+
+  // ---- helpers ----
+  function pick(a){return a[Math.floor(Math.random()*a.length)];}
+  function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function norm(b){return ((Math.round(b)%360)+360)%360;}
+  function fmtB(b){return ('00'+norm(b)).slice(-3);}
+  function ringR(n){return SC.R*n/4;}
+  function rad(d){return d*Math.PI/180;}
+
+  function bearingOpts(b){
+    var s=[norm(b)], cand=[b+30,b-30,b+45,b-45,b+90,b-90,360-b,b+135];
+    for(var i=0;i<cand.length&&s.length<4;i++){var v=norm(cand[i]);if(s.indexOf(v)<0)s.push(v);}
+    while(s.length<4){var v=norm(b+(Math.floor(Math.random()*11)-5)*15);if(s.indexOf(v)<0)s.push(v);}
+    return shuffle(s);
+  }
+  function wrap12(n){return ((n-1)%12+12)%12+1;}
+  function clockOpts(c){
+    var s=[c], cand=[c+1,c-1,c+2,c-2,c+3,c+6];
+    for(var i=0;i<cand.length&&s.length<4;i++){var v=wrap12(cand[i]);if(s.indexOf(v)<0)s.push(v);}
+    while(s.length<4){var v=wrap12(c+Math.floor(Math.random()*12));if(s.indexOf(v)<0)s.push(v);}
+    return shuffle(s);
+  }
+
+  // ---- item generators ----
+  var BSET=[15,30,45,60,75,105,120,135,150,210,225,240,300,315,330];
+  function gBearing(){var b=pick(BSET),r=pick([2,3]);return {type:'bearing',rot:0,targets:[{b:b,r:r}],b:b,ans:norm(b),opts:bearingOpts(b)};}
+  function gRotated(){var b=pick(BSET),rot=pick([30,45,60,90,120,135,150,210,225,240,270,300,315,330]),r=pick([2,3]);return {type:'rotated',rot:rot,targets:[{b:b,r:r}],b:b,ans:norm(b),opts:bearingOpts(b)};}
+  function gClock(){var h=pick([0,30,60,90,120,150,180,210,240,270,300,330]),rel=pick([0,30,60,90,120,150,180,210,240,270,300,330]),b=norm(h+rel),c=rel/30;if(c===0)c=12;var r=pick([2,3]);return {type:'clock',rot:0,own:{h:h},targets:[{b:b,r:r}],b:b,h:h,ans:c,opts:clockOpts(c)};}
+  function gPlace(){var b=pick([15,30,45,60,90,120,135,150,210,225,270,300,330]),r=pick([2,3]);return {type:'place',rot:0,targets:[],b:b,r:r,nm:20*r,ans:{b:b,r:r}};}
+
+  function buildItems(){
+    var arr=[];
+    for(var i=0;i<4;i++)arr.push(gBearing());
+    for(var i=0;i<5;i++)arr.push(gRotated());
+    for(var i=0;i<4;i++)arr.push(gClock());
+    for(var i=0;i<3;i++)arr.push(gPlace());
+    shuffle(arr);
+    var bi=-1; for(var i=0;i<arr.length;i++){if(arr[i].type==='bearing'){bi=i;break;}}
+    if(bi>0){var t=arr[0];arr[0]=arr[bi];arr[bi]=t;}
+    return arr;
+  }
+
+  // ---- drawing ----
+  function sizeCanvas(){
+    var w=document.getElementById('scopeWrap').clientWidth; if(!w)w=320;
+    W=w;H=w; cv.style.height=H+'px'; cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+    SC.cx=W/2; SC.cy=H/2; SC.R=Math.min(W,H)*0.42;
+  }
+  function arrowHead(x,y,ux,uy,col){
+    var ax=-uy, ay=ux, s=6;
+    ctx.fillStyle=col; ctx.beginPath();
+    ctx.moveTo(x,y); ctx.lineTo(x-ux*11+ax*s,y-uy*11+ay*s); ctx.lineTo(x-ux*11-ax*s,y-uy*11-ay*s);
+    ctx.closePath(); ctx.fill();
+  }
+  function drawScope(it,placed){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#d4e3f2'; ctx.fillRect(0,0,W,H);
+    var R=SC.R;
+    ctx.save(); ctx.translate(SC.cx,SC.cy); ctx.rotate(rad(it.rot||0));
+    // rings
+    ctx.strokeStyle='rgba(70,110,150,.30)'; ctx.lineWidth=1;
+    for(var n=1;n<=4;n++){ctx.beginPath();ctx.arc(0,0,R*n/4,0,Math.PI*2);ctx.stroke();}
+    // cross lines
+    ctx.strokeStyle='rgba(70,110,150,.18)';
+    ctx.beginPath();ctx.moveTo(0,-R);ctx.lineTo(0,R);ctx.moveTo(-R,0);ctx.lineTo(R,0);ctx.stroke();
+    // ticks
+    for(var a=0;a<360;a+=10){
+      var ux=Math.sin(rad(a)), uy=-Math.cos(rad(a)), maj=(a%30===0);
+      var inner=maj?R*0.90:R*0.96;
+      ctx.strokeStyle=maj?'rgba(55,95,135,.60)':'rgba(55,95,135,.28)';
+      ctx.lineWidth=maj?1.4:1;
+      ctx.beginPath();ctx.moveTo(ux*inner,uy*inner);ctx.lineTo(ux*R,uy*R);ctx.stroke();
+    }
+    // North marker
+    ctx.fillStyle='#e23b3b'; ctx.beginPath(); ctx.moveTo(0,-R-3); ctx.lineTo(-6,-R+11); ctx.lineTo(6,-R+11); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#b5202a'; ctx.font='bold 13px "Courier New",monospace'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('N',0,-R+24);
+    // centre reference / ownship
+    if(it.own){
+      var h=it.own.h, ux=Math.sin(rad(h)), uy=-Math.cos(rad(h)), len=R*0.5;
+      ctx.strokeStyle='#e8a317'; ctx.lineWidth=2.4; ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(ux*len,uy*len); ctx.stroke();
+      arrowHead(ux*len,uy*len,ux,uy,'#e8a317');
+      ctx.fillStyle='#e8a317'; ctx.beginPath(); ctx.arc(0,0,3.5,0,Math.PI*2); ctx.fill();
+    } else {
+      ctx.fillStyle='#16314c'; ctx.beginPath(); ctx.moveTo(0,-8); ctx.lineTo(-6,5); ctx.lineTo(6,5); ctx.closePath(); ctx.fill();
+    }
+    // targets
+    ctx.textAlign='start'; ctx.textBaseline='alphabetic';
+    it.targets.forEach(function(t){
+      var x=Math.sin(rad(t.b))*ringR(t.r), y=-Math.cos(rad(t.b))*ringR(t.r);
+      ctx.fillStyle='#1f7ad6'; ctx.beginPath(); ctx.arc(x,y,5.5,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle='rgba(31,122,214,.35)'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(x,y,10,0,Math.PI*2); ctx.stroke();
+      ctx.fillStyle='#16314c'; ctx.font='bold 12px "Courier New",monospace'; ctx.fillText('T',x+9,y-7);
+    });
+    ctx.restore();
+    // placed marker (screen frame; place items have rot 0)
+    if(placed){
+      ctx.fillStyle='#e8a317'; ctx.beginPath(); ctx.arc(placed.x,placed.y,5.5,0,Math.PI*2); ctx.fill();
+      ctx.strokeStyle='rgba(232,163,23,.45)'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(placed.x,placed.y,10,0,Math.PI*2); ctx.stroke();
+    }
+  }
+
+  // ---- intro example ----
+  function drawIntroExample(){
+    var c=document.getElementById('introCanvas'), x=c.getContext('2d');
+    var w=200,h=200,cx=100,cy=100,R=78;
+    x.setTransform(1,0,0,1,0,0); x.clearRect(0,0,w,h); x.fillStyle='#d4e3f2'; x.fillRect(0,0,w,h);
+    x.strokeStyle='rgba(70,110,150,.30)'; x.lineWidth=1;
+    for(var n=1;n<=3;n++){x.beginPath();x.arc(cx,cy,R*n/3,0,Math.PI*2);x.stroke();}
+    x.strokeStyle='rgba(70,110,150,.18)'; x.beginPath(); x.moveTo(cx,cy-R);x.lineTo(cx,cy+R);x.moveTo(cx-R,cy);x.lineTo(cx+R,cy);x.stroke();
+    x.fillStyle='#e23b3b'; x.beginPath(); x.moveTo(cx,cy-R-3);x.lineTo(cx-5,cy-R+8);x.lineTo(cx+5,cy-R+8);x.closePath();x.fill();
+    x.fillStyle='#b5202a'; x.font='bold 12px "Courier New",monospace'; x.textAlign='center'; x.fillText('N',cx,cy-R+20);
+    // centre
+    x.fillStyle='#16314c'; x.beginPath(); x.moveTo(cx,cy-7);x.lineTo(cx-5,cy+4);x.lineTo(cx+5,cy+4);x.closePath();x.fill();
+    // contact at 045
+    var b=45, tx=cx+Math.sin(rad(b))*R*0.72, ty=cy-Math.cos(rad(b))*R*0.72;
+    x.strokeStyle='rgba(255,209,102,.5)'; x.lineWidth=1.4; x.setLineDash([4,4]); x.beginPath(); x.moveTo(cx,cy); x.lineTo(tx,ty); x.stroke(); x.setLineDash([]);
+    x.fillStyle='#1f7ad6'; x.beginPath(); x.arc(tx,ty,5,0,Math.PI*2); x.fill();
+    x.fillStyle='#16314c'; x.textAlign='start'; x.fillText('T',tx+8,ty-6);
+    x.fillStyle='#e8a317'; x.font='bold 12px "Courier New",monospace'; x.textAlign='center'; x.fillText('045\u00b0',cx+30,cy-8);
+  }
+
+  // ---- run state ----
+  var items=[], idx=0, results=[], answered=false, placed=null, itemStart=0, active=false, optBtns=[];
+
+  function start(){
+    items=buildItems(); idx=0; results=[]; active=true;
+    document.getElementById('intro').style.display='none';
+    document.getElementById('resultsHost').innerHTML='';
+    document.getElementById('game').classList.remove('hidden');
+    sizeCanvas();
+    renderItem();
+  }
+
+  function renderItem(){
+    var it=items[idx], t=L[lang]; answered=false; placed=null; optBtns=[];
+    document.getElementById('prog').textContent=(idx+1)+' / '+items.length;
+    document.getElementById('correctHud').innerHTML=tally()+' <b>'+t.cor+'</b>';
+    document.getElementById('fb').textContent=''; document.getElementById('fb').className='fb';
+    document.getElementById('nextBtn').classList.add('hidden');
+    document.getElementById('nextBtn').textContent=t.next;
+    var q = it.type==='bearing'?t.q_bearing : it.type==='rotated'?t.q_rotated : it.type==='clock'?t.q_clock(it.h) : t.q_place(it.b,it.nm);
+    document.getElementById('qtext').innerHTML=q;
+    drawScope(it,null);
+    buildAnswers(it);
+    itemStart=performance.now();
+  }
+  function tally(){var c=0;for(var i=0;i<results.length;i++)if(results[i].ok)c++;return c;}
+
+  function buildAnswers(it){
+    var host=document.getElementById('answerHost'); host.innerHTML=''; var t=L[lang];
+    if(it.type==='place'){
+      var bar=document.createElement('div'); bar.className='placebar';
+      var hint=document.createElement('div'); hint.className='hint'; hint.textContent=t.taphint; bar.appendChild(hint);
+      var cb=document.createElement('button'); cb.className='confirm'; cb.textContent=t.confirm; cb.disabled=true; cb.id='confirmBtn';
+      cb.onclick=commitPlace; bar.appendChild(cb); host.appendChild(bar);
+    } else {
+      var grid=document.createElement('div'); grid.className='opts';
+      it.opts.forEach(function(o){
+        var b=document.createElement('button');
+        b.textContent = it.type==='clock' ? (o+" "+t.clockUnit) : (fmtB(o)+'\u00b0');
+        b.onclick=function(){answerMC(o,b);};
+        grid.appendChild(b); optBtns.push({el:b,val:o});
+      });
+      host.appendChild(grid);
+    }
+  }
+
+  function answerMC(choice,btn){
+    if(answered)return; var it=items[idx]; var ok=(choice===it.ans);
+    optBtns.forEach(function(ob){ ob.el.disabled=true; if(ob.val===it.ans)ob.el.className='good'; });
+    if(!ok)btn.className='bad';
+    finishItem(ok);
+  }
+
+  function commitPlace(){
+    if(answered||!placed)return; var it=items[idx];
+    var dx=placed.x-SC.cx, dy=placed.y-SC.cy;
+    var bb=norm(Math.atan2(dx,-dy)*180/Math.PI), nm=Math.hypot(dx,dy)/SC.R*80;
+    var dB=Math.abs(((bb-it.ans.b+540)%360)-180), dN=Math.abs(nm-it.nm);
+    var ok=dB<=12 && dN<=12;
+    // reveal the intended position
+    var tx=SC.cx+Math.sin(rad(it.ans.b))*ringR(it.ans.r), ty=SC.cy-Math.cos(rad(it.ans.b))*ringR(it.ans.r);
+    drawScope(it,placed);
+    ctx.fillStyle=ok?'#1f8a5c':'#e23b3b'; ctx.beginPath(); ctx.arc(tx,ty,6,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=ok?'rgba(31,138,92,.5)':'rgba(226,59,59,.5)'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(tx,ty,12,0,Math.PI*2); ctx.stroke();
+    document.getElementById('confirmBtn').disabled=true;
+    finishItem(ok);
+  }
+
+  function ansText(it){
+    var t=L[lang];
+    if(it.type==='clock')return it.ans+" "+t.clockUnit;
+    if(it.type==='place')return fmtB(it.ans.b)+"\u00b0, "+it.nm+" NM";
+    return fmtB(it.ans)+"\u00b0";
+  }
+
+  function finishItem(ok){
+    answered=true; var it=items[idx], t=L[lang];
+    results.push({ok:ok,t:(performance.now()-itemStart)/1000,type:it.type});
+    var fb=document.getElementById('fb');
+    fb.className='fb '+(ok?'ok':'no');
+    fb.textContent=(ok?t.correct:t.wrong)+" \u00b7 "+t.ansis+" "+ansText(it);
+    document.getElementById('correctHud').innerHTML=tally()+' <b>'+t.cor+'</b>';
+    var nb=document.getElementById('nextBtn'); nb.classList.remove('hidden');
+    nb.textContent = idx>=items.length-1 ? L[lang].results : t.next;
+  }
+
+  function next(){ if(!answered)return; idx++; if(idx>=items.length)showResults(); else renderItem(); }
+
+  cv.addEventListener('pointerdown',function(e){
+    if(!active)return; var it=items[idx]; if(!it||it.type!=='place'||answered)return;
+    var r=cv.getBoundingClientRect(); var x=e.clientX-r.left, y=e.clientY-r.top;
+    var dd=Math.hypot(x-SC.cx,y-SC.cy); if(dd>SC.R*1.05)return;
+    placed={x:x,y:y}; drawScope(it,placed);
+    var cb=document.getElementById('confirmBtn'); if(cb)cb.disabled=false;
+  });
+
+  function showResults(){
+    active=false;
+    document.getElementById('game').classList.add('hidden');
+    var t=L[lang], total=results.length, c=tally();
+    var acc=total?Math.round(c/total*100):0;
+    var avg=total?(results.reduce(function(s,r){return s+r.t;},0)/total):0;
+    var types=['bearing','rotated','clock','place'];
+    var rows='';
+    types.forEach(function(ty){
+      var sub=results.filter(function(r){return r.type===ty;});
+      if(!sub.length)return;
+      var sc=sub.filter(function(r){return r.ok;}).length;
+      rows+='<div class="rrow"><span>'+t['t_'+ty]+'</span><span>'+sc+'/'+sub.length+'</span></div>';
+    });
+    document.getElementById('resultsHost').innerHTML=
+      '<div class="results"><h2>'+t.results+'</h2>'
+      +'<div class="big">'+acc+'%</div>'
+      +'<div class="rrow"><span>'+t.accuracy+'</span><span>'+c+'/'+total+'</span></div>'
+      +'<div class="rrow"><span>'+t.avgtime+'</span><span>'+avg.toFixed(1)+' s</span></div>'
+      +'<div class="rsec">'+t.bytask+'</div>'+rows
+      +'</div>';
+    var sb=document.getElementById('startBtn'); sb.textContent=t.again;
+    document.getElementById('intro').style.display='block';
+    document.getElementById('intro').querySelector('.introbox').style.display='none';
+  }
+
+  // ---- language / wiring ----
+  function applyLang(){
+    var t=L[lang];
+    document.documentElement.lang=lang;
+    document.getElementById('title').textContent=t.title;
+    document.getElementById('sub').textContent=t.sub;
+    document.getElementById('note').textContent=t.note;
+    document.getElementById('howT').textContent=t.how;
+    document.getElementById('instr').textContent=t.instr;
+    document.getElementById('excap').textContent=t.excap;
+    document.getElementById('legend').innerHTML=t.legend;
+    document.getElementById('startBtn').textContent = (results.length&&!active)?t.again:t.start;
+    document.getElementById('enBtn').className=lang==='en'?'on':'';
+    document.getElementById('esBtn').className=lang==='es'?'on':'';
+    if(active)renderItem();
+  }
+  document.getElementById('enBtn').onclick=function(){lang='en';applyLang();};
+  document.getElementById('esBtn').onclick=function(){lang='es';applyLang();};
+  document.getElementById('startBtn').onclick=function(){
+    document.getElementById('intro').querySelector('.introbox').style.display='block';
+    start();
+  };
+  document.getElementById('nextBtn').onclick=next;
+  window.addEventListener('resize',function(){ if(active&&!answered){sizeCanvas();drawScope(items[idx],placed);} else if(active){sizeCanvas();drawScope(items[idx],placed);} });
+
+  drawIntroExample();
+  applyLang();
+</script>
+</body>
+</html>

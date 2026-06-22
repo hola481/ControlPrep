@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Rule Finding</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:#eaf1f7;color:#1b2b3a;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;display:flex;justify-content:center;min-height:100vh}
+  .wrap{width:100%;max-width:460px;padding:14px}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  h1{font-size:15px;font-weight:800;color:#e8730c}
+  .sub{font-size:11px;color:#5f7488;margin-top:2px}
+  .lang{display:flex;border:1px solid #c7d6e4;border-radius:8px;overflow:hidden;flex-shrink:0}
+  .lang button{background:#fff;color:#5f7488;border:none;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer}
+  .lang button.on{background:#e8730c;color:#fff}
+  .note{background:#eaf3fb;border:1px solid #cfe0f0;border-left:3px solid #2f8fd6;border-radius:9px;padding:8px 10px;font-size:11.5px;color:#2f4d66;line-height:1.45;margin:10px 0}
+  #intro .introbox{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:14px}
+  .ititle{font-size:13px;font-weight:800;color:#e8730c;margin-bottom:6px}
+  .itext{font-size:12.5px;color:#36506a;line-height:1.5}
+  .exkeys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+  .exkeys .card{cursor:default}
+  .hud{display:flex;justify-content:space-between;font-size:12px;color:#5f7488;margin-bottom:8px}
+  .hud b{color:#16314c;font-family:'Courier New',monospace}
+  .instr{font-size:12px;color:#36506a;line-height:1.45;margin-bottom:12px;text-align:center}
+  .stim{display:flex;justify-content:center;margin-bottom:6px}
+  .arrow{text-align:center;color:#8a9bb0;font-size:18px;margin:2px 0 8px}
+  .keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .card{background:#fff;border:2px solid #cdd9e6;border-radius:11px;padding:4px;cursor:pointer;box-shadow:0 1px 2px rgba(20,50,80,.05)}
+  .card.big{width:120px;cursor:default;border-color:#e8730c}
+  .card svg{display:block;width:100%;height:auto}
+  .card.sel{border-color:#1f7ad6}
+  .card.good{border-color:#2dc653;box-shadow:0 0 0 2px rgba(45,198,83,.3)}
+  .card.bad{border-color:#e63946;box-shadow:0 0 0 2px rgba(230,57,70,.3)}
+  .card.dis{cursor:default}
+  .fb{text-align:center;font-weight:700;font-size:14px;margin-top:12px;min-height:20px}
+  .start{margin-top:14px;width:100%;padding:14px;border:none;border-radius:11px;background:#e8730c;color:#fff;font-size:15px;font-weight:800;cursor:pointer}
+  .results{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:18px;margin-top:14px}
+  .results h2{font-size:15px;color:#e8730c;margin-bottom:6px;text-align:center}
+  .big2{font-family:'Courier New',monospace;font-size:32px;font-weight:800;color:#e8730c;text-align:center;margin-bottom:10px}
+  .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #e6edf3;color:#36506a}
+  .rrow span:last-child{font-family:'Courier New',monospace;font-weight:700;color:#16314c}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><h1 id="tTitle">Learning &amp; Rule Finding</h1><div class="sub" id="tSub"></div></div>
+    <div class="lang"><button id="langEn" class="on">EN</button><button id="langEs">ES</button></div>
+  </div>
+  <div class="note" id="tNote"></div>
+
+  <div id="intro">
+    <div class="introbox">
+      <div class="ititle" id="iHow"></div>
+      <div class="itext" id="iInstr"></div>
+      <div class="itext" id="iKeysHint" style="margin-top:10px"></div>
+      <div class="exkeys" id="exKeys"></div>
+    </div>
+  </div>
+
+  <div id="game" style="display:none">
+    <div class="hud"><span id="tTrial"></span><span id="tScore"></span></div>
+    <div class="instr" id="tInstr"></div>
+    <div class="stim" id="stim"></div>
+    <div class="arrow">&#9650;</div>
+    <div class="keys" id="keys"></div>
+    <div class="fb" id="tFb"></div>
+  </div>
+
+  <button class="start" id="startBtn"></button>
+  <div id="resultsHost"></div>
+</div>
+
+<script>
+(function(){
+  var L={
+    en:{title:"Rule Finding",sub:"Rule induction & flexibility — prototype",
+      note:"The official assessment is conducted in English. We recommend training in English — switch to Spanish only if you need to. Best on desktop (recommended for accuracy), though it works on mobile too.",
+      instr:"Match the top card to one of the four below. You are NOT told the rule — deduce it from the feedback. The rule can change without warning.",
+      trial:"Trial",score:"Run",correct:"Correct",wrong:"Incorrect",start:"Start",again:"Try again",
+      results:"Results",acc:"accuracy",mastered:"rule changes mastered",persev:"perseverative errors",avg:"avg",finished:"Finished",
+      how:"How it works",
+      introInstr:"A card appears at the top; match it to one of the four below by colour, shape or number. You are NOT told which — deduce it from the Correct/Incorrect feedback. Once you've got it, the rule can change without warning and you'll have to find the new one.",
+      keysHint:"These four are always your choices — only the card you have to match changes:"},
+    es:{title:"Aprender y aplicar reglas",sub:"Inducción de reglas y flexibilidad — prototipo",
+      note:"La prueba oficial se realiza en inglés. Recomendamos entrenar en inglés; cambia a español solo si lo necesitas. Mejor en ordenador (recomendado para mayor precisión), aunque también funciona en móvil.",
+      instr:"Empareja la carta superior con una de las cuatro inferiores. NO se te dice la regla: dedúcela por el feedback. La regla puede cambiar sin aviso.",
+      trial:"Intento",score:"Racha",correct:"Correcto",wrong:"Incorrecto",start:"Empezar",again:"Repetir",
+      results:"Resultados",acc:"precisión",mastered:"cambios de regla superados",persev:"errores perseverativos",avg:"media",finished:"Finalizado",
+      how:"Cómo funciona",
+      introInstr:"Aparece una carta arriba; emparéjala con una de las cuatro de abajo por color, forma o número. NO se te dice cuál: dedúcelo del feedback Correcto/Incorrecto. Cuando lo domines, la regla puede cambiar sin aviso y tendrás que descubrir la nueva.",
+      keysHint:"Estas cuatro son siempre tus opciones; solo cambia la carta que debes emparejar:"}
+  };
+  var lang='en';
+  var COL={red:'#e0322f',green:'#22c247',yellow:'#f2c200',blue:'#2546e0'};
+  var keys=[{color:'red',shape:'triangle',count:1},{color:'green',shape:'square',count:2},
+            {color:'yellow',shape:'circle',count:3},{color:'blue',shape:'hexagon',count:4}];
+  var RULES=['color','shape','count'];
+  var TOTAL=24, SWITCH_AFTER=5;
+
+  var trial=0, correct=0, streak=0, rule='color', mastered=0, persevErr=0, justSwitchedFrom=null, times=[];
+  var stim=null, answered=false, startedAt=0;
+
+  function rnd(a,b){return a+Math.random()*(b-a);}
+  function pick(a){return a[Math.floor(Math.random()*a.length)];}
+
+  function shapeAt(cx,cy,shape,color,r){
+    var f=COL[color], st='stroke="#1a2c40" stroke-width="1.5"';
+    if(shape==='circle') return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+f+'" '+st+'/>';
+    if(shape==='square') return '<rect x="'+(cx-r)+'" y="'+(cy-r)+'" width="'+(2*r)+'" height="'+(2*r)+'" rx="2" fill="'+f+'" '+st+'/>';
+    if(shape==='triangle') return '<polygon points="'+cx+','+(cy-r-1)+' '+(cx+r+1)+','+(cy+r)+' '+(cx-r-1)+','+(cy+r)+'" fill="'+f+'" '+st+'/>';
+    var pts=[];for(var i=0;i<6;i++){var a=Math.PI/6+i*Math.PI/3;pts.push((cx+Math.cos(a)*r).toFixed(1)+','+(cy+Math.sin(a)*r).toFixed(1));}
+    return '<polygon points="'+pts.join(' ')+'" fill="'+f+'" '+st+'/>';
+  }
+  function cardSVG(color,shape,count,r){
+    r=r||12;
+    var pos={1:[[50,40]],2:[[31,40],[69,40]],3:[[26,40],[50,40],[74,40]],4:[[32,25],[68,25],[32,55],[68,55]]}[count];
+    var s='<svg viewBox="0 0 100 80">';
+    pos.forEach(function(p){s+=shapeAt(p[0],p[1],shape,color,r);});
+    return s+'</svg>';
+  }
+
+  function genStim(){
+    var idxs=[0,1,2,3].sort(function(){return Math.random()-0.5;});
+    var ci=idxs[0],si=idxs[1],ni=idxs[2];
+    stim={color:keys[ci].color,shape:keys[si].shape,count:keys[ni].count,map:{color:ci,shape:si,count:ni}};
+  }
+
+  function renderTrial(){
+    var t=L[lang];
+    document.getElementById('stim').innerHTML='<div class="card big">'+cardSVG(stim.color,stim.shape,stim.count,14)+'</div>';
+    var kh='';
+    for(var i=0;i<4;i++) kh+='<div class="card key" data-i="'+i+'">'+cardSVG(keys[i].color,keys[i].shape,keys[i].count,11)+'</div>';
+    document.getElementById('keys').innerHTML=kh;
+    Array.prototype.forEach.call(document.querySelectorAll('#keys .key'),function(el){
+      el.onclick=function(){ choose(parseInt(el.getAttribute('data-i'),10)); };
+    });
+    document.getElementById('tTrial').innerHTML=t.trial+' <b>'+(trial+1)+'/'+TOTAL+'</b>';
+    document.getElementById('tScore').innerHTML=t.score+' <b>'+streak+'</b>';
+    document.getElementById('tFb').textContent='';
+    answered=false; startedAt=performance.now();
+  }
+
+  function choose(i){
+    if(answered) return;
+    answered=true; times.push(performance.now()-startedAt);
+    var correctIdx=stim.map[rule];
+    var ok=(i===correctIdx);
+    var t=L[lang];
+    var cards=document.querySelectorAll('#keys .key');
+    cards[i].className='card key '+(ok?'good':'bad');
+    if(!ok) cards[correctIdx].className='card key good';
+    Array.prototype.forEach.call(cards,function(el){el.classList.add('dis');el.onclick=null;});
+    var fb=document.getElementById('tFb');
+    fb.textContent= ok? '✓ '+t.correct : '✗ '+t.wrong;
+    fb.style.color= ok? '#1f8a5c':'#e23b3b';
+
+    if(ok){ correct++; streak++; if(justSwitchedFrom){justSwitchedFrom=null;} }
+    else {
+      streak=0;
+      if(justSwitchedFrom && i===stim.map[justSwitchedFrom]) persevErr++;
+    }
+    document.getElementById('tScore').innerHTML=t.score+' <b>'+streak+'</b>';
+
+    if(streak>=SWITCH_AFTER){
+      var old=rule, nr; do{nr=pick(RULES);}while(nr===old);
+      justSwitchedFrom=old; rule=nr; streak=0; mastered++;
+    }
+    trial++;
+    setTimeout(function(){ if(trial>=TOTAL) showResults(); else { genStim(); renderTrial(); } },900);
+  }
+
+  function showResults(){
+    var t=L[lang];
+    document.getElementById('game').style.display='none';
+    var acc=Math.round(correct/TOTAL*100);
+    var avg=times.length?(times.reduce(function(a,b){return a+b;},0)/times.length/1000).toFixed(1):'0';
+    document.getElementById('resultsHost').innerHTML=
+      '<div class="results"><h2>'+t.results+'</h2><div class="big2">'+correct+'/'+TOTAL+'</div>'
+      +'<div class="rrow"><span>'+t.acc+'</span><span>'+acc+'%</span></div>'
+      +'<div class="rrow"><span>'+t.mastered+'</span><span>'+mastered+'</span></div>'
+      +'<div class="rrow"><span>'+t.persev+'</span><span>'+persevErr+'</span></div>'
+      +'<div class="rrow"><span>'+t.avg+'</span><span>'+avg+'s</span></div></div>';
+    var sb=document.getElementById('startBtn'); sb.textContent=t.again; sb.style.display='block';
+  }
+
+  function start(){
+    trial=0;correct=0;streak=0;mastered=0;persevErr=0;justSwitchedFrom=null;times=[];
+    rule=pick(RULES);
+    document.getElementById('intro').style.display='none';
+    document.getElementById('resultsHost').innerHTML='';
+    document.getElementById('game').style.display='block';
+    document.getElementById('startBtn').style.display='none';
+    genStim(); renderTrial();
+  }
+
+  function applyLang(){
+    var t=L[lang];
+    document.documentElement.lang=lang;
+    document.getElementById('tTitle').textContent=t.title;
+    document.getElementById('tSub').textContent=t.sub;
+    document.getElementById('tNote').textContent=t.note;
+    document.getElementById('tInstr').textContent=t.instr;
+    document.getElementById('iHow').textContent=t.how;
+    document.getElementById('iInstr').textContent=t.introInstr;
+    document.getElementById('iKeysHint').textContent=t.keysHint;
+    var kh='';for(var i=0;i<4;i++)kh+='<div class="card">'+cardSVG(keys[i].color,keys[i].shape,keys[i].count,11)+'</div>';
+    document.getElementById('exKeys').innerHTML=kh;
+    document.getElementById('langEn').className= lang==='en'?'on':'';
+    document.getElementById('langEs').className= lang==='es'?'on':'';
+    var gameOn=document.getElementById('game').style.display!=='none';
+    var sb=document.getElementById('startBtn');
+    if(!gameOn && !document.querySelector('.results')) sb.textContent=t.start;
+    if(gameOn && stim){
+      document.getElementById('tTrial').innerHTML=t.trial+' <b>'+(trial+1)+'/'+TOTAL+'</b>';
+      document.getElementById('tScore').innerHTML=t.score+' <b>'+streak+'</b>';
+      document.getElementById('tInstr').textContent=t.instr;
+    }
+  }
+
+  document.getElementById('langEn').onclick=function(){lang='en';applyLang();};
+  document.getElementById('langEs').onclick=function(){lang='es';applyLang();};
+  document.getElementById('startBtn').onclick=start;
+  applyLang();
+})();
+</script>
+</body>
+</html>

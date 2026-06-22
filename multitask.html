@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Monitoring & Multitasking</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:#eaf1f7;color:#1b2b3a;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;display:flex;justify-content:center;min-height:100vh}
+  .wrap{width:100%;max-width:440px;padding:14px}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  h1{font-size:15px;font-weight:800;color:#e8730c;letter-spacing:.3px}
+  .sub{font-size:11px;color:#5f7488;margin-top:2px}
+  .lang{display:flex;border:1px solid #c7d6e4;border-radius:8px;overflow:hidden;flex-shrink:0}
+  .lang button{background:#fff;color:#5f7488;border:none;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer}
+  .lang button.on{background:#e8730c;color:#fff}
+  .note{background:#eaf3fb;border:1px solid #cfe0f0;border-left:3px solid #2f8fd6;border-radius:9px;padding:8px 10px;font-size:11.5px;color:#2f4d66;line-height:1.45;margin:10px 0}
+  .introbox{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:14px}
+  .ititle{font-size:13px;font-weight:800;color:#e8730c;margin-bottom:6px}
+  .itext{font-size:12.5px;color:#36506a;line-height:1.5;margin-bottom:10px}
+  .itext b{color:#16314c}
+  .rule{background:#fff6ec;border:1px solid #f3d8b6;border-left:3px solid #e8730c;border-radius:9px;padding:8px 10px;font-size:11.5px;color:#7a4a12;line-height:1.45;margin-bottom:10px}
+  .rule b{color:#9a5a10}
+  .exleg{font-size:11.5px;color:#36506a;line-height:1.7}
+  .exleg b{color:#16314c}
+  .hud{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+  .hud .cell{background:#fff;border:1px solid #d6e0ea;border-radius:10px;padding:7px 8px;text-align:center}
+  .hud .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#5f7488}
+  .hud .val{font-family:'Courier New',monospace;font-weight:700;font-size:17px;margin-top:1px;color:#16314c}
+  #scopeWrap{position:relative;background:#d4e3f2;border:1px solid #c0d2e4;border-radius:12px;overflow:hidden}
+  canvas{display:block;width:100%}
+  .sec{margin-top:10px;background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:12px;min-height:104px;display:flex;flex-direction:column;justify-content:center}
+  #secInner .q{font-size:11px;color:#5f7488;text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;text-align:center}
+  #secInner .expr{font-family:'Courier New',monospace;font-size:23px;font-weight:700;text-align:center;margin-bottom:10px;letter-spacing:1px;color:#16314c}
+  #secInner .idle{font-size:13px;color:#5f7488;text-align:center;padding:6px 0}
+  .secbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .secbtns.three{grid-template-columns:1fr 1fr 1fr}
+  .secbtns button{padding:11px 6px;border-radius:9px;border:1px solid #c7d6e4;font-size:14px;font-weight:700;cursor:pointer;background:#fff;color:#1b3a5c;font-family:'Courier New',monospace}
+  .secbtns button:active{transform:scale(.97)}
+  .secbar{height:4px;background:#e6edf3;border-radius:3px;margin-top:10px;overflow:hidden}
+  .secbar i{display:block;height:100%;background:#e8730c;width:100%}
+  .start{margin-top:12px;width:100%;padding:14px;border:none;border-radius:11px;background:#e8730c;color:#fff;font-size:15px;font-weight:800;cursor:pointer}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:middle;margin:0 2px}
+  .dia{display:inline-block;width:9px;height:9px;transform:rotate(45deg);vertical-align:middle;margin:0 3px}
+  .results{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:16px;margin-top:12px}
+  .results h2{font-size:15px;color:#e8730c;margin-bottom:4px}
+  .results .band{font-size:13px;margin-bottom:10px;color:#36506a}
+  .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #e6edf3;color:#36506a}
+  .rrow span:last-child{font-family:'Courier New',monospace;font-weight:700;color:#16314c}
+  .big{font-family:'Courier New',monospace;font-size:30px;font-weight:800;text-align:center;color:#e8730c;margin:6px 0 12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><h1 id="tTitle"></h1><div class="sub" id="tSub"></div></div>
+    <div class="lang"><button id="langEn" class="on">EN</button><button id="langEs">ES</button></div>
+  </div>
+  <div class="note" id="tNote"></div>
+
+  <div id="intro">
+    <div class="introbox">
+      <div class="ititle" id="iHow"></div>
+      <div class="itext" id="iInstr"></div>
+      <div class="rule" id="iRule"></div>
+      <div class="exleg" id="iEx"></div>
+    </div>
+    <button class="start" id="startBtn"></button>
+  </div>
+
+  <div id="game" style="display:none">
+    <div class="hud">
+      <div class="cell"><div class="lbl" id="lblTime"></div><div class="val" id="hTime">90</div></div>
+      <div class="cell"><div class="lbl" id="lblScore"></div><div class="val" id="hScore" style="color:#e8730c">0</div></div>
+      <div class="cell"><div class="lbl" id="lblConf"></div><div class="val" id="hConf">0/0</div></div>
+    </div>
+    <div id="scopeWrap"><canvas id="scope"></canvas></div>
+    <div class="sec" id="secPanel">
+      <div id="secInner"><div class="idle" id="secIdle"></div></div>
+      <div class="secbar" id="secBarWrap" style="display:none"><i id="secBar"></i></div>
+    </div>
+  </div>
+
+  <div id="resultsHost"></div>
+</div>
+
+<script>
+(function(){
+  var lang='en', played=false;
+  var L={
+    en:{
+      title:"Monitoring & Multitasking", sub:"Dynamic radar, rules & divided attention — prototype",
+      note:"The official assessment is conducted in English. We recommend training in English; switch to Spanish only if you need to. Best on desktop (recommended for accuracy), though it works on mobile too.",
+      how:"How it works",
+      instr:"Two tasks run at once. <b>Primary:</b> watch the radar; when two aircraft close on a collision course they flash red \u2014 tap one to resolve it, <b>but only if both are civil</b>. <b>Secondary:</b> the panel below alternates between checking a calculation (True/False) and memorising a callsign, holding it while you watch the radar, then recalling it. What this exercise trains is sustaining <b>all of it at once</b>.",
+      rule:"RULE: resolve <b>only conflicts between civil traffic</b> (<span class='dot' style='background:#1f7ad6'></span>). <b>Ignore military traffic</b> (<span class='dia' style='background:#6b7d8f'></span> grey) \u2014 tapping it is penalised.",
+      ex:"<b>Civil</b> <span class='dot' style='background:#1f7ad6'></span> \u2014 resolve when flashing red &nbsp;\u00b7&nbsp; <b>Military</b> <span class='dia' style='background:#6b7d8f'></span> \u2014 always ignore",
+      lblTime:"Time", lblScore:"Score", lblConf:"Conflicts",
+      start:"Start test", again:"Try again", inprogress:"Test in progress\u2026",
+      ready:"Get ready\u2026", finished:"Test finished", secIdle:"Secondary task \u2014 appears during the test",
+      q_math:"Is the calculation correct?", tru:"True", fals:"False",
+      q_memshow:"Memorise the callsign", memhold:"Hold it \u2014 watch the radar", memholdsub:"In memory", q_memrecall:"Which callsign was it?",
+      correct:"\u2713 Correct", wrong:"\u2717 Incorrect", timeout:"\u23f1 No answer",
+      results:"Results",
+      band_ex:"Excellent \u2014 strong performance under load", band_good:"Good \u2014 solid, keep polishing",
+      band_ok:"Fair \u2014 multitasking still costs you", band_imp:"Work needed \u2014 train divided attention",
+      r_resolved:"Conflicts resolved", r_missed:"Conflicts missed", r_milok:"Military ignored \u2713",
+      r_rule:"Rule broken (military tapped)", r_false:"False taps", r_sec:"Secondary task"
+    },
+    es:{
+      title:"Monitorizaci\u00f3n y multitarea", sub:"Radar din\u00e1mico, reglas y atenci\u00f3n dividida \u2014 prototipo",
+      note:"La prueba oficial se realiza en ingl\u00e9s. Recomendamos entrenar en ingl\u00e9s; cambia a espa\u00f1ol solo si lo necesitas. Mejor en ordenador (recomendado para mayor precisi\u00f3n), aunque tambi\u00e9n funciona en m\u00f3vil.",
+      how:"C\u00f3mo funciona",
+      instr:"Dos tareas a la vez. <b>Principal:</b> vigila el radar; cuando dos aviones se acerquen en rumbo de colisi\u00f3n parpadear\u00e1n en rojo \u2014 toca uno para resolver, <b>pero solo si ambos son civiles</b>. <b>Secundaria:</b> el panel inferior alterna entre comprobar una operaci\u00f3n (Verdadero/Falso) y memorizar un indicativo, mantenerlo mientras vigilas el radar, y recordarlo despu\u00e9s. Lo que entrena este ejercicio es sostener <b>todo a la vez</b>.",
+      rule:"REGLA: resuelve <b>solo conflictos entre tr\u00e1fico civil</b> (<span class='dot' style='background:#1f7ad6'></span>). <b>Ignora el tr\u00e1fico militar</b> (<span class='dia' style='background:#6b7d8f'></span> gris) \u2014 tocarlo penaliza.",
+      ex:"<b>Civil</b> <span class='dot' style='background:#1f7ad6'></span> \u2014 resuelve al parpadear en rojo &nbsp;\u00b7&nbsp; <b>Militar</b> <span class='dia' style='background:#6b7d8f'></span> \u2014 ignora siempre",
+      lblTime:"Tiempo", lblScore:"Puntos", lblConf:"Conflictos",
+      start:"Empezar prueba", again:"Repetir prueba", inprogress:"Prueba en curso\u2026",
+      ready:"Atento\u2026", finished:"Prueba finalizada", secIdle:"Tarea secundaria \u2014 aparecer\u00e1 durante la prueba",
+      q_math:"\u00bfEs correcta la operaci\u00f3n?", tru:"Verdadero", fals:"Falso",
+      q_memshow:"Memoriza el indicativo", memhold:"Mantenlo \u2014 vigila el radar", memholdsub:"En memoria", q_memrecall:"\u00bfCu\u00e1l era el indicativo?",
+      correct:"\u2713 Correcto", wrong:"\u2717 Incorrecto", timeout:"\u23f1 Sin respuesta",
+      results:"Resultados",
+      band_ex:"Excelente \u2014 gran rendimiento bajo carga", band_good:"Bueno \u2014 s\u00f3lido, sigue puliendo",
+      band_ok:"Aceptable \u2014 la multitarea a\u00fan te cuesta", band_imp:"A mejorar \u2014 entrena la atenci\u00f3n dividida",
+      r_resolved:"Conflictos resueltos", r_missed:"Conflictos perdidos", r_milok:"Militares ignorados \u2713",
+      r_rule:"Regla incumplida (militar tocado)", r_false:"Toques en falso", r_sec:"Tarea secundaria"
+    }
+  };
+
+  var cv=document.getElementById('scope'), ctx=cv.getContext('2d');
+  var W=0,H=0,DPR=Math.min(window.devicePixelRatio||1,2);
+  function sizeCanvas(){
+    var w=document.getElementById('scopeWrap').clientWidth;
+    W=w; H=Math.round(w*0.92);
+    cv.style.height=H+'px'; cv.width=W*DPR; cv.height=H*DPR;
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+  }
+  window.addEventListener('resize',function(){ if(!running) sizeCanvas(); });
+
+  var running=false;
+  var planes=[], nextId=1, msgs=[];
+  var startMs=0, ROUND=90000, lastTs=0, sweepAng=0;
+  var score=0, conflictsResolved=0, conflictsMissed=0, falseAlarms=0, decoysCorrect=0, decoysTapped=0;
+  var secCorrect=0, secWrong=0, secTotal=0, lastSec=0;
+  var lastDistractor=0, lastConflict=0;
+  var DANGER=30, TAP_R=30;
+  var labels=['IBE','RYR','VLG','AEA','DLH','AFR','BAW','EZY','TAP','SWR','KLM','UAE','THY','ELY'];
+
+  function rnd(a,b){return a+Math.random()*(b-a);}
+  function pick(a){return a[Math.floor(Math.random()*a.length)];}
+  function cs(){return pick(labels)+Math.floor(rnd(100,999));}
+
+  // ---------- secondary task ----------
+  var sec={state:'idle',type:null,until:0,dur:1,answer:null,target:null};
+  var secInner=document.getElementById('secInner');
+  var secBarWrap=document.getElementById('secBarWrap');
+  var secBar=document.getElementById('secBar');
+  function setSecBar(f){ secBar.style.width=Math.max(0,Math.min(1,f))*100+'%'; }
+  function mkBtn(label,fn){var b=document.createElement('button');b.textContent=label;b.onclick=fn;return b;}
+  function secMsg(t,sub){ secInner.innerHTML='<div class="q">'+(sub||'')+'</div><div class="idle">'+t+'</div>'; }
+
+  function secStart(now){
+    var t=L[lang];
+    if(Math.random()<0.45){
+      var a=Math.floor(rnd(2,19)),b=Math.floor(rnd(2,19)),op=pick(['+','-']);
+      var real=(op==='+')?a+b:a-b, shown=real, truth=true;
+      if(Math.random()<0.5){shown=real+pick([-3,-2,-1,1,2,3]);truth=false;}
+      sec.type='math'; sec.answer=truth; sec.state='answer'; sec.dur=4200; sec.until=now+sec.dur; secTotal++;
+      secInner.innerHTML='<div class="q">'+t.q_math+'</div><div class="expr">'+a+' '+op+' '+b+' = '+shown+'</div>';
+      var row=document.createElement('div'); row.className='secbtns';
+      row.appendChild(mkBtn(t.tru,function(){secAnswer(true);}));
+      row.appendChild(mkBtn(t.fals,function(){secAnswer(false);}));
+      secInner.appendChild(row); secBarWrap.style.display='block';
+    } else {
+      sec.type='mem'; sec.target=cs(); sec.state='show'; sec.dur=2200; sec.until=now+sec.dur;
+      secInner.innerHTML='<div class="q">'+t.q_memshow+'</div><div class="expr" style="color:#c98a00">'+sec.target+'</div>';
+      secBarWrap.style.display='block';
+    }
+  }
+  function secTick(now){
+    var t=L[lang];
+    if(sec.state==='idle') return;
+    setSecBar((sec.until-now)/sec.dur);
+    if(now<sec.until) return;
+    if(sec.type==='mem' && sec.state==='show'){
+      sec.state='hold'; sec.dur=3600; sec.until=now+sec.dur;
+      secMsg(t.memhold,t.memholdsub);
+    } else if(sec.type==='mem' && sec.state==='hold'){
+      sec.state='answer'; sec.dur=4800; sec.until=now+sec.dur; secTotal++;
+      var opts=[sec.target]; while(opts.length<3){var c=cs(); if(opts.indexOf(c)<0)opts.push(c);}
+      opts.sort(function(){return Math.random()-0.5;});
+      secInner.innerHTML='<div class="q">'+t.q_memrecall+'</div>';
+      var row=document.createElement('div'); row.className='secbtns three';
+      opts.forEach(function(o){ row.appendChild(mkBtn(o,function(){secAnswer(o);})); });
+      secInner.appendChild(row);
+    } else if(sec.state==='answer'){
+      secResolve(null);
+    }
+  }
+  function secAnswer(val){
+    if(sec.state!=='answer') return;
+    var ok = sec.type==='math' ? (val===sec.answer) : (val===sec.target);
+    secResolve(ok);
+  }
+  function secResolve(ok){
+    var t=L[lang];
+    sec.state='idle'; secBarWrap.style.display='none';
+    if(ok===true){ secCorrect++; score+=15; secMsg(t.correct,''); }
+    else { secWrong++; score-=8; secMsg(ok===null?t.timeout:t.wrong,''); }
+    lastSec=performance.now(); updHud();
+  }
+
+  // ---------- traffic ----------
+  function spawnDistractor(){
+    var edge=Math.floor(rnd(0,4)), x,y,tx,ty;
+    if(edge===0){x=-20;y=rnd(20,H-20);} else if(edge===1){x=W+20;y=rnd(20,H-20);}
+    else if(edge===2){x=rnd(20,W-20);y=-20;} else {x=rnd(20,W-20);y=H+20;}
+    tx=rnd(W*0.2,W*0.8); ty=rnd(H*0.2,H*0.8);
+    var dx=tx-x,dy=ty-y,d=Math.hypot(dx,dy)||1,sp=rnd(22,34)/1000;
+    planes.push({id:nextId++,x:x,y:y,vx:dx/d*sp*16,vy:dy/d*sp*16,cs:cs(),mil:Math.random()<0.25,conf:false});
+  }
+  function spawnConflict(now){
+    var cx=rnd(W*0.28,W*0.72), cy=rnd(H*0.28,H*0.72), travel=rnd(6000,8000);
+    var pid='c'+now+'_'+Math.floor(Math.random()*999), decoy=Math.random()<0.35;
+    function mk(ang,mil){
+      var dist=Math.min(W,H)*0.6, sx=cx+Math.cos(ang)*dist, sy=cy+Math.sin(ang)*dist;
+      return {id:nextId++,x:sx,y:sy,vx:(cx-sx)/travel*16,vy:(cy-sy)/travel*16,cs:cs(),mil:mil,
+              conf:true,pid:pid,valid:!decoy,crit:now+travel,flashFrom:now+travel-3000,handled:false};
+    }
+    var a=rnd(0,6.28);
+    var p1=mk(a,false), p2=mk(a+Math.PI+rnd(-0.4,0.4),decoy);
+    p1.mate=p2.id; p2.mate=p1.id; planes.push(p1,p2);
+  }
+  function eachInPair(pid,fn){for(var i=0;i<planes.length;i++)if(planes[i].pid===pid)fn(planes[i]);}
+  function markPair(pid){eachInPair(pid,function(p){p.handled=true;});}
+  function nudgePair(pid){eachInPair(pid,function(p){p.vx*=1.25;p.vy*=1.25;});}
+  function pairHandled(pid){var h=false;eachInPair(pid,function(p){if(p.handled)h=true;});return h;}
+
+  function flashMsg(t,c,x,y){ msgs.push({t:t,c:c,x:x,y:y,until:performance.now()+750}); }
+
+  cv.addEventListener('pointerdown',function(e){
+    if(!running) return;
+    var r=cv.getBoundingClientRect(), px=e.clientX-r.left, py=e.clientY-r.top;
+    var best=null,bd=TAP_R;
+    for(var i=0;i<planes.length;i++){var p=planes[i],d=Math.hypot(p.x-px,p.y-py);if(d<bd){bd=d;best=p;}}
+    if(!best) return;
+    var now=performance.now();
+    if(best.conf && !pairHandled(best.pid) && now>=best.flashFrom){
+      markPair(best.pid);
+      if(best.valid){ conflictsResolved++; score+=40; nudgePair(best.pid); flashMsg('+40','#1f9a5c',best.x,best.y); }
+      else { decoysTapped++; score-=10; flashMsg('RULE -10','#d62f2f',best.x,best.y); }
+    } else { falseAlarms++; score-=5; flashMsg('-5','#d62f2f',best.x,best.y); }
+    updHud();
+  });
+
+  function updHud(){
+    document.getElementById('hScore').textContent=score;
+    document.getElementById('hConf').textContent=conflictsResolved+'/'+(conflictsResolved+conflictsMissed);
+  }
+
+  function update(now,dt){
+    var remain=Math.max(0,ROUND-(now-startMs));
+    document.getElementById('hTime').textContent=Math.ceil(remain/1000);
+    if(remain<=0){ endGame(); return; }
+    if(now-lastDistractor>rnd(1500,2400)){ if(planes.length<10) spawnDistractor(); lastDistractor=now; }
+    if(now-lastConflict>rnd(3200,5000)){ spawnConflict(now); lastConflict=now; }
+    if(sec.state==='idle' && now-lastSec>rnd(2800,4600)){ secStart(now); }
+    secTick(now);
+
+    var k=dt/16;
+    for(var i=planes.length-1;i>=0;i--){
+      var p=planes[i]; p.x+=p.vx*k; p.y+=p.vy*k;
+      if(p.conf && !p.handled && now>p.crit+900){
+        markPair(p.pid);
+        if(p.valid){ conflictsMissed++; score-=20; flashMsg('MISSED','#d62f2f',p.x,p.y); }
+        else { decoysCorrect++; score+=10; }
+        updHud();
+      }
+      if(p.x<-45||p.x>W+45||p.y<-45||p.y>H+45) planes.splice(i,1);
+    }
+  }
+
+  function diamond(x,y,r){ctx.beginPath();ctx.moveTo(x,y-r);ctx.lineTo(x+r,y);ctx.lineTo(x,y+r);ctx.lineTo(x-r,y);ctx.closePath();}
+
+  function render(now){
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#d4e3f2'; ctx.fillRect(0,0,W,H);
+    ctx.strokeStyle='rgba(60,110,150,.28)'; ctx.lineWidth=1;
+    var cxp=W/2,cyp=H/2, R=Math.min(W,H)/2-6;
+    for(var ri=1;ri<=3;ri++){ ctx.beginPath(); ctx.arc(cxp,cyp,R*ri/3,0,Math.PI*2); ctx.stroke(); }
+    ctx.beginPath(); ctx.moveTo(cxp,cyp-R); ctx.lineTo(cxp,cyp+R); ctx.moveTo(cxp-R,cyp); ctx.lineTo(cxp+R,cyp); ctx.stroke();
+    sweepAng+=0.012;
+    ctx.save(); ctx.beginPath(); ctx.moveTo(cxp,cyp); ctx.arc(cxp,cyp,R,sweepAng-0.5,sweepAng); ctx.closePath();
+    ctx.fillStyle='rgba(31,122,214,.07)'; ctx.fill(); ctx.restore();
+
+    for(var i=0;i<planes.length;i++){
+      var p=planes[i];
+      var flashing = p.conf && !p.handled && now>=p.flashFrom && now<=p.crit+900;
+      var on = Math.floor(now/240)%2===0;
+      var base = p.mil? '#6b7d8f' : '#1f7ad6';
+      var col = (p.handled && p.valid)? '#1f9a5c' : flashing? (on?'#e23b3b':'#b5202a') : base;
+      var sp=Math.hypot(p.vx,p.vy)||1;
+      ctx.strokeStyle='rgba(40,80,120,.40)'; ctx.lineWidth=1;
+      ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p.x+p.vx/sp*12,p.y+p.vy/sp*12); ctx.stroke();
+      ctx.fillStyle=col;
+      if(p.mil){ diamond(p.x,p.y,flashing?6:5); ctx.fill(); }
+      else { ctx.beginPath(); ctx.arc(p.x,p.y,flashing?6:4.5,0,Math.PI*2); ctx.fill(); }
+      if(flashing){ ctx.strokeStyle=on?'#e23b3b':'rgba(226,59,59,.3)'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(p.x,p.y,12,0,Math.PI*2); ctx.stroke(); }
+      ctx.fillStyle='rgba(20,45,70,.82)'; ctx.font='9px Courier New'; ctx.fillText(p.cs,p.x+8,p.y-6);
+    }
+    for(var m=msgs.length-1;m>=0;m--){
+      var mm=msgs[m]; if(now>mm.until){msgs.splice(m,1);continue;}
+      ctx.fillStyle=mm.c; ctx.font='bold 12px Courier New'; ctx.fillText(mm.t,mm.x+6,mm.y+15);
+    }
+  }
+
+  function loop(ts){
+    if(!running) return;
+    if(!lastTs) lastTs=ts;
+    var dt=Math.min(50,ts-lastTs); lastTs=ts;
+    update(ts,dt);
+    if(running){ render(ts); requestAnimationFrame(loop); }
+  }
+
+  function startGame(){
+    var t=L[lang];
+    document.getElementById('intro').style.display='none';
+    document.getElementById('resultsHost').innerHTML='';
+    document.getElementById('game').style.display='block';
+    sizeCanvas();
+    planes=[]; msgs=[]; score=0; conflictsResolved=0; conflictsMissed=0; falseAlarms=0; decoysCorrect=0; decoysTapped=0;
+    secCorrect=0; secWrong=0; secTotal=0; sec.state='idle'; secBarWrap.style.display='none';
+    secInner.innerHTML='<div class="idle">'+t.ready+'</div>';
+    startMs=performance.now(); lastTs=0; lastDistractor=startMs; lastConflict=startMs-2000; lastSec=startMs;
+    running=true; played=true; updHud();
+    requestAnimationFrame(loop);
+  }
+
+  function endGame(){
+    running=false; var t=L[lang];
+    document.getElementById('game').style.display='none';
+    var total=conflictsResolved+conflictsMissed;
+    var primAcc= total? Math.round(conflictsResolved/total*100):0;
+    var secAcc= secTotal? Math.round(secCorrect/secTotal*100):0;
+    var band = score>=420?t.band_ex:score>=260?t.band_good:score>=110?t.band_ok:t.band_imp;
+    var html='<div class="results"><h2>'+t.results+'</h2><div class="band">'+band+'</div>'
+      +'<div class="big">'+score+'</div>'
+      +'<div class="rrow"><span>'+t.r_resolved+'</span><span>'+conflictsResolved+'/'+total+' ('+primAcc+'%)</span></div>'
+      +'<div class="rrow"><span>'+t.r_missed+'</span><span>'+conflictsMissed+'</span></div>'
+      +'<div class="rrow"><span>'+t.r_milok+'</span><span>'+decoysCorrect+'</span></div>'
+      +'<div class="rrow"><span>'+t.r_rule+'</span><span>'+decoysTapped+'</span></div>'
+      +'<div class="rrow"><span>'+t.r_false+'</span><span>'+falseAlarms+'</span></div>'
+      +'<div class="rrow"><span>'+t.r_sec+'</span><span>'+secCorrect+'/'+secTotal+' ('+secAcc+'%)</span></div>'
+      +'</div>';
+    document.getElementById('resultsHost').innerHTML=html;
+    document.getElementById('intro').style.display='block';
+    document.getElementById('startBtn').textContent=t.again;
+    document.getElementById('hTime').textContent='0';
+  }
+
+  function applyLang(){
+    var t=L[lang]; document.documentElement.lang=lang;
+    document.getElementById('tTitle').textContent=t.title;
+    document.getElementById('tSub').textContent=t.sub;
+    document.getElementById('tNote').textContent=t.note;
+    document.getElementById('iHow').textContent=t.how;
+    document.getElementById('iInstr').innerHTML=t.instr;
+    document.getElementById('iRule').innerHTML=t.rule;
+    document.getElementById('iEx').innerHTML=t.ex;
+    document.getElementById('lblTime').textContent=t.lblTime;
+    document.getElementById('lblScore').textContent=t.lblScore;
+    document.getElementById('lblConf').textContent=t.lblConf;
+    document.getElementById('startBtn').textContent=played?t.again:t.start;
+    var si=document.getElementById('secIdle'); if(si) si.textContent=t.secIdle;
+    document.getElementById('langEn').className=lang==='en'?'on':'';
+    document.getElementById('langEs').className=lang==='es'?'on':'';
+  }
+  document.getElementById('langEn').onclick=function(){lang='en';applyLang();};
+  document.getElementById('langEs').onclick=function(){lang='es';applyLang();};
+  document.getElementById('startBtn').onclick=startGame;
+  applyLang();
+})();
+</script>
+</body>
+</html>
