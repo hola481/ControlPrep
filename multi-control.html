@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Multi Control</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:#eaf1f7;color:#1b2b3a;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;display:flex;justify-content:center;min-height:100vh}
+  .wrap{width:100%;max-width:460px;padding:14px}
+  .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  h1{font-size:15px;font-weight:800;color:#e8730c;letter-spacing:.3px}
+  .sub{font-size:11px;color:#5f7488;margin-top:2px}
+  .lang{display:flex;border:1px solid #c7d6e4;border-radius:8px;overflow:hidden;flex-shrink:0}
+  .lang button{background:#fff;color:#5f7488;border:none;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer}
+  .lang button.on{background:#e8730c;color:#fff}
+  .note{background:#eaf3fb;border:1px solid #cfe0f0;border-left:3px solid #2f8fd6;border-radius:9px;padding:8px 10px;font-size:11.5px;color:#2f4d66;line-height:1.45;margin:10px 0}
+  .introbox{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:14px}
+  .ititle{font-size:13px;font-weight:800;color:#e8730c;margin-bottom:6px}
+  .itext{font-size:12.5px;color:#36506a;line-height:1.55;margin-bottom:10px}
+  .itext b{color:#16314c}
+  .ileg{font-size:11.5px;color:#36506a;line-height:1.8}
+  .ileg b{color:#16314c}
+  .hud{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+  .hud .cell{background:#fff;border:1px solid #d6e0ea;border-radius:10px;padding:7px 8px;text-align:center}
+  .hud .lbl{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#5f7488}
+  .hud .val{font-family:'Courier New',monospace;font-weight:700;font-size:17px;margin-top:1px;color:#16314c}
+  #scopeWrap{position:relative;background:#d4e3f2;border:1px solid #c0d2e4;border-radius:12px;overflow:hidden}
+  canvas{display:block;width:100%}
+  #side{margin-top:10px;display:flex;flex-direction:column;gap:10px}
+  .panel{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:11px 12px}
+  .ph{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#5f7488;margin-bottom:8px}
+  .idle{font-size:12.5px;color:#7f93a8;text-align:center;padding:8px 0}
+  .inrow{display:flex;align-items:center;gap:8px;padding:7px;border:1px solid #e6edf3;border-radius:9px;margin-bottom:6px;background:#fafcfe}
+  .inrow:last-child{margin-bottom:0}
+  .inrow .cs{font-family:'Courier New',monospace;font-weight:800;font-size:13px;color:#16314c}
+  .inrow .meta{font-size:10.5px;color:#5f7488}
+  .inrow .bar{height:3px;background:#e6edf3;border-radius:2px;margin-top:3px;overflow:hidden}
+  .inrow .bar i{display:block;height:100%;background:#e8730c}
+  .btn{border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:12.5px;padding:8px 10px}
+  .btn.assume{background:#1f7ad6;color:#fff;flex-shrink:0}
+  .btn.up{background:#eef4fb;color:#1f6fb8;border:1px solid #cfe0f0}
+  .btn.dn{background:#eef4fb;color:#1f6fb8;border:1px solid #cfe0f0}
+  .btn.ho{background:#1f8a5c;color:#fff;width:100%;margin-top:8px;padding:11px}
+  .btn:active{transform:scale(.97)}
+  .btn:disabled{opacity:.4;cursor:default}
+  .selcs{font-family:'Courier New',monospace;font-weight:800;font-size:18px;color:#16314c}
+  .selrt{font-size:11px;color:#5f7488;margin:2px 0 8px;font-family:'Courier New',monospace}
+  .lvls{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+  .lvlbox{flex:1;text-align:center;background:#f4f8fc;border:1px solid #e0eaf3;border-radius:9px;padding:6px}
+  .lvlbox .k{font-size:9px;text-transform:uppercase;color:#5f7488;letter-spacing:.05em}
+  .lvlbox .v{font-family:'Courier New',monospace;font-weight:800;font-size:16px;color:#16314c}
+  .lvlbox .v.tgt{color:#e8730c}
+  .lvlbtns{display:flex;flex-direction:column;gap:6px}
+  .strow{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:7px 8px;border:1px solid #e6edf3;border-radius:8px;margin-bottom:5px;cursor:pointer;font-size:11.5px}
+  .strow:last-child{margin-bottom:0}
+  .strow.sel{border-color:#e8730c;background:#fff7ef}
+  .strow.warn{border-color:#e23b3b;background:#fdecec}
+  .strow .scs{font-family:'Courier New',monospace;font-weight:800;color:#16314c}
+  .strow .sfl{font-family:'Courier New',monospace;color:#36506a}
+  .start{margin-top:12px;width:100%;padding:14px;border:none;border-radius:11px;background:#e8730c;color:#fff;font-size:15px;font-weight:800;cursor:pointer}
+  .dot{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:middle;margin:0 2px}
+  .results{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:16px;margin-top:12px}
+  .results h2{font-size:15px;color:#e8730c;margin-bottom:4px}
+  .results .band{font-size:13px;margin-bottom:10px;color:#36506a}
+  .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #e6edf3;color:#36506a}
+  .rrow span:last-child{font-family:'Courier New',monospace;font-weight:700;color:#16314c}
+  .big{font-family:'Courier New',monospace;font-size:30px;font-weight:800;text-align:center;color:#e8730c;margin:6px 0 12px}
+  @media(min-width:820px){
+    .wrap{max-width:1240px}
+    #game[style*="block"]{display:grid !important;grid-template-columns:1fr 380px;grid-template-areas:'hud hud' 'scope side';gap:10px 16px;align-items:start}
+    #game .hud{grid-area:hud}
+    #scopeWrap{grid-area:scope}
+    #side{grid-area:side;margin-top:0}
+    #strips{max-height:230px;overflow:auto}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div><h1 id="tTitle"></h1><div class="sub" id="tSub"></div></div>
+    <div class="lang"><button id="langEn" class="on">EN</button><button id="langEs">ES</button></div>
+  </div>
+  <div class="note" id="tNote"></div>
+
+  <div id="intro">
+    <div class="introbox">
+      <div class="ititle" id="iHow"></div>
+      <div class="itext" id="iInstr"></div>
+      <div class="ileg" id="iLeg"></div>
+    </div>
+    <button class="start" id="startBtn"></button>
+  </div>
+
+  <div id="game" style="display:none">
+    <div class="hud">
+      <div class="cell"><div class="lbl" id="lblTime"></div><div class="val" id="hTime">120</div></div>
+      <div class="cell"><div class="lbl" id="lblScore"></div><div class="val" id="hScore" style="color:#e8730c">0</div></div>
+      <div class="cell"><div class="lbl" id="lblTraf"></div><div class="val" id="hTraf">0</div></div>
+    </div>
+    <div id="scopeWrap"><canvas id="scope"></canvas></div>
+    <div id="side">
+      <div class="panel"><div class="ph" id="phInbox"></div><div id="inbox"></div></div>
+      <div class="panel"><div class="ph" id="phSel"></div><div id="selPanel"></div></div>
+      <div class="panel"><div class="ph" id="phStrips"></div><div id="strips"></div></div>
+    </div>
+  </div>
+
+  <div id="resultsHost"></div>
+</div>
+
+<script>
+(function(){
+  var lang='en', played=false;
+  var L={
+    en:{
+      title:"Multi Control", sub:"Run a sector: assume, separate, hand off \u2014 prototype",
+      note:"The official assessment is conducted in English. We recommend training in English; switch to Spanish only if you need to. Best on desktop (recommended for accuracy), though it works on mobile too.",
+      how:"How it works",
+      instr:"You are the controller for a sector. Inbound flights call you in the <b>New flights</b> list \u2014 press <b>Assume</b> to take each one before its timer runs out. Once assumed, an aircraft flies its route across the sector. Routes cross at the centre, so keep aircraft <b>separated</b>: two at the <b>same level</b> that get close will flash red \u2014 select one and <b>climb or descend</b> it. Each flight has a <b>required exit level</b>; set it before the aircraft reaches the boundary, then <b>Hand off</b> when the button appears.",
+      leg:"<b><span class='dot' style='background:#1f7ad6'></span> Blue</b> under control &nbsp;\u00b7&nbsp; <b><span class='dot' style='background:#e23b3b'></span> Red</b> loss of separation \u2014 act now &nbsp;\u00b7&nbsp; <b><span class='dot' style='background:#1f8a5c'></span> Green</b> ready to hand off",
+      lblTime:"Time", lblScore:"Score", lblTraf:"Traffic",
+      start:"Start shift", again:"Try again",
+      phInbox:"New flights", phSel:"Selected aircraft", phStrips:"Flight strips",
+      assume:"Assume", inboxIdle:"No inbound flights right now",
+      selIdle:"Tap an aircraft on the scope or a strip below",
+      cur:"Level", clr:"Cleared", exitL:"Exit", route:"Route",
+      climb:"Climb", descend:"Descend", handoff:"Hand off",
+      stripsIdle:"No aircraft under control",
+      results:"End of shift",
+      band_ex:"Excellent \u2014 calm, separated, on time", band_good:"Good \u2014 a solid pair of hands",
+      band_ok:"Fair \u2014 the picture got away from you at times", band_imp:"Work needed \u2014 build the scan and plan ahead",
+      r_assumed:"Flights assumed", r_clean:"Clean hand-offs", r_wrong:"Hand-offs at wrong level",
+      r_loss:"Separation losses", r_missed:"Missed (timed out / left sector)"
+    },
+    es:{
+      title:"Multi Control", sub:"Gestiona un sector: asume, separa, transfiere \u2014 prototipo",
+      note:"La prueba oficial se realiza en ingl\u00e9s. Recomendamos entrenar en ingl\u00e9s; cambia a espa\u00f1ol solo si lo necesitas. Mejor en ordenador (recomendado para mayor precisi\u00f3n), aunque tambi\u00e9n funciona en m\u00f3vil.",
+      how:"C\u00f3mo funciona",
+      instr:"Eres el controlador de un sector. Los vuelos entrantes te llaman en la lista <b>Nuevos vuelos</b> \u2014 pulsa <b>Asumir</b> para tomar cada uno antes de que acabe su tiempo. Una vez asumido, el avi\u00f3n vuela su ruta por el sector. Las rutas se cruzan en el centro, as\u00ed que mant\u00e9n la <b>separaci\u00f3n</b>: dos al <b>mismo nivel</b> que se acerquen parpadear\u00e1n en rojo \u2014 selecciona uno y <b>sube o baja</b> su nivel. Cada vuelo tiene un <b>nivel de salida requerido</b>; aj\u00fastalo antes de que llegue al l\u00edmite y pulsa <b>Transferir</b> cuando aparezca el bot\u00f3n.",
+      leg:"<b><span class='dot' style='background:#1f7ad6'></span> Azul</b> bajo control &nbsp;\u00b7&nbsp; <b><span class='dot' style='background:#e23b3b'></span> Rojo</b> p\u00e9rdida de separaci\u00f3n \u2014 act\u00faa &nbsp;\u00b7&nbsp; <b><span class='dot' style='background:#1f8a5c'></span> Verde</b> listo para transferir",
+      lblTime:"Tiempo", lblScore:"Puntos", lblTraf:"Tr\u00e1fico",
+      start:"Empezar turno", again:"Repetir turno",
+      phInbox:"Nuevos vuelos", phSel:"Avi\u00f3n seleccionado", phStrips:"Fichas de vuelo",
+      assume:"Asumir", inboxIdle:"Sin vuelos entrantes ahora",
+      selIdle:"Toca un avi\u00f3n en el radar o una ficha abajo",
+      cur:"Nivel", clr:"Autorizado", exitL:"Salida", route:"Ruta",
+      climb:"Subir", descend:"Bajar", handoff:"Transferir",
+      stripsIdle:"Ning\u00fan avi\u00f3n bajo control",
+      results:"Fin del turno",
+      band_ex:"Excelente \u2014 con calma, separado y a tiempo", band_good:"Bueno \u2014 buen control",
+      band_ok:"Aceptable \u2014 a veces se te complic\u00f3 la imagen", band_imp:"A mejorar \u2014 trabaja el barrido y anticipa",
+      r_assumed:"Vuelos asumidos", r_clean:"Transferencias correctas", r_wrong:"Transferencias a nivel err\u00f3neo",
+      r_loss:"P\u00e9rdidas de separaci\u00f3n", r_missed:"Perdidos (caducados / salieron del sector)"
+    }
+  };
+
+  var cv=document.getElementById('scope'), ctx=cv.getContext('2d');
+  var W=0,H=0,DPR=Math.min(window.devicePixelRatio||1,2);
+  function sizeCanvas(){
+    var w=document.getElementById('scopeWrap').clientWidth; if(!w)w=320;
+    W=w; H=Math.round(w*(w>=700?0.62:0.92));
+    cv.style.height=H+'px'; cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+  }
+  window.addEventListener('resize',function(){ if(!running) sizeCanvas(); });
+
+  // ---- sector config (fractions of W,H) ----
+  var FIX={ASTRA:[0.17,0.27],BEGUR:[0.17,0.73],KANTO:[0.5,0.5],DORSA:[0.83,0.27],ECHTA:[0.83,0.73]};
+  var ROUTES=[
+    {entry:[-0.06,0.16],names:['ASTRA','KANTO','ECHTA'],exit:[1.06,0.84]},
+    {entry:[1.06,0.84],names:['ECHTA','KANTO','ASTRA'],exit:[-0.06,0.16]},
+    {entry:[-0.06,0.84],names:['BEGUR','KANTO','DORSA'],exit:[1.06,0.16]},
+    {entry:[1.06,0.16],names:['DORSA','KANTO','BEGUR'],exit:[-0.06,0.84]}
+  ];
+  var FLS=[300,310,320,330,340,350,360];
+  var CALLS=['IBE','RYR','VLG','AEA','DLH','AFR','BAW','EZY','TAP','SWR','KLM','UAE','THY','ELY','EWG','AZA'];
+
+  var running=false, planes=[], inbox=[], nextId=1, sel=null;
+  var startMs=0, ROUND=120000, lastTs=0, sweep=0;
+  var score=0, assumed=0, cleanHO=0, wrongHO=0, losses=0, missed=0;
+  var lastSpawn=0, panelAcc=0;
+  var lossActive={};
+
+  function rnd(a,b){return a+Math.random()*(b-a);}
+  function pick(a){return a[Math.floor(Math.random()*a.length)];}
+  function cs(){return pick(CALLS)+Math.floor(rnd(100,999));}
+  function px(p){return [p[0]*W,p[1]*H];}
+  function dirOf(p){ // compass label from a fractional point
+    var x=p[0],y=p[1];
+    if(x<0.05)return 'W'; if(x>0.95)return 'E'; if(y<0.2)return 'N'; if(y>0.8)return 'S'; return '\u00b7';
+  }
+
+  function spawnInbox(){
+    if(inbox.length>=3) return;
+    var r=Math.floor(rnd(0,ROUTES.length));
+    inbox.push({id:nextId++, cs:cs(), route:r, fl:pick([310,320,330]), exitFl:pick(FLS), t:9000, t0:9000});
+  }
+  function assume(id){
+    var idx=-1; for(var i=0;i<inbox.length;i++) if(inbox[i].id===id) idx=i;
+    if(idx<0) return;
+    var f=inbox.splice(idx,1)[0];
+    var R=ROUTES[f.route];
+    var wp=[px(R.entry)]; for(var n=0;n<R.names.length;n++) wp.push(px(FIX[R.names[n]]));
+    wp.push(px(R.exit));
+    planes.push({id:f.id, cs:f.cs, route:f.route, names:R.names, wp:wp, x:wp[0][0], y:wp[0][1],
+      tgt:1, fl:f.fl, cleared:f.fl, exitFl:f.exitFl, confl:false, ho:false});
+    assumed++; score+=10;
+    refreshPanels();
+  }
+
+  function selectPlane(id){ sel=id; refreshPanels(); }
+  function getSel(){ if(sel==null) return null; for(var i=0;i<planes.length;i++) if(planes[i].id===sel) return planes[i]; return null; }
+  function changeLevel(d){ var p=getSel(); if(!p) return; var i=FLS.indexOf(nearestFL(p.cleared)); i=Math.max(0,Math.min(FLS.length-1,i+d)); p.cleared=FLS[i]; refreshPanels(); }
+  function nearestFL(v){ var b=FLS[0],bd=1e9; for(var i=0;i<FLS.length;i++){var d=Math.abs(FLS[i]-v); if(d<bd){bd=d;b=FLS[i];}} return b; }
+  function handoff(){ var p=getSel(); if(!p||!p.ho) return;
+    if(Math.round(p.fl)===p.exitFl){ cleanHO++; score+=40; } else { wrongHO++; score+=12; }
+    removePlane(p.id); sel=null; refreshPanels();
+  }
+  function removePlane(id){ for(var i=0;i<planes.length;i++) if(planes[i].id===id){ planes.splice(i,1); return; } }
+
+  // ---- interaction ----
+  cv.addEventListener('pointerdown',function(e){
+    if(!running) return;
+    var r=cv.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top, best=null, bd=Math.max(22,0.045*W);
+    for(var i=0;i<planes.length;i++){var p=planes[i],d=Math.hypot(p.x-mx,p.y-my); if(d<bd){bd=d;best=p;}}
+    if(best) selectPlane(best.id);
+  });
+
+  function updHud(){
+    document.getElementById('hScore').textContent=score;
+    document.getElementById('hTraf').textContent=planes.length;
+  }
+
+  // ---- panels ----
+  function refreshPanels(){ renderInbox(); renderSel(); renderStrips(); updHud(); }
+  function renderInbox(){
+    var t=L[lang], el=document.getElementById('inbox');
+    if(!inbox.length){ el.innerHTML='<div class="idle">'+t.inboxIdle+'</div>'; return; }
+    var h='';
+    for(var i=0;i<inbox.length;i++){ var f=inbox[i], R=ROUTES[f.route];
+      h+='<div class="inrow"><div style="flex:1;min-width:0">'
+        +'<div class="cs">'+f.cs+'</div>'
+        +'<div class="meta">'+dirOf(R.entry)+' \u2192 '+dirOf(R.exit)+' \u00b7 FL'+f.fl+' \u00b7 '+t.exitL+' FL'+f.exitFl+'</div>'
+        +'<div class="bar"><i style="width:'+Math.max(0,f.t/f.t0*100)+'%"></i></div></div>'
+        +'<button class="btn assume" data-as="'+f.id+'">'+t.assume+'</button></div>';
+    }
+    el.innerHTML=h;
+    Array.prototype.forEach.call(el.querySelectorAll('[data-as]'),function(b){ b.onclick=function(){ assume(parseInt(b.getAttribute('data-as'),10)); }; });
+  }
+  function renderSel(){
+    var t=L[lang], el=document.getElementById('selPanel'), p=getSel();
+    document.getElementById('phSel').textContent=t.phSel+(p?' \u00b7 '+p.cs:'');
+    if(!p){ el.innerHTML='<div class="idle">'+t.selIdle+'</div>'; return; }
+    var rt=p.names.join(' \u2192 ');
+    var h='<div class="selcs">'+p.cs+'</div><div class="selrt">'+rt+'</div>'
+      +'<div class="lvls">'
+      +'<div class="lvlbox"><div class="k">'+t.cur+'</div><div class="v">FL'+Math.round(p.fl)+'</div></div>'
+      +'<div class="lvlbox"><div class="k">'+t.clr+'</div><div class="v">FL'+p.cleared+'</div></div>'
+      +'<div class="lvlbox"><div class="k">'+t.exitL+'</div><div class="v tgt">FL'+p.exitFl+'</div></div>'
+      +'<div class="lvlbtns"><button class="btn up" id="bUp">\u25b2 '+t.climb+'</button><button class="btn dn" id="bDn">\u25bc '+t.descend+'</button></div>'
+      +'</div>';
+    if(p.ho) h+='<button class="btn ho" id="bHo">'+t.handoff+' \u2014 '+t.exitL+' FL'+p.exitFl+'</button>';
+    el.innerHTML=h;
+    document.getElementById('bUp').onclick=function(){changeLevel(1);};
+    document.getElementById('bDn').onclick=function(){changeLevel(-1);};
+    if(p.ho) document.getElementById('bHo').onclick=handoff;
+  }
+  function renderStrips(){
+    var t=L[lang], el=document.getElementById('strips');
+    if(!planes.length){ el.innerHTML='<div class="idle">'+t.stripsIdle+'</div>'; return; }
+    var h='';
+    for(var i=0;i<planes.length;i++){ var p=planes[i];
+      var cls='strow'+(p.id===sel?' sel':'')+(p.confl?' warn':'');
+      h+='<div class="'+cls+'" data-st="'+p.id+'">'
+        +'<span class="scs">'+p.cs+'</span>'
+        +'<span class="sfl">FL'+Math.round(p.fl)+'\u2192'+p.cleared+'</span>'
+        +'<span class="sfl" style="color:#e8730c">'+t.exitL+' '+p.exitFl+'</span></div>';
+    }
+    el.innerHTML=h;
+    Array.prototype.forEach.call(el.querySelectorAll('[data-st]'),function(b){ b.onclick=function(){ selectPlane(parseInt(b.getAttribute('data-st'),10)); }; });
+  }
+
+  // ---- simulation ----
+  function update(now,dt){
+    var remain=Math.max(0,ROUND-(now-startMs));
+    document.getElementById('hTime').textContent=Math.ceil(remain/1000);
+    if(remain<=0){ endGame(); return; }
+    var dts=dt/1000;
+    // spawn inbound
+    if(now-lastSpawn>rnd(4500,7500)){ spawnInbox(); lastSpawn=now; }
+    // inbox timers
+    for(var i=inbox.length-1;i>=0;i--){ inbox[i].t-=dt; if(inbox[i].t<=0){ inbox.splice(i,1); missed++; score-=15; } }
+    // move + level + handoff state
+    var SPD=0.052*W*dts, REACH=0.022*W, HAND=0.16*W;
+    for(var i=planes.length-1;i>=0;i--){ var p=planes[i];
+      // level toward cleared
+      if(Math.abs(p.fl-p.cleared)>0.4){ p.fl+=Math.sign(p.cleared-p.fl)*Math.min(Math.abs(p.cleared-p.fl),11*dts); }
+      var tp=p.wp[p.tgt], dx=tp[0]-p.x, dy=tp[1]-p.y, d=Math.hypot(dx,dy)||1;
+      p.hx=dx/d; p.hy=dy/d;
+      p.x+=p.hx*SPD; p.y+=p.hy*SPD;
+      var last=p.wp.length-1;
+      if(d<REACH){ if(p.tgt<last){ p.tgt++; } }
+      // handoff eligibility: on final leg toward exit, near boundary
+      p.ho = (p.tgt===last) && (Math.hypot(p.wp[last][0]-p.x,p.wp[last][1]-p.y)<HAND);
+      // crossed boundary without handoff
+      if(p.x< -0.04*W || p.x> 1.04*W || p.y< -0.04*H || p.y> 1.04*H){
+        missed++; score-=20; if(p.id===sel) sel=null; planes.splice(i,1);
+      }
+    }
+    // conflict detection (same level + close)
+    for(var a=0;a<planes.length;a++) planes[a].confl=false;
+    var WARN=0.12*Math.min(W,H), LOSS=0.055*Math.min(W,H);
+    for(var a=0;a<planes.length;a++) for(var b=a+1;b<planes.length;b++){
+      var pa=planes[a], pb=planes[b], same=Math.abs(pa.fl-pb.fl)<7, dist=Math.hypot(pa.x-pb.x,pa.y-pb.y);
+      var key=Math.min(pa.id,pb.id)+'-'+Math.max(pa.id,pb.id);
+      if(same && dist<WARN){ pa.confl=true; pb.confl=true; }
+      if(same && dist<LOSS){ if(!lossActive[key]){ lossActive[key]=true; losses++; score-=20; } }
+      else if(!same || dist>WARN){ if(lossActive[key]) delete lossActive[key]; }
+    }
+    // panel refresh throttle
+    panelAcc+=dt; if(panelAcc>220){ panelAcc=0; renderInbox(); renderSel(); renderStrips(); updHud(); }
+  }
+
+  function fixDot(x,y,name){
+    ctx.fillStyle='#f0a500'; ctx.strokeStyle='#b97f00'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(x,y-6); ctx.lineTo(x+6,y); ctx.lineTo(x,y+6); ctx.lineTo(x-6,y); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.fillStyle='rgba(20,45,70,.78)'; ctx.font='bold 10px Courier New'; ctx.fillText(name,x+9,y-7);
+  }
+  function render(now){
+    ctx.clearRect(0,0,W,H); ctx.fillStyle='#d4e3f2'; ctx.fillRect(0,0,W,H);
+    // airways
+    ctx.strokeStyle='rgba(120,160,200,.45)'; ctx.lineWidth=Math.max(8,0.02*W); ctx.lineCap='round';
+    for(var r=0;r<ROUTES.length;r++){ var R=ROUTES[r];
+      var pts=[px(R.entry)]; for(var n=0;n<R.names.length;n++) pts.push(px(FIX[R.names[n]])); pts.push(px(R.exit));
+      ctx.beginPath(); ctx.moveTo(pts[0][0],pts[0][1]); for(var k=1;k<pts.length;k++) ctx.lineTo(pts[k][0],pts[k][1]); ctx.stroke();
+    }
+    ctx.lineWidth=1; ctx.lineCap='butt';
+    // sweep
+    sweep+=0.01; var cxp=W/2,cyp=H/2,Rr=Math.max(W,H)*0.62;
+    ctx.save(); ctx.beginPath(); ctx.moveTo(cxp,cyp); ctx.arc(cxp,cyp,Rr,sweep-0.45,sweep); ctx.closePath(); ctx.fillStyle='rgba(31,122,214,.05)'; ctx.fill(); ctx.restore();
+    // fixes
+    for(var f in FIX){ var c=px(FIX[f]); fixDot(c[0],c[1],f); }
+    // planes
+    for(var i=0;i<planes.length;i++){ var p=planes[i];
+      var on=Math.floor(now/240)%2===0;
+      var col = p.confl? (on?'#e23b3b':'#b5202a') : p.ho? '#1f8a5c' : '#1f7ad6';
+      if(p.id===sel){ ctx.strokeStyle='#e8730c'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(p.x,p.y,13,0,Math.PI*2); ctx.stroke(); }
+      if(p.confl){ ctx.strokeStyle=on?'#e23b3b':'rgba(226,59,59,.3)'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(p.x,p.y,11,0,Math.PI*2); ctx.stroke(); }
+      // heading line
+      ctx.strokeStyle='rgba(40,80,120,.5)'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p.x+(p.hx||0)*13,p.y+(p.hy||0)*13); ctx.stroke();
+      ctx.fillStyle=col; ctx.beginPath(); ctx.arc(p.x,p.y,5,0,Math.PI*2); ctx.fill();
+      // label
+      ctx.fillStyle='rgba(16,40,64,.9)'; ctx.font='bold 10px Courier New'; ctx.fillText(p.cs,p.x+8,p.y-5);
+      ctx.fillStyle='rgba(60,90,120,.85)'; ctx.font='9px Courier New'; ctx.fillText('FL'+Math.round(p.fl)+(Math.round(p.fl)!==p.cleared?'\u2192'+p.cleared:''),p.x+8,p.y+6);
+    }
+  }
+
+  function loop(ts){ if(!running) return; if(!lastTs) lastTs=ts; var dt=Math.min(50,ts-lastTs); lastTs=ts; update(ts,dt); if(running){ render(ts); requestAnimationFrame(loop); } }
+
+  function startGame(){
+    document.getElementById('intro').style.display='none';
+    document.getElementById('resultsHost').innerHTML='';
+    document.getElementById('game').style.display='block';
+    sizeCanvas();
+    planes=[]; inbox=[]; sel=null; nextId=1; lossActive={};
+    score=0; assumed=0; cleanHO=0; wrongHO=0; losses=0; missed=0;
+    startMs=performance.now(); lastTs=0; lastSpawn=startMs-3000; panelAcc=0;
+    running=true; played=true;
+    spawnInbox(); refreshPanels();
+    requestAnimationFrame(loop);
+  }
+  function endGame(){
+    running=false; var t=L[lang];
+    document.getElementById('game').style.display='none';
+    var band = score>=320?t.band_ex:score>=190?t.band_good:score>=80?t.band_ok:t.band_imp;
+    var html='<div class="results"><h2>'+t.results+'</h2><div class="band">'+band+'</div>'
+      +'<div class="big">'+score+'</div>'
+      +'<div class="rrow"><span>'+t.r_assumed+'</span><span>'+assumed+'</span></div>'
+      +'<div class="rrow"><span>'+t.r_clean+'</span><span>'+cleanHO+'</span></div>'
+      +'<div class="rrow"><span>'+t.r_wrong+'</span><span>'+wrongHO+'</span></div>'
+      +'<div class="rrow"><span>'+t.r_loss+'</span><span>'+losses+'</span></div>'
+      +'<div class="rrow"><span>'+t.r_missed+'</span><span>'+missed+'</span></div>'
+      +'</div>';
+    document.getElementById('resultsHost').innerHTML=html;
+    document.getElementById('intro').style.display='block';
+    document.getElementById('startBtn').textContent=t.again;
+    document.getElementById('hTime').textContent='0';
+  }
+
+  function applyLang(){
+    var t=L[lang]; document.documentElement.lang=lang;
+    document.getElementById('tTitle').textContent=t.title;
+    document.getElementById('tSub').textContent=t.sub;
+    document.getElementById('tNote').textContent=t.note;
+    document.getElementById('iHow').textContent=t.how;
+    document.getElementById('iInstr').innerHTML=t.instr;
+    document.getElementById('iLeg').innerHTML=t.leg;
+    document.getElementById('lblTime').textContent=t.lblTime;
+    document.getElementById('lblScore').textContent=t.lblScore;
+    document.getElementById('lblTraf').textContent=t.lblTraf;
+    document.getElementById('phInbox').textContent=t.phInbox;
+    document.getElementById('phStrips').textContent=t.phStrips;
+    document.getElementById('startBtn').textContent=played?t.again:t.start;
+    document.getElementById('langEn').className=lang==='en'?'on':'';
+    document.getElementById('langEs').className=lang==='es'?'on':'';
+    if(running||played) refreshPanels(); else { document.getElementById('phSel').textContent=t.phSel; }
+  }
+  document.getElementById('langEn').onclick=function(){lang='en';applyLang();};
+  document.getElementById('langEs').onclick=function(){lang='es';applyLang();};
+  document.getElementById('startBtn').onclick=startGame;
+  applyLang();
+})();
+</script>
+</body>
+</html>
