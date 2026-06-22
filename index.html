@@ -3987,7 +3987,7 @@ function btn(label,fn,kind){
       +'</div>';
   }
   var h='<div style="font-size:13px;font-weight:800;color:#00b4d8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;text-align:left">Las 3 Fases del proceso ENAIRE</div>';
-  h+=card('1','#00b4d8','Conocimientos, inglés, aptitudes y personalidad','Temario completo + simulacro de 50 preguntas con penalizacion, test de inglés y psicotecnicos.',pill,note,btn('Teoría','go(\'topics\')','primary')+btn('Inglés C1','openAvEng()','')+btn('Aptitudes','openFeast()','')+btn('Simulacro Fase 1','startFullSimulacro()',''));
+  h+=card('1','#00b4d8','Conocimientos, inglés, aptitudes y personalidad','Temario completo + simulacro de 50 preguntas con penalizacion, test de inglés y psicotecnicos.',pill,note,btn('Teoría','go(\'topics\')','primary')+btn('Inglés C1','openAvEng()','')+btn('Lecciones de Inglés','openEnglishLearn()','')+btn('Aptitudes','openFeast()','')+btn('Simulacro Fase 1','startFullSimulacro()',''));
   h+=card('2','#f77f00','Pruebas psicométricas y de multitarea - en inglés','Simulador de aptitudes y multitarea para la prueba en ordenador. Mejora tu nivel de preparacion.','','',btn('\u2b50 Preparar Fase 2','openFase2()','gold'));
   h+=card('3','#ffd166','Inglés oral (C1) y entrevistas','Inglés C1 enfocado al examen, mas guia de entrevista y dinamicas de grupo. Mejora tu nivel de preparacion.','','',btn('\u2b50 Preparar Fase 3','openAvEng()','gold'));
   el.innerHTML=h;
@@ -7075,7 +7075,7 @@ drawDot();
   };
 
 }
-function openAvEng(){
+function openEnglishLearn(){if(!DEV_PREMIUM){alert('⭐ Las lecciones de Inglés C1 son exclusivas del plan Premium.\n\nGramática, vocabulario y los errores típicos del hispanohablante, con práctica — incluido en Premium (€24.99/mes).');return;}var ov=document.getElementById('engov');if(!ov){ov=document.createElement('div');ov.id='engov';ov.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:#eaf1f7;z-index:99999;overflow:auto';document.body.appendChild(ov);}ov.innerHTML='<div style="display:flex;align-items:center;gap:10px;height:50px;padding:0 12px;background:#fff;border-bottom:1px solid #d6e0ea;position:sticky;top:0;z-index:2"><button id="engback" style="background:none;border:none;font-size:15px;font-weight:700;color:#1f6fb8;cursor:pointer">‹ Volver</button><span style="font-size:14px;font-weight:700;color:#16314c">Inglés C1 — Lecciones</span></div><iframe src="english-learn.html" style="width:100%;height:calc(100vh - 50px);border:0;display:block"></iframe>';document.getElementById('engback').onclick=function(){var o=document.getElementById('engov');if(o)o.remove();};}function openAvEng(){
   if(!DEV_PREMIUM){
     alert('⭐ Aviation English es exclusivo del plan Premium.\n\nAccede a vocabulario OACI, fraseología RT y práctica de readback con el plan Premium — €24.99/mes.');
     return;

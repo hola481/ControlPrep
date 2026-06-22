@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Inglés C1 — Aprende</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{background:#eaf1f7;color:#1b2b3a;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;display:flex;justify-content:center;min-height:100vh;line-height:1.5}
+  .wrap{width:100%;max-width:680px;padding:14px 14px 40px}
+  @media(min-width:820px){.wrap{max-width:880px}}
+  h1{font-size:16px;font-weight:800;color:#e8730c;letter-spacing:.2px}
+  .sub{font-size:11.5px;color:#5f7488;margin-top:2px}
+  .tabs{display:flex;gap:7px;margin:14px 0 12px;flex-wrap:wrap}
+  .tab{flex:1 1 auto;min-width:104px;padding:9px 8px;border:1px solid #c7d6e4;border-radius:10px;background:#fff;color:#5f7488;font-size:12.5px;font-weight:700;cursor:pointer;text-align:center}
+  .tab.on{background:#e8730c;color:#fff;border-color:#e8730c}
+  .card{background:#fff;border:1px solid #d6e0ea;border-radius:14px;padding:16px;margin-bottom:14px}
+  .card h2{font-size:15px;color:#16314c;margin-bottom:8px}
+  .card h3{font-size:12.5px;color:#1f6fb8;margin:14px 0 6px;text-transform:uppercase;letter-spacing:.04em}
+  .card p{font-size:13.5px;color:#36506a;margin-bottom:10px}
+  .card p b{color:#16314c}
+  .en{font-style:italic;color:#1f6fb8;font-weight:600}
+  .tip{background:#eef6ef;border:1px solid #cfe6d4;border-left:3px solid #1f8a5c;border-radius:9px;padding:10px 12px;font-size:12.5px;color:#1f5a3c;margin:10px 0}
+  .trap{background:#fdeeee;border:1px solid #f3cccc;border-left:3px solid #e23b3b;border-radius:9px;padding:10px 12px;font-size:12.5px;color:#8a2b2b;margin:10px 0}
+  .trap b,.tip b{font-weight:800}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;margin:6px 0 4px}
+  th{background:#f4f8fc;color:#5f7488;font-size:10.5px;text-transform:uppercase;letter-spacing:.04em;text-align:left;padding:7px 8px;border-bottom:2px solid #e0eaf3}
+  td{padding:7px 8px;border-bottom:1px solid #eef3f8;color:#36506a;vertical-align:top}
+  td.w{font-weight:800;color:#16314c;font-family:'Courier New',monospace}
+  td.bad{color:#b04a4a}
+  td.good{color:#1f7a4a;font-weight:600}
+  .cols{display:grid;gap:14px}
+  @media(min-width:760px){.cols.two{grid-template-columns:1fr 1fr}}
+  ul.dep{list-style:none;font-size:13px}
+  ul.dep li{padding:5px 0;border-bottom:1px solid #eef3f8;color:#36506a}
+  ul.dep li b{color:#16314c;font-family:'Courier New',monospace}
+  ul.dep li span{color:#5f7488;font-size:11.5px}
+  .quizbtn{width:100%;padding:13px;border:none;border-radius:11px;background:#1f6fb8;color:#fff;font-size:14px;font-weight:800;cursor:pointer;margin-top:4px}
+  .quizbtn:active{transform:scale(.99)}
+  .qhead{font-size:11px;color:#5f7488;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+  .qtext{font-size:15px;color:#16314c;font-weight:600;margin-bottom:14px;line-height:1.45}
+  .qtext .gap{color:#e8730c;font-weight:800}
+  .opt{display:block;width:100%;text-align:left;padding:12px 14px;border:1.5px solid #d6e0ea;border-radius:10px;background:#fff;font-size:14px;color:#1b3a5c;cursor:pointer;margin-bottom:8px;font-weight:600}
+  .opt:active{transform:scale(.99)}
+  .opt.good{border-color:#1f8a5c;background:#eef6ef;color:#1f5a3c}
+  .opt.bad{border-color:#e23b3b;background:#fdeeee;color:#8a2b2b}
+  .opt.dim{opacity:.55}
+  .fb{font-size:13px;line-height:1.5;margin:4px 0 12px;padding:10px 12px;border-radius:9px}
+  .fb.ok{background:#eef6ef;color:#1f5a3c}
+  .fb.no{background:#fdeeee;color:#8a2b2b}
+  .fb b{font-weight:800}
+  .nextbtn{width:100%;padding:12px;border:none;border-radius:10px;background:#e8730c;color:#fff;font-size:14px;font-weight:800;cursor:pointer}
+  .prog{font-size:11px;color:#8a9bb0;margin-bottom:10px}
+  .big{font-family:'Courier New',monospace;font-size:34px;font-weight:800;text-align:center;color:#e8730c;margin:8px 0}
+  .resmsg{text-align:center;font-size:13.5px;color:#36506a;margin-bottom:14px}
+  .ghost{width:100%;padding:11px;border:1.5px solid #c7d6e4;border-radius:10px;background:#fff;color:#1f6fb8;font-size:13px;font-weight:700;cursor:pointer;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Inglés C1 — Aprende</h1>
+  <div class="sub">Las reglas que más caen y los errores típicos del hispanohablante. Estudia la lección y luego practica.</div>
+
+  <div class="tabs">
+    <button class="tab on" data-sec="ff">Falsos amigos</button>
+    <button class="tab" data-sec="prep">Preposiciones</button>
+    <button class="tab" data-sec="verbs">Verbos y tiempos</button>
+    <button class="tab" data-sec="word">Formación de palabras</button>
+    <button class="tab" data-sec="conn">Conectores y registro</button>
+    <button class="tab" data-sec="err">Errores típicos</button>
+  </div>
+
+  <div id="content"></div>
+</div>
+
+<script>
+(function(){
+  var SECTIONS={
+    ff:{
+      title:"Falsos amigos",
+      lesson:`
+        <div class="card">
+          <h2>Falsos amigos (false friends)</h2>
+          <p>Son palabras inglesas que <b>se parecen</b> a una española pero significan <b>otra cosa</b>. Una de las trampas favoritas del examen, porque delatan al instante si traduces «de oído».</p>
+          <table>
+            <tr><th>Inglés</th><th>Parece…</th><th>Significa</th><th>Para «eso» usa</th></tr>
+            <tr><td class="w">actually</td><td class="bad">actualmente</td><td class="good">en realidad</td><td>currently</td></tr>
+            <tr><td class="w">assist</td><td class="bad">asistir a</td><td class="good">ayudar</td><td>attend</td></tr>
+            <tr><td class="w">attend</td><td class="bad">atender</td><td class="good">asistir a</td><td>serve</td></tr>
+            <tr><td class="w">eventually</td><td class="bad">eventualmente</td><td class="good">al final</td><td>possibly</td></tr>
+            <tr><td class="w">sensible</td><td class="bad">sensible</td><td class="good">sensato</td><td>sensitive</td></tr>
+            <tr><td class="w">sympathetic</td><td class="bad">simpático</td><td class="good">comprensivo</td><td>nice / friendly</td></tr>
+            <tr><td class="w">realize</td><td class="bad">realizar</td><td class="good">darse cuenta</td><td>carry out</td></tr>
+            <tr><td class="w">advice</td><td class="bad">aviso</td><td class="good">consejo (incont.)</td><td>notice / warning</td></tr>
+            <tr><td class="w">library</td><td class="bad">librería</td><td class="good">biblioteca</td><td>bookshop</td></tr>
+            <tr><td class="w">success</td><td class="bad">suceso</td><td class="good">éxito</td><td>event</td></tr>
+            <tr><td class="w">exit</td><td class="bad">éxito</td><td class="good">salida</td><td>success</td></tr>
+            <tr><td class="w">fabric</td><td class="bad">fábrica</td><td class="good">tela</td><td>factory</td></tr>
+            <tr><td class="w">discuss</td><td class="bad">discutir (pelear)</td><td class="good">debatir, tratar</td><td>argue</td></tr>
+            <tr><td class="w">support</td><td class="bad">soportar</td><td class="good">apoyar</td><td>bear / stand</td></tr>
+            <tr><td class="w">introduce</td><td class="bad">introducir (meter)</td><td class="good">presentar (a alguien)</td><td>insert</td></tr>
+            <tr><td class="w">career</td><td class="bad">carrera (estudios)</td><td class="good">carrera profesional</td><td>degree</td></tr>
+            <tr><td class="w">large</td><td class="bad">largo</td><td class="good">grande</td><td>long</td></tr>
+            <tr><td class="w">pretend</td><td class="bad">pretender</td><td class="good">fingir</td><td>intend / aim</td></tr>
+            <tr><td class="w">remind</td><td class="bad">recordar (algo)</td><td class="good">recordar a alguien</td><td>remember</td></tr>
+            <tr><td class="w">constipated</td><td class="bad">constipado</td><td class="good">estreñido</td><td>have a cold</td></tr>
+          </table>
+          <div class="trap"><b>⚠️ Trampas peligrosas.</b> <span class="en">embarrassed</span> = <b>avergonzado</b>, no embarazada (eso es <span class="en">pregnant</span>). Y <span class="en">molest</span> = <b>acosar sexualmente</b>: para «molestar» usa <span class="en">bother</span> o <span class="en">annoy</span>.</div>
+          <div class="tip"><b>Regla de oro.</b> <span class="en">advice</span>, <span class="en">information</span> y <span class="en">news</span> son <b>incontables</b>: nunca «an advice» ni «advices». Di <span class="en">some advice</span> o <span class="en">a piece of advice</span>.</div>
+        </div>
+        <button class="quizbtn" id="startQuiz">Practicar — 16 preguntas</button>`,
+      quiz:[
+        {q:"I go to the <span class='gap'>_____</span> to borrow books.",o:["library","bookshop","fabric"],a:0,e:"<b>library</b> = biblioteca. <i>bookshop</i> es donde compras libros."},
+        {q:"She's very <span class='gap'>_____</span>; she always weighs the consequences.",o:["sensitive","sensible","sympathetic"],a:1,e:"<b>sensible</b> = sensato. <i>sensitive</i> es sensible (emocional)."},
+        {q:"Could you <span class='gap'>_____</span> me with this report?",o:["attend","assist","support"],a:1,e:"<b>assist</b> = ayudar. <i>attend</i> = asistir a."},
+        {q:"Two hundred people <span class='gap'>_____</span> the conference.",o:["assisted","attended","realized"],a:1,e:"<b>attended</b> = asistieron a. <i>assist</i> = ayudar."},
+        {q:"<span class='gap'>_____</span>, I don't think that's correct.",o:["Actually","Currently","Eventually"],a:0,e:"<b>Actually</b> = en realidad. <i>Currently</i> = actualmente."},
+        {q:"Can you give me some <span class='gap'>_____</span>?",o:["advices","an advice","advice"],a:2,e:"<b>advice</b> es incontable: ni plural ni «an»."},
+        {q:"We'll <span class='gap'>_____</span> the budget at the meeting.",o:["discuss","discuss about","argue"],a:0,e:"<b>discuss</b> = tratar/debatir, sin preposición (NO «discuss about»)."},
+        {q:"I can't <span class='gap'>_____</span> his rudeness any longer.",o:["support","stand","assist"],a:1,e:"<b>stand</b> (o <i>bear</i>/<i>tolerate</i>) = soportar. <i>support</i> = apoyar."},
+        {q:"It took me a while to <span class='gap'>_____</span> what was happening.",o:["realize","carry out","achieve"],a:0,e:"<b>realize</b> = darse cuenta. <i>carry out</i> = realizar/llevar a cabo."},
+        {q:"She was <span class='gap'>_____</span> when she tripped in public.",o:["embarrassing","embarrassed","pregnant"],a:1,e:"<b>embarrassed</b> = la persona avergonzada. <i>embarrassing</i> describe la situación."},
+        {q:"He's had a long and successful <span class='gap'>_____</span> in medicine.",o:["degree","career","race"],a:1,e:"<b>career</b> = carrera profesional. <i>degree</i> = carrera de estudios."},
+        {q:"They live in a <span class='gap'>_____</span> house with a garden.",o:["large","long","wide"],a:0,e:"<b>large</b> = grande. <i>long</i> = largo."},
+        {q:"The curtains are made of a soft <span class='gap'>_____</span>.",o:["factory","fabrication","fabric"],a:2,e:"<b>fabric</b> = tela. <i>factory</i> = fábrica."},
+        {q:"<span class='gap'>_____</span>, after years of effort, they succeeded.",o:["Currently","Eventually","Possibly"],a:1,e:"<b>Eventually</b> = al final / con el tiempo."},
+        {q:"Let me <span class='gap'>_____</span> you to my colleague.",o:["introduce","insert","enter"],a:0,e:"<b>introduce</b> = presentar a alguien. <i>insert</i> = introducir/meter."},
+        {q:"Whatever happens, I'll always <span class='gap'>_____</span> you.",o:["stand","support","attend"],a:1,e:"<b>support</b> = apoyar. (<i>stand</i> = soportar.)"}
+      ]
+    },
+
+    prep:{
+      title:"Preposiciones",
+      lesson:`
+        <div class="card">
+          <h2>Preposiciones dependientes</h2>
+          <p>Muchos verbos y adjetivos ingleses van <b>siempre</b> con una preposición fija — y a menudo <b>no es la del español</b>. El examen las prueba sin parar. Son una <b>lista cerrada</b>: memorízalas y son puntos seguros.</p>
+          <div class="cols two">
+            <div>
+              <h3>Verbo + preposición</h3>
+              <ul class="dep">
+                <li><b>depend on</b> <span>depender de</span></li>
+                <li><b>consist of</b> <span>consistir en</span></li>
+                <li><b>rely on</b> <span>contar con</span></li>
+                <li><b>insist on</b> <span>insistir en</span></li>
+                <li><b>focus on</b> <span>centrarse en</span></li>
+                <li><b>apologise for</b> <span>disculparse por</span></li>
+                <li><b>accuse (sb) of</b> <span>acusar de</span></li>
+                <li><b>congratulate on</b> <span>felicitar por</span></li>
+                <li><b>prevent (sb) from</b> <span>impedir</span></li>
+                <li><b>suffer from</b> <span>sufrir de</span></li>
+                <li><b>complain about</b> <span>quejarse de</span></li>
+                <li><b>belong to</b> <span>pertenecer a</span></li>
+                <li><b>deal with</b> <span>ocuparse de</span></li>
+                <li><b>succeed in</b> <span>tener éxito en</span></li>
+              </ul>
+            </div>
+            <div>
+              <h3>Adjetivo + preposición</h3>
+              <ul class="dep">
+                <li><b>good / bad at</b> <span>bueno/malo en</span></li>
+                <li><b>interested in</b> <span>interesado en</span></li>
+                <li><b>afraid of</b> <span>asustado de</span></li>
+                <li><b>proud of</b> <span>orgulloso de</span></li>
+                <li><b>capable of</b> <span>capaz de</span></li>
+                <li><b>responsible for</b> <span>responsable de</span></li>
+                <li><b>married to</b> <span>casado con</span></li>
+                <li><b>similar to</b> <span>parecido a</span></li>
+                <li><b>different from</b> <span>distinto de</span></li>
+                <li><b>aware of</b> <span>consciente de</span></li>
+                <li><b>worried about</b> <span>preocupado por</span></li>
+                <li><b>keen on</b> <span>aficionado a</span></li>
+                <li><b>famous for</b> <span>famoso por</span></li>
+                <li><b>used to</b> <span>acostumbrado a</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="trap"><b>⚠️ Errores típicos.</b><br>
+            <span class="en">depend of</span> → <b>depend on</b> · <span class="en">consist in</span> → <b>consist of</b> · <span class="en">married with</span> → <b>married to</b><br>
+            <span class="en">think in</span> → <b>think about / of</b> · <span class="en">dream with</span> → <b>dream of / about</b> · <span class="en">interested on</span> → <b>interested in</b><br>
+            <span class="en">good in</span> → <b>good at</b> · <span class="en">arrive to</span> → <b>arrive at / in</b> · <span class="en">listen the radio</span> → <b>listen to the radio</b></div>
+          <div class="tip"><b>Truco.</b> Memorízalas en frases cortas, no aisladas: «<span class="en">It depends on you</span>», «<span class="en">I'm good at maths</span>». La preposición se queda pegada al ejemplo.</div>
+        </div>
+        <button class="quizbtn" id="startQuiz">Practicar — 16 preguntas</button>`,
+      quiz:[
+        {q:"It depends <span class='gap'>_____</span> the weather.",o:["on","of","in"],a:0,e:"<b>depend on</b>. «depend of» es el error más común."},
+        {q:"She's really good <span class='gap'>_____</span> maths.",o:["in","at","on"],a:1,e:"<b>good at</b>. Nunca «good in»."},
+        {q:"I'm very interested <span class='gap'>_____</span> history.",o:["on","for","in"],a:2,e:"<b>interested in</b>."},
+        {q:"He's married <span class='gap'>_____</span> a teacher.",o:["with","to","of"],a:1,e:"<b>married to</b>, no «married with»."},
+        {q:"They accused him <span class='gap'>_____</span> cheating.",o:["of","for","about"],a:0,e:"<b>accuse of</b> (+ -ing)."},
+        {q:"This course consists <span class='gap'>_____</span> six modules.",o:["in","of","on"],a:1,e:"<b>consist of</b>, no «consist in»."},
+        {q:"We're worried <span class='gap'>_____</span> the final exam.",o:["about","of","with"],a:0,e:"<b>worried about</b>."},
+        {q:"I'm afraid <span class='gap'>_____</span> making mistakes.",o:["to","of","from"],a:1,e:"<b>afraid of</b> (+ -ing)."},
+        {q:"Congratulations <span class='gap'>_____</span> passing the test!",o:["for","on","about"],a:1,e:"<b>congratulate / congratulations on</b>."},
+        {q:"He apologised <span class='gap'>_____</span> arriving late.",o:["for","of","about"],a:0,e:"<b>apologise for</b>."},
+        {q:"You can always rely <span class='gap'>_____</span> me.",o:["on","in","of"],a:0,e:"<b>rely on</b> = contar con."},
+        {q:"She's very proud <span class='gap'>_____</span> her work.",o:["for","of","with"],a:1,e:"<b>proud of</b>."},
+        {q:"Who is responsible <span class='gap'>_____</span> this department?",o:["of","for","about"],a:1,e:"<b>responsible for</b>."},
+        {q:"He suffers <span class='gap'>_____</span> terrible headaches.",o:["of","with","from"],a:2,e:"<b>suffer from</b>."},
+        {q:"This case is similar <span class='gap'>_____</span> the last one.",o:["to","with","as"],a:0,e:"<b>similar to</b>."},
+        {q:"The region is famous <span class='gap'>_____</span> its wine.",o:["by","for","of"],a:1,e:"<b>famous for</b>."}
+      ]
+    },
+
+    verbs:{
+      title:"Verbos y tiempos",
+      lesson:`
+        <div class="card">
+          <h2>Verbos y tiempos verbales</h2>
+          <h3>Present perfect vs. past simple</h3>
+          <p>El error nº1. Usa <b>past simple</b> con un <b>momento terminado</b> (<span class="en">yesterday, last week, in 2010, ago</span>) y <b>present perfect</b> para experiencia o tiempo no terminado (<span class="en">ever, never, just, already, yet, for, since</span>).</p>
+          <div class="trap"><span class="en">I have seen him yesterday</span> ✗ → <span class="en">I <b>saw</b> him yesterday</span> ✓ &nbsp;·&nbsp; <span class="en">She has lived here <b>since</b> 2015 / <b>for</b> ten years</span> ✓</div>
+          <h3>Gerundio vs. infinitivo</h3>
+          <p><span class="en">enjoy, avoid, finish, mind, suggest</span> + <b>-ing</b>. <span class="en">want, decide, hope, promise, need, would like</span> + <b>to + verbo</b>.</p>
+          <div class="trap"><span class="en">I enjoy to read</span> ✗ → <span class="en">I enjoy <b>reading</b></span> ✓ &nbsp;·&nbsp; <span class="en">I want that you come</span> ✗ → <span class="en">I want <b>you to come</b></span> ✓</div>
+          <h3>Condicionales</h3>
+          <p><b>1º</b> (real): <span class="en">If it <b>rains</b>, I'll stay</span>. <b>2º</b> (hipotético): <span class="en">If I <b>were</b> rich, I <b>would</b> travel</span>. <b>3º</b> (pasado): <span class="en">If I <b>had known</b>, I <b>would have</b> helped</span>.</p>
+          <div class="trap"><span class="en">If I would have money…</span> ✗ → <span class="en">If I <b>had</b> money…</span> ✓. Tras <span class="en">if</span> no va <span class="en">would</span>.</div>
+          <h3>Modales</h3>
+          <p>Tras un modal (<span class="en">must, should, can, will, might</span>) va el <b>infinitivo sin «to»</b>. <span class="en">must</span> = obligación/deducción; <span class="en">don't have to</span> = no hace falta; <span class="en">should have + participio</span> = arrepentimiento.</p>
+          <div class="trap"><span class="en">I must to go</span> ✗ → <span class="en">I <b>must go</b></span> ✓ &nbsp;·&nbsp; <span class="en">I <b>should have studied</b></span> = debería haber estudiado.</div>
+        </div>
+        <button class="quizbtn" id="startQuiz">Practicar — 18 preguntas</button>`,
+      quiz:[
+        {q:"I <span class='gap'>_____</span> him at the station yesterday.",o:["have seen","saw","had seen"],a:1,e:"Momento terminado (<i>yesterday</i>) → <b>past simple: saw</b>."},
+        {q:"She <span class='gap'>_____</span> in London since 2015.",o:["lives","lived","has lived"],a:2,e:"<i>since</i> → <b>present perfect: has lived</b>."},
+        {q:"<span class='gap'>_____</span> you ever <span class='gap'>_____</span> sushi?",o:["Did / eat","Have / eaten","Are / eating"],a:1,e:"Experiencia (<i>ever</i>) → <b>Have you eaten</b>."},
+        {q:"I really enjoy <span class='gap'>_____</span> to music.",o:["to listen","listening","listen"],a:1,e:"<b>enjoy + -ing</b>."},
+        {q:"He decided <span class='gap'>_____</span> the job.",o:["taking","to take","take"],a:1,e:"<b>decide + to + verbo</b>."},
+        {q:"We want you <span class='gap'>_____</span> with us.",o:["to come","come","coming"],a:0,e:"<b>want + objeto + to + verbo</b> (NO «want that…»)."},
+        {q:"If it <span class='gap'>_____</span> tomorrow, we'll stay home.",o:["rains","will rain","would rain"],a:0,e:"1º condicional: <i>if</i> + <b>present simple</b>."},
+        {q:"If I <span class='gap'>_____</span> you, I would accept.",o:["am","was","were"],a:2,e:"2º condicional: <b>If I were…</b> (forma preferida)."},
+        {q:"If she had studied, she <span class='gap'>_____</span> the exam.",o:["would pass","would have passed","passed"],a:1,e:"3º condicional: <b>would have + participio</b>."},
+        {q:"You <span class='gap'>_____</span> wear a seatbelt — it's the law.",o:["should","must","might"],a:1,e:"Obligación fuerte → <b>must</b>."},
+        {q:"We <span class='gap'>_____</span> finish today; tomorrow is fine too.",o:["mustn't","don't have to","shouldn't"],a:1,e:"<b>don't have to</b> = no hace falta. <i>mustn't</i> = está prohibido."},
+        {q:"He's not here — he <span class='gap'>_____</span> have missed the train.",o:["must","can","should"],a:0,e:"Deducción lógica → <b>must have + participio</b>."},
+        {q:"I'm exhausted. I <span class='gap'>_____</span> to bed earlier.",o:["should go","should have gone","must go"],a:1,e:"Arrepentimiento sobre el pasado → <b>should have gone</b>."},
+        {q:"We must <span class='gap'>_____</span> right now.",o:["to leave","leave","leaving"],a:1,e:"Tras un modal, infinitivo <b>sin «to»</b>."},
+        {q:"On his way home he stopped <span class='gap'>_____</span> some bread.",o:["to buy","buying"],a:0,e:"<b>stop to do</b> = parar para hacer algo (propósito)."},
+        {q:"I clearly remember <span class='gap'>_____</span> the door this morning.",o:["to lock","locking"],a:1,e:"<b>remember + -ing</b> = recordar algo ya hecho."},
+        {q:"By the time we arrived, the film <span class='gap'>_____</span>.",o:["started","has started","had started"],a:2,e:"Acción anterior a otra pasada → <b>past perfect: had started</b>."},
+        {q:"How long <span class='gap'>_____</span> English?",o:["do you study","have you been studying","are you studying"],a:1,e:"Duración hasta ahora → <b>present perfect continuous</b>."}
+      ]
+    },
+
+    word:{
+      title:"Formación de palabras",
+      lesson:`
+        <div class="card">
+          <h2>Formación de palabras (word formation)</h2>
+          <p>El <span class="en">use of English</span> te da una palabra raíz y tienes que formar la derivada correcta. Hay que cambiar la <b>clase de palabra</b> (verbo → sustantivo → adjetivo) o añadir un <b>prefijo negativo</b>.</p>
+          <h3>Prefijos negativos</h3>
+          <p><b>un-</b> (unhappy), <b>in-</b> (incorrect), <b>im-</b> ante m/p (impossible), <b>il-</b> ante l (illegal), <b>ir-</b> ante r (irregular), <b>dis-</b> (dishonest), <b>mis-</b> (misunderstand).</p>
+          <h3>Sufijos por clase</h3>
+          <p><b>Sustantivos:</b> -tion, -ment, -ness, -ity, -ance/-ence, -th (strength, growth). <b>Adjetivos:</b> -ful, -less, -able, -ive, -ous, -al, -y. <b>Verbos:</b> -ise/-ize, -en (strengthen, widen). <b>Personas:</b> -er, -or, -ist (scientist).</p>
+          <div class="trap"><b>⚠️ Cambian la raíz:</b> able → <b>ability</b> · strong → <b>strength</b> · decide → <b>decision</b> · analyse → <b>analysis</b> · long → <b>length</b> · high → <b>height</b>.</div>
+          <div class="tip"><b>Pista en el examen.</b> Mira la palabra que falta: si lleva <span class="en">a/the/this</span> delante, suele ser <b>sustantivo</b>; si va tras <span class="en">be</span> o describe a un nombre, <b>adjetivo</b>; si es negativa por contexto, añade el <b>prefijo</b>.</div>
+        </div>
+        <button class="quizbtn" id="startQuiz">Practicar — 16 preguntas</button>`,
+      quiz:[
+        {q:"She showed great <span class='gap'>_____</span>. (STRONG)",o:["strongness","strength","strongth"],a:1,e:"<b>strength</b> (cambia la raíz)."},
+        {q:"We need to make a <span class='gap'>_____</span>. (DECIDE)",o:["decision","decidement","deciding"],a:0,e:"<b>decision</b>."},
+        {q:"His <span class='gap'>_____</span> was unclear. (EXPLAIN)",o:["explainment","explanation","explaination"],a:1,e:"<b>explanation</b> (ojo, no «explaination»)."},
+        {q:"It's a very <span class='gap'>_____</span> road. (DANGER)",o:["dangerful","dangerous","dangery"],a:1,e:"<b>dangerous</b>."},
+        {q:"The project was a complete <span class='gap'>_____</span>. (FAIL)",o:["failness","failment","failure"],a:2,e:"<b>failure</b>."},
+        {q:"That is simply <span class='gap'>_____</span>. (POSSIBLE)",o:["unpossible","impossible","dispossible"],a:1,e:"<b>impossible</b> (im- ante p)."},
+        {q:"The instructions were <span class='gap'>_____</span>. (USE)",o:["useless","useful","unuseful"],a:0,e:"<b>useless</b> = inútil (no ayudaron)."},
+        {q:"He was extremely <span class='gap'>_____</span> during the move. (HELP)",o:["helpless","helpful","helpish"],a:1,e:"<b>helpful</b> = servicial."},
+        {q:"We must <span class='gap'>_____</span> our defences. (STRONG)",o:["strongen","strengthen","strongify"],a:1,e:"<b>strengthen</b> (verbo, -en)."},
+        {q:"The <span class='gap'>_____</span> of the economy slowed. (GROW)",o:["growment","growth","growness"],a:1,e:"<b>growth</b>."},
+        {q:"Her <span class='gap'>_____</span> was outstanding. (PERFORM)",o:["performment","performation","performance"],a:2,e:"<b>performance</b>."},
+        {q:"It is <span class='gap'>_____</span> to park here. (LEGAL)",o:["unlegal","illegal","dislegal"],a:1,e:"<b>illegal</b> (il- ante l)."},
+        {q:"The <span class='gap'>_____</span> analysed the results. (SCIENCE)",o:["sciencer","scientist","scienceman"],a:1,e:"<b>scientist</b> (persona, -ist)."},
+        {q:"We value <span class='gap'>_____</span> above all. (HONEST)",o:["honestness","honesty","honestment"],a:1,e:"<b>honesty</b>."},
+        {q:"His behaviour was completely <span class='gap'>_____</span>. (RESPONSIBLE)",o:["unresponsible","irresponsible","disresponsible"],a:1,e:"<b>irresponsible</b> (ir- ante r)."},
+        {q:"There was a <span class='gap'>_____</span> between the two reports. (DIFFER)",o:["difference","differment","differency"],a:0,e:"<b>difference</b>."}
+      ]
+    },
+
+    conn:{
+      title:"Conectores y registro",
+      lesson:`
+        <div class="card">
+          <h2>Conectores y registro</h2>
+          <h3>Contraste: cuidado con la gramática</h3>
+          <p><b>although / though / even though</b> + <b>frase</b> (sujeto+verbo). <b>despite / in spite of</b> + <b>sustantivo o -ing</b>. <b>however</b> va con su propia frase, normalmente tras punto o punto y coma.</p>
+          <div class="trap"><span class="en">Despite of the rain</span> ✗ → <span class="en"><b>Despite</b> the rain</span> / <span class="en"><b>In spite of</b> the rain</span> ✓ &nbsp;·&nbsp; <span class="en">Although it was hard, <b>but</b> he did it</span> ✗ — no uses <span class="en">although</span> y <span class="en">but</span> juntos.</div>
+          <h3>Otros conectores útiles</h3>
+          <p><b>Añadir:</b> moreover, furthermore, in addition. <b>Resultado:</b> therefore, thus, consequently. <b>Causa:</b> because (+ frase), because of / due to (+ sustantivo). <b>Propósito:</b> so that, in order to. <b>Ejemplo:</b> such as, for instance.</p>
+          <div class="trap"><span class="en">because of</span> + sustantivo (<span class="en">because of <b>the storm</b></span>) vs. <span class="en">because</span> + frase (<span class="en">because <b>there was a storm</b></span>).</div>
+          <h3>Registro formal (para el examen escrito)</h3>
+          <p>Sube el registro: <span class="en">get → obtain / receive</span> · <span class="en">but → however</span> · <span class="en">so → therefore</span> · <span class="en">a lot of → numerous / considerable</span> · <span class="en">kids → children</span>. Evita contracciones en escritura formal (<span class="en">don't → do not</span>).</p>
+        </div>
+        <button class="quizbtn" id="startQuiz">Practicar — 16 preguntas</button>`,
+      quiz:[
+        {q:"<span class='gap'>_____</span> it was raining, we went out.",o:["Despite","Although","However"],a:1,e:"<b>Although</b> + frase (it was raining)."},
+        {q:"<span class='gap'>_____</span> the rain, we went out.",o:["Although","Despite","Whereas"],a:1,e:"<b>Despite</b> + sustantivo (the rain)."},
+        {q:"It was very late. <span class='gap'>_____</span>, we kept working.",o:["However","Although","Despite"],a:0,e:"<b>However</b> introduce una frase de contraste."},
+        {q:"He's wealthy; <span class='gap'>_____</span>, he isn't happy.",o:["therefore","however","moreover"],a:1,e:"Contraste → <b>however</b>."},
+        {q:"She studied hard; <span class='gap'>_____</span>, she passed easily.",o:["however","therefore","whereas"],a:1,e:"Resultado → <b>therefore</b>."},
+        {q:"<span class='gap'>_____</span> working all night, he failed.",o:["Although","Despite","Because"],a:1,e:"<b>Despite</b> + -ing (working)."},
+        {q:"I like tea, <span class='gap'>_____</span> my brother prefers coffee.",o:["whereas","despite","therefore"],a:0,e:"<b>whereas</b> = mientras que (contraste)."},
+        {q:"We need data, <span class='gap'>_____</span> statistics and reports.",o:["so that","such as","therefore"],a:1,e:"Ejemplo → <b>such as</b>."},
+        {q:"He spoke slowly <span class='gap'>_____</span> everyone could understand.",o:["so that","despite","however"],a:0,e:"Propósito → <b>so that</b>."},
+        {q:"The flight was cancelled <span class='gap'>_____</span> the storm.",o:["because","because of","although"],a:1,e:"<b>because of</b> + sustantivo."},
+        {q:"The flight was cancelled <span class='gap'>_____</span> there was a storm.",o:["because of","because","despite"],a:1,e:"<b>because</b> + frase (sujeto+verbo)."},
+        {q:"The course is affordable. <span class='gap'>_____</span>, it's fully online.",o:["However","Moreover","Whereas"],a:1,e:"Añadir información → <b>Moreover</b>."},
+        {q:"Which is correct?",o:["Although it was hard, but he did it.","Although it was hard, he did it.","He did it, although but hard."],a:1,e:"No se usan <i>although</i> y <i>but</i> juntos."},
+        {q:"<span class='gap'>_____</span> being exhausted, she carried on.",o:["Although","Despite","Because"],a:1,e:"<b>Despite</b> + -ing."},
+        {q:"Formal: «Candidates will <span class='gap'>_____</span> a confirmation email.»",o:["get","receive","grab"],a:1,e:"<b>receive</b> es más formal que <i>get</i>."},
+        {q:"Formal: «The results were poor; <span class='gap'>_____</span>, we will review the method.»",o:["so","therefore","and so"],a:1,e:"<b>therefore</b> es el registro formal de <i>so</i>."}
+      ]
+    },
+
+    err:{
+      title:"Errores típicos",
+      lesson:`
+        <div class="card">
+          <h2>Errores típicos del hispanohablante</h2>
+          <p>La lista negra de la interferencia del español. Reconocerlos te ahorra puntos tontos en todo el examen.</p>
+          <h3>Sujeto y concordancia</h3>
+          <p><span class="en">people</span> es <b>plural</b> (people <b>are</b>). El inglés <b>siempre lleva sujeto</b>: «llueve» → <span class="en"><b>It</b>'s raining</span>; «es importante» → <span class="en"><b>It</b>'s important</span>.</p>
+          <h3>Incontables y artículos</h3>
+          <p>Sin plural: <span class="en">information, advice, news, knowledge, furniture</span>. Sin artículo para lo general: <span class="en">I love <b>animals</b></span> (no «the animals»), <span class="en"><b>Life</b> is hard</span>.</p>
+          <h3>Verbos traicioneros</h3>
+          <p><span class="en">tell</span> alguien algo, pero <span class="en">explain / say <b>to</b></span> alguien. <span class="en">agree</span> es <b>verbo</b>: <span class="en">I <b>agree</b></span> (no «I'm agree»). <span class="en">do</span> homework, <span class="en">make</span> a decision.</p>
+          <div class="trap">
+            <span class="en">people is</span> → <b>people are</b> · <span class="en">I have 25 years</span> → <b>I am 25</b> · <span class="en">I'm agree</b></span> → <b>I agree</b><br>
+            <span class="en">explain me</span> → <b>explain to me</b> · <span class="en">I don't know nothing</span> → <b>… anything</b> · <span class="en">more better</span> → <b>better</b><br>
+            <span class="en">two reds cars</span> → <b>two red cars</b> · <span class="en">I go always</span> → <b>I always go</b> · <span class="en">since five years</span> → <b>for five years</b>
+          </div>
+        </div>
+        <button class="quizbtn" id="startQuiz">Practicar — 18 preguntas</button>`,
+      quiz:[
+        {q:"Many people <span class='gap'>_____</span> here every summer.",o:["is","are","was"],a:1,e:"<b>people</b> es plural → <b>are</b>."},
+        {q:"I need some more <span class='gap'>_____</span>.",o:["informations","information","an information"],a:1,e:"<b>information</b> es incontable: sin plural ni «an»."},
+        {q:"My sister <span class='gap'>_____</span> 25 years old.",o:["has","is","makes"],a:1,e:"La edad con <b>be</b>: <b>is 25</b> (no «has»)."},
+        {q:"He <span class='gap'>_____</span> me an interesting story.",o:["explained","said","told"],a:2,e:"<b>tell</b> + persona: <b>told me</b>."},
+        {q:"Look outside — <span class='gap'>_____</span> raining.",o:["Is","It's","Are"],a:1,e:"El inglés necesita sujeto: <b>It's raining</b>."},
+        {q:"<span class='gap'>_____</span> important to arrive early.",o:["Is","It's","There's"],a:1,e:"<b>It's important to…</b>"},
+        {q:"Sorry, I don't know <span class='gap'>_____</span> about it.",o:["nothing","anything","something"],a:1,e:"Una sola negación: <b>don't know anything</b>."},
+        {q:"They have two <span class='gap'>_____</span> in the garage.",o:["reds cars","red cars","car reds"],a:1,e:"Adjetivo invariable y delante: <b>red cars</b>."},
+        {q:"She <span class='gap'>_____</span> gets up at six.",o:["always","gets always","get always"],a:0,e:"Frecuencia antes del verbo: <b>always gets</b>."},
+        {q:"This solution is much <span class='gap'>_____</span>.",o:["more better","better","more good"],a:1,e:"<b>better</b> ya es comparativo (no «more better»)."},
+        {q:"<span class='gap'>_____</span> with everything you said.",o:["I'm agree","I agree","I'm agreed"],a:1,e:"<b>agree</b> es verbo: <b>I agree</b>."},
+        {q:"Could you <span class='gap'>_____</span> the rule to me?",o:["explain me","explain","explain to me"],a:2,e:"<b>explain to</b> + persona."},
+        {q:"I've worked here <span class='gap'>_____</span> five years.",o:["since","for","during"],a:1,e:"<b>for</b> + periodo de tiempo; <i>since</i> + punto de inicio."},
+        {q:"You should <span class='gap'>_____</span> your homework now.",o:["make","do","take"],a:1,e:"<b>do</b> your homework; <i>make</i> a decision."},
+        {q:"Quiet, please — the train <span class='gap'>_____</span>.",o:["comes","is coming","come"],a:1,e:"Ahora mismo → present continuous: <b>is coming</b>."},
+        {q:"In general, I really like <span class='gap'>_____</span>.",o:["the animals","animals","an animals"],a:1,e:"Sin artículo para lo general: <b>animals</b>."},
+        {q:"We must <span class='gap'>_____</span> very careful.",o:["to be","be","being"],a:1,e:"Tras un modal, infinitivo sin «to»: <b>be</b>."},
+        {q:"There <span class='gap'>_____</span> a lot of traffic today.",o:["are","is","have"],a:1,e:"<b>traffic</b> es incontable → <b>is</b>."}
+      ]
+    }
+  };
+
+  var cur='ff', content=document.getElementById('content');
+
+  function renderSection(){
+    document.querySelectorAll('.tab').forEach(function(t){ t.className='tab'+(t.getAttribute('data-sec')===cur?' on':''); });
+    content.innerHTML=SECTIONS[cur].lesson;
+    var b=document.getElementById('startQuiz'); if(b) b.onclick=startQuiz;
+    window.scrollTo(0,0);
+  }
+
+  function startQuiz(){
+    var qs=SECTIONS[cur].quiz, i=0, correct=0, answered=false;
+    function renderQ(){
+      answered=false;
+      var item=qs[i];
+      content.innerHTML='<div class="card"><div class="qhead">'+SECTIONS[cur].title+' — práctica</div>'
+        +'<div class="prog">Pregunta '+(i+1)+' de '+qs.length+'</div>'
+        +'<div class="qtext">'+item.q+'</div><div id="opts"></div><div id="after"></div></div>';
+      var opts=document.getElementById('opts');
+      item.o.forEach(function(o,idx){
+        var btn=document.createElement('button'); btn.className='opt'; btn.innerHTML=o;
+        btn.onclick=function(){ choose(idx,item,opts); };
+        opts.appendChild(btn);
+      });
+      window.scrollTo(0,0);
+    }
+    function choose(idx,item,opts){
+      if(answered) return; answered=true;
+      var btns=opts.querySelectorAll('.opt'), ok=(idx===item.a);
+      if(ok) correct++;
+      btns.forEach(function(b,bi){
+        if(bi===item.a) b.className='opt good';
+        else if(bi===idx) b.className='opt bad';
+        else b.className='opt dim';
+        b.onclick=null;
+      });
+      document.getElementById('after').innerHTML='<div class="fb '+(ok?'ok':'no')+'">'+(ok?'✓ Correcto. ':'✗ No. ')+item.e+'</div>'
+        +'<button class="nextbtn" id="nx">'+(i<qs.length-1?'Siguiente':'Ver resultado')+'</button>';
+      document.getElementById('nx').onclick=function(){ i++; if(i<qs.length) renderQ(); else results(); };
+    }
+    function results(){
+      var pct=Math.round(correct/qs.length*100);
+      var msg = pct>=85?'Excelente — esto ya lo dominas.':pct>=60?'Bien — repasa los fallos y vuelve a intentarlo.':'A repasar — vuelve a la lección y reinténtalo.';
+      content.innerHTML='<div class="card"><div class="qhead">'+SECTIONS[cur].title+' — resultado</div>'
+        +'<div class="big">'+correct+'/'+qs.length+'</div><div class="resmsg">'+msg+'</div>'
+        +'<button class="quizbtn" id="again">Repetir práctica</button>'
+        +'<button class="ghost" id="back">Volver a la lección</button></div>';
+      document.getElementById('again').onclick=startQuiz;
+      document.getElementById('back').onclick=renderSection;
+      window.scrollTo(0,0);
+    }
+    renderQ();
+  }
+
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.onclick=function(){ cur=t.getAttribute('data-sec'); renderSection(); };
+  });
+  renderSection();
+})();
+</script>
+</body>
+</html>
