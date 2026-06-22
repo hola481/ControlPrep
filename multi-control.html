@@ -246,7 +246,6 @@
         +'<button class="btn assume" data-as="'+f.id+'">'+t.assume+'</button></div>';
     }
     el.innerHTML=h;
-    Array.prototype.forEach.call(el.querySelectorAll('[data-as]'),function(b){ b.onclick=function(){ assume(parseInt(b.getAttribute('data-as'),10)); }; });
   }
   function renderSel(){
     var t=L[lang], el=document.getElementById('selPanel'), p=getSel();
@@ -258,13 +257,10 @@
       +'<div class="lvlbox"><div class="k">'+t.cur+'</div><div class="v">FL'+Math.round(p.fl)+'</div></div>'
       +'<div class="lvlbox"><div class="k">'+t.clr+'</div><div class="v">FL'+p.cleared+'</div></div>'
       +'<div class="lvlbox"><div class="k">'+t.exitL+'</div><div class="v tgt">FL'+p.exitFl+'</div></div>'
-      +'<div class="lvlbtns"><button class="btn up" id="bUp">\u25b2 '+t.climb+'</button><button class="btn dn" id="bDn">\u25bc '+t.descend+'</button></div>'
+      +'<div class="lvlbtns"><button class="btn up" data-act="up">\u25b2 '+t.climb+'</button><button class="btn dn" data-act="dn">\u25bc '+t.descend+'</button></div>'
       +'</div>';
-    if(p.ho) h+='<button class="btn ho" id="bHo">'+t.handoff+' \u2014 '+t.exitL+' FL'+p.exitFl+'</button>';
+    if(p.ho) h+='<button class="btn ho" data-act="ho">'+t.handoff+' \u2014 '+t.exitL+' FL'+p.exitFl+'</button>';
     el.innerHTML=h;
-    document.getElementById('bUp').onclick=function(){changeLevel(1);};
-    document.getElementById('bDn').onclick=function(){changeLevel(-1);};
-    if(p.ho) document.getElementById('bHo').onclick=handoff;
   }
   function renderStrips(){
     var t=L[lang], el=document.getElementById('strips');
@@ -278,8 +274,8 @@
         +'<span class="sfl" style="color:#e8730c">'+t.exitL+' '+p.exitFl+'</span></div>';
     }
     el.innerHTML=h;
-    Array.prototype.forEach.call(el.querySelectorAll('[data-st]'),function(b){ b.onclick=function(){ selectPlane(parseInt(b.getAttribute('data-st'),10)); }; });
   }
+
 
   // ---- simulation ----
   function update(now,dt){
@@ -406,6 +402,9 @@
     document.getElementById('langEs').className=lang==='es'?'on':'';
     if(running||played) refreshPanels(); else { document.getElementById('phSel').textContent=t.phSel; }
   }
+  document.getElementById('inbox').addEventListener('click',function(e){var b=e.target.closest('[data-as]'); if(b) assume(parseInt(b.getAttribute('data-as'),10));});
+  document.getElementById('strips').addEventListener('click',function(e){var b=e.target.closest('[data-st]'); if(b) selectPlane(parseInt(b.getAttribute('data-st'),10));});
+  document.getElementById('selPanel').addEventListener('click',function(e){var b=e.target.closest('[data-act]'); if(!b)return; var a=b.getAttribute('data-act'); if(a==='up')changeLevel(1); else if(a==='dn')changeLevel(-1); else if(a==='ho')handoff();});
   document.getElementById('langEn').onclick=function(){lang='en';applyLang();};
   document.getElementById('langEs').onclick=function(){lang='es';applyLang();};
   document.getElementById('startBtn').onclick=startGame;
