@@ -5858,7 +5858,7 @@ function cpPop(o){
   document.body.appendChild(ov);
 }
 
-function startCheckout(){/* PREMIUM-LOCK: quitar estas 2 lineas al activar pagos */alert('⭐ La versión Premium se lanza muy pronto.\n\nComo ya tienes una cuenta, te avisaremos por email en cuanto esté disponible. ¡Gracias por tu interés!');return;
+function startCheckout(){
   var _cc=document.getElementById('consentCheck');if(_cc&&!_cc.checked){var _ce=document.getElementById('checkout-error');if(_ce){_ce.style.display='block';_ce.textContent='Debes aceptar los términos y la política de privacidad para continuar.';}return;} var _wc=document.getElementById('withdrawalCheck');if(_wc&&!_wc.checked){var _we=document.getElementById('checkout-error');if(_we){_we.style.display='block';_we.textContent='Debes confirmar el inicio inmediato del servicio y la renuncia al desistimiento para continuar.';}return;} const btn=document.getElementById('checkout-btn');
 // Require an account before paying — Premium attaches to the user's account
   if(!_currentUser){
@@ -5872,8 +5872,8 @@ function startCheckout(){/* PREMIUM-LOCK: quitar estas 2 lineas al activar pagos
   localStorage.setItem('checkoutConsent',JSON.stringify(consentRecord));
   // Get Price ID based on billing period
   const PRICE_IDS={
-    monthly:'price_1TdZXRRqiUk30VqD6riCO69n',
-    annual:'price_1TfnRNRqiUk30VqDqD8lefT9'
+    monthly:'price_1TdX2F2N6EbiycMNZ3kX6gsl',
+    annual:'price_1TdX2H2N6EbiycMNyK6PFIoa'
   };
   const priceId=PRICE_IDS[_billingPeriod];
   if(!priceId||priceId.startsWith('REPLACE')){
@@ -5964,7 +5964,7 @@ function openCustomerPortal(){
   }
   // TODO: Replace with your Stripe Customer Portal URL once configured
   // Format: https://billing.stripe.com/p/login/XXXXXXXX
-  const portalUrl='https://billing.stripe.com/p/login/REPLACE_WITH_YOUR_PORTAL_ID';
+  const portalUrl='https://billing.stripe.com/p/login/dRmdR20bn5rOgTU4HebMQ00';
   window.open(portalUrl,'_blank');
 }
 function deleteAllData(){  if(!confirm('¿Estás seguro? Esta acción eliminará todo tu progreso, resultados, plan de estudios y preferencias. No se puede deshacer.'))return;
@@ -7504,7 +7504,7 @@ function selectLandingBilling(p){
   document.getElementById('lp-btn-annual').style.background=p==='annual'?'#ffd166':'#1d3a5c';
   document.getElementById('lp-btn-annual').style.color=p==='annual'?'#000':'#ffd166';
 }
-function startLandingCheckout(){/* PREMIUM-LOCK: quitar estas 2 lineas al activar pagos */alert('⭐ La versión Premium se lanza muy pronto.\n\nComo ya tienes una cuenta, te avisaremos por email en cuanto esté disponible. ¡Gracias por tu interés!');return;
+function startLandingCheckout(){
   _billingPeriod=_landingBilling;if(typeof selectBilling==='function')selectBilling(_landingBilling);go('planselect');return;
   // Bypass the planselect consent check and go straight to Stripe
   // NOTE: do not enable this bypass without rendering the consent + withdrawal checkboxes on this screen, or consent will record as false.
@@ -7515,7 +7515,7 @@ function startLandingCheckout(){/* PREMIUM-LOCK: quitar estas 2 lineas al activa
     cpPop({icon:'🚀',title:'Estás a un paso de Premium',msg:'Crea tu cuenta gratis para guardar tu progreso y desbloquear el acceso completo. Tu nivel, tus simulacros y tu pase quedan ligados a tu cuenta — disponibles en todos tus dispositivos.',btn:'Crear cuenta gratis →',onBtn:function(){go('register-screen');},btn2:'Ya tengo cuenta',onBtn2:function(){go('login-screen');},foot:'✓ Gratis para empezar · ✓ Cancela cuando quieras'});
     return;
   }
-  const PRICE_IDS={monthly:'price_1TdZXRRqiUk30VqD6riCO69n',annual:'price_1TfnRNRqiUk30VqDqD8lefT9'};
+  const PRICE_IDS={monthly:'price_1TdX2F2N6EbiycMNZ3kX6gsl',annual:'price_1TdX2H2N6EbiycMNyK6PFIoa'};
   const priceId=PRICE_IDS[_billingPeriod];
   const btn=document.querySelector('#landing-plan button[onclick="startLandingCheckout()"]');
   if(btn){btn.textContent='Procesando...';btn.disabled=true;}
