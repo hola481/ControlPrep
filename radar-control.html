@@ -172,7 +172,7 @@
   var score=0, exits=0, losses=0, badExit=0, radioOk=0, radioTot=0, lossPairs={};
   var lastSpawn=0, lastPair=0;
   var radio={active:false,relevant:false,until:0};
-  var lastRadio=0, stripAcc=0;
+  var lastRadio=0, stripAcc=0, pendingChain=null;
 
   function rnd(a,b){return a+Math.random()*(b-a);}
   function pick(a){return a[Math.floor(Math.random()*a.length)];}
@@ -216,6 +216,16 @@
     var plA=placeOnRoute(pa,dA-base),plB=placeOnRoute(pb,dB-base);
     var fl=pick(FLs), sp=pick(SPDS);
     planes.push(mkPlane(plA,fl,a.keys[a.keys.length-1],sp));planes.push(mkPlane(plB,fl,b.keys[b.keys.length-1],sp));
+    // Chain: lone aircraft at FL+10 arrives 14-20 s later — traps anyone who climbed the first pair
+    if(!pendingChain){
+      var chainCands=cand.filter(function(c){return c.app!==a.app&&c.app!==b.app;});
+      if(chainCands.length>0){
+        var ch=pick(chainCands);
+        var fi=FLs.indexOf(fl);
+        var chainFl=fi<FLs.length-1?FLs[fi+1]:FLs[fi-1];
+        pendingChain={spawnAt:performance.now()+rnd(14000,20000),fl:chainFl,keys:ch.keys,spd:pick(SPDS)};
+      }
+    }
   }
   function removePlane(p,i){if(selected===p)deselect();planes.splice(i,1);updHud();}
   function cleanExit(p,i){if(!p.hadLoss){exits++;score+=25;}removePlane(p,i);}
@@ -314,10 +324,17 @@
     var remain=Math.max(0,ROUND-(now-startMs));
     document.getElementById('tTime').innerHTML=L[lang].time+' <b>'+Math.ceil(remain/1000)+'</b>';
     if(remain<=0){endGame();return;}
-    if(now-lastSpawn>rnd(8000,13000)*spawnMul){
-      if(planes.length<=MAXAC-2 && now-lastPair>rnd(14000,21000)*spawnMul){spawnPair();lastPair=now;}
+    var elapsed=now-startMs;
+    var dynMul=elapsed>90000?spawnMul*0.75:spawnMul;
+    if(now-lastSpawn>rnd(8000,13000)*dynMul){
+      if(elapsed>30000&&planes.length<=MAXAC-2&&now-lastPair>rnd(14000,21000)*spawnMul){spawnPair();lastPair=now;}
       else if(planes.length<MAXAC){spawn();}
       lastSpawn=now;
+    }
+    if(pendingChain&&elapsed>45000&&now>pendingChain.spawnAt&&planes.length<MAXAC){
+      var pa=routePts(pendingChain.keys),pl0={pts:pa,seg:0,x:pa[0][0],y:pa[0][1]};
+      planes.push(mkPlane(pl0,pendingChain.fl,pendingChain.keys[pendingChain.keys.length-1],pendingChain.spd));
+      pendingChain=null;
     }
     if(!radio.active && now-lastRadio>rnd(6500,9500))radioStart(now);
     if(radio.active && now>radio.until)radioEnd(null);
@@ -379,7 +396,7 @@
   function loop(ts){if(!running)return;if(!lastTs)lastTs=ts;var dt=Math.min(50,ts-lastTs);lastTs=ts;update(ts,dt);if(running){render();requestAnimationFrame(loop);}}
 
   function start(){
-    planes=[];selected=null;score=0;exits=0;losses=0;badExit=0;radioOk=0;radioTot=0;lossPairs={};nextId=1;
+    planes=[];selected=null;score=0;exits=0;losses=0;badExit=0;radioOk=0;radioTot=0;lossPairs={};nextId=1;pendingChain=null;
     SPDSCALE=level===1?0.00019:0.00030; MAXAC=level===1?5:7; spawnMul=level===1?1.5:1;
     document.getElementById('levSel').style.display='none';
     radio.active=false;document.getElementById('rActive').style.display='none';
