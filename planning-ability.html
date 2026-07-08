@@ -232,13 +232,16 @@
     return {type:'insert',est:est,np:np,correctGap:correctGap,planes:sorted};
   }
   function gSep(){
-    var n=pick([4,5]),minSep=1.0,t=rnd(3,5),ps=[],used=[],viol=Math.floor(rnd(0,n-1));
+    var n=pick([4,5]),minSep=1.0,ps=[],used=[],viol=Math.floor(rnd(0,n-1));
+    var SPEEDS=[180,210,240,270,300,330];
+    var t=rnd(3,5);
     for(var i=0;i<n;i++){
+      var spd=pick(SPEEDS),dist=Math.round(t*spd/60),actualEta=dist/spd*60;
       var c=uniqCs(used); used.push(c);
-      ps.push({cs:c,eta:t,_showEta:true});
-      var gap=(i===viol)?rnd(0.45,0.82):rnd(1.25,2.2);
-      t+=gap;
+      ps.push({cs:c,dist:dist,spd:spd,eta:actualEta});
+      t+=(i===viol?rnd(0.45,0.82):rnd(1.25,2.2));
     }
+    for(var i=0;i<ps.length-1;i++){var g=ps[i+1].eta-ps[i].eta;if(i===viol?g>=minSep:g<minSep)return gSep();}
     return {type:'sep',planes:ps,minSep:minSep,viol:viol};
   }
   function countOpts(c,maxN){

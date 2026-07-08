@@ -95,8 +95,8 @@
       note:"The official assessment is conducted in English. We recommend training in English; switch to Spanish only if you need to. Best on desktop (recommended for accuracy), though it works on mobile too.",
       how:"How it works",
       instr:"Two tasks run at once. <b>Primary:</b> watch the radar; when two aircraft close on a collision course they flash red \u2014 tap one to resolve it, <b>but only if both are civil</b>. <b>Secondary:</b> the panel below alternates between checking a calculation (True/False) and memorising a callsign, holding it while you watch the radar, then recalling it. What this exercise trains is sustaining <b>all of it at once</b>.",
-      rule:"RULE: resolve <b>only conflicts between civil traffic</b> (<span class='dot' style='background:#1f7ad6'></span>). <b>Ignore military traffic</b> (<span class='dia' style='background:#6b7d8f'></span> grey) \u2014 tapping it is penalised.",
-      ex:"<b>Civil</b> <span class='dot' style='background:#1f7ad6'></span> \u2014 resolve when flashing red &nbsp;\u00b7&nbsp; <b>Military</b> <span class='dia' style='background:#6b7d8f'></span> \u2014 always ignore",
+      rule:"RULE: resolve <b>only conflicts between civil traffic</b> (<span class='dot' style='background:#1f7ad6'></span>). <b>Ignore military traffic</b> (<span class='dia' style='background:#6b7d8f'></span> grey) \u2014 military conflicts flash <b style='color:#b87a00'>amber</b>, not red. A dashed line connects each conflicting pair. Tapping military is penalised.",
+      ex:"<b>Civil conflict</b> <span class='dot' style='background:#1f7ad6'></span> \u2014 flashes <b style='color:#e23b3b'>red</b>, resolve it &nbsp;\u00b7&nbsp; <b>Military</b> <span class='dia' style='background:#6b7d8f'></span> \u2014 flashes <b style='color:#b87a00'>amber</b>, ignore it",
       lblTime:"Time", lblScore:"Score", lblConf:"Conflicts",
       start:"Start test", again:"Try again", inprogress:"Test in progress\u2026",
       ready:"Get ready\u2026", finished:"Test finished", secIdle:"Secondary task \u2014 appears during the test",
@@ -114,8 +114,8 @@
       note:"La prueba oficial se realiza en ingl\u00e9s. Recomendamos entrenar en ingl\u00e9s; cambia a espa\u00f1ol solo si lo necesitas. Mejor en ordenador (recomendado para mayor precisi\u00f3n), aunque tambi\u00e9n funciona en m\u00f3vil.",
       how:"C\u00f3mo funciona",
       instr:"Dos tareas a la vez. <b>Principal:</b> vigila el radar; cuando dos aviones se acerquen en rumbo de colisi\u00f3n parpadear\u00e1n en rojo \u2014 toca uno para resolver, <b>pero solo si ambos son civiles</b>. <b>Secundaria:</b> el panel inferior alterna entre comprobar una operaci\u00f3n (Verdadero/Falso) y memorizar un indicativo, mantenerlo mientras vigilas el radar, y recordarlo despu\u00e9s. Lo que entrena este ejercicio es sostener <b>todo a la vez</b>.",
-      rule:"REGLA: resuelve <b>solo conflictos entre tr\u00e1fico civil</b> (<span class='dot' style='background:#1f7ad6'></span>). <b>Ignora el tr\u00e1fico militar</b> (<span class='dia' style='background:#6b7d8f'></span> gris) \u2014 tocarlo penaliza.",
-      ex:"<b>Civil</b> <span class='dot' style='background:#1f7ad6'></span> \u2014 resuelve al parpadear en rojo &nbsp;\u00b7&nbsp; <b>Militar</b> <span class='dia' style='background:#6b7d8f'></span> \u2014 ignora siempre",
+      rule:"REGLA: resuelve <b>solo conflictos entre tr\u00e1fico civil</b> (<span class='dot' style='background:#1f7ad6'></span>). <b>Ignora el tr\u00e1fico militar</b> (<span class='dia' style='background:#6b7d8f'></span> gris) \u2014 los conflictos militares parpadean en <b style='color:#b87a00'>\u00e1mbar</b>, no en rojo. Una l\u00ednea de puntos une cada par en conflicto. Tocarlo penaliza.",
+      ex:"<b>Conflicto civil</b> <span class='dot' style='background:#1f7ad6'></span> \u2014 parpadea en <b style='color:#e23b3b'>rojo</b>, resu\u00e9lvelo &nbsp;\u00b7&nbsp; <b>Militar</b> <span class='dia' style='background:#6b7d8f'></span> \u2014 parpadea en <b style='color:#b87a00'>\u00e1mbar</b>, ign\u00f3ralo",
       lblTime:"Tiempo", lblScore:"Puntos", lblConf:"Conflictos",
       start:"Empezar prueba", again:"Repetir prueba", inprogress:"Prueba en curso\u2026",
       ready:"Atento\u2026", finished:"Prueba finalizada", secIdle:"Tarea secundaria \u2014 aparecer\u00e1 durante la prueba",
@@ -280,7 +280,7 @@
         else { decoysCorrect++; score+=10; }
         updHud();
       }
-      if(p.x<-45||p.x>W+45||p.y<-45||p.y>H+45) planes.splice(i,1);
+      if(p.x<-45||p.x>W+45||p.y<-45||p.y>H+45){ if(p.conf&&!p.handled){markPair(p.pid);} planes.splice(i,1); continue; }
     }
   }
 
@@ -297,19 +297,35 @@
     ctx.save(); ctx.beginPath(); ctx.moveTo(cxp,cyp); ctx.arc(cxp,cyp,R,sweepAng-0.5,sweepAng); ctx.closePath();
     ctx.fillStyle='rgba(31,122,214,.07)'; ctx.fill(); ctx.restore();
 
+    var _pdrawn={};
+    for(var i=0;i<planes.length;i++){
+      var p=planes[i];
+      if(p.conf&&!p.handled&&p.pid&&!_pdrawn[p.pid]){
+        for(var j=i+1;j<planes.length;j++){
+          var q=planes[j];
+          if(q.pid===p.pid&&!q.handled){
+            _pdrawn[p.pid]=1;
+            ctx.setLineDash([5,4]); ctx.lineWidth=1.5;
+            ctx.strokeStyle=(p.mil||q.mil)?'rgba(180,120,0,.45)':'rgba(200,40,40,.38)';
+            ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke();
+            ctx.setLineDash([]); break;
+          }
+        }
+      }
+    }
     for(var i=0;i<planes.length;i++){
       var p=planes[i];
       var flashing = p.conf && !p.handled && now>=p.flashFrom && now<=p.crit+900;
       var on = Math.floor(now/240)%2===0;
       var base = p.mil? '#6b7d8f' : '#1f7ad6';
-      var col = (p.handled && p.valid)? '#1f9a5c' : flashing? (on?'#e23b3b':'#b5202a') : base;
+      var col = (p.handled && p.valid)? '#1f9a5c' : flashing? (p.mil?(on?'#b87a00':'#7a5200'):(on?'#e23b3b':'#b5202a')) : base;
       var sp=Math.hypot(p.vx,p.vy)||1;
       ctx.strokeStyle='rgba(40,80,120,.40)'; ctx.lineWidth=1;
       ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p.x+p.vx/sp*12,p.y+p.vy/sp*12); ctx.stroke();
       ctx.fillStyle=col;
       if(p.mil){ diamond(p.x,p.y,flashing?6:5); ctx.fill(); }
       else { ctx.beginPath(); ctx.arc(p.x,p.y,flashing?6:4.5,0,Math.PI*2); ctx.fill(); }
-      if(flashing){ ctx.strokeStyle=on?'#e23b3b':'rgba(226,59,59,.3)'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(p.x,p.y,12,0,Math.PI*2); ctx.stroke(); }
+      if(flashing){ ctx.strokeStyle=p.mil?(on?'#c48a00':'rgba(180,120,0,.3)'):(on?'#e23b3b':'rgba(226,59,59,.3)'); ctx.lineWidth=2; ctx.beginPath(); ctx.arc(p.x,p.y,12,0,Math.PI*2); ctx.stroke(); }
       ctx.fillStyle='rgba(20,45,70,.82)'; ctx.font='9px Courier New'; ctx.fillText(p.cs,p.x+8,p.y-6);
     }
     for(var m=msgs.length-1;m>=0;m--){

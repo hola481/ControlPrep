@@ -447,7 +447,7 @@ async function sbResetPassword(email){
 <body>
 <!-- LOGIN SCREEN -->
 <div class="auth-overlay" id="login-screen" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:9000;background:#050d1a;overflow-y:auto">
-  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="history.back()||go('home')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
+  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="go('home')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
   <div class="inner" style="padding-top:32px;padding-bottom:90px">
     <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:6px">Iniciar sesión</div>
     <div style="font-size:13px;color:#8cb8d8;margin-bottom:24px">Accede a tu cuenta ControlPrep</div>
@@ -1512,7 +1512,7 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 </div>
 <!-- LEGAL SCREENS -->
 <div class="screen" id="legal-privacy">
-  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="history.back()||go('home')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
+  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="go('home')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
   <div class="inner" style="padding-top:20px;padding-bottom:80px">
     <div style="font-size:20px;font-weight:800;color:#e8f4fd;margin-bottom:4px">Política de Privacidad</div>
     <div style="font-size:12px;color:#5a8aaa;margin-bottom:20px">Última actualización: 29 de mayo de 2026</div>
@@ -1520,7 +1520,7 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
   </div>
 </div>
 <div class="screen" id="legal-terms">
-  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="history.back()||go('home')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
+  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="go('home')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
   <div class="inner" style="padding-top:20px;padding-bottom:80px">
     <div style="font-size:20px;font-weight:800;color:#e8f4fd;margin-bottom:4px">Términos y Condiciones</div>
     <div style="font-size:12px;color:#5a8aaa;margin-bottom:20px">Última actualización: 29 de mayo de 2026</div>
@@ -3771,7 +3771,10 @@ if(id==='faq')renderFAQ();if(id==='studyplan')renderStudyPlan();
   if(_tb)_tb.style.display=_lf?'none':'';
   if(_bn)_bn.style.display=_lf?'none':'';
   window.scrollTo(0,0);
+  if(!window._navPop)window.history.pushState({_cp:id},'');
 }
+window.addEventListener('popstate',function(e){var s=e.state&&e.state._cp;window._navPop=true;go(s||'home');window._navPop=false;});
+window.history.replaceState({_cp:'home'},'');
 
 // ═══════════════════════════════════════════════════════
 // TOPICS LIST

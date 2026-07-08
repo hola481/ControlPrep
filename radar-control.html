@@ -55,7 +55,7 @@
   .big2{font-family:'Courier New',monospace;font-size:32px;font-weight:800;color:#e8730c;text-align:center;margin-bottom:10px}
   .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #e6edf3}
   .rrow span:last-child{font-family:'Courier New',monospace;font-weight:700}
-  @media(min-width:820px){.wrap{max-width:1180px}#game[style*="block"]{display:grid !important;grid-template-columns:1fr 340px;grid-template-areas:'hud hud' 'scope ctrl' 'scope radio';gap:10px 16px;align-items:start}#game .hud{grid-area:hud}#scopeWrap{grid-area:scope}#ctrl{grid-area:ctrl;margin-top:0}.radio{grid-area:radio;margin-top:0}}
+  @media(min-width:820px){.wrap{max-width:1180px}#game[style*="block"]{display:grid !important;grid-template-columns:1fr 340px;grid-template-areas:'hud hud' 'scope ctrl' 'scope radio' 'scope strips';gap:10px 16px;align-items:start}#game .hud{grid-area:hud}#scopeWrap{grid-area:scope}#ctrl{grid-area:ctrl;margin-top:0}.radio{grid-area:radio;margin-top:0}#strips{grid-area:strips;margin-top:0}}
 </style>
 </head>
 <body>
@@ -111,6 +111,10 @@
         <div class="rbtns"><button id="rRel"></button><button id="rIrr"></button></div>
       </div>
     </div>
+    <div id="strips" style="display:none;margin-top:10px;background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:11px 12px">
+      <div id="stripsHdr" style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#5f7488;margin-bottom:7px"></div>
+      <div id="stripsBody"></div>
+    </div>
   </div>
 
   <div class="lang" id="levSel" style="margin:12px 0 0;width:fit-content"><button id="lv1" class="on"></button><button id="lv2"></button></div>
@@ -124,16 +128,16 @@
     en:{title:"Radar Control",sub:"ATC separation & R/T — prototype",
       note:"The official assessment is conducted in English. We recommend training in English — switch to Spanish only if you need to. Best experienced on desktop (recommended for accuracy), though it works on mobile too.",
       how:"How it works",
-      instr:"You are the controller. Aircraft fly the airways across your sector, each tagged with its callsign and flight level (FL). Two aircraft at the SAME level that pass too close is a loss of separation. Tap an aircraft, then climb or descend it and press CONFIRM to keep levels apart. Aircraft that cross cleanly score points; losses of separation cost you. You can also vector an aircraft Left/Right to turn it off its airway, then press DIRECT to send it to its exit fix (shown after the → on its tag). An aircraft that leaves the sector anywhere but its own exit costs you. The radio panel asks whether each call is for your sector.",
-      legend:"<b>Tap</b> an aircraft to select it · <b>climb/descend</b> + CONFIRM to change its level · <b>Left/Right</b> to vector, <b>DIRECT</b> to its exit fix · keep same-level traffic apart · answer the <b>radio</b> calls.",
+      instr:"You are the controller. Aircraft fly the airways, each tagged with callsign and FL. Two aircraft at the SAME level that get too close is a loss of separation — keep levels apart. To act: tap or click an aircraft to select it, then press \u25b2 Climb or \u25bc Descend to adjust the pending FL shown in the panel, then press CONFIRM. You can also vector Left/Right to turn it off its airway, then DIRECT to send it straight to its exit fix. The flight strips panel lists every aircraft in your sector — use it to cross-check radio calls. Radio: a call is relevant if the callsign shown is one of your aircraft (check the strips). Messages are text-only and time-limited — answer before they expire.",
+      legend:"<b>Tap or click</b> an aircraft · <b>\u25b2/\u25bc</b> + CONFIRM to change level · <b>Left/Right</b> to vector, <b>DIRECT</b> to exit · keep same-level traffic apart · answer <b>radio</b> calls · use <b>flight strips</b> to check callsigns.",
       time:"Time",score:"Score",sep:"Sep. losses",climb:"Climb",desc:"Descend",confirm:"CONFIRM",left:"Left",right:"Right",direct:"Direct",badexit:"Wrong exit",
       rq:"Radio — is this call for your sector?",ridle:"Radio — calls will arrive during the exercise",rel:"Relevant",irr:"Irrelevant",
       start:"Start",again:"Try again",results:"Results",exits:"Clean crossings",losses:"Separation losses",radioAcc:"Radio accuracy",finished:"Finished",lvl1:"Level 1 · slower",lvl2:"Level 2"},
     es:{title:"Control radar",sub:"Separación ATC y radiotelefonía — prototipo",
       note:"La prueba oficial se realiza en inglés. Recomendamos entrenar en inglés; cambia a español solo si lo necesitas. Mejor en ordenador (recomendado para mayor precisión), aunque también funciona en móvil.",
       how:"Cómo funciona",
-      instr:"Eres el controlador. Las aeronaves vuelan las aerovías de tu sector, cada una con su indicativo y nivel de vuelo (FL). Dos aeronaves al MISMO nivel que pasan demasiado cerca es una pérdida de separación. Toca una aeronave, súbela o bájala de nivel y pulsa CONFIRMAR para mantener los niveles separados. Las que cruzan limpiamente suman puntos; las pérdidas de separación restan. También puedes vectorar una aeronave Izq./Der. para sacarla de su aerovía y pulsar DIRECTO para enviarla a su punto de salida (indicado tras la → en su etiqueta). Una aeronave que abandona el sector por un punto que no es el suyo te resta. El panel de radio te pregunta si cada llamada es de tu sector.",
-      legend:"<b>Toca</b> una aeronave para seleccionarla · <b>sube/baja</b> + CONFIRMAR para cambiar su nivel · <b>Izq./Der.</b> para vectorar, <b>DIRECTO</b> a su salida · separa el tráfico del mismo nivel · responde la <b>radio</b>.",
+      instr:"Eres el controlador. Las aeronaves vuelan las aerovías, etiquetadas con indicativo y FL. Dos aeronaves al MISMO nivel que se acercan demasiado es una pérdida de separación — mantén los niveles separados. Para actuar: toca o haz clic en una aeronave para seleccionarla, pulsa \u25b2 Subir o \u25bc Bajar para ajustar el FL pendiente que aparece en el panel, luego CONFIRMAR. También puedes vectorar Izq./Der. para sacarla de su aerovía y pulsar DIRECTO para enviarla directamente a su salida. El panel de fichas muestra todas las aeronaves del sector — úsalo para verificar las llamadas de radio. Radio: una llamada es relevante si el indicativo pertenece a una de tus aeronaves (comprueba las fichas). Los mensajes son texto con tiempo limitado — responde antes de que caduquen.",
+      legend:"<b>Toca o haz clic</b> en una aeronave · <b>\u25b2/\u25bc</b> + CONFIRMAR para cambiar nivel · <b>Izq./Der.</b> para vectorar, <b>DIRECTO</b> a su salida · separa el tráfico del mismo nivel · responde la <b>radio</b> · usa las <b>fichas de vuelo</b> para verificar indicativos.",
       time:"Tiempo",score:"Puntos",sep:"Pérdidas sep.",climb:"Subir",desc:"Bajar",confirm:"CONFIRMAR",left:"Izq.",right:"Der.",direct:"Directo",badexit:"Salida incorrecta",
       rq:"Radio — ¿es esta llamada de tu sector?",ridle:"Radio — llegarán llamadas durante el ejercicio",rel:"Relevante",irr:"Irrelevante",
       start:"Empezar",again:"Repetir",results:"Resultados",exits:"Cruces limpios",losses:"Pérdidas de separación",radioAcc:"Precisión radio",finished:"Finalizado",lvl1:"Nivel 1 · más lento",lvl2:"Nivel 2"}
@@ -168,7 +172,7 @@
   var score=0, exits=0, losses=0, badExit=0, radioOk=0, radioTot=0, lossPairs={};
   var lastSpawn=0, lastPair=0;
   var radio={active:false,relevant:false,until:0};
-  var lastRadio=0;
+  var lastRadio=0, stripAcc=0;
 
   function rnd(a,b){return a+Math.random()*(b-a);}
   function pick(a){return a[Math.floor(Math.random()*a.length)];}
@@ -227,6 +231,30 @@
     document.getElementById('tSep').innerHTML=t.sep+' <b>'+losses+'</b>';
   }
 
+  function renderStrips(){
+    var el=document.getElementById('strips');
+    if(!running){el.style.display='none';return;}
+    el.style.display='block';
+    document.getElementById('stripsHdr').textContent=lang==='es'?'Fichas de vuelo':'Flight strips';
+    var body=document.getElementById('stripsBody');
+    if(!planes.length){body.innerHTML='<div style="font-size:12px;color:#8a9bb0;text-align:center;padding:4px 0">'+(lang==='es'?'Sin tráfico':'No traffic')+'</div>';return;}
+    var h='';
+    for(var i=0;i<planes.length;i++){
+      var p=planes[i],isSel=selected===p,isConf=p.conflict;
+      h+='<div data-pid="'+p.id+'" style="display:grid;grid-template-columns:auto 1fr auto;gap:6px;padding:5px 8px;border:1px solid '+(isSel?'#e8a317':isConf?'#e23b3b':'#e6edf3')+';border-radius:7px;margin-bottom:4px;cursor:pointer;background:'+(isSel?'#fff7ef':isConf?'#fff0f0':'#fafcfe')+'">'
+        +'<span style="font-family:Courier New,monospace;font-weight:800;font-size:12px;color:'+(isConf?'#e23b3b':'#16314c')+'">'+p.cs+'</span>'
+        +'<span style="font-family:Courier New,monospace;font-size:12px;color:#36506a;text-align:center">FL'+p.fl+'</span>'
+        +'<span style="font-family:Courier New,monospace;font-size:12px;color:#1f8a5c">\u2192'+p.exit+'</span>'
+        +'</div>';
+    }
+    body.innerHTML=h;
+  }
+  document.getElementById('stripsBody').addEventListener('click',function(e){
+    var row=e.target.closest('[data-pid]');
+    if(!row||!running)return;
+    var id=parseInt(row.getAttribute('data-pid'),10);
+    for(var i=0;i<planes.length;i++){if(planes[i].id===id){selectPlane(planes[i]);break;}}
+  });
   function radioStart(now){
     var rel=Math.random()<0.55 && planes.length>0;
     var call=rel?pick(planes).cs:cs();
@@ -293,6 +321,7 @@
     }
     if(!radio.active && now-lastRadio>rnd(6500,9500))radioStart(now);
     if(radio.active && now>radio.until)radioEnd(null);
+    stripAcc+=dt;if(stripAcc>400){stripAcc=0;renderStrips();}
 
     var k=dt/16;
     for(var i=planes.length-1;i>=0;i--){
@@ -337,8 +366,12 @@
       ctx.fillStyle=col;ctx.beginPath();ctx.arc(p.x,p.y,5,0,Math.PI*2);ctx.fill();
       if(sel){ctx.strokeStyle='#e8a317';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x,p.y,11,0,Math.PI*2);ctx.stroke();}
       if(p.conflict){ctx.strokeStyle='rgba(226,59,59,.5)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x,p.y,13,0,Math.PI*2);ctx.stroke();}
-      ctx.fillStyle=p.conflict?'#b5202a':'#16314c';ctx.font='9px Courier New';
-      ctx.fillText(p.cs,p.x+9,p.y-4);ctx.fillText('FL'+p.fl+' '+p.spd+'kn \u2192'+p.exit,p.x+9,p.y+6);
+      var lb1=p.cs,lb2='FL'+p.fl+' \u2192'+p.exit;
+      ctx.font='bold 9px Courier New';var lw1=ctx.measureText(lb1).width;
+      ctx.font='9px Courier New';var lw2=ctx.measureText(lb2).width;
+      ctx.fillStyle='rgba(228,239,250,.86)';ctx.fillRect(p.x+8,p.y-14,Math.max(lw1,lw2)+5,21);
+      ctx.font='bold 9px Courier New';ctx.fillStyle=p.conflict?'#b5202a':'#16314c';ctx.fillText(lb1,p.x+10,p.y-4);
+      ctx.font='9px Courier New';ctx.fillStyle=p.conflict?'#b5202a':'#36506a';ctx.fillText(lb2,p.x+10,p.y+6);
     }
     if(selected)updDial();
   }
@@ -364,6 +397,7 @@
 
   function endGame(){
     running=false;var t=L[lang];
+    document.getElementById('strips').style.display='none';
     document.getElementById('game').style.display='none';
     var racc=radioTot?Math.round(radioOk/radioTot*100):0;
     document.getElementById('resultsHost').innerHTML=

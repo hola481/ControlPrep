@@ -112,7 +112,7 @@
       start:"Start", again:"Try again",
       q_bearing:"What is the bearing from the centre (\u25b2) to the contact (<span class='hl'>T</span>)?",
       q_rotated:"What is the true bearing to the contact (<span class='hl'>T</span>)? <b>North is rotated</b> \u2014 measure clockwise from the red <b>N</b> marker.",
-      q_clock:function(h){return "Your aircraft (\u25b2) is heading <span class='hl'>"+fmtB(h)+"\u00b0</span>. At what clock position is the contact (<span class='hl'>T</span>)?";},
+      q_clock:function(h){return "Your aircraft (yellow heading arrow) is flying <span class='hl'>"+fmtB(h)+"\u00b0</span>. At what clock position is the contact (<span class='hl'>T</span>)?";},
       q_place:function(b,nm){return "Plot a contact on bearing <span class='hl'>"+fmtB(b)+"\u00b0</span>, range <span class='hl'>"+nm+" NM</span>. Tap the scope, then Confirm.";},
       taphint:"Tap the scope to drop the contact, then Confirm.",
       confirm:"Confirm position",
@@ -131,7 +131,7 @@
       start:"Empezar", again:"Repetir",
       q_bearing:"\u00bfCu\u00e1l es el rumbo del centro (\u25b2) al contacto (<span class='hl'>T</span>)?",
       q_rotated:"\u00bfCu\u00e1l es el rumbo verdadero al contacto (<span class='hl'>T</span>)? <b>El Norte est\u00e1 girado</b> \u2014 mide en sentido horario desde la marca roja <b>N</b>.",
-      q_clock:function(h){return "Tu aeronave (\u25b2) vuela rumbo <span class='hl'>"+fmtB(h)+"\u00b0</span>. \u00bfEn qu\u00e9 posici\u00f3n horaria est\u00e1 el contacto (<span class='hl'>T</span>)?";},
+      q_clock:function(h){return "Tu aeronave (flecha amarilla de rumbo) vuela <span class='hl'>"+fmtB(h)+"\u00b0</span>. \u00bfEn qu\u00e9 posici\u00f3n horaria est\u00e1 el contacto (<span class='hl'>T</span>)?";},
       q_place:function(b,nm){return "Sit\u00faa un contacto en rumbo <span class='hl'>"+fmtB(b)+"\u00b0</span>, distancia <span class='hl'>"+nm+" NM</span>. Toca la pantalla y confirma.";},
       taphint:"Toca la pantalla para situar el contacto, luego Confirmar.",
       confirm:"Confirmar posici\u00f3n",
@@ -174,18 +174,25 @@
   var level=1;
   function buildItems(){
     var arr=[];
+    var bearPool=shuffle(BSET.slice());
+    var rotPool=shuffle(BSET.slice());
+    var clockRels=shuffle([0,30,60,90,120,150,180,210,240,270,300,330].slice());
+    var ri=0,ci=0;
+    function mkBearing(b){var r=pick([2,3]);return {type:'bearing',rot:0,targets:[{b:b,r:r}],b:b,ans:norm(b),opts:bearingOpts(b)};}
+    function mkRotated(b){var rot=pick([30,45,60,90,120,135,150,210,225,240,270,300,315,330]),r=pick([2,3]);return {type:'rotated',rot:rot,targets:[{b:b,r:r}],b:b,ans:norm(b),opts:bearingOpts(b)};}
+    function mkClock(){var rel=clockRels[ci++%clockRels.length],h=pick([0,30,60,90,120,150,180,210,240,270,300,330]),b=norm(h+rel),c=rel/30;if(c===0)c=12;var r=pick([2,3]);return {type:'clock',rot:0,own:{h:h},targets:[{b:b,r:r}],b:b,h:h,ans:c,opts:clockOpts(c)};}
     if(level===1){
-      for(var i=0;i<6;i++)arr.push(gBearing());
-      for(var i=0;i<6;i++)arr.push(gClock());
+      for(var i=0;i<6;i++)arr.push(mkBearing(bearPool[i]));
+      for(var i=0;i<6;i++)arr.push(mkClock());
       for(var i=0;i<4;i++)arr.push(gPlace());
     } else {
-      for(var i=0;i<4;i++)arr.push(gBearing());
-      for(var i=0;i<5;i++)arr.push(gRotated());
-      for(var i=0;i<4;i++)arr.push(gClock());
+      for(var i=0;i<4;i++)arr.push(mkBearing(bearPool[i]));
+      for(var i=0;i<5;i++)arr.push(mkRotated(rotPool[i]));
+      for(var i=0;i<4;i++)arr.push(mkClock());
       for(var i=0;i<3;i++)arr.push(gPlace());
     }
     shuffle(arr);
-    var bi=-1; for(var i=0;i<arr.length;i++){if(arr[i].type==='bearing'){bi=i;break;}}
+    var bi=-1;for(var i=0;i<arr.length;i++){if(arr[i].type==='bearing'){bi=i;break;}}
     if(bi>0){var t=arr[0];arr[0]=arr[bi];arr[bi]=t;}
     return arr;
   }
