@@ -1,229 +1,398 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Rule Finding</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Deducción de Reglas · FEAST</title>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-  body{background:#eaf1f7;color:#1b2b3a;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;display:flex;justify-content:center;min-height:100vh}
-  .wrap{width:100%;max-width:460px;padding:14px}
-  .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-  h1{font-size:15px;font-weight:800;color:#e8730c}
-  .sub{font-size:11px;color:#5f7488;margin-top:2px}
-  .lang{display:flex;border:1px solid #c7d6e4;border-radius:8px;overflow:hidden;flex-shrink:0}
-  .lang button{background:#fff;color:#5f7488;border:none;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer}
-  .lang button.on{background:#e8730c;color:#fff}
-  .note{background:#eaf3fb;border:1px solid #cfe0f0;border-left:3px solid #2f8fd6;border-radius:9px;padding:8px 10px;font-size:11.5px;color:#2f4d66;line-height:1.45;margin:10px 0}
-  #intro .introbox{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:14px}
-  .ititle{font-size:13px;font-weight:800;color:#e8730c;margin-bottom:6px}
-  .itext{font-size:12.5px;color:#36506a;line-height:1.5}
-  .exkeys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
-  .exkeys .card{cursor:default}
-  .hud{display:flex;justify-content:space-between;font-size:12px;color:#5f7488;margin-bottom:8px}
-  .hud b{color:#16314c;font-family:'Courier New',monospace}
-  .instr{font-size:12px;color:#36506a;line-height:1.45;margin-bottom:12px;text-align:center}
-  .stim{display:flex;justify-content:center;margin-bottom:6px}
-  .arrow{text-align:center;color:#8a9bb0;font-size:18px;margin:2px 0 8px}
-  .keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-  .card{background:#fff;border:2px solid #cdd9e6;border-radius:11px;padding:4px;cursor:pointer;box-shadow:0 1px 2px rgba(20,50,80,.05)}
-  .card.big{width:120px;cursor:default;border-color:#e8730c}
-  .card svg{display:block;width:100%;height:auto}
-  .card.sel{border-color:#1f7ad6}
-  .card.good{border-color:#2dc653;box-shadow:0 0 0 2px rgba(45,198,83,.3)}
-  .card.bad{border-color:#e63946;box-shadow:0 0 0 2px rgba(230,57,70,.3)}
-  .card.dis{cursor:default}
-  .fb{text-align:center;font-weight:700;font-size:14px;margin-top:12px;min-height:20px}
-  .start{margin-top:14px;width:100%;padding:14px;border:none;border-radius:11px;background:#e8730c;color:#fff;font-size:15px;font-weight:800;cursor:pointer}
-  .results{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:18px;margin-top:14px}
-  .results h2{font-size:15px;color:#e8730c;margin-bottom:6px;text-align:center}
-  .big2{font-family:'Courier New',monospace;font-size:32px;font-weight:800;color:#e8730c;text-align:center;margin-bottom:10px}
-  .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #e6edf3;color:#36506a}
-  .rrow span:last-child{font-family:'Courier New',monospace;font-weight:700;color:#16314c}
-  @media(min-width:820px){.wrap{max-width:820px}}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'IBM Plex Sans',system-ui,sans-serif;background:#eaf1f7;color:#16314c;min-height:100vh}
+  .wrap{max-width:560px;margin:0 auto;padding:12px 14px 32px}
+  h1{font-size:17px;font-weight:800;margin-bottom:2px}
+  .sub{font-size:12.5px;color:#5f7488;margin-bottom:10px}
+  .note{font-size:11.5px;color:#8aa0b5;background:#fff;border:1px solid #d6e0ea;border-radius:8px;padding:8px 10px;margin-bottom:10px;line-height:1.5}
+  .how{font-size:12px;font-weight:700;color:#e8730c;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;cursor:pointer}
+  .ibox{font-size:12.5px;color:#36506a;background:#fff;border:1px solid #d6e0ea;border-radius:10px;padding:10px 12px;margin-bottom:12px;line-height:1.65}
+  .ibox b{color:#16314c}
+  .fbtn{display:block;width:100%;padding:13px;border:none;border-radius:12px;font-size:15px;font-weight:800;cursor:pointer;margin-top:8px}
+  .fbtn-p{background:linear-gradient(135deg,#1f6fb8,#0d4f8a);color:#fff}
+  .lang{display:flex;gap:8px;margin-bottom:8px}
+  .lang button{flex:1;padding:6px;border:1.5px solid #c0d2e4;border-radius:8px;background:#fff;font-size:12px;cursor:pointer;font-weight:600}
+  .lang button.on{background:#1f6fb8;color:#fff;border-color:#1f6fb8}
+  .lvsb{display:flex;gap:8px;margin-bottom:10px}
+  .lvsb button{flex:1;padding:7px;border:1.5px solid #c0d2e4;border-radius:8px;background:#fff;font-size:12px;cursor:pointer;font-weight:600}
+  .lvsb button.on{background:#e8730c;color:#fff;border-color:#e8730c}
+  /* GAME */
+  #game{display:none}
+  .hud{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#5f7488;padding:6px 0 10px}
+  .hud-val{font-size:17px;font-weight:800;color:#16314c}
+  .refs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:18px}
+  .ref-card{background:#fff;border:2px solid #c0d2e4;border-radius:14px;padding:14px 8px;text-align:center;position:relative;cursor:pointer;transition:transform .1s,border-color .1s}
+  .ref-card:active{transform:scale(.96)}
+  .ref-card.flash-ok{border-color:#1f8a5c;background:#f0fbf5}
+  .ref-card.flash-err{border-color:#e63946;background:#fdf1f2}
+  .ref-card.flash-perserr{border-color:#f77f00;background:#fff8f0}
+  .card-shape{font-size:32px;line-height:1;margin-bottom:4px;display:block}
+  .card-num{display:flex;justify-content:center;gap:3px;margin-top:4px;min-height:14px}
+  .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+  .test-area{text-align:center;margin-bottom:20px}
+  .test-lbl{font-size:11px;font-weight:700;color:#8aa0b5;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+  .test-card{display:inline-block;background:#fff;border:2.5px solid #16314c;border-radius:18px;padding:18px 24px;min-width:110px}
+  .test-card .card-shape{font-size:44px}
+  .test-card .card-num{gap:4px}
+  .test-card .dot{width:11px;height:11px}
+  .fb-bar{height:36px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;border-radius:10px;margin-bottom:10px;transition:opacity .3s}
+  .fb-ok{background:#e8f9ef;color:#1f8a5c}
+  .fb-err{background:#fdecea;color:#c8210a}
+  .fb-perserr{background:#fff3e0;color:#c8730c}
+  .fb-cat{background:#e8f0fb;color:#1f6fb8}
+  .streak-bar{height:5px;background:#e4edf5;border-radius:3px;overflow:hidden;margin-bottom:16px}
+  .streak-fill{height:100%;background:linear-gradient(90deg,#1f6fb8,#00b4d8);border-radius:3px;transition:width .25s}
+  /* RESULTS */
+  .results{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:18px;margin-top:6px}
+  .ctrl-tips{margin-top:14px;padding:12px 14px;background:#f0f6fc;border-left:3px solid #1f6fb8;border-radius:0 10px 10px 0}
+  .ctrl-tips-hdr{font-size:10.5px;font-weight:800;color:#1f6fb8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+  .ctrl-tip{font-size:12.5px;color:#36506a;line-height:1.6;margin-bottom:8px}
+  .ctrl-tip:last-child{margin-bottom:0}
+  .results h2{font-size:15px;color:#e8730c;margin:0 0 4px;text-align:center}
+  .rrow{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid #f0f4f8;color:#36506a}
+  .rrow:last-child{border-bottom:none}
+  .rsec{font-size:10.5px;font-weight:700;color:#8aa0b5;text-transform:uppercase;letter-spacing:.06em;margin:10px 0 4px}
+  /* MEDAL */
+  .medal-block{text-align:center;padding:14px 0 12px;margin-bottom:12px;border-bottom:1px solid #e4edf5}
+  .medal-icon{font-size:54px;line-height:1;margin-bottom:6px}
+  .medal-name{font-size:22px;font-weight:900;letter-spacing:.06em;margin-bottom:5px}
+  .medal-name.mg{color:#c8930a}.medal-name.ms{color:#6a8ea8}.medal-name.mb{color:#a0663a}.medal-name.mn{color:#8aa0b5}
+  .medal-msg{font-size:13px;color:#5a7088;line-height:1.45}
+  .mp-track{height:7px;background:#eef3f8;border-radius:4px;overflow:hidden;margin:10px 0 5px}
+  .mp-fill{height:100%;border-radius:4px;transition:width .7s ease}
+  .mp-fill.mg{background:linear-gradient(90deg,#e8a317,#f7c831)}
+  .mp-fill.ms{background:linear-gradient(90deg,#7aafc8,#9ec8de)}
+  .mp-fill.mb{background:linear-gradient(90deg,#b8714a,#d4956a)}
+  .mp-fill.mn{background:#c8d6e0}
+  .mp-lbl{font-size:11px;color:#8aa0b5;text-align:center}
+  .m-overall{font-size:28px;font-weight:900;text-align:center;margin:8px 0 2px;color:#11243a}
+  .m-ovlbl{font-size:11px;color:#8aa0b5;text-align:center;margin-bottom:12px;text-transform:uppercase;letter-spacing:.06em}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="top">
-    <div><h1 id="tTitle">Learning &amp; Rule Finding</h1><div class="sub" id="tSub"></div></div>
-    <div class="lang"><button id="langEn" class="on">EN</button><button id="langEs">ES</button></div>
-  </div>
-  <div class="note" id="tNote"></div>
-
   <div id="intro">
-    <div class="introbox">
-      <div class="ititle" id="iHow"></div>
-      <div class="itext" id="iInstr"></div>
-      <div class="itext" id="iKeysHint" style="margin-top:10px"></div>
-      <div class="exkeys" id="exKeys"></div>
+    <div class="lang"><button id="langEn" onclick="setLang('en')">EN</button><button id="langEs" onclick="setLang('es')">ES</button></div>
+    <h1 id="tTitle"></h1>
+    <div class="sub" id="tSub"></div>
+    <div class="note" id="tNote"></div>
+    <div class="how" id="iHow" onclick="document.getElementById('iBox').style.display=document.getElementById('iBox').style.display==='none'?'block':'none'"></div>
+    <div class="ibox" id="iBox" style="display:none"></div>
+    <div class="lvsb"><button id="lv1" onclick="setLevel(1)"></button><button id="lv2" onclick="setLevel(2)"></button></div>
+    <button class="fbtn fbtn-p" id="startBtn" onclick="start()"></button>
+  </div>
+  <div id="resultsHost"></div>
+  <div id="game">
+    <div class="hud">
+      <div><div class="hud-val" id="hCats">0</div><div id="lblCats"></div></div>
+      <div style="text-align:center"><div class="hud-val" id="hTrial">1</div><div id="lblTrial"></div></div>
+      <div style="text-align:right"><div class="hud-val" id="hErr">0</div><div id="lblErr"></div></div>
+    </div>
+    <div class="refs" id="refs"></div>
+    <div class="fb-bar" id="fb" style="opacity:0"></div>
+    <div class="streak-bar"><div class="streak-fill" id="streakFill" style="width:0%"></div></div>
+    <div class="test-area">
+      <div class="test-lbl" id="testLbl"></div>
+      <div class="test-card" id="testCard"></div>
     </div>
   </div>
-
-  <div id="game" style="display:none">
-    <div class="hud"><span id="tTrial"></span><span id="tScore"></span></div>
-    <div class="instr" id="tInstr"></div>
-    <div class="stim" id="stim"></div>
-    <div class="arrow">&#9650;</div>
-    <div class="keys" id="keys"></div>
-    <div class="fb" id="tFb"></div>
-  </div>
-
-  <button class="start" id="startBtn"></button>
-  <div id="resultsHost"></div>
 </div>
-
 <script>
-(function(){
-  var L={
-    en:{title:"Rule Finding",sub:"Rule induction & flexibility — prototype",
-      note:"The official assessment is conducted in English. We recommend training in English — switch to Spanish only if you need to. Best on desktop (recommended for accuracy), though it works on mobile too.",
-      instr:"Match the top card to one of the four below. You are NOT told the rule — deduce it from the feedback. The rule can change without warning.",
-      trial:"Trial",score:"Run",correct:"Correct",wrong:"Incorrect",start:"Start",again:"Try again",
-      results:"Results",acc:"accuracy",mastered:"rule changes mastered",persev:"perseverative errors",avg:"avg",finished:"Finished",
-      how:"How it works",
-      introInstr:"A card appears at the top; match it to one of the four below by colour, shape or number. You are NOT told which — deduce it from the Correct/Incorrect feedback. Once you've got it, the rule can change without warning and you'll have to find the new one.",
-      keysHint:"These four are always your choices — only the card you have to match changes:"},
-    es:{title:"Aprender y aplicar reglas",sub:"Inducción de reglas y flexibilidad — prototipo",
-      note:"La prueba oficial se realiza en inglés. Recomendamos entrenar en inglés; cambia a español solo si lo necesitas. Mejor en ordenador (recomendado para mayor precisión), aunque también funciona en móvil.",
-      instr:"Empareja la carta superior con una de las cuatro inferiores. NO se te dice la regla: dedúcela por el feedback. La regla puede cambiar sin aviso.",
-      trial:"Intento",score:"Racha",correct:"Correcto",wrong:"Incorrecto",start:"Empezar",again:"Repetir",
-      results:"Resultados",acc:"precisión",mastered:"cambios de regla superados",persev:"errores perseverativos",avg:"media",finished:"Finalizado",
-      how:"Cómo funciona",
-      introInstr:"Aparece una carta arriba; emparéjala con una de las cuatro de abajo por color, forma o número. NO se te dice cuál: dedúcelo del feedback Correcto/Incorrecto. Cuando lo domines, la regla puede cambiar sin aviso y tendrás que descubrir la nueva.",
-      keysHint:"Estas cuatro son siempre tus opciones; solo cambia la carta que debes emparejar:"}
-  };
-  var lang='en';
-  var COL={red:'#e0322f',green:'#22c247',yellow:'#f2c200',blue:'#2546e0'};
-  var keys=[{color:'red',shape:'triangle',count:1},{color:'green',shape:'square',count:2},
-            {color:'yellow',shape:'circle',count:3},{color:'blue',shape:'hexagon',count:4}];
-  var RULES=['color','shape','count'];
-  var TOTAL=24, SWITCH_AFTER=5;
-
-  var trial=0, correct=0, streak=0, rule='color', mastered=0, persevErr=0, justSwitchedFrom=null, times=[];
-  var stim=null, answered=false, startedAt=0;
-
-  function rnd(a,b){return a+Math.random()*(b-a);}
-  function pick(a){return a[Math.floor(Math.random()*a.length)];}
-
-  function shapeAt(cx,cy,shape,color,r){
-    var f=COL[color], st='stroke="#1a2c40" stroke-width="1.5"';
-    if(shape==='circle') return '<circle cx="'+cx+'" cy="'+cy+'" r="'+r+'" fill="'+f+'" '+st+'/>';
-    if(shape==='square') return '<rect x="'+(cx-r)+'" y="'+(cy-r)+'" width="'+(2*r)+'" height="'+(2*r)+'" rx="2" fill="'+f+'" '+st+'/>';
-    if(shape==='triangle') return '<polygon points="'+cx+','+(cy-r-1)+' '+(cx+r+1)+','+(cy+r)+' '+(cx-r-1)+','+(cy+r)+'" fill="'+f+'" '+st+'/>';
-    var pts=[];for(var i=0;i<6;i++){var a=Math.PI/6+i*Math.PI/3;pts.push((cx+Math.cos(a)*r).toFixed(1)+','+(cy+Math.sin(a)*r).toFixed(1));}
-    return '<polygon points="'+pts.join(' ')+'" fill="'+f+'" '+st+'/>';
+var L={
+  en:{
+    title:'Rule Deduction',sub:'Discover and apply the hidden rule',
+    note:'Cards have three attributes: colour, shape, and number of dots. One of these is the current hidden rule. Sort each test card by clicking the matching reference card. You\'ll only know if you\'re right or wrong — no hints. The rule changes silently every 5 correct responses.',
+    how:'How to play',
+    instr:'<b>Reference cards</b> (top) stay fixed throughout. <b>Sort the test card</b> (below) by clicking whichever reference card you think matches the hidden rule. Feedback tells you correct or wrong. The rule changes without warning — watch for a break in the pattern.<br><br><b>About errors:</b> any wrong response counts as an error. A <b>perseverative error</b> is when you choose the same wrong category twice in a row — this means you haven\'t updated your thinking after being told it was wrong. Systematic exploration (trying each rule in turn) scores better than guessing randomly.',
+    lv1:'Level 1 · 4 categories',lv2:'Level 2 · 6 categories',
+    start:'Start',again:'Play again',
+    testlbl:'Sort this card →',
+    fb_ok:'✓ Correct',fb_err:'✗ Wrong',
+    fb_perserr:'✗ Perseverative error — same wrong rule again',
+    fb_cat:'Category complete! Rule is changing…',
+    r_cats:'Categories completed',r_err:'Total errors',
+    r_perserr:'Perseverative errors',r_nonerr:'Exploratory errors',
+    r_trials:'Trials used',
+    m_gold:'Gold',m_silver:'Silver',m_bronze:'Bronze',m_none:'Keep training',
+    m_msg_gold:'Outstanding rule reasoning — competitive level',
+    m_msg_silver:'Solid performance — keep building flexibility',
+    m_msg_bronze:'Developing — train cognitive flexibility daily',
+    m_msg_none:'Early days — every session builds the skill',
+    m_to_gold:'to Gold',m_to_silver:'to Silver',m_to_bronze:'to Bronze',
+    m_at_gold:'You\'re at competitive level — aim for 100%',
+    m_overall:'Overall score',
+    lblCats:'categories',lblTrial:'trial',lblErr:'errors'
+  },
+  es:{
+    title:'Deducción de Reglas',sub:'Descubre y aplica la regla oculta',
+    note:'Las cartas tienen tres atributos: color, forma y número de puntos. Uno de ellos es la regla oculta actual. Clasifica cada carta de prueba haciendo clic en la carta de referencia correcta. Solo sabrás si has acertado o fallado — sin pistas. La regla cambia silenciosamente cada 5 respuestas correctas.',
+    how:'Cómo se juega',
+    instr:'Las <b>cartas de referencia</b> (arriba) se mantienen fijas. <b>Clasifica la carta de prueba</b> (abajo) haciendo clic en la carta de referencia que crees que coincide con la regla oculta. El feedback indica acierto o error. La regla cambia sin aviso — observa cuando el patrón se rompe.<br><br><b>Sobre los errores:</b> cualquier respuesta incorrecta cuenta como error. Un <b>error perseverativo</b> es cuando eliges la misma categoría errónea dos veces seguidas — significa que no has actualizado tu razonamiento tras recibir feedback negativo. Explorar sistemáticamente (probar cada regla en orden) puntúa mejor que responder al azar.',
+    lv1:'Nivel 1 · 4 categorías',lv2:'Nivel 2 · 6 categorías',
+    start:'Empezar',again:'Jugar de nuevo',
+    testlbl:'Clasifica esta carta →',
+    fb_ok:'✓ Correcto',fb_err:'✗ Error',
+    fb_perserr:'✗ Error perseverativo — misma regla incorrecta otra vez',
+    fb_cat:'¡Categoría completada! La regla está cambiando…',
+    r_cats:'Categorías completadas',r_err:'Errores totales',
+    r_perserr:'Errores perseverativos',r_nonerr:'Errores exploratorios',
+    r_trials:'Intentos usados',
+    m_gold:'Oro',m_silver:'Plata',m_bronze:'Bronce',m_none:'Sigue entrenando',
+    m_msg_gold:'Razonamiento sobresaliente — nivel competitivo',
+    m_msg_silver:'Rendimiento sólido — sigue ganando flexibilidad',
+    m_msg_bronze:'En desarrollo — entrena la flexibilidad cognitiva',
+    m_msg_none:'Primeros pasos — cada sesión cuenta',
+    m_to_gold:'para el Oro',m_to_silver:'para la Plata',m_to_bronze:'para el Bronce',
+    m_at_gold:'Estás en nivel competitivo — apunta al 100%',
+    m_overall:'Puntuación global',
+    lblCats:'categorías',lblTrial:'intento',lblErr:'errores'
   }
-  function cardSVG(color,shape,count,r){
-    r=r||12;
-    var pos={1:[[50,40]],2:[[31,40],[69,40]],3:[[26,40],[50,40],[74,40]],4:[[32,25],[68,25],[32,55],[68,55]]}[count];
-    var s='<svg viewBox="0 0 100 80">';
-    pos.forEach(function(p){s+=shapeAt(p[0],p[1],shape,color,r);});
-    return s+'</svg>';
+};
+
+// Reference cards: fixed set where index === colour index === shape index === number index
+// This means: ref[0] = {c:0,s:0,n:0}, ref[1]={c:1,s:1,n:1}, ref[2]={c:2,s:2,n:2}
+// So for ANY rule, the correct ref index == card's value on that dimension
+var COLORS=['#e63946','#1f8a5c','#1f6fb8'];
+var COLORNAMES_EN=['Red','Green','Blue'], COLORNAMES_ES=['Rojo','Verde','Azul'];
+var SHAPES=['○','△','□'];
+var SHAPENAMES_EN=['Circle','Triangle','Square'], SHAPENAMES_ES=['Círculo','Triángulo','Cuadrado'];
+
+var lang='es', level=1;
+var correctPerCat=5, maxTrials=60;
+var catsNeeded=4;
+
+// Game state
+var rule,streak,catsCompleted,totalErrors,persevErrors,nonPersevErrors,trials;
+var lastWrongBucket, currentCard;
+var played=false;
+var fbTimer=null;
+
+function rand(n){return Math.floor(Math.random()*n);}
+
+function setLang(l){lang=l;applyLang();}
+function setLevel(lv){level=lv;catsNeeded=lv===1?4:6;applyLang();}
+
+function pickRule(){
+  var rules=['colour','shape','number'];
+  // Don't pick same rule twice in a row
+  var choices=rules.filter(function(r){return r!==rule;});
+  return choices[rand(choices.length)];
+}
+
+function genCard(){
+  // Avoid card where all 3 dimensions match same ref (too obvious)
+  var c,s,n,tries=0;
+  do{c=rand(3);s=rand(3);n=rand(3);tries++;}while(c===s&&s===n&&tries<10);
+  return {c:c,s:s,n:n};
+}
+
+function correctRef(card){
+  if(rule==='colour')return card.c;
+  if(rule==='shape')return card.s;
+  return card.n;
+}
+
+function renderCard(card,big){
+  var shapeEl='<span class="card-shape" style="color:'+COLORS[card.c]+'">'+SHAPES[card.s]+'</span>';
+  var dots='';
+  for(var i=0;i<=card.n;i++)dots+='<span class="dot" style="background:'+COLORS[card.c]+'"></span>';
+  return shapeEl+'<div class="card-num">'+dots+'</div>';
+}
+
+function renderRefs(){
+  var el=document.getElementById('refs');
+  el.innerHTML='';
+  for(var i=0;i<3;i++){
+    var d=document.createElement('div');
+    d.className='ref-card';
+    d.innerHTML=renderCard({c:i,s:i,n:i});
+    d.setAttribute('data-ref',i);
+    d.onclick=makeRefClick(i);
+    el.appendChild(d);
   }
+}
 
-  function genStim(){
-    var idxs=[0,1,2,3].sort(function(){return Math.random()-0.5;});
-    var ci=idxs[0],si=idxs[1],ni=idxs[2];
-    stim={color:keys[ci].color,shape:keys[si].shape,count:keys[ni].count,map:{color:ci,shape:si,count:ni}};
+function makeRefClick(i){
+  return function(){handleChoice(i);};
+}
+
+function renderTestCard(){
+  document.getElementById('testCard').innerHTML=renderCard(currentCard,true);
+}
+
+function showFb(msg,cls,ms){
+  var el=document.getElementById('fb');
+  el.className='fb-bar '+cls;
+  el.textContent=msg;
+  el.style.opacity='1';
+  if(fbTimer)clearTimeout(fbTimer);
+  fbTimer=setTimeout(function(){el.style.opacity='0';},ms||1200);
+}
+
+function flashRef(idx,cls,ms){
+  var cards=document.querySelectorAll('.ref-card');
+  if(cards[idx]){
+    cards[idx].classList.add(cls);
+    setTimeout(function(){cards[idx].classList.remove(cls);},ms||500);
   }
+}
 
-  function renderTrial(){
-    var t=L[lang];
-    document.getElementById('stim').innerHTML='<div class="card big">'+cardSVG(stim.color,stim.shape,stim.count,14)+'</div>';
-    var kh='';
-    for(var i=0;i<4;i++) kh+='<div class="card key" data-i="'+i+'">'+cardSVG(keys[i].color,keys[i].shape,keys[i].count,11)+'</div>';
-    document.getElementById('keys').innerHTML=kh;
-    Array.prototype.forEach.call(document.querySelectorAll('#keys .key'),function(el){
-      el.onclick=function(){ choose(parseInt(el.getAttribute('data-i'),10)); };
-    });
-    document.getElementById('tTrial').innerHTML=t.trial+' <b>'+(trial+1)+'/'+TOTAL+'</b>';
-    document.getElementById('tScore').innerHTML=t.score+' <b>'+streak+'</b>';
-    document.getElementById('tFb').textContent='';
-    answered=false; startedAt=performance.now();
-  }
+function updateHud(){
+  document.getElementById('hCats').textContent=catsCompleted;
+  document.getElementById('hTrial').textContent=trials;
+  document.getElementById('hErr').textContent=totalErrors;
+  var pct=Math.round(streak/correctPerCat*100);
+  document.getElementById('streakFill').style.width=pct+'%';
+}
 
-  function choose(i){
-    if(answered) return;
-    answered=true; times.push(performance.now()-startedAt);
-    var correctIdx=stim.map[rule];
-    var ok=(i===correctIdx);
-    var t=L[lang];
-    var cards=document.querySelectorAll('#keys .key');
-    cards[i].className='card key '+(ok?'good':'bad');
-    Array.prototype.forEach.call(cards,function(el){el.classList.add('dis');el.onclick=null;});
-    var fb=document.getElementById('tFb');
-    fb.textContent= ok? '✓ '+t.correct : '✗ '+t.wrong;
-    fb.style.color= ok? '#1f8a5c':'#e23b3b';
+function handleChoice(refIdx){
+  if(!window._gameRunning)return;
+  var t=L[lang];
+  trials++;
+  var correct=correctRef(currentCard);
 
-    if(ok){ correct++; streak++; if(justSwitchedFrom){justSwitchedFrom=null;} }
-    else {
+  if(refIdx===correct){
+    // Correct
+    streak++;
+    lastWrongBucket=null;
+    flashRef(refIdx,'flash-ok',400);
+    if(streak>=correctPerCat){
+      catsCompleted++;
       streak=0;
-      if(justSwitchedFrom && i===stim.map[justSwitchedFrom]) persevErr++;
+      showFb(t.fb_cat,'fb-cat',1800);
+      if(catsCompleted>=catsNeeded||trials>=maxTrials){
+        updateHud();
+        setTimeout(endGame,1900);
+        return;
+      }
+      rule=pickRule();
+    } else {
+      showFb(t.fb_ok,'fb-ok',800);
     }
-    document.getElementById('tScore').innerHTML=t.score+' <b>'+streak+'</b>';
-
-    if(streak>=SWITCH_AFTER){
-      var old=rule, nr; do{nr=pick(RULES);}while(nr===old);
-      justSwitchedFrom=old; rule=nr; streak=0; mastered++;
+  } else {
+    // Wrong
+    streak=0;
+    totalErrors++;
+    if(lastWrongBucket!==null&&refIdx===lastWrongBucket){
+      persevErrors++;
+      flashRef(refIdx,'flash-perserr',500);
+      showFb(t.fb_perserr,'fb-perserr',1800);
+    } else {
+      nonPersevErrors++;
+      flashRef(refIdx,'flash-err',500);
+      showFb(t.fb_err,'fb-err',800);
     }
-    trial++;
-    setTimeout(function(){ if(trial>=TOTAL) showResults(); else { genStim(); renderTrial(); } },900);
-  }
-
-  function showResults(){
-    var t=L[lang];
-    document.getElementById('game').style.display='none';
-    var acc=Math.round(correct/TOTAL*100);
-    var avg=times.length?(times.reduce(function(a,b){return a+b;},0)/times.length/1000).toFixed(1):'0';
-    document.getElementById('resultsHost').innerHTML=
-      '<div class="results"><h2>'+t.results+'</h2><div class="big2">'+correct+'/'+TOTAL+'</div>'
-      +'<div class="rrow"><span>'+t.acc+'</span><span>'+acc+'%</span></div>'
-      +'<div class="rrow"><span>'+t.mastered+'</span><span>'+mastered+'</span></div>'
-      +'<div class="rrow"><span>'+t.persev+'</span><span>'+persevErr+'</span></div>'
-      +'<div class="rrow"><span>'+t.avg+'</span><span>'+avg+'s</span></div></div>';
-    var sb=document.getElementById('startBtn'); sb.textContent=t.again; sb.style.display='block';
-  }
-
-  function start(){
-    trial=0;correct=0;streak=0;mastered=0;persevErr=0;justSwitchedFrom=null;times=[];
-    rule=pick(RULES);
-    document.getElementById('intro').style.display='none';
-    document.getElementById('resultsHost').innerHTML='';
-    document.getElementById('game').style.display='block';
-    document.getElementById('startBtn').style.display='none';
-    genStim(); renderTrial();
-  }
-
-  function applyLang(){
-    var t=L[lang];
-    document.documentElement.lang=lang;
-    document.getElementById('tTitle').textContent=t.title;
-    document.getElementById('tSub').textContent=t.sub;
-    document.getElementById('tNote').textContent=t.note;
-    document.getElementById('tInstr').textContent=t.instr;
-    document.getElementById('iHow').textContent=t.how;
-    document.getElementById('iInstr').textContent=t.introInstr;
-    document.getElementById('iKeysHint').textContent=t.keysHint;
-    var kh='';for(var i=0;i<4;i++)kh+='<div class="card">'+cardSVG(keys[i].color,keys[i].shape,keys[i].count,11)+'</div>';
-    document.getElementById('exKeys').innerHTML=kh;
-    document.getElementById('langEn').className= lang==='en'?'on':'';
-    document.getElementById('langEs').className= lang==='es'?'on':'';
-    var gameOn=document.getElementById('game').style.display!=='none';
-    var sb=document.getElementById('startBtn');
-    if(!gameOn && !document.querySelector('.results')) sb.textContent=t.start;
-    if(gameOn && stim){
-      document.getElementById('tTrial').innerHTML=t.trial+' <b>'+(trial+1)+'/'+TOTAL+'</b>';
-      document.getElementById('tScore').innerHTML=t.score+' <b>'+streak+'</b>';
-      document.getElementById('tInstr').textContent=t.instr;
+    lastWrongBucket=refIdx;
+    if(trials>=maxTrials){
+      updateHud();
+      setTimeout(endGame,900);
+      return;
     }
   }
+  updateHud();
+  setTimeout(nextCard,refIdx===correct&&streak===0?2000:900);
+}
 
-  document.getElementById('langEn').onclick=function(){lang='en';applyLang();};
-  document.getElementById('langEs').onclick=function(){lang='es';applyLang();};
-  document.getElementById('startBtn').onclick=start;
+function nextCard(){
+  currentCard=genCard();
+  renderTestCard();
+}
+
+function buildMedal(t,overall){
+  var tier,icon,cls,msg,barPct,barLbl;
+  if(overall>=80){tier=t.m_gold;icon='🥇';cls='mg';msg=t.m_msg_gold;barPct=100;barLbl=t.m_at_gold;}
+  else if(overall>=55){tier=t.m_silver;icon='🥈';cls='ms';msg=t.m_msg_silver;barPct=Math.round((overall-55)/25*100);barLbl=barPct+'% '+t.m_to_gold;}
+  else if(overall>=30){tier=t.m_bronze;icon='🥉';cls='mb';msg=t.m_msg_bronze;barPct=Math.round((overall-30)/25*100);barLbl=barPct+'% '+t.m_to_silver;}
+  else{tier=t.m_none;icon='⏳';cls='mn';msg=t.m_msg_none;barPct=Math.round(overall/30*100);barLbl=barPct+'% '+t.m_to_bronze;}
+  return '<div class="medal-block"><div class="medal-icon">'+icon+'</div>'
+    +'<div class="medal-name '+cls+'">'+tier.toUpperCase()+'</div>'
+    +'<div class="medal-msg">'+msg+'</div></div>'
+    +'<div class="m-overall">'+overall+'%</div>'
+    +'<div class="m-ovlbl">'+t.m_overall+'</div>'
+    +'<div class="medal-prog"><div class="mp-track"><div class="mp-fill '+cls+'" style="width:'+barPct+'%"></div></div>'
+    +'<div class="mp-lbl">'+barLbl+'</div></div>';
+}
+
+function endGame(){
+  window._gameRunning=false;
+  document.getElementById('game').style.display='none';
+  var t=L[lang];
+  // overall: categories completed (weighted heavy) minus perseverative errors
+  var catPct=Math.round(catsCompleted/catsNeeded*100);
+  var persevPenalty=Math.min(40, persevErrors*8);
+  var overall=Math.max(0, catPct - persevPenalty);
+  var tips=[];
+  if(overall>=80){tips.push(t.tip_gold);}
+  else{
+    if(catsCompleted<catsNeeded*0.5)tips.push(t.tip_cats);
+    else if(persevErrors>2)tips.push(t.tip_persev);
+    else if(nonPersevErrors>4)tips.push(t.tip_strategy);
+    if(!tips.length)tips.push(persevErrors>0?t.tip_persev:t.tip_cats);
+  }
+  var tipsHtml=tips.length?'<div class="ctrl-tips"><div class="ctrl-tips-hdr">'+t.tips_hdr+'</div>'
+    +tips.map(function(tip){return '<div class="ctrl-tip">'+tip+'</div>';}).join('')+'</div>':'';
+  var html='<div class="results">'+buildMedal(t,overall)
+    +'<div class="rrow"><span>'+t.r_cats+'</span><span>'+catsCompleted+'/'+catsNeeded+'</span></div>'
+    +'<div class="rrow"><span>'+t.r_err+'</span><span>'+totalErrors+'</span></div>'
+    +'<div class="rrow"><span>'+t.r_perserr+'</span><span>'+persevErrors+'</span></div>'
+    +'<div class="rrow"><span>'+t.r_nonerr+'</span><span>'+nonPersevErrors+'</span></div>'
+    +'<div class="rrow"><span>'+t.r_trials+'</span><span>'+trials+'/'+maxTrials+'</span></div>'
+    +tipsHtml
+    +'</div>';
+  document.getElementById('resultsHost').innerHTML=html;
+  document.getElementById('intro').style.display='block';
+  document.getElementById('startBtn').textContent=t.again;
+}
+
+function start(){
+  played=true;
+  rule=pickRule();
+  streak=0; catsCompleted=0; totalErrors=0; persevErrors=0; nonPersevErrors=0;
+  trials=0; lastWrongBucket=null;
+  catsNeeded=level===1?4:6;
+  maxTrials=level===1?48:72;
+  document.getElementById('resultsHost').innerHTML='';
+  document.getElementById('intro').style.display='none';
+  document.getElementById('game').style.display='block';
+  renderRefs();
+  currentCard=genCard();
+  renderTestCard();
+  updateHud();
+  window._gameRunning=true;
+  document.getElementById('fb').style.opacity='0';
+  document.getElementById('streakFill').style.width='0%';
   applyLang();
-})();
+}
+
+function applyLang(){
+  var t=L[lang];
+  document.documentElement.lang=lang;
+  document.getElementById('tTitle').textContent=t.title;
+  document.getElementById('tSub').textContent=t.sub;
+  document.getElementById('tNote').textContent=t.note;
+  document.getElementById('iHow').textContent=t.how;
+  document.getElementById('iBox').innerHTML=t.instr;
+  document.getElementById('lv1').textContent=t.lv1;
+  document.getElementById('lv2').textContent=t.lv2;
+  document.getElementById('startBtn').textContent=played?t.again:t.start;
+  document.getElementById('langEn').className=lang==='en'?'on':'';
+  document.getElementById('langEs').className=lang==='es'?'on':'';
+  document.getElementById('lv1').className=level===1?'on':'';
+  document.getElementById('lv2').className=level===2?'on':'';
+  document.getElementById('testLbl').textContent=t.testlbl;
+  document.getElementById('lblCats').textContent=t.lblCats;
+  document.getElementById('lblTrial').textContent=t.lblTrial;
+  document.getElementById('lblErr').textContent=t.lblErr;
+}
+
+setLevel(1);
+applyLang();
 </script>
 </body>
 </html>

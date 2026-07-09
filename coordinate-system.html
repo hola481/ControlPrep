@@ -119,7 +119,20 @@
       correct:"Correct", wrong:"Not quite", ansis:"Answer:", next:"Next", clockUnit:"o'clock",
       cor:"correct",
       results:"Results", accuracy:"Accuracy", avgtime:"Avg. time", bytask:"Accuracy by task",
-      t_bearing:"Bearing", t_rotated:"Rotated compass", t_clock:"Clock position", t_place:"Plotting", lvl1:"Level 1 \u00b7 easier", lvl2:"Level 2"
+      t_bearing:"Bearing", t_rotated:"Rotated compass", t_clock:"Clock position", t_place:"Plotting", lvl1:"Level 1 \u00b7 easier", lvl2:"Level 2",
+      m_gold:'Gold',m_silver:'Silver',m_bronze:'Bronze',m_none:'Keep training',
+      m_msg_gold:'Outstanding — competitive level',
+      m_msg_silver:'Solid performance — keep building consistency',
+      m_msg_bronze:'Developing — keep training regularly',
+      m_msg_none:'Early days — every session builds the skill',
+      m_to_gold:'to Gold',m_to_silver:'to Silver',m_to_bronze:'to Bronze',
+      m_at_gold:"You're at competitive level — aim for 100%",
+      m_overall:'Overall score',
+      tips_hdr:'Advice from the ControlPrep Team',
+      tip_bearing:'For bearing questions, anchor to the four cardinal points first — N/E/S/W — then narrow down. Most people find it easier to say \'that\'s roughly east\' (090°) and adjust, rather than trying to read a precise bearing cold. Practice builds instant recognition.',
+      tip_clock:'For clock position, imagine sitting in the cockpit looking forward along the aircraft heading. 12 o\'clock is straight ahead, 3 is to your right, 9 to your left. Everything else rotates around that forward direction.',
+      tip_speed:'Speed matters in the real test. Build instant recognition: 045° is northeast, 315° is northwest. The faster you categorise the quadrant, the faster the precise answer follows. Hesitation under time pressure costs more than a wrong answer.',
+      tip_gold:'Strong spatial awareness. This skill transfers directly to situational awareness on radar — knowing where traffic is relative to you and other aircraft is fundamental to ATC. Keep the speed up.'
     },
     es:{
       title:"Sistema de coordenadas", sub:"Orientaci\u00f3n espacial y rumbos \u2014 prototipo",
@@ -138,7 +151,20 @@
       correct:"Correcto", wrong:"Casi", ansis:"Respuesta:", next:"Siguiente", clockUnit:"en punto",
       cor:"correctas",
       results:"Resultados", accuracy:"Precisi\u00f3n", avgtime:"Tiempo medio", bytask:"Precisi\u00f3n por tarea",
-      t_bearing:"Rumbo", t_rotated:"Br\u00fajula girada", t_clock:"Posici\u00f3n horaria", t_place:"Situar", lvl1:"Nivel 1 \u00b7 m\u00e1s f\u00e1cil", lvl2:"Nivel 2"
+      t_bearing:"Rumbo", t_rotated:"Br\u00fajula girada", t_clock:"Posici\u00f3n horaria", t_place:"Situar", lvl1:"Nivel 1 \u00b7 m\u00e1s f\u00e1cil", lvl2:"Nivel 2",
+      m_gold:'Oro',m_silver:'Plata',m_bronze:'Bronce',m_none:'Sigue entrenando',
+      m_msg_gold:'Sobresaliente — nivel competitivo',
+      m_msg_silver:'Rendimiento sólido — sigue ganando consistencia',
+      m_msg_bronze:'En desarrollo — entrena con regularidad',
+      m_msg_none:'Primeros pasos — cada sesión cuenta',
+      m_to_gold:'para el Oro',m_to_silver:'para la Plata',m_to_bronze:'para el Bronce',
+      m_at_gold:'Estás en nivel competitivo — apunta al 100%',
+      m_overall:'Puntuación global',
+      tips_hdr:'Consejos del equipo ControlPrep',
+      tip_bearing:'Para preguntas de rumbo, empieza anclando en los cuatro puntos cardinales — N/E/S/O — y luego afina. La mayoría lo encuentra más fácil diciendo \'es más o menos este\' (090°) y ajustando, en vez de intentar leer un rumbo exacto de golpe. La práctica crea reconocimiento instantáneo.',
+      tip_clock:'Para la posición horaria, imagínate sentado en la cabina mirando hacia delante en la dirección de la aeronave. Las 12 en punto es recto hacia adelante, las 3 a tu derecha, las 9 a tu izquierda. Todo lo demás gira alrededor de esa dirección.',
+      tip_speed:'La velocidad importa en la prueba real. Construye reconocimiento instantáneo: 045° es noreste, 315° es noroeste. Cuanto más rápido clasifiques el cuadrante, más rápido llega la respuesta exacta. La duda bajo presión de tiempo cuesta más que una respuesta incorrecta.',
+      tip_gold:'Buena conciencia espacial. Esta habilidad se transfiere directamente a la consciencia situacional en el radar — saber dónde está el tráfico en relación a ti y a otras aeronaves es fundamental en ATC. Mantén la velocidad.'
     }
   };
 
@@ -174,26 +200,33 @@
   var level=1;
   function buildItems(){
     var arr=[];
-    var bearPool=shuffle(BSET.slice());
-    var rotPool=shuffle(BSET.slice());
+    // Single pool for ALL bearing/rotated questions — no answer value ever repeats
+    var bPool=shuffle(BSET.slice());
+    var bi=0;
+    // Separate pool for clock rel positions
     var clockRels=shuffle([0,30,60,90,120,150,180,210,240,270,300,330].slice());
-    var ri=0,ci=0;
-    function mkBearing(b){var r=pick([2,3]);return {type:'bearing',rot:0,targets:[{b:b,r:r}],b:b,ans:norm(b),opts:bearingOpts(b)};}
-    function mkRotated(b){var rot=pick([30,45,60,90,120,135,150,210,225,240,270,300,315,330]),r=pick([2,3]);return {type:'rotated',rot:rot,targets:[{b:b,r:r}],b:b,ans:norm(b),opts:bearingOpts(b)};}
-    function mkClock(){var rel=clockRels[ci++%clockRels.length],h=pick([0,30,60,90,120,150,180,210,240,270,300,330]),b=norm(h+rel),c=rel/30;if(c===0)c=12;var r=pick([2,3]);return {type:'clock',rot:0,own:{h:h},targets:[{b:b,r:r}],b:b,h:h,ans:c,opts:clockOpts(c)};}
+    var ci=0;
+    // Pool for place questions — separate curated set, drawn sequentially
+    var placeSet=shuffle([15,30,45,60,90,120,135,150,210,225,270,300,330].slice());
+    var pi=0;
+    var rPool=shuffle([2,3,2,3,2,3,2,3].slice());
+    function mkBearing(){var b=bPool[bi++],r=rPool[bi%rPool.length];return {type:'bearing',rot:0,targets:[{b:b,r:r}],b:b,ans:norm(b),opts:bearingOpts(b)};}
+    function mkRotated(){var b=bPool[bi++],rot=pick([30,45,60,90,120,135,150,210,225,240,270,300,315,330]),r=rPool[bi%rPool.length];return {type:'rotated',rot:rot,targets:[{b:b,r:r}],b:b,ans:norm(b),opts:bearingOpts(b)};}
+    function mkClock(){var rel=clockRels[ci++%clockRels.length],h=pick([0,30,60,90,120,150,180,210,240,270,300,330]),b=norm(h+rel),c=rel/30;if(c===0)c=12;var r=rPool[ci%rPool.length];return {type:'clock',rot:0,own:{h:h},targets:[{b:b,r:r}],b:b,h:h,ans:c,opts:clockOpts(c)};}
+    function mkPlace(){var b=placeSet[pi%placeSet.length],r=(pi%2===0)?2:3;pi++;return {type:'place',rot:0,targets:[],b:b,r:r,nm:20*r,ans:{b:b,r:r}};}
     if(level===1){
-      for(var i=0;i<6;i++)arr.push(mkBearing(bearPool[i]));
+      for(var i=0;i<6;i++)arr.push(mkBearing());
       for(var i=0;i<6;i++)arr.push(mkClock());
-      for(var i=0;i<4;i++)arr.push(gPlace());
+      for(var i=0;i<4;i++)arr.push(mkPlace());
     } else {
-      for(var i=0;i<4;i++)arr.push(mkBearing(bearPool[i]));
-      for(var i=0;i<5;i++)arr.push(mkRotated(rotPool[i]));
+      for(var i=0;i<4;i++)arr.push(mkBearing());
+      for(var i=0;i<5;i++)arr.push(mkRotated());
       for(var i=0;i<4;i++)arr.push(mkClock());
-      for(var i=0;i<3;i++)arr.push(gPlace());
+      for(var i=0;i<3;i++)arr.push(mkPlace());
     }
     shuffle(arr);
-    var bi=-1;for(var i=0;i<arr.length;i++){if(arr[i].type==='bearing'){bi=i;break;}}
-    if(bi>0){var t=arr[0];arr[0]=arr[bi];arr[bi]=t;}
+    var bi2=-1;for(var i=0;i<arr.length;i++){if(arr[i].type==='bearing'){bi2=i;break;}}
+    if(bi2>0){var t=arr[0];arr[0]=arr[bi2];arr[bi2]=t;}
     return arr;
   }
 
@@ -372,6 +405,34 @@
     var cb=document.getElementById('confirmBtn'); if(cb)cb.disabled=false;
   });
 
+  function buildMedal(t,overall){
+    var tier,icon,cls,msg,barPct,barLbl;
+    if(overall>=80){tier=t.m_gold;icon='🥇';cls='mg';msg=t.m_msg_gold;barPct=100;barLbl=t.m_at_gold;}
+    else if(overall>=55){tier=t.m_silver;icon='🥈';cls='ms';msg=t.m_msg_silver;barPct=Math.round((overall-55)/25*100);barLbl=barPct+'% '+t.m_to_gold;}
+    else if(overall>=30){tier=t.m_bronze;icon='🥉';cls='mb';msg=t.m_msg_bronze;barPct=Math.round((overall-30)/25*100);barLbl=barPct+'% '+t.m_to_silver;}
+    else{tier=t.m_none;icon='⏳';cls='mn';msg=t.m_msg_none;barPct=Math.round(overall/30*100);barLbl=barPct+'% '+t.m_to_bronze;}
+    return '<div class="medal-block"><div class="medal-icon">'+icon+'</div>'
+      +'<div class="medal-name '+cls+'">'+tier.toUpperCase()+'</div>'
+      +'<div class="medal-msg">'+msg+'</div></div>'
+      +'<div class="m-overall">'+overall+'%</div>'
+      +'<div class="m-ovlbl">'+t.m_overall+'</div>'
+      +'<div class="medal-prog"><div class="mp-track"><div class="mp-fill '+cls+'" style="width:'+barPct+'%"></div></div>'
+      +'<div class="mp-lbl">'+barLbl+'</div></div>';
+  }
+  function buildMedal(t,overall){
+    var tier,icon,cls,msg,barPct,barLbl;
+    if(overall>=80){tier=t.m_gold;icon='🥇';cls='mg';msg=t.m_msg_gold;barPct=100;barLbl=t.m_at_gold;}
+    else if(overall>=55){tier=t.m_silver;icon='🥈';cls='ms';msg=t.m_msg_silver;barPct=Math.round((overall-55)/25*100);barLbl=barPct+'% '+t.m_to_gold;}
+    else if(overall>=30){tier=t.m_bronze;icon='🥉';cls='mb';msg=t.m_msg_bronze;barPct=Math.round((overall-30)/25*100);barLbl=barPct+'% '+t.m_to_silver;}
+    else{tier=t.m_none;icon='⏳';cls='mn';msg=t.m_msg_none;barPct=Math.round(overall/30*100);barLbl=barPct+'% '+t.m_to_bronze;}
+    return '<div class="medal-block"><div class="medal-icon">'+icon+'</div>'
+      +'<div class="medal-name '+cls+'">'+tier.toUpperCase()+'</div>'
+      +'<div class="medal-msg">'+msg+'</div></div>'
+      +'<div class="m-overall">'+overall+'%</div>'
+      +'<div class="m-ovlbl">'+t.m_overall+'</div>'
+      +'<div class="medal-prog"><div class="mp-track"><div class="mp-fill '+cls+'" style="width:'+barPct+'%"></div></div>'
+      +'<div class="mp-lbl">'+barLbl+'</div></div>';
+  }
   function showResults(){
     active=false;
     document.getElementById('game').classList.add('hidden');
@@ -386,12 +447,29 @@
       var sc=sub.filter(function(r){return r.ok;}).length;
       rows+='<div class="rrow"><span>'+t['t_'+ty]+'</span><span>'+sc+'/'+sub.length+'</span></div>';
     });
+    var overall=acc;
+    var types2=['bearing','rotated','clock','place'];
+    var typeAcc={};
+    types2.forEach(function(ty){
+      var sub=results.filter(function(r){return r.type===ty;});
+      typeAcc[ty]=sub.length?Math.round(sub.filter(function(r){return r.ok;}).length/sub.length*100):100;
+    });
+    var tips=[];
+    if(overall>=80){tips.push(t.tip_gold);}
+    else{
+      if(typeAcc.bearing<60||typeAcc.rotated<60)tips.push(t.tip_bearing);
+      else if(typeAcc.clock<60)tips.push(t.tip_clock);
+      if(avg>8&&tips.length<2)tips.push(t.tip_speed);
+      if(!tips.length)tips.push(acc<70?t.tip_bearing:t.tip_speed);
+    }
+    var tipsHtml=tips.length?'<div class="ctrl-tips"><div class="ctrl-tips-hdr">'+t.tips_hdr+'</div>'
+      +tips.map(function(tip){return '<div class="ctrl-tip">'+tip+'</div>';}).join('')+'</div>':'';
     document.getElementById('resultsHost').innerHTML=
-      '<div class="results"><h2>'+t.results+'</h2>'
-      +'<div class="big">'+acc+'%</div>'
-      +'<div class="rrow"><span>'+t.accuracy+'</span><span>'+c+'/'+total+'</span></div>'
+      '<div class="results">'+buildMedal(t,overall)
+      +'<div class="rrow"><span>'+t.accuracy+'</span><span>'+c+'/'+total+' ('+acc+'%)</span></div>'
       +'<div class="rrow"><span>'+t.avgtime+'</span><span>'+avg.toFixed(1)+' s</span></div>'
       +'<div class="rsec">'+t.bytask+'</div>'+rows
+      +tipsHtml
       +'</div>';
     var sb=document.getElementById('startBtn'); sb.textContent=t.again;
     document.getElementById('intro').style.display='block';

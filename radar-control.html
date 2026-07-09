@@ -55,7 +55,7 @@
   .big2{font-family:'Courier New',monospace;font-size:32px;font-weight:800;color:#e8730c;text-align:center;margin-bottom:10px}
   .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #e6edf3}
   .rrow span:last-child{font-family:'Courier New',monospace;font-weight:700}
-  @media(min-width:820px){.wrap{max-width:1180px}#game[style*="block"]{display:grid !important;grid-template-columns:1fr 340px;grid-template-areas:'hud hud' 'scope ctrl' 'scope radio' 'scope strips';gap:10px 16px;align-items:start}#game .hud{grid-area:hud}#scopeWrap{grid-area:scope}#ctrl{grid-area:ctrl;margin-top:0}.radio{grid-area:radio;margin-top:0}#strips{grid-area:strips;margin-top:0}}
+  @media(min-width:820px){.wrap{max-width:1180px}#game[style*="block"]{display:grid !important;grid-template-columns:1fr 340px;grid-template-areas:'hud hud' 'scope radio' 'scope ctrl' 'scope strips';gap:10px 16px;align-items:start}#game .hud{grid-area:hud}#scopeWrap{grid-area:scope}#ctrl{grid-area:ctrl;margin-top:0}.radio{grid-area:radio;margin-top:0;position:sticky;top:10px;align-self:start}#strips{grid-area:strips;margin-top:0}}
 </style>
 </head>
 <body>
@@ -77,6 +77,14 @@
   <div id="game" style="display:none">
     <div class="hud"><span id="tTime"></span><span id="tScore"></span><span id="tSep"></span></div>
     <div id="scopeWrap"><canvas id="scope"></canvas></div>
+    <div class="radio" id="radio">
+      <div class="ridle" id="rIdle"></div>
+      <div id="rActive" style="display:none">
+        <div class="rq" id="rQ"></div>
+        <div class="rm" id="rM"></div>
+        <div class="rbtns"><button id="rRel"></button><button id="rIrr"></button></div>
+      </div>
+    </div>
     <div id="ctrl" class="hidden">
       <div class="crow"><span><span class="ccs" id="cCs"></span> <span class="cexit" id="cExit"></span></span><button class="cx" id="cClose">&#10005;</button></div>
       <div class="cinfo">
@@ -103,14 +111,6 @@
         <button id="cDirect" class="direct"></button>
       </div>
     </div>
-    <div class="radio" id="radio">
-      <div class="ridle" id="rIdle"></div>
-      <div id="rActive" style="display:none">
-        <div class="rq" id="rQ"></div>
-        <div class="rm" id="rM"></div>
-        <div class="rbtns"><button id="rRel"></button><button id="rIrr"></button></div>
-      </div>
-    </div>
     <div id="strips" style="display:none;margin-top:10px;background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:11px 12px">
       <div id="stripsHdr" style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.07em;color:#5f7488;margin-bottom:7px"></div>
       <div id="stripsBody"></div>
@@ -128,19 +128,49 @@
     en:{title:"Radar Control",sub:"ATC separation & R/T — prototype",
       note:"The official assessment is conducted in English. We recommend training in English — switch to Spanish only if you need to. Best experienced on desktop (recommended for accuracy), though it works on mobile too.",
       how:"How it works",
-      instr:"You are the controller. Aircraft fly the airways, each tagged with callsign and FL. Two aircraft at the SAME level that get too close is a loss of separation — keep levels apart. To act: tap or click an aircraft to select it, then press \u25b2 Climb or \u25bc Descend to adjust the pending FL shown in the panel, then press CONFIRM. You can also vector Left/Right to turn it off its airway, then DIRECT to send it straight to its exit fix. The flight strips panel lists every aircraft in your sector — use it to cross-check radio calls. Radio: a call is relevant if the callsign shown is one of your aircraft (check the strips). Messages are text-only and time-limited — answer before they expire.",
+      instr:"You are the controller. Aircraft fly the airways, each tagged with callsign and FL. Two aircraft at the SAME level that get too close is a loss of separation — keep levels apart. To act: tap or click an aircraft to select it, then press \u25b2 Climb or \u25bc Descend to adjust the pending FL shown in the panel, then press CONFIRM. You can also vector Left/Right to turn it off its airway, then DIRECT to send it straight to its exit fix. The flight strips panel lists every aircraft in your sector — use it to cross-check radio calls. Radio: a call is relevant if the callsign shown is one of your aircraft (check the strips). Messages are text-only and time-limited — answer before they expire. Turning tip: vectoring has no score penalty — if both adjacent levels are busy and time is short, turning is better than a separation loss.",
       legend:"<b>Tap or click</b> an aircraft · <b>\u25b2/\u25bc</b> + CONFIRM to change level · <b>Left/Right</b> to vector, <b>DIRECT</b> to exit · keep same-level traffic apart · answer <b>radio</b> calls · use <b>flight strips</b> to check callsigns.",
       time:"Time",score:"Score",sep:"Sep. losses",climb:"Climb",desc:"Descend",confirm:"CONFIRM",left:"Left",right:"Right",direct:"Direct",badexit:"Wrong exit",
       rq:"Radio — is this call for your sector?",ridle:"Radio — calls will arrive during the exercise",rel:"Relevant",irr:"Irrelevant",
-      start:"Start",again:"Try again",results:"Results",exits:"Clean crossings",losses:"Separation losses",radioAcc:"Radio accuracy",finished:"Finished",lvl1:"Level 1 · slower",lvl2:"Level 2"},
+      safely:"Aircraft safely controlled",still_safe:"Still in sector (no loss)",start:"Start",again:"Try again",results:"Results",exits:"Clean crossings",losses:"Separation losses",radioAcc:"Radio accuracy",finished:"Finished",lvl1:"Level 1 · slower",lvl2:"Level 2",
+      m_gold:'Gold',m_silver:'Silver',m_bronze:'Bronze',m_none:'Keep training',
+      m_msg_gold:'Outstanding — competitive level',
+      m_msg_silver:'Solid performance — keep building consistency',
+      m_msg_bronze:'Developing — keep training regularly',
+      m_msg_none:'Early days — every session builds the skill',
+      m_to_gold:'to Gold',m_to_silver:'to Silver',m_to_bronze:'to Bronze',
+      m_at_gold:"You're at competitive level — aim for 100%",
+      m_overall:'Overall score',
+      tips_hdr:'Advice from the ControlPrep Team',
+      tip_exits:'The key to radar control is looking ahead. Before a conflict develops, think about where each aircraft will be in two minutes and what else will be at that level. If you\'re reacting to a conflict that\'s already flashing, you\'re already behind.',
+      tip_losses:'Losing separation usually means the problem was seen too late. Every time you look at an aircraft, check its level and note what else is near the same FL. Separation is maintained proactively — not fixed reactively.',
+      tip_badexit:'Aircraft need to be at their exit level before they reach the boundary — not arriving at it on the edge. Check the required exit level the moment each aircraft enters your sector and start the level change early.',
+      tip_radio:'Radio calls are easy to miss when you\'re focused on the scope. Practise processing radio in the background — train your ear to catch callsigns automatically. Use the strip display: a quick glance when a call comes in tells you instantly if it\'s yours.',
+      tip_gold:'Clean sector work. You\'re managing level changes, separation, and radio simultaneously — that\'s the core ATC skill set. Keep pushing the difficulty: the real test has more traffic and higher time pressure.'
+    },
     es:{title:"Control radar",sub:"Separación ATC y radiotelefonía — prototipo",
       note:"La prueba oficial se realiza en inglés. Recomendamos entrenar en inglés; cambia a español solo si lo necesitas. Mejor en ordenador (recomendado para mayor precisión), aunque también funciona en móvil.",
       how:"Cómo funciona",
-      instr:"Eres el controlador. Las aeronaves vuelan las aerovías, etiquetadas con indicativo y FL. Dos aeronaves al MISMO nivel que se acercan demasiado es una pérdida de separación — mantén los niveles separados. Para actuar: toca o haz clic en una aeronave para seleccionarla, pulsa \u25b2 Subir o \u25bc Bajar para ajustar el FL pendiente que aparece en el panel, luego CONFIRMAR. También puedes vectorar Izq./Der. para sacarla de su aerovía y pulsar DIRECTO para enviarla directamente a su salida. El panel de fichas muestra todas las aeronaves del sector — úsalo para verificar las llamadas de radio. Radio: una llamada es relevante si el indicativo pertenece a una de tus aeronaves (comprueba las fichas). Los mensajes son texto con tiempo limitado — responde antes de que caduquen.",
+      instr:"Eres el controlador. Las aeronaves vuelan las aerovías, etiquetadas con indicativo y FL. Dos aeronaves al MISMO nivel que se acercan demasiado es una pérdida de separación — mantén los niveles separados. Para actuar: toca o haz clic en una aeronave para seleccionarla, pulsa \u25b2 Subir o \u25bc Bajar para ajustar el FL pendiente que aparece en el panel, luego CONFIRMAR. También puedes vectorar Izq./Der. para sacarla de su aerovía y pulsar DIRECTO para enviarla directamente a su salida. El panel de fichas muestra todas las aeronaves del sector — úsalo para verificar las llamadas de radio. Radio: una llamada es relevante si el indicativo pertenece a una de tus aeronaves (comprueba las fichas). Los mensajes son texto con tiempo limitado — responde antes de que caduquen. Consejo: vectorar no penaliza — si los niveles adyacentes están ocupados, vectorar es mejor que arriesgarse a una pérdida de separación.",
       legend:"<b>Toca o haz clic</b> en una aeronave · <b>\u25b2/\u25bc</b> + CONFIRMAR para cambiar nivel · <b>Izq./Der.</b> para vectorar, <b>DIRECTO</b> a su salida · separa el tráfico del mismo nivel · responde la <b>radio</b> · usa las <b>fichas de vuelo</b> para verificar indicativos.",
       time:"Tiempo",score:"Puntos",sep:"Pérdidas sep.",climb:"Subir",desc:"Bajar",confirm:"CONFIRMAR",left:"Izq.",right:"Der.",direct:"Directo",badexit:"Salida incorrecta",
       rq:"Radio — ¿es esta llamada de tu sector?",ridle:"Radio — llegarán llamadas durante el ejercicio",rel:"Relevante",irr:"Irrelevante",
-      start:"Empezar",again:"Repetir",results:"Resultados",exits:"Cruces limpios",losses:"Pérdidas de separación",radioAcc:"Precisión radio",finished:"Finalizado",lvl1:"Nivel 1 · más lento",lvl2:"Nivel 2"}
+      safely:"Aeronaves controladas con seguridad",still_safe:"En sector (sin pérdida)",start:"Empezar",again:"Repetir",results:"Resultados",exits:"Cruces limpios",losses:"Pérdidas de separación",radioAcc:"Precisión radio",finished:"Finalizado",lvl1:"Nivel 1 · más lento",lvl2:"Nivel 2",
+      m_gold:'Oro',m_silver:'Plata',m_bronze:'Bronce',m_none:'Sigue entrenando',
+      m_msg_gold:'Sobresaliente — nivel competitivo',
+      m_msg_silver:'Rendimiento sólido — sigue ganando consistencia',
+      m_msg_bronze:'En desarrollo — entrena con regularidad',
+      m_msg_none:'Primeros pasos — cada sesión cuenta',
+      m_to_gold:'para el Oro',m_to_silver:'para la Plata',m_to_bronze:'para el Bronce',
+      m_at_gold:'Estás en nivel competitivo — apunta al 100%',
+      m_overall:'Puntuación global',
+      tips_hdr:'Consejos del equipo ControlPrep',
+      tip_exits:'La clave del control radar es anticipar. Antes de que se desarrolle un conflicto, piensa dónde estará cada aeronave en dos minutos y qué más estará a ese nivel. Si reaccionas a un conflicto que ya está parpadeando, ya vas por detrás.',
+      tip_losses:'Perder separación suele significar que el problema se detectó demasiado tarde. Cada vez que mires una aeronave, comprueba su nivel y anota qué más está cerca del mismo FL. La separación se mantiene de forma proactiva, no reactiva.',
+      tip_badexit:'Las aeronaves deben estar a su nivel de salida antes de llegar al límite — no al llegar a él. Comprueba el nivel de salida requerido en cuanto cada aeronave entre en tu sector y empieza el cambio de nivel con tiempo.',
+      tip_radio:'Las llamadas de radio son fáciles de perder cuando estás concentrado en el radar. Entrena tu oído para captar los indicativos automáticamente. Usa el panel de fichas: un vistazo rápido cuando llega una llamada te dice al momento si es tuya.',
+      tip_gold:'Sector limpio. Estás gestionando cambios de nivel, separación y radio a la vez — eso es el núcleo de las habilidades ATC. Sigue aumentando la dificultad: la prueba real tiene más tráfico y mayor presión de tiempo.'
+  }
   };
   var lang='en';
 
@@ -412,17 +442,53 @@
     requestAnimationFrame(loop);
   }
 
+  function buildMedal(t,overall){
+    var tier,icon,cls,msg,barPct,barLbl;
+    if(overall>=80){tier=t.m_gold;icon='🥇';cls='mg';msg=t.m_msg_gold;barPct=100;barLbl=t.m_at_gold;}
+    else if(overall>=55){tier=t.m_silver;icon='🥈';cls='ms';msg=t.m_msg_silver;barPct=Math.round((overall-55)/25*100);barLbl=barPct+'% '+t.m_to_gold;}
+    else if(overall>=30){tier=t.m_bronze;icon='🥉';cls='mb';msg=t.m_msg_bronze;barPct=Math.round((overall-30)/25*100);barLbl=barPct+'% '+t.m_to_silver;}
+    else{tier=t.m_none;icon='⏳';cls='mn';msg=t.m_msg_none;barPct=Math.round(overall/30*100);barLbl=barPct+'% '+t.m_to_bronze;}
+    return '<div class="medal-block"><div class="medal-icon">'+icon+'</div>'
+      +'<div class="medal-name '+cls+'">'+tier.toUpperCase()+'</div>'
+      +'<div class="medal-msg">'+msg+'</div></div>'
+      +'<div class="m-overall">'+overall+'%</div>'
+      +'<div class="m-ovlbl">'+t.m_overall+'</div>'
+      +'<div class="medal-prog"><div class="mp-track"><div class="mp-fill '+cls+'" style="width:'+barPct+'%"></div></div>'
+      +'<div class="mp-lbl">'+barLbl+'</div></div>';
+  }
   function endGame(){
     running=false;var t=L[lang];
     document.getElementById('strips').style.display='none';
     document.getElementById('game').style.display='none';
     var racc=radioTot?Math.round(radioOk/radioTot*100):0;
+    // Count aircraft still on screen that never had a separation loss
+    var stillSafe=planes.filter(function(p){return !p.hadLoss;}).length;
+    var safelyControlled=exits+stillSafe;
+    var total=safelyControlled+losses+badExit;
+    var safeAcc=total?Math.round(safelyControlled/total*100):0;
+    var overall=Math.round(safeAcc*0.7+racc*0.3);
+    var tips=[];
+    if(overall>=80){tips.push(t.tip_gold);}
+    else{
+      if(safeAcc<60)tips.push(t.tip_exits);
+      else if(losses>2)tips.push(t.tip_losses);
+      else if(badExit>1)tips.push(t.tip_badexit);
+      if(racc<60&&tips.length<2)tips.push(t.tip_radio);
+      if(!tips.length)tips.push(losses>1?t.tip_losses:t.tip_exits);
+    }
+    var tipsHtml=tips.length?'<div class="ctrl-tips"><div class="ctrl-tips-hdr">'+t.tips_hdr+'</div>'
+      +tips.map(function(tip){return '<div class="ctrl-tip">'+tip+'</div>';}).join('')+'</div>':'';
     document.getElementById('resultsHost').innerHTML=
-      '<div class="results"><h2>'+t.results+'</h2><div class="big2">'+score+'</div>'
+      '<div class="results">'+buildMedal(t,overall)
+      +'<div class="rrow" style="font-weight:700"><span>'+t.safely+'</span><span>'+safelyControlled+'/'+total+'</span></div>'
       +'<div class="rrow"><span>'+t.exits+'</span><span>'+exits+'</span></div>'
+      +'<div class="rrow"><span>'+t.still_safe+'</span><span>'+stillSafe+'</span></div>'
       +'<div class="rrow"><span>'+t.losses+'</span><span>'+losses+'</span></div>'
       +'<div class="rrow"><span>'+t.badexit+'</span><span>'+badExit+'</span></div>'
-      +'<div class="rrow"><span>'+t.radioAcc+'</span><span>'+radioOk+'/'+radioTot+' ('+racc+'%)</span></div></div>';
+      +'<div class="rrow"><span>'+t.radioAcc+'</span><span>'+radioOk+'/'+radioTot+' ('+racc+'%)</span></div>'
+      +'<div class="rrow" style="margin-top:6px;color:#8aa0b5;font-size:11px"><span>Score</span><span>'+score+'</span></div>'
+      +tipsHtml
+      +'</div>';
     var sb=document.getElementById('startBtn');sb.textContent=t.again;sb.style.display='block';document.getElementById('levSel').style.display='flex';
   }
 

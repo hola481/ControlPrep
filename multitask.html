@@ -45,6 +45,25 @@
   .results{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:16px;margin-top:12px}
   .results h2{font-size:15px;color:#e8730c;margin-bottom:4px}
   .results .band{font-size:13px;margin-bottom:10px;color:#36506a}
+  .ctrl-tips{margin-top:14px;padding:12px 14px;background:#f0f6fc;border-left:3px solid #1f6fb8;border-radius:0 10px 10px 0}
+  .ctrl-tips-hdr{font-size:10.5px;font-weight:800;color:#1f6fb8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+  .ctrl-tip{font-size:12.5px;color:#36506a;line-height:1.6;margin-bottom:8px}
+  .ctrl-tip:last-child{margin-bottom:0}
+  .medal-block{text-align:center;padding:14px 0 12px;margin-bottom:12px;border-bottom:1px solid #e4edf5}
+  .medal-icon{font-size:54px;line-height:1;margin-bottom:6px}
+  .medal-name{font-size:22px;font-weight:900;letter-spacing:.06em;margin-bottom:5px}
+  .medal-name.mg{color:#c8930a}.medal-name.ms{color:#6a8ea8}.medal-name.mb{color:#a0663a}.medal-name.mn{color:#8aa0b5}
+  .medal-msg{font-size:13px;color:#5a7088;line-height:1.45}
+  .medal-prog{margin:0 0 14px}
+  .mp-track{height:7px;background:#eef3f8;border-radius:4px;overflow:hidden;margin:10px 0 5px}
+  .mp-fill{height:100%;border-radius:4px;transition:width .7s ease}
+  .mp-fill.mg{background:linear-gradient(90deg,#e8a317,#f7c831)}
+  .mp-fill.ms{background:linear-gradient(90deg,#7aafc8,#9ec8de)}
+  .mp-fill.mb{background:linear-gradient(90deg,#b8714a,#d4956a)}
+  .mp-fill.mn{background:#c8d6e0}
+  .mp-lbl{font-size:11px;color:#8aa0b5;text-align:center}
+  .m-overall{font-size:28px;font-weight:900;text-align:center;margin:8px 0 2px;color:#11243a}
+  .m-ovlbl{font-size:11px;color:#8aa0b5;text-align:center;margin-bottom:12px;text-transform:uppercase;letter-spacing:.06em}
   .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #e6edf3;color:#36506a}
   .rrow span:last-child{font-family:'Courier New',monospace;font-weight:700;color:#16314c}
   .big{font-family:'Courier New',monospace;font-size:30px;font-weight:800;text-align:center;color:#e8730c;margin:6px 0 12px}
@@ -107,7 +126,21 @@
       band_ex:"Excellent \u2014 strong performance under load", band_good:"Good \u2014 solid, keep polishing",
       band_ok:"Fair \u2014 multitasking still costs you", band_imp:"Work needed \u2014 train divided attention",
       r_resolved:"Conflicts resolved", r_missed:"Conflicts missed", r_milok:"Military ignored \u2713",
-      r_rule:"Rule broken (military tapped)", r_false:"False taps", r_sec:"Secondary task", lvl1:"Level 1 \u00b7 slower", lvl2:"Level 2"
+      r_rule:"Rule broken (military tapped)", r_false:"False taps", r_sec:"Secondary task", lvl1:"Level 1 \u00b7 slower", lvl2:"Level 2",
+      m_gold:'Gold',m_silver:'Silver',m_bronze:'Bronze',m_none:'Keep training',
+      m_msg_gold:'Outstanding — competitive level',
+      m_msg_silver:'Solid performance — keep building consistency',
+      m_msg_bronze:'Developing — keep training regularly',
+      m_msg_none:'Early days — every session builds the skill',
+      m_to_gold:'to Gold',m_to_silver:'to Silver',m_to_bronze:'to Bronze',
+      m_at_gold:"You're at competitive level — aim for 100%",
+      m_overall:'Overall score',
+      tips_hdr:'Advice from the ControlPrep Team',
+      tip_scan:'Your biggest gain is in conflict detection. Controllers train a structured scan — don\'t wait for the flash. Sweep the display every few seconds in a set pattern: top-left, centre, top-right, bottom. The flash is confirmation, not the warning.',
+      tip_rule:'You tapped military traffic that should be ignored. In multitasking tests, breaking a rule costs more than a missed detection. Before tapping, check the symbol — military traffic has a distinct marker. Train yourself to filter it out automatically.',
+      tip_precision:'Too many false taps. Controllers confirm before they act — an unnecessary input creates extra workload. Slow down slightly and only tap when certain. Accuracy without speed scores better than speed without accuracy.',
+      tip_radio:'The secondary task needs work. In real ATC, radio calls don\'t pause when you\'re busy — that\'s the whole challenge. Practise it in isolation until it\'s automatic, then reintroduce the scan. Once effortless, it stops eating into your detection time.',
+      tip_gold:'Strong performance across both tasks. You\'re showing the divided attention and scan discipline that ATC selection tests look for. Keep training to make it feel effortless — the real exercise is timed and the pressure is higher.'
     },
     es:{
       title:"Monitorizaci\u00f3n y multitarea", sub:"Radar din\u00e1mico, reglas y atenci\u00f3n dividida \u2014 prototipo",
@@ -126,7 +159,21 @@
       band_ex:"Excelente \u2014 gran rendimiento bajo carga", band_good:"Bueno \u2014 s\u00f3lido, sigue puliendo",
       band_ok:"Aceptable \u2014 la multitarea a\u00fan te cuesta", band_imp:"A mejorar \u2014 entrena la atenci\u00f3n dividida",
       r_resolved:"Conflictos resueltos", r_missed:"Conflictos perdidos", r_milok:"Militares ignorados \u2713",
-      r_rule:"Regla incumplida (militar tocado)", r_false:"Toques en falso", r_sec:"Tarea secundaria", lvl1:"Nivel 1 \u00b7 m\u00e1s lento", lvl2:"Nivel 2"
+      r_rule:"Regla incumplida (militar tocado)", r_false:"Toques en falso", r_sec:"Tarea secundaria", lvl1:"Nivel 1 \u00b7 m\u00e1s lento", lvl2:"Nivel 2",
+      m_gold:'Oro',m_silver:'Plata',m_bronze:'Bronce',m_none:'Sigue entrenando',
+      m_msg_gold:'Sobresaliente — nivel competitivo',
+      m_msg_silver:'Rendimiento sólido — sigue ganando consistencia',
+      m_msg_bronze:'En desarrollo — entrena con regularidad',
+      m_msg_none:'Primeros pasos — cada sesión cuenta',
+      m_to_gold:'para el Oro',m_to_silver:'para la Plata',m_to_bronze:'para el Bronce',
+      m_at_gold:'Estás en nivel competitivo — apunta al 100%',
+      m_overall:'Puntuación global',
+      tips_hdr:'Consejos del equipo de ControlPrep',
+      tip_scan:'Tu mayor mejora está en la detección de conflictos. Los controladores entrenan un barrido estructurado — no esperes al parpadeo. Recorre la pantalla cada pocos segundos con un patrón fijo: arriba-izquierda, centro, arriba-derecha, abajo. El parpadeo es confirmación, no aviso.',
+      tip_rule:'Tocaste tráfico militar que debía ignorarse. En las pruebas de multitarea, romper una norma cuesta más que una detección fallida. Antes de tocar, comprueba el símbolo — el tráfico militar tiene un marcador diferente. Entrénate para filtrarlo automáticamente.',
+      tip_precision:'Demasiados toques en falso. Los controladores confirman antes de actuar — una entrada innecesaria genera trabajo extra. Ve un poco más despacio y toca solo cuando estés seguro. La precisión sin velocidad puntua mejor que la velocidad sin precisión.',
+      tip_radio:'La tarea secundaria necesita más trabajo. En el control real, las llamadas de radio no se detienen cuando estás ocupado — ese es el reto. Practica la tarea secundaria por separado hasta que sea automática, luego reintroduce el barrido. Cuando sea un hábito, dejará de consumir tiempo de atención.',
+      tip_gold:'Buen rendimiento en ambas tareas. Estás demostrando la atención dividida y la disciplina de barrido que buscan las pruebas de selección ATC. Sigue entrenando para que se sienta sin esfuerzo — el ejercicio real es cronometrado y la presión es mayor.'
     }
   };
 
@@ -229,7 +276,7 @@
     function mk(ang,mil){
       var dist=Math.min(W,H)*0.6, sx=cx+Math.cos(ang)*dist, sy=cy+Math.sin(ang)*dist;
       return {id:nextId++,x:sx,y:sy,vx:(cx-sx)/travel*16,vy:(cy-sy)/travel*16,cs:cs(),mil:mil,
-              conf:true,pid:pid,valid:!decoy,crit:now+travel,flashFrom:now+travel-3000,handled:false};
+              conf:true,pid:pid,valid:!decoy,crit:now+travel,flashFrom:now+travel-3000,lineFrom:now+travel-5000,handled:false};
     }
     var a=rnd(0,6.28);
     var p1=mk(a,false), p2=mk(a+Math.PI+rnd(-0.4,0.4),decoy);
@@ -300,7 +347,7 @@
     var _pdrawn={};
     for(var i=0;i<planes.length;i++){
       var p=planes[i];
-      if(p.conf&&!p.handled&&p.pid&&!_pdrawn[p.pid]){
+      if(p.conf&&!p.handled&&p.pid&&!_pdrawn[p.pid]&&now>=(p.lineFrom||0)){
         for(var j=i+1;j<planes.length;j++){
           var q=planes[j];
           if(q.pid===p.pid&&!q.handled){
@@ -363,15 +410,64 @@
     var total=conflictsResolved+conflictsMissed;
     var primAcc= total? Math.round(conflictsResolved/total*100):0;
     var secAcc= secTotal? Math.round(secCorrect/secTotal*100):0;
-    var band = score>=420?t.band_ex:score>=260?t.band_good:score>=110?t.band_ok:t.band_imp;
-    var html='<div class="results"><h2>'+t.results+'</h2><div class="band">'+band+'</div>'
-      +'<div class="big">'+score+'</div>'
+    var overall= Math.round(primAcc*0.7 + secAcc*0.3);
+
+    // Medal tier
+    var tier, icon, cls, msg, barPct, barLbl;
+    if(overall>=80){
+      tier=t.m_gold; icon='\uD83E\uDD47'; cls='mg';
+      msg=t.m_msg_gold; barPct=100; barLbl=t.m_at_gold;
+    } else if(overall>=55){
+      tier=t.m_silver; icon='\uD83E\uDD48'; cls='ms';
+      msg=t.m_msg_silver;
+      barPct=Math.round((overall-55)/(80-55)*100);
+      barLbl=barPct+'% '+t.m_to_gold;
+    } else if(overall>=30){
+      tier=t.m_bronze; icon='\uD83E\uDD49'; cls='mb';
+      msg=t.m_msg_bronze;
+      barPct=Math.round((overall-30)/(55-30)*100);
+      barLbl=barPct+'% '+t.m_to_silver;
+    } else {
+      tier=t.m_none; icon='\u23F3'; cls='mn';
+      msg=t.m_msg_none;
+      barPct=Math.round(overall/30*100);
+      barLbl=barPct+'% '+t.m_to_bronze;
+    }
+
+    // Controller tips — pick up to 2 based on weakest areas
+    var tips=[];
+    if(overall>=80){
+      tips.push(t.tip_gold);
+    } else {
+      if(primAcc<60) tips.push(t.tip_scan);
+      else if(decoysTapped>=2) tips.push(t.tip_rule);
+      else if(falseAlarms>=3) tips.push(t.tip_precision);
+      if(secAcc<60&&tips.length<2) tips.push(t.tip_radio);
+      if(!tips.length) tips.push(primAcc<75?t.tip_scan:t.tip_radio);
+    }
+    var tipsHtml=tips.length?'<div class="ctrl-tips"><div class="ctrl-tips-hdr">'+t.tips_hdr+'</div>'
+      +tips.map(function(tip){return '<div class="ctrl-tip">'+tip+'</div>';}).join('')+'</div>':'';
+
+    var html='<div class="results">'
+      +'<div class="medal-block">'
+      +'<div class="medal-icon">'+icon+'</div>'
+      +'<div class="medal-name '+cls+'">'+tier.toUpperCase()+'</div>'
+      +'<div class="medal-msg">'+msg+'</div>'
+      +'</div>'
+      +'<div class="m-overall">'+overall+'%</div>'
+      +'<div class="m-ovlbl">'+t.m_overall+'</div>'
+      +'<div class="medal-prog">'
+      +'<div class="mp-track"><div class="mp-fill '+cls+'" style="width:'+barPct+'%"></div></div>'
+      +'<div class="mp-lbl">'+barLbl+'</div>'
+      +'</div>'
       +'<div class="rrow"><span>'+t.r_resolved+'</span><span>'+conflictsResolved+'/'+total+' ('+primAcc+'%)</span></div>'
       +'<div class="rrow"><span>'+t.r_missed+'</span><span>'+conflictsMissed+'</span></div>'
       +'<div class="rrow"><span>'+t.r_milok+'</span><span>'+decoysCorrect+'</span></div>'
       +'<div class="rrow"><span>'+t.r_rule+'</span><span>'+decoysTapped+'</span></div>'
       +'<div class="rrow"><span>'+t.r_false+'</span><span>'+falseAlarms+'</span></div>'
       +'<div class="rrow"><span>'+t.r_sec+'</span><span>'+secCorrect+'/'+secTotal+' ('+secAcc+'%)</span></div>'
+      +'<div class="rrow" style="margin-top:6px;color:#8aa0b5;font-size:11px"><span>Score</span><span>'+score+'</span></div>'
+      +tipsHtml
       +'</div>';
     document.getElementById('resultsHost').innerHTML=html;
     document.getElementById('intro').style.display='block';

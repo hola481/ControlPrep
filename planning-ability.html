@@ -150,6 +150,19 @@
       dragL:"Drag", dragR:"closer to the system these tests use \u2014 best on desktop",
       tapL:"Tap", tapR:"best on mobile / touch",
       start:"Start", again:"Try again",
+      m_gold:'Gold',m_silver:'Silver',m_bronze:'Bronze',m_none:'Keep training',
+      m_msg_gold:'Outstanding — competitive level',
+      m_msg_silver:'Solid performance — keep building consistency',
+      m_msg_bronze:'Developing — keep training regularly',
+      m_msg_none:'Early days — every session builds the skill',
+      m_to_gold:'to Gold',m_to_silver:'to Silver',m_to_bronze:'to Bronze',
+      m_at_gold:"You're at competitive level — aim for 100%",
+      m_overall:'Overall score',
+      tips_hdr:'Advice from the ControlPrep Team',
+      tip_seq:'For sequencing, don\'t try to rank all aircraft at once. Start with the one landing first — shortest time or earliest ETA — and work outward. A simple rule: smaller gap to landing always means higher priority.',
+      tip_sep:'Separation questions are about whether the gap between consecutive aircraft is sufficient. Visualise them as vehicles on a road: is the following distance safe at the speed they\'re travelling? If the gap is borderline, it\'s usually a problem.',
+      tip_speed:'Planning questions are time-pressured in the real test. Train yourself to scan for the key numbers first — ETAs and distances — before reading the full scenario. The more you practise, the faster the relevant information stands out.',
+      tip_gold:'Efficient planning judgement under pressure. The ability to sequence traffic quickly and accurately is one of the core skills tested in ATC selection. You\'re building the right foundation.',
       tag_seq:"Sequence", tag_insert:"Insert", tag_sep:"Separation", tag_elig:"Eligibility",
       q_seq_drag:"Drag the aircraft into <span class='hl'>landing order</span> \u2014 first to land at the top.",
       q_seq_tap:"Tap the aircraft in <span class='hl'>landing order</span> \u2014 tap the first to land, then the next, and so on.",
@@ -177,6 +190,19 @@
       dragL:"Arrastrar", dragR:"m\u00e1s parecido al sistema de estas pruebas \u2014 mejor en escritorio",
       tapL:"Tocar", tapR:"mejor en m\u00f3vil / t\u00e1ctil",
       start:"Empezar", again:"Repetir",
+      m_gold:'Oro',m_silver:'Plata',m_bronze:'Bronce',m_none:'Sigue entrenando',
+      m_msg_gold:'Sobresaliente — nivel competitivo',
+      m_msg_silver:'Rendimiento sólido — sigue ganando consistencia',
+      m_msg_bronze:'En desarrollo — entrena con regularidad',
+      m_msg_none:'Primeros pasos — cada sesión cuenta',
+      m_to_gold:'para el Oro',m_to_silver:'para la Plata',m_to_bronze:'para el Bronce',
+      m_at_gold:'Estás en nivel competitivo — apunta al 100%',
+      m_overall:'Puntuación global',
+      tips_hdr:'Consejos del equipo ControlPrep',
+      tip_seq:'Para secuenciar, no intentes ordenar todas las aeronaves a la vez. Empieza con la que aterriza primero — menor tiempo o ETA más temprana — y trabaja hacia afuera. Una regla simple: menor intervalo hasta el aterrizaje siempre significa mayor prioridad.',
+      tip_sep:'Las preguntas de separación tratan sobre si el espacio entre aeronaves consecutivas es suficiente. Imagínalas como vehículos en una carretera: ¿es la distancia de seguimiento segura a la velocidad a la que viajan? Si el espacio es justo, generalmente es un problema.',
+      tip_speed:'Las preguntas de planificación tienen límite de tiempo en la prueba real. Entrénate para buscar primero los números clave — ETAs y distancias — antes de leer el escenario completo. Con la práctica, la información relevante destaca más rápido.',
+      tip_gold:'Buen juicio de planificación bajo presión. La capacidad de secuenciar tráfico rápida y con precisión es una de las habilidades clave en la selección ATC. Estás construyendo la base correcta.',
       tag_seq:"Secuencia", tag_insert:"Insertar", tag_sep:"Separaci\u00f3n", tag_elig:"Elegibilidad",
       q_seq_drag:"Arrastra las aeronaves al <span class='hl'>orden de aterrizaje</span> \u2014 la primera arriba.",
       q_seq_tap:"Toca las aeronaves en <span class='hl'>orden de aterrizaje</span> \u2014 primero la que aterriza antes, luego la siguiente, etc.",
@@ -532,6 +558,34 @@
   }
   function next(){ if(!answered)return; idx++; if(idx>=items.length)showResults(); else renderItem(); }
 
+  function buildMedal(t,overall){
+    var tier,icon,cls,msg,barPct,barLbl;
+    if(overall>=80){tier=t.m_gold;icon='🥇';cls='mg';msg=t.m_msg_gold;barPct=100;barLbl=t.m_at_gold;}
+    else if(overall>=55){tier=t.m_silver;icon='🥈';cls='ms';msg=t.m_msg_silver;barPct=Math.round((overall-55)/25*100);barLbl=barPct+'% '+t.m_to_gold;}
+    else if(overall>=30){tier=t.m_bronze;icon='🥉';cls='mb';msg=t.m_msg_bronze;barPct=Math.round((overall-30)/25*100);barLbl=barPct+'% '+t.m_to_silver;}
+    else{tier=t.m_none;icon='⏳';cls='mn';msg=t.m_msg_none;barPct=Math.round(overall/30*100);barLbl=barPct+'% '+t.m_to_bronze;}
+    return '<div class="medal-block"><div class="medal-icon">'+icon+'</div>'
+      +'<div class="medal-name '+cls+'">'+tier.toUpperCase()+'</div>'
+      +'<div class="medal-msg">'+msg+'</div></div>'
+      +'<div class="m-overall">'+overall+'%</div>'
+      +'<div class="m-ovlbl">'+t.m_overall+'</div>'
+      +'<div class="medal-prog"><div class="mp-track"><div class="mp-fill '+cls+'" style="width:'+barPct+'%"></div></div>'
+      +'<div class="mp-lbl">'+barLbl+'</div></div>';
+  }
+  function buildMedal(t,overall){
+    var tier,icon,cls,msg,barPct,barLbl;
+    if(overall>=80){tier=t.m_gold;icon='🥇';cls='mg';msg=t.m_msg_gold;barPct=100;barLbl=t.m_at_gold;}
+    else if(overall>=55){tier=t.m_silver;icon='🥈';cls='ms';msg=t.m_msg_silver;barPct=Math.round((overall-55)/25*100);barLbl=barPct+'% '+t.m_to_gold;}
+    else if(overall>=30){tier=t.m_bronze;icon='🥉';cls='mb';msg=t.m_msg_bronze;barPct=Math.round((overall-30)/25*100);barLbl=barPct+'% '+t.m_to_silver;}
+    else{tier=t.m_none;icon='⏳';cls='mn';msg=t.m_msg_none;barPct=Math.round(overall/30*100);barLbl=barPct+'% '+t.m_to_bronze;}
+    return '<div class="medal-block"><div class="medal-icon">'+icon+'</div>'
+      +'<div class="medal-name '+cls+'">'+tier.toUpperCase()+'</div>'
+      +'<div class="medal-msg">'+msg+'</div></div>'
+      +'<div class="m-overall">'+overall+'%</div>'
+      +'<div class="m-ovlbl">'+t.m_overall+'</div>'
+      +'<div class="medal-prog"><div class="mp-track"><div class="mp-fill '+cls+'" style="width:'+barPct+'%"></div></div>'
+      +'<div class="mp-lbl">'+barLbl+'</div></div>';
+  }
   function showResults(){
     active=false;document.getElementById('game').classList.add('hidden');
     var t=L[lang],total=results.length,c=tally(),acc=total?Math.round(c/total*100):0;
@@ -541,11 +595,28 @@
       var sc=sg.filter(function(r){return r.ok;}).length;
       rows+='<div class="rrow"><span>'+t['tag_'+ty]+'</span><span>'+sc+'/'+sg.length+'</span></div>';
     });
+    var overall=acc;
+    var typeAcc2={};
+    ['seq','insert','sep','elig'].forEach(function(ty){
+      var sg=results.filter(function(r){return r.type===ty;});
+      typeAcc2[ty]=sg.length?Math.round(sg.filter(function(r){return r.ok;}).length/sg.length*100):100;
+    });
+    var tips=[];
+    if(overall>=80){tips.push(t.tip_gold);}
+    else{
+      if(typeAcc2.seq<60||typeAcc2.insert<60)tips.push(t.tip_seq);
+      else if(typeAcc2.sep<60)tips.push(t.tip_sep);
+      if(avg>10&&tips.length<2)tips.push(t.tip_speed);
+      if(!tips.length)tips.push(acc<70?t.tip_seq:t.tip_speed);
+    }
+    var tipsHtml=tips.length?'<div class="ctrl-tips"><div class="ctrl-tips-hdr">'+t.tips_hdr+'</div>'
+      +tips.map(function(tip){return '<div class="ctrl-tip">'+tip+'</div>';}).join('')+'</div>':'';
     document.getElementById('resultsHost').innerHTML=
-      '<div class="results"><h2>'+t.results+'</h2><div class="big">'+acc+'%</div>'
-      +'<div class="rrow"><span>'+t.accuracy+'</span><span>'+c+'/'+total+'</span></div>'
+      '<div class="results">'+buildMedal(t,overall)
+      +'<div class="rrow"><span>'+t.accuracy+'</span><span>'+c+'/'+total+' ('+acc+'%)</span></div>'
       +'<div class="rrow"><span>'+t.avgtime+'</span><span>'+avg.toFixed(1)+' s</span></div>'
-      +'<div class="rsec">'+t.bytask+'</div>'+rows+'</div>';
+      +'<div class="rsec">'+t.bytask+'</div>'+rows
+      +tipsHtml+'</div>';
     var sb=document.getElementById('startBtn');sb.textContent=t.again;
     document.getElementById('intro').style.display='block';
     document.getElementById('introbox').style.display='none';

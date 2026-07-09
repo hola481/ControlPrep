@@ -63,7 +63,41 @@
   .dot{display:inline-block;width:9px;height:9px;border-radius:50%;vertical-align:middle;margin:0 2px}
   .results{background:#fff;border:1px solid #d6e0ea;border-radius:12px;padding:16px;margin-top:12px}
   .results h2{font-size:15px;color:#e8730c;margin-bottom:4px}
+  .ctrl-tips{margin-top:14px;padding:12px 14px;background:#f0f6fc;border-left:3px solid #1f6fb8;border-radius:0 10px 10px 0}
+  .ctrl-tips-hdr{font-size:10.5px;font-weight:800;color:#1f6fb8;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px}
+  .ctrl-tip{font-size:12.5px;color:#36506a;line-height:1.6;margin-bottom:8px}
+  .ctrl-tip:last-child{margin-bottom:0}
   .results .band{font-size:13px;margin-bottom:10px;color:#36506a}
+  .medal-block{text-align:center;padding:14px 0 12px;margin-bottom:12px;border-bottom:1px solid #e4edf5}
+  .medal-icon{font-size:54px;line-height:1;margin-bottom:6px}
+  .medal-name{font-size:22px;font-weight:900;letter-spacing:.06em;margin-bottom:5px}
+  .medal-name.mg{color:#c8930a}.medal-name.ms{color:#6a8ea8}.medal-name.mb{color:#a0663a}.medal-name.mn{color:#8aa0b5}
+  .medal-msg{font-size:13px;color:#5a7088;line-height:1.45}
+  .mp-track{height:7px;background:#eef3f8;border-radius:4px;overflow:hidden;margin:10px 0 5px}
+  .mp-fill{height:100%;border-radius:4px;transition:width .7s ease}
+  .mp-fill.mg{background:linear-gradient(90deg,#e8a317,#f7c831)}
+  .mp-fill.ms{background:linear-gradient(90deg,#7aafc8,#9ec8de)}
+  .mp-fill.mb{background:linear-gradient(90deg,#b8714a,#d4956a)}
+  .mp-fill.mn{background:#c8d6e0}
+  .mp-lbl{font-size:11px;color:#8aa0b5;text-align:center}
+  .m-overall{font-size:28px;font-weight:900;text-align:center;margin:8px 0 2px;color:#11243a}
+  .m-ovlbl{font-size:11px;color:#8aa0b5;text-align:center;margin-bottom:12px;text-transform:uppercase;letter-spacing:.06em}
+
+  .medal-block{text-align:center;padding:14px 0 12px;margin-bottom:12px;border-bottom:1px solid #e4edf5}
+  .medal-icon{font-size:54px;line-height:1;margin-bottom:6px}
+  .medal-name{font-size:22px;font-weight:900;letter-spacing:.06em;margin-bottom:5px}
+  .medal-name.mg{color:#c8930a}.medal-name.ms{color:#6a8ea8}.medal-name.mb{color:#a0663a}.medal-name.mn{color:#8aa0b5}
+  .medal-msg{font-size:13px;color:#5a7088;line-height:1.45}
+  .mp-track{height:7px;background:#eef3f8;border-radius:4px;overflow:hidden;margin:10px 0 5px}
+  .mp-fill{height:100%;border-radius:4px;transition:width .7s ease}
+  .mp-fill.mg{background:linear-gradient(90deg,#e8a317,#f7c831)}
+  .mp-fill.ms{background:linear-gradient(90deg,#7aafc8,#9ec8de)}
+  .mp-fill.mb{background:linear-gradient(90deg,#b8714a,#d4956a)}
+  .mp-fill.mn{background:#c8d6e0}
+  .mp-lbl{font-size:11px;color:#8aa0b5;text-align:center}
+  .m-overall{font-size:28px;font-weight:900;text-align:center;margin:8px 0 2px;color:#11243a}
+  .m-ovlbl{font-size:11px;color:#8aa0b5;text-align:center;margin-bottom:12px;text-transform:uppercase;letter-spacing:.06em}
+
   .rrow{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #e6edf3;color:#36506a}
   .rrow span:last-child{font-family:'Courier New',monospace;font-weight:700;color:#16314c}
   .big{font-family:'Courier New',monospace;font-size:30px;font-weight:800;text-align:center;color:#e8730c;margin:6px 0 12px}
@@ -101,7 +135,13 @@
       <div class="cell"><div class="lbl" id="lblScore"></div><div class="val" id="hScore" style="color:#e8730c">0</div></div>
       <div class="cell"><div class="lbl" id="lblTraf"></div><div class="val" id="hTraf">0</div></div>
     </div>
-    <div id="scopeWrap"><canvas id="scope"></canvas></div>
+    <div id="scopeWrap">
+      <canvas id="scope"></canvas>
+      <div id="hoChoice" style="display:none;position:absolute;z-index:20;background:#051020;border:1.5px solid #1f8a5c;border-radius:13px;padding:10px 12px;min-width:130px;box-shadow:0 6px 20px rgba(0,0,0,.55)">
+        <div id="hoCsLbl" style="font-family:'Courier New',monospace;font-size:11px;font-weight:700;color:#1f8a5c;margin-bottom:7px;text-align:center"></div>
+        <button id="hoBtn" style="width:100%;padding:9px 12px;background:#1f8a5c;border:none;border-radius:9px;color:#fff;font-size:13px;font-weight:800;cursor:pointer"></button>
+      </div>
+    </div>
     <div id="side">
       <div class="panel"><div class="ph" id="phInbox"></div><div id="inbox"></div></div>
       <div class="panel"><div class="ph" id="phSel"></div><div id="selPanel"></div></div>
@@ -120,7 +160,7 @@
       title:"Multi Control", sub:"Run a sector: assume, separate, hand off \u2014 prototype",
       note:"The official assessment is conducted in English. We recommend training in English; switch to Spanish only if you need to. Best on desktop (recommended for accuracy), though it works on mobile too.",
       how:"How it works",
-      instr:"You are the controller for a sector. Inbound flights call you in the <b>New flights</b> list \u2014 press <b>Assume</b> to take each one before its timer runs out. Once assumed, an aircraft flies its route across the sector. Routes cross at the centre, so keep aircraft <b>separated</b>: two at the <b>same level</b> that get close will flash red \u2014 select one and <b>climb or descend</b> it. Each flight has a <b>required exit level</b>; set it before the aircraft reaches the boundary, then <b>Hand off</b> when the button appears.",
+      instr:"You are the controller for a sector. Inbound flights call you in the <b>New flights</b> list \u2014 press <b>Assume</b> to take each one before its timer runs out. Once assumed, an aircraft flies its route across the sector. Routes cross at the centre, so keep aircraft <b>separated</b>: two at the <b>same level</b> that get close will flash red \u2014 select one and <b>climb or descend</b> it. Each flight has a <b>required exit level</b>; set it before the aircraft reaches the boundary, then tap the aircraft to <b>Hand off</b>. <b>Conflict risk (\u26a0):</b> if a new flight is at the same level as an aircraft already in sector, assuming it will create a conflict. You can either assume and immediately change its level, or let it time out \u2014 correctly declining a conflict risk is rewarded.",
       leg:"<b><span class='dot' style='background:#1f7ad6'></span> Blue</b> under control &nbsp;\u00b7&nbsp; <b><span class='dot' style='background:#e23b3b'></span> Red</b> loss of separation \u2014 act now &nbsp;\u00b7&nbsp; <b><span class='dot' style='background:#1f8a5c'></span> Green</b> ready to hand off",
       lblTime:"Time", lblScore:"Score", lblTraf:"Traffic",
       start:"Start shift", again:"Try again",
@@ -134,7 +174,22 @@
       band_ex:"Excellent \u2014 calm, separated, on time", band_good:"Good \u2014 a solid pair of hands",
       band_ok:"Fair \u2014 the picture got away from you at times", band_imp:"Work needed \u2014 build the scan and plan ahead",
       r_assumed:"Flights assumed", r_clean:"Clean hand-offs", r_wrong:"Hand-offs at wrong level",
-      r_loss:"Separation losses", r_missed:"Missed (timed out / left sector)", lvl1:"Level 1 \u00b7 slower", lvl2:"Level 2"
+      r_loss:"Separation losses", r_missed:"Missed (timed out / left sector)", r_safe:"Correctly declined (conflict risk)",
+      conflRisk:"Conflict risk", lvl1:"Level 1 \u00b7 slower", lvl2:"Level 2",
+      m_gold:'Gold',m_silver:'Silver',m_bronze:'Bronze',m_none:'Keep training',
+      m_msg_gold:'Outstanding — competitive level',
+      m_msg_silver:'Solid performance — keep building consistency',
+      m_msg_bronze:'Developing — keep training regularly',
+      m_msg_none:'Early days — every session builds the skill',
+      m_to_gold:'to Gold',m_to_silver:'to Silver',m_to_bronze:'to Bronze',
+      m_at_gold:"You're at competitive level — aim for 100%",
+      m_overall:'Overall score',
+      tips_hdr:'Advice from the ControlPrep Team',
+      tip_assume:'Missing inbox flights costs heavily. Prioritise clearing your inbox — set a rhythm: inbox check, scope scan, inbox check. In real ATC, failing to accept a handoff creates problems for the previous sector. Don\'t let flights time out.',
+      tip_sep:'All routes cross at the centre fix. Two aircraft at the same level will always conflict there. Separate them before they reach it — check levels the moment you assume each aircraft and act immediately.',
+      tip_ho:'Clean handoffs matter. An aircraft should be at its required exit level well before the boundary, not arriving there on the edge. Once assumed, immediately plan the level change needed.',
+      tip_missed:'Aircraft leaving without handoff is one of the worst outcomes. Watch your strips — anything showing green needs immediate attention. If you\'re overloaded, prioritise handoffs over new assumptions.',
+      tip_gold:'Solid sector management — inbox under control, aircraft separated, clean handoffs. The real FEAST test builds on exactly these skills. Keep the rhythm sharp.'
     },
     es:{
       title:"Multi Control", sub:"Gestiona un sector: asume, separa, transfiere \u2014 prototipo",
@@ -154,7 +209,21 @@
       band_ex:"Excelente \u2014 con calma, separado y a tiempo", band_good:"Bueno \u2014 buen control",
       band_ok:"Aceptable \u2014 a veces se te complic\u00f3 la imagen", band_imp:"A mejorar \u2014 trabaja el barrido y anticipa",
       r_assumed:"Vuelos asumidos", r_clean:"Transferencias correctas", r_wrong:"Transferencias a nivel err\u00f3neo",
-      r_loss:"P\u00e9rdidas de separaci\u00f3n", r_missed:"Perdidos (caducados / salieron del sector)", lvl1:"Nivel 1 \u00b7 m\u00e1s lento", lvl2:"Nivel 2"
+      r_loss:"P\u00e9rdidas de separaci\u00f3n", r_missed:"Perdidos (caducados / salieron del sector)", r_safe:"Rechazados correctamente (riesgo de conflicto)", conflRisk:"Riesgo conflicto", lvl1:"Nivel 1 \u00b7 m\u00e1s lento", lvl2:"Nivel 2",
+      m_gold:'Oro',m_silver:'Plata',m_bronze:'Bronce',m_none:'Sigue entrenando',
+      m_msg_gold:'Sobresaliente — nivel competitivo',
+      m_msg_silver:'Rendimiento sólido — sigue ganando consistencia',
+      m_msg_bronze:'En desarrollo — entrena con regularidad',
+      m_msg_none:'Primeros pasos — cada sesión cuenta',
+      m_to_gold:'para el Oro',m_to_silver:'para la Plata',m_to_bronze:'para el Bronce',
+      m_at_gold:'Estás en nivel competitivo — apunta al 100%',
+      m_overall:'Puntuación global',
+      tips_hdr:'Consejos del equipo ControlPrep',
+      tip_assume:'Perder vuelos del inbox cuesta mucho. Prioriza limpiar el inbox — establece un ritmo: revisar inbox, barrer el radar, revisar inbox. En el ATC real, no aceptar una transferencia crea problemas al sector anterior. No dejes que los vuelos caduquen.',
+      tip_sep:'Todas las rutas se cruzan en el fix central. Dos aeronaves al mismo nivel siempre conflictuarán allí. Sepáralas antes de que lleguen — comprueba los niveles en cuanto asumes cada aeronave y actúa de inmediato.',
+      tip_ho:'Las transferencias limpias importan. Una aeronave debe estar a su nivel de salida mucho antes del límite, no llegando a él en el borde. En cuanto asumas una aeronave, planifica inmediatamente el cambio de nivel necesario.',
+      tip_missed:'Una aeronave que sale sin transferencia es uno de los peores resultados. Vigila tus fichas — todo lo que aparezca en verde necesita atención inmediata. Si estás sobrecargado, prioriza las transferencias sobre las nuevas asunciones.',
+      tip_gold:'Buena gestión del sector — inbox controlado, aeronaves separadas, transferencias limpias. La prueba FEAST real se basa exactamente en estas habilidades. Mantén el ritmo.'
     }
   };
 
@@ -180,7 +249,7 @@
 
   var running=false, planes=[], inbox=[], nextId=1, sel=null;
   var startMs=0, ROUND=120000, lastTs=0, sweep=0;
-  var score=0, assumed=0, cleanHO=0, wrongHO=0, losses=0, missed=0;
+  var score=0, assumed=0, cleanHO=0, wrongHO=0, losses=0, missed=0, safeDeclined=0;
   var lastSpawn=0, panelAcc=0;
   var level=1, spdMul=1, spawnMul=1, assumeT=9000;
   var lossActive={};
@@ -194,10 +263,45 @@
     if(x<0.05)return 'W'; if(x>0.95)return 'E'; if(y<0.2)return 'N'; if(y>0.8)return 'S'; return '\u00b7';
   }
 
+  function shuffleArr(a){var b=a.slice();for(var i=b.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=b[i];b[i]=b[j];b[j]=t;}return b;}
+
   function spawnInbox(){
     if(inbox.length>=3) return;
-    var r=Math.floor(rnd(0,ROUTES.length));
-    inbox.push({id:nextId++, cs:cs(), route:r, fl:pick([310,320,330]), exitFl:pick(FLS), t:assumeT, t0:assumeT});
+
+    // Block any route that still has an active plane on it (prevents in-trail conflicts)
+    var freeRoutes=shuffleArr([0,1,2,3]).filter(function(ri){
+      return !planes.some(function(p){return p.route===ri;})
+          && !inbox.some(function(f){return f.route===ri;});
+    });
+    if(!freeRoutes.length) return;
+    var r=freeRoutes[0];
+
+    // Collect every FL currently occupied or committed by active planes and inbox
+    var takenFls=[];
+    planes.forEach(function(p){
+      takenFls.push(p.fl); takenFls.push(p.cleared); takenFls.push(p.exitFl);
+    });
+    inbox.forEach(function(f){takenFls.push(f.fl); takenFls.push(f.exitFl);});
+
+    function flTaken(f){return takenFls.some(function(u){return Math.abs(u-f)<7;});}
+
+    // Entry FL must be free
+    var freeFls=FLS.filter(function(f){return !flTaken(f);});
+    if(!freeFls.length) return;
+    var fl=pick(freeFls);
+
+    // Exit FL must be free AND the entire climb/descent path between fl and exitFl must be clear
+    // (every intermediate FL also free, so no other plane sits in the crossing zone)
+    var safeExits=shuffleArr(FLS).filter(function(ex){
+      if(ex===fl||flTaken(ex)) return false;
+      var lo=Math.min(fl,ex), hi=Math.max(fl,ex);
+      return FLS.filter(function(f){return f>lo&&f<hi;})
+               .every(function(f){return !flTaken(f);});
+    });
+    if(!safeExits.length) return;
+    var exitFl=safeExits[0];
+
+    inbox.push({id:nextId++, cs:cs(), route:r, fl:fl, exitFl:exitFl, t:assumeT, t0:assumeT, unsafe:false});
   }
   function assume(id){
     var idx=-1; for(var i=0;i<inbox.length;i++) if(inbox[i].id===id) idx=i;
@@ -207,7 +311,8 @@
     var wp=[px(R.entry)]; for(var n=0;n<R.names.length;n++) wp.push(px(FIX[R.names[n]]));
     wp.push(px(R.exit));
     planes.push({id:f.id, cs:f.cs, route:f.route, names:R.names, wp:wp, x:wp[0][0], y:wp[0][1],
-      tgt:1, fl:f.fl, cleared:f.fl, exitFl:f.exitFl, confl:false, ho:false, spawn:performance.now()});
+      tgt:1, fl:f.fl, cleared:f.fl, exitFl:f.exitFl, confl:false, ho:false, spawn:performance.now(),
+      graceUntil:performance.now()+2000});
     assumed++; score+=10;
     refreshPanels();
   }
@@ -225,9 +330,27 @@
   // ---- interaction ----
   cv.addEventListener('pointerdown',function(e){
     if(!running) return;
+    // dismiss handoff popup if open
+    var hoc=document.getElementById('hoChoice');
+    if(hoc.style.display==='block'){hoc.style.display='none';return;}
     var r=cv.getBoundingClientRect(), mx=e.clientX-r.left, my=e.clientY-r.top, best=null, bd=Math.max(22,0.045*W);
     for(var i=0;i<planes.length;i++){var p=planes[i],d=Math.hypot(p.x-mx,p.y-my); if(d<bd){bd=d;best=p;}}
-    if(best) selectPlane(best.id);
+    if(!best) return;
+    if(best.ho){
+      // green aircraft: show handoff popup near the aircraft
+      var t=L[lang];
+      document.getElementById('hoCsLbl').textContent=best.cs+' \u2192 '+t.exitL+' FL'+best.exitFl;
+      document.getElementById('hoBtn').textContent=t.handoff+' \u2192';
+      document.getElementById('hoBtn').onclick=function(){
+        hoc.style.display='none';
+        sel=best.id; handoff();
+      };
+      // position popup near the aircraft blip, staying within canvas
+      var px=Math.min(best.x, W-145), py=Math.max(best.y-70, 4);
+      hoc.style.left=px+'px'; hoc.style.top=py+'px'; hoc.style.display='block';
+    } else {
+      selectPlane(best.id);
+    }
   });
 
   function updHud(){
@@ -243,8 +366,10 @@
     if(!inbox.length){ el.innerHTML='<div class="idle">'+t.inboxIdle+'</div>'; return; }
     var h='';
     for(var i=0;i<inbox.length;i++){ var f=inbox[i], R=ROUTES[f.route];
-      h+='<div class="inrow"><div style="flex:1;min-width:0">'
-        +'<div class="cs">'+f.cs+'</div>'
+      var unsafeBadge=f.unsafe?'<span style="background:#fff3e0;color:#c8730c;font-size:10px;font-weight:800;border-radius:4px;padding:1px 5px;margin-left:4px">\u26a0 '+t.conflRisk+'</span>':'';
+      var rowStyle=f.unsafe?'border-left:3px solid #e8a317;':'';
+      h+='<div class="inrow" style="'+rowStyle+'"><div style="flex:1;min-width:0">'
+        +'<div class="cs">'+f.cs+unsafeBadge+'</div>'
         +'<div class="meta">'+dirOf(R.entry)+' \u2192 '+dirOf(R.exit)+' \u00b7 FL'+f.fl+' \u00b7 '+t.exitL+' FL'+f.exitFl+'</div>'
         +'<div class="bar"><i style="width:'+Math.max(0,f.t/f.t0*100)+'%"></i></div></div>'
         +'<button class="btn assume" data-as="'+f.id+'">'+t.assume+'</button></div>';
@@ -264,7 +389,10 @@
       +'<div class="lvlbox"><div class="k">'+t.exitL+'</div><div class="v tgt">FL'+p.exitFl+'</div></div>'
       +'<div class="lvlbtns"><button class="btn up" data-act="up">\u25b2 '+t.climb+'</button><button class="btn dn" data-act="dn">\u25bc '+t.descend+'</button></div>'
       +'</div>';
-    if(p.ho) h+='<button class="btn ho" data-act="ho">'+t.handoff+' \u2014 '+t.exitL+' FL'+p.exitFl+'</button>';
+    if(p.ho){
+      h+='<button class="btn ho" onclick="handoff()" style="width:100%;margin-top:8px;padding:10px;font-size:14px;font-weight:800;background:#1f8a5c;color:#fff;border:none;border-radius:10px;cursor:pointer">'
+        +'\u2192 '+t.handoff+' \u00b7 FL'+p.exitFl+'</button>';
+    }
     el.innerHTML=h;
   }
   function renderStrips(){
@@ -291,7 +419,18 @@
     // spawn inbound
     if(now-lastSpawn>rnd(4500,7500)*spawnMul){ spawnInbox(); lastSpawn=now; }
     // inbox timers
-    for(var i=inbox.length-1;i>=0;i--){ inbox[i].t-=dt; if(inbox[i].t<=0){ inbox.splice(i,1); missed++; score-=15; } }
+    for(var i=inbox.length-1;i>=0;i--){
+      inbox[i].t-=dt;
+      if(inbox[i].t<=0){
+        if(inbox[i].unsafe){
+          // Correctly declined — reward the player
+          safeDeclined++; score+=15;
+        } else {
+          missed++; score-=15;
+        }
+        inbox.splice(i,1);
+      }
+    }
     // move + level + handoff state
     var SPD=0.052*W*dts*spdMul, REACH=0.022*W, HAND=0.16*W;
     for(var i=planes.length-1;i>=0;i--){ var p=planes[i];
@@ -303,7 +442,8 @@
       var last=p.wp.length-1;
       if(d<REACH){ if(p.tgt<last){ p.tgt++; } }
       // handoff eligibility: on final leg toward exit, near boundary
-      p.ho = (p.tgt===last) && (Math.hypot(p.wp[last][0]-p.x,p.wp[last][1]-p.y)<HAND);
+      // hand off eligible: on final leg (heading to exit point), regardless of distance
+      p.ho = (p.tgt===last);
       // crossed boundary without handoff
       if(p.tgt===last && (p.x< -0.04*W || p.x> 1.04*W || p.y< -0.04*H || p.y> 1.04*H)){
         missed++; score-=20; if(p.id===sel) sel=null; planes.splice(i,1);
@@ -312,8 +452,12 @@
     // conflict detection (same level + close)
     for(var a=0;a<planes.length;a++) planes[a].confl=false;
     var WARN=0.12*Math.min(W,H), LOSS=0.055*Math.min(W,H);
+    var now2=performance.now();
     for(var a=0;a<planes.length;a++) for(var b=a+1;b<planes.length;b++){
-      var pa=planes[a], pb=planes[b], same=Math.abs(pa.fl-pb.fl)<7, dist=Math.hypot(pa.x-pb.x,pa.y-pb.y);
+      var pa=planes[a], pb=planes[b];
+      // Skip if either aircraft is still in its spawn grace period
+      if(now2<(pa.graceUntil||0)||now2<(pb.graceUntil||0)) continue;
+      var same=Math.abs(pa.fl-pb.fl)<7, dist=Math.hypot(pa.x-pb.x,pa.y-pb.y);
       var key=Math.min(pa.id,pb.id)+'-'+Math.max(pa.id,pb.id);
       if(same && dist<WARN){ pa.confl=true; pb.confl=true; }
       if(same && dist<LOSS){ if(!lossActive[key]){ lossActive[key]=true; losses++; score-=20; } }
@@ -330,12 +474,16 @@
   }
   function render(now){
     ctx.clearRect(0,0,W,H); ctx.fillStyle='#d4e3f2'; ctx.fillRect(0,0,W,H);
-    // airways
+    // airways — two straight lines from boundary to boundary, clipped naturally by canvas
     ctx.strokeStyle='rgba(120,160,200,.45)'; ctx.lineWidth=Math.max(8,0.02*W); ctx.lineCap='round';
-    for(var r=0;r<ROUTES.length;r++){ var R=ROUTES[r];
-      var pts=[]; for(var n=0;n<R.names.length;n++) pts.push(px(FIX[R.names[n]]));
-      ctx.beginPath(); ctx.moveTo(pts[0][0],pts[0][1]); for(var k=1;k<pts.length;k++) ctx.lineTo(pts[k][0],pts[k][1]); ctx.stroke();
-    }
+    [['ASTRA','ECHTA'],['BEGUR','DORSA']].forEach(function(pair){
+      var f1=px(FIX[pair[0]]), f2=px(FIX[pair[1]]);
+      var dx=f2[0]-f1[0], dy=f2[1]-f1[1];
+      ctx.beginPath();
+      ctx.moveTo(f1[0]-dx*10, f1[1]-dy*10);
+      ctx.lineTo(f2[0]+dx*10, f2[1]+dy*10);
+      ctx.stroke();
+    });
     ctx.lineWidth=1; ctx.lineCap='butt';
     // sweep
     sweep+=0.01; var cxp=W/2,cyp=H/2,Rr=Math.max(W,H)*0.62;
@@ -367,26 +515,71 @@
     sizeCanvas();
     planes=[]; inbox=[]; sel=null; nextId=1; lossActive={};
     spdMul=level===1?0.62:1; spawnMul=level===1?1.5:1; assumeT=level===1?13000:9000;
-    score=0; assumed=0; cleanHO=0; wrongHO=0; losses=0; missed=0;
+    score=0; assumed=0; cleanHO=0; wrongHO=0; losses=0; missed=0; safeDeclined=0;
     startMs=performance.now(); lastTs=0; lastSpawn=startMs-3000; panelAcc=0;
     running=true; played=true;
     spawnInbox(); refreshPanels();
     requestAnimationFrame(loop);
   }
+  function buildMedal(t,overall){
+    var tier,icon,cls,msg,barPct,barLbl;
+    if(overall>=80){tier=t.m_gold;icon='🥇';cls='mg';msg=t.m_msg_gold;barPct=100;barLbl=t.m_at_gold;}
+    else if(overall>=55){tier=t.m_silver;icon='🥈';cls='ms';msg=t.m_msg_silver;barPct=Math.round((overall-55)/25*100);barLbl=barPct+'% '+t.m_to_gold;}
+    else if(overall>=30){tier=t.m_bronze;icon='🥉';cls='mb';msg=t.m_msg_bronze;barPct=Math.round((overall-30)/25*100);barLbl=barPct+'% '+t.m_to_silver;}
+    else{tier=t.m_none;icon='⏳';cls='mn';msg=t.m_msg_none;barPct=Math.round(overall/30*100);barLbl=barPct+'% '+t.m_to_bronze;}
+    return '<div class="medal-block"><div class="medal-icon">'+icon+'</div>'
+      +'<div class="medal-name '+cls+'">'+tier.toUpperCase()+'</div>'
+      +'<div class="medal-msg">'+msg+'</div></div>'
+      +'<div class="m-overall">'+overall+'%</div>'
+      +'<div class="m-ovlbl">'+t.m_overall+'</div>'
+      +'<div class="medal-prog"><div class="mp-track"><div class="mp-fill '+cls+'" style="width:'+barPct+'%"></div></div>'
+      +'<div class="mp-lbl">'+barLbl+'</div></div>';
+  }
+  function buildMedal(t,overall){
+    var tier,icon,cls,msg,barPct,barLbl;
+    if(overall>=80){tier=t.m_gold;icon='🥇';cls='mg';msg=t.m_msg_gold;barPct=100;barLbl=t.m_at_gold;}
+    else if(overall>=55){tier=t.m_silver;icon='🥈';cls='ms';msg=t.m_msg_silver;barPct=Math.round((overall-55)/25*100);barLbl=barPct+'% '+t.m_to_gold;}
+    else if(overall>=30){tier=t.m_bronze;icon='🥉';cls='mb';msg=t.m_msg_bronze;barPct=Math.round((overall-30)/25*100);barLbl=barPct+'% '+t.m_to_silver;}
+    else{tier=t.m_none;icon='⏳';cls='mn';msg=t.m_msg_none;barPct=Math.round(overall/30*100);barLbl=barPct+'% '+t.m_to_bronze;}
+    return '<div class="medal-block"><div class="medal-icon">'+icon+'</div>'
+      +'<div class="medal-name '+cls+'">'+tier.toUpperCase()+'</div>'
+      +'<div class="medal-msg">'+msg+'</div></div>'
+      +'<div class="m-overall">'+overall+'%</div>'
+      +'<div class="m-ovlbl">'+t.m_overall+'</div>'
+      +'<div class="medal-prog"><div class="mp-track"><div class="mp-fill '+cls+'" style="width:'+barPct+'%"></div></div>'
+      +'<div class="mp-lbl">'+barLbl+'</div></div>';
+  }
   function endGame(){
     running=false; var t=L[lang];
     document.getElementById('game').style.display='none';
-    var band = score>=320?t.band_ex:score>=190?t.band_good:score>=80?t.band_ok:t.band_imp;
-    var html='<div class="results"><h2>'+t.results+'</h2><div class="band">'+band+'</div>'
-      +'<div class="big">'+score+'</div>'
-      +'<div class="rrow"><span>'+t.r_assumed+'</span><span>'+assumed+'</span></div>'
+    var totalPl=assumed+missed;
+    var assumeAcc=totalPl?Math.round(assumed/totalPl*100):0;
+    var hoAcc=assumed?Math.round(cleanHO/assumed*100):0;
+    var overall=Math.max(0,Math.min(100,Math.round(assumeAcc*0.5+hoAcc*0.3+Math.max(0,100-losses*25)*0.2)+safeDeclined*5));
+    var tips=[];
+    if(overall>=80){tips.push(t.tip_gold);}
+    else{
+      if(assumeAcc<60)tips.push(t.tip_assume);
+      else if(losses>1)tips.push(t.tip_sep);
+      else if(hoAcc<60)tips.push(t.tip_ho);
+      if(missed>2&&tips.length<2)tips.push(t.tip_missed);
+      if(!tips.length)tips.push(losses>0?t.tip_sep:t.tip_assume);
+    }
+    var tipsHtml=tips.length?'<div class="ctrl-tips"><div class="ctrl-tips-hdr">'+t.tips_hdr+'</div>'
+      +tips.map(function(tip){return '<div class="ctrl-tip">'+tip+'</div>';}).join('')+'</div>':'';
+    var html='<div class="results">'+buildMedal(t,overall)
+      +'<div class="rrow"><span>'+t.r_assumed+'</span><span>'+assumed+'/'+totalPl+'</span></div>'
       +'<div class="rrow"><span>'+t.r_clean+'</span><span>'+cleanHO+'</span></div>'
       +'<div class="rrow"><span>'+t.r_wrong+'</span><span>'+wrongHO+'</span></div>'
       +'<div class="rrow"><span>'+t.r_loss+'</span><span>'+losses+'</span></div>'
       +'<div class="rrow"><span>'+t.r_missed+'</span><span>'+missed+'</span></div>'
+      +(safeDeclined?'<div class="rrow" style="color:#1f8a5c;font-weight:700"><span>'+t.r_safe+'</span><span>+'+safeDeclined+'</span></div>':'')
+      +'<div class="rrow" style="margin-top:6px;color:#8aa0b5;font-size:11px"><span>Score</span><span>'+score+'</span></div>'
+      +tipsHtml
       +'</div>';
     document.getElementById('resultsHost').innerHTML=html;
     document.getElementById('intro').style.display='block';
+    document.getElementById('hoChoice').style.display='none';
     document.getElementById('startBtn').textContent=t.again;
     document.getElementById('hTime').textContent='0';
   }
