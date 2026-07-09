@@ -8474,12 +8474,13 @@ STT.start();
 if(!localStorage.getItem('userName')){
   if(!localStorage.getItem('landingSeen')&&!localStorage.getItem('splashSeen')){
     go('landing');
+  } else if(localStorage.getItem('landingSeen')){
+    go('landing-plan'); // return visitor — has seen landing before but not logged in
   } else {
-    go('landing-plan'); // return visitor
+    go('home'); // had splashSeen but not landingSeen — original fallback
   }
-} else if(!localStorage.getItem('splashSeen')&&!localStorage.getItem('userName')){
-  go('home');
 }
+// Logged-in users: go('home') is called by onAuthStateChange
 renderPapers();
 // Cookie consent
 function cookieShowBanner(){
