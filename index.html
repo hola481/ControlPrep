@@ -255,7 +255,22 @@ body{font-family:'IBM Plex Sans',sans-serif;background:#050d1a;color:var(--tx);m
 .hh-sr:active{opacity:.8}
 .hh-sri{font-size:26px;flex-shrink:0}
 .hh-src{font-size:20px;font-weight:900;color:#00b4d8;line-height:1}
-.hh-srl{font-size:12px;color:#8cb8d8;margin-top:2px}text-align:center;padding:22px 6px 10px;color:#8aa0b5;font-size:10px;line-height:1.7}
+.hh-srl{font-size:12px;color:#8cb8d8;margin-top:2px}
+.hh-foot{text-align:center;padding:22px 6px 10px;color:#8aa0b5;font-size:10px;line-height:1.7}
+.lp2-feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.lp2-feat{background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;padding:16px 14px}
+.lp2-feat-icon{font-size:28px;margin-bottom:8px}
+.lp2-feat-title{font-size:14px;font-weight:800;color:#e8f4fd;margin-bottom:4px}
+.lp2-feat-desc{font-size:12px;color:#8cb8d8;line-height:1.5}
+.lp2-testi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.lp2-testi{background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;padding:16px 14px}
+.lp2-stars{color:#ffd166;font-size:14px;margin-bottom:8px}
+.lp2-quote{font-size:13px;color:#c8dff0;line-height:1.6;margin-bottom:10px;font-style:italic}
+.lp2-attr{font-size:11px;color:#5a8aaa;font-weight:700}
+@media(min-width:700px){
+  .lp2-feat-grid{grid-template-columns:1fr 1fr 1fr 1fr}
+  .lp2-testi-grid{grid-template-columns:1fr 1fr 1fr 1fr}
+}
 .hh-flinks{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:6px}
 .hh-flinks button{background:none;border:none;font-family:'IBM Plex Sans',sans-serif;font-size:10px;color:#8aa0b5;cursor:pointer;text-decoration:underline}
 #home{background:#eef5fb}
@@ -422,7 +437,16 @@ async function sbInit(){
   _sb.auth.onAuthStateChange(async (event, session) => {
     if(session){
       _currentUser = session.user;
-      await checkPremiumStatus();
+      // For returning users with existing session, make sure home renders
+      if(event==='INITIAL_SESSION'){
+        await checkPremiumStatus();
+        renderHomeDashboard();
+        updateHomeButtons();
+        const cur=document.querySelector('.screen.active');
+        if(!cur||cur.id!=='home') go('home');
+      } else {
+        await checkPremiumStatus();
+      }
     } else {
       _currentUser = null;
       DEV_PREMIUM = false;
@@ -929,23 +953,6 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 <!-- LANDING PLAN SCREEN -->
 <div class="screen" id="landing-plan" style="background:#0a1f38">
 
-<!-- LP2 CSS -->
-<style>
-.lp2-feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.lp2-feat{background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;padding:16px 14px}
-.lp2-feat-icon{font-size:28px;margin-bottom:8px}
-.lp2-feat-title{font-size:14px;font-weight:800;color:#e8f4fd;margin-bottom:4px}
-.lp2-feat-desc{font-size:12px;color:#8cb8d8;line-height:1.5}
-.lp2-testi-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
-.lp2-testi{background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;padding:16px 14px}
-.lp2-stars{color:#ffd166;font-size:14px;margin-bottom:8px}
-.lp2-quote{font-size:13px;color:#c8dff0;line-height:1.6;margin-bottom:10px;font-style:italic}
-.lp2-attr{font-size:11px;color:#5a8aaa;font-weight:700}
-@media(min-width:700px){
-  .lp2-feat-grid{grid-template-columns:1fr 1fr 1fr 1fr}
-  .lp2-testi-grid{grid-template-columns:1fr 1fr 1fr 1fr}
-}
-</style>
 
 <!-- HERO -->
 <div style="background:linear-gradient(150deg,#0a1f38,#050d1a);padding:40px 20px 36px;text-align:center">
