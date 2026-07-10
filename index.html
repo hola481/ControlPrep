@@ -423,6 +423,13 @@ async function sbInit(){
     if(session){
       _currentUser = session.user;
       await checkPremiumStatus();
+      // If we're on landing-plan or landing, redirect to home now auth is confirmed
+      const cur=document.querySelector('.screen.active');
+      if(cur&&(cur.id==='landing-plan'||cur.id==='landing'||cur.id==='splash')){
+        renderHomeDashboard();
+        renderPhases();
+        go('home');
+      }
     } else {
       _currentUser = null;
       DEV_PREMIUM = false;
