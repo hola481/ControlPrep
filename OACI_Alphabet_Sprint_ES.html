@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Sprint Alfabeto OACI – ControlPrep</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:#060f1e;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;color:#e8f4fb;overflow:hidden;user-select:none}
+#app{height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px}
+
+/* ── INTRO ── */
+#intro{width:100%;max-width:400px;text-align:center}
+.brand{font-size:11px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#00b4d8;opacity:.7;margin-bottom:14px}
+.gtitle{font-size:clamp(28px,9vw,50px);font-weight:900;line-height:1;color:#e8f4fb;margin-bottom:4px}
+.gtitle span{color:#00b4d8}
+.gnum{font-size:11px;font-weight:700;letter-spacing:.15em;color:#4a7a9b;text-transform:uppercase;margin-bottom:12px}
+.tagline{font-size:13px;color:#5a8aaa;margin-bottom:20px;line-height:1.6}
+.nato-preview{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:20px;width:100%}
+.np{background:rgba(0,180,216,.08);border:1px solid rgba(0,180,216,.18);border-radius:8px;padding:7px 4px;text-align:center}
+.np-letter{font-family:'Courier New',monospace;font-size:17px;font-weight:900;color:#00b4d8;line-height:1}
+.np-word{font-size:10px;color:#8cb8d8;margin-top:2px;letter-spacing:.02em}
+.how{display:grid;gap:6px;margin-bottom:20px;text-align:left}
+.hr{display:flex;gap:10px;align-items:flex-start;background:rgba(0,180,216,.06);border:1px solid rgba(0,180,216,.13);border-radius:9px;padding:8px 11px}
+.hi{font-size:15px;flex-shrink:0}
+.ht{font-size:12px;color:#8cb8d8;line-height:1.4}
+.ht b{color:#e8f4fb;display:block;margin-bottom:1px}
+.sbtn{width:100%;padding:14px;border:none;border-radius:13px;background:linear-gradient(135deg,#00b4d8,#0080a0);color:#001a2e;font-size:16px;font-weight:800;cursor:pointer;letter-spacing:.02em}
+.sbtn:active{transform:scale(.97)}
+
+/* ── HUD ── */
+#hud{display:none;width:100%;max-width:440px;justify-content:space-between;align-items:center;margin-bottom:10px}
+.hv{font-family:'Courier New',monospace;font-size:22px;font-weight:800;color:#e8f4fb;line-height:1;text-align:center}
+.hl{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#4a7a9b;margin-top:2px;text-align:center}
+.hv.teal{color:#00b4d8}.hv.warn{color:#ffd166}.hv.danger{color:#e63946}
+
+/* ── GAME ── */
+#game{display:none;width:100%;max-width:440px;flex-direction:column;align-items:center}
+
+/* Timer bar */
+#timer-bar-wrap{width:100%;height:6px;background:rgba(0,180,216,.15);border-radius:3px;margin-bottom:20px;overflow:hidden}
+#timer-bar{height:6px;border-radius:3px;background:#00b4d8;width:100%;transition:width linear}
+
+/* Letter display */
+#letter-box{width:100%;text-align:center;margin-bottom:8px;position:relative}
+#letter-display{font-family:'Courier New',monospace;font-size:clamp(90px,25vw,140px);font-weight:900;line-height:1;color:#e8f4fb;transition:opacity .1s}
+#letter-display.flash-wrong{color:#e63946}
+#letter-display.flash-right{color:#2dc653}
+
+/* Streak indicator */
+#streak{font-size:12px;font-weight:700;color:#ffd166;margin-bottom:16px;min-height:18px;letter-spacing:.05em;text-align:center}
+
+/* Answer options */
+#options{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.opt{padding:16px 8px;border:1.5px solid rgba(0,180,216,.25);border-radius:12px;background:rgba(0,180,216,.07);font-size:clamp(15px,4vw,19px);font-weight:700;color:#e8f4fb;cursor:pointer;text-align:center;letter-spacing:.02em;transition:background .1s,border-color .1s}
+.opt:active{transform:scale(.97)}
+.opt.correct{background:rgba(45,198,83,.25);border-color:#2dc653;color:#2dc653}
+.opt.wrong{background:rgba(230,57,70,.22);border-color:#e63946;color:#e63946}
+.opt.reveal{background:rgba(45,198,83,.15);border-color:#2dc653;color:#2dc653}
+.opt:disabled{cursor:default}
+
+/* ── FLASH ── */
+#flash{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .08s}
+#flash.red{background:rgba(230,57,70,.28)}
+#flash.green{background:rgba(45,198,83,.15)}
+
+/* ── RESULT ── */
+#result{display:none;text-align:center;max-width:400px;width:100%}
+.rs{font-family:'Courier New',monospace;font-size:68px;font-weight:900;line-height:1;color:#00b4d8}
+.rl{font-size:12px;color:#5a8aaa;margin-bottom:14px}
+.rr{font-size:18px;font-weight:800;color:#e8f4fb;margin-bottom:5px}
+.rsub{font-size:12px;color:#5a8aaa;line-height:1.5;margin-bottom:16px}
+.rstats{display:flex;gap:8px;justify-content:center;margin-bottom:16px;flex-wrap:wrap}
+.st{background:rgba(0,180,216,.08);border:1px solid rgba(0,180,216,.2);border-radius:10px;padding:8px 14px}
+.stn{font-family:'Courier New',monospace;font-size:19px;font-weight:800;color:#00b4d8}
+.stl{font-size:10px;color:#4a7a9b;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.sharebox{background:rgba(0,180,216,.06);border:1px dashed rgba(0,180,216,.3);border-radius:10px;padding:11px 13px;font-size:12px;color:#8cb8d8;line-height:1.6;margin-bottom:12px;cursor:pointer;text-align:left}
+.sh{font-size:11px;color:#00b4d8;margin-top:5px;font-weight:700}
+.again{width:100%;padding:13px;border:1.5px solid rgba(0,180,216,.3);border-radius:11px;background:transparent;color:#00b4d8;font-size:14px;font-weight:700;cursor:pointer}
+.again:active{background:rgba(0,180,216,.1)}
+
+/* missed letters review */
+.missed-list{width:100%;background:rgba(230,57,70,.07);border:1px solid rgba(230,57,70,.2);border-radius:10px;padding:10px 12px;margin-bottom:14px;text-align:left}
+.missed-title{font-size:10px;font-weight:800;letter-spacing:.1em;color:#e63946;text-transform:uppercase;margin-bottom:7px}
+.missed-row{display:flex;align-items:center;gap:8px;margin-bottom:4px;font-size:12px}
+.missed-l{font-family:'Courier New',monospace;font-weight:900;font-size:16px;color:#e8f4fb;width:18px}
+.missed-arrow{color:#4a7a9b}
+.missed-correct{color:#2dc653;font-weight:700}
+.missed-gave{color:#e63946}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="flash"></div>
+
+<!-- INTRO -->
+<div id="intro">
+  <div class="brand">ControlPrep · Mini Games</div>
+  <div class="gnum">Juego 25 de 52</div>
+  <h1 class="gtitle">OACI <span>Alfabeto</span><br>Sprint</h1>
+  <p class="tagline">Aparece una letra. Toca la palabra fonetica OACI correcta.<br>60 segundos. La velocidad y la precision cuentan.</p>
+  <div class="nato-preview">
+    <div class="np"><div class="np-letter">A</div><div class="np-word">Alpha</div></div>
+    <div class="np"><div class="np-letter">B</div><div class="np-word">Bravo</div></div>
+    <div class="np"><div class="np-letter">C</div><div class="np-word">Charlie</div></div>
+    <div class="np"><div class="np-letter">D</div><div class="np-word">Delta</div></div>
+    <div class="np"><div class="np-letter">M</div><div class="np-word">Mike</div></div>
+    <div class="np"><div class="np-letter">N</div><div class="np-word">November</div></div>
+    <div class="np"><div class="np-letter">S</div><div class="np-word">Sierra</div></div>
+    <div class="np"><div class="np-letter">W</div><div class="np-word">Whiskey</div></div>
+  </div>
+  <div class="how">
+    <div class="hr"><div class="hi">⚡</div><div class="ht"><b>La velocidad da puntos extra</b>Responde rapido y consigues hasta 100 pts por letra. Las respuestas mas lentas puntuan menos. Las incorrectas cuestan -30 pts.</div></div>
+    <div class="hr"><div class="hi">🔥</div><div class="ht"><b>Construye una racha</b>5 correctas seguidas = bonus de racha. Un fallo y se reinicia.</div></div>
+    <div class="hr"><div class="hi">⏱</div><div class="ht"><b>Cada letra tiene un limite de tiempo</b>Si no respondes a tiempo cuenta como error y aparece la siguiente letra.</div></div>
+  </div>
+  <button class="sbtn" onclick="startGame()">Empezar — 60 segundos</button>
+</div>
+
+<!-- HUD -->
+<div id="hud">
+  <div><div class="hv teal" id="h-score">0</div><div class="hl">Puntos</div></div>
+  <div><div class="hv" id="h-correct">0</div><div class="hl">Correctas</div></div>
+  <div><div class="hv warn" id="h-time">60</div><div class="hl">Segundos</div></div>
+  <div><div class="hv danger" id="h-wrong">0</div><div class="hl">Errores</div></div>
+</div>
+
+<!-- GAME -->
+<div id="game">
+  <div id="timer-bar-wrap"><div id="timer-bar"></div></div>
+  <div id="letter-box">
+    <div id="letter-display"></div>
+  </div>
+  <div id="streak"></div>
+  <div id="options"></div>
+</div>
+
+<!-- RESULT -->
+<div id="result">
+  <div class="brand" style="margin-bottom:12px">ControlPrep · Your Result</div>
+  <div class="rs" id="r-score"></div>
+  <div class="rl">points</div>
+  <div class="rr" id="r-rating"></div>
+  <div class="rsub" id="r-sub"></div>
+  <div class="rstats">
+    <div class="st"><div class="stn" id="r-correct"></div><div class="stl">Correctas</div></div>
+    <div class="st"><div class="stn" id="r-wrong"></div><div class="stl">Errores</div></div>
+    <div class="st"><div class="stn" id="r-acc"></div><div class="stl">Precision</div></div>
+    <div class="st"><div class="stn" id="r-streak"></div><div class="stl">Mejor racha</div></div>
+  </div>
+  <div class="missed-list" id="missed-list" style="display:none">
+    <div class="missed-title">Letras para repasar</div>
+    <div id="missed-rows"></div>
+  </div>
+  <div class="sharebox" onclick="copyShare()" id="sharebox"></div>
+  <button class="again" onclick="resetGame()">Jugar de nuevo</button>
+</div>
+</div>
+
+<script>
+// ── NATO ALPHABET ─────────────────────────────────────────────────
+const NATO = {
+  A:'Alpha',   B:'Bravo',   C:'Charlie', D:'Delta',   E:'Echo',
+  F:'Foxtrot', G:'Golf',    H:'Hotel',   I:'India',   J:'Juliet',
+  K:'Kilo',    L:'Lima',    M:'Mike',    N:'November',O:'Oscar',
+  P:'Papa',    Q:'Quebec',  R:'Romeo',   S:'Sierra',  T:'Tango',
+  U:'Uniform', V:'Victor',  W:'Whiskey', X:'X-ray',   Y:'Yankee',
+  Z:'Zulu'
+};
+const LETTERS = Object.keys(NATO);
+const WORDS   = Object.values(NATO);
+
+// Same-first-letter decoys — plausible words that start with the correct letter
+// so the player must actually know the word, not just pattern-match initials
+const DECOYS = {
+  A:['Able','Amber','Arrow','Arctic','Apex','Aries'],
+  B:['Baker','Bullet','Boxer','Beacon','Blade','Bogey'],
+  C:['Control','Condor','Cobra','Cedar','Carbon','Cadet'],
+  D:['Dover','Dragon','Dagger','Drake','Diesel','Datum'],
+  E:['Edward','Eagle','Ember','Envoy','Excel','Easel'],
+  F:['Falcon','Flare','Fiber','Flash','Forum','Ferro'],
+  G:['Gamma','Gravel','Gecko','Glide','Guard','Greco'],
+  H:['Harry','Hammer','Hover','Helix','Harbor','Hatch'],
+  I:['Igloo','Iota','Ivory','Iberia','Inlet','Inert'],
+  J:['Jack','Jaguar','Jumbo','Joker','Jetty','Juno'],
+  K:['King','Kafka','Knife','Kodex','Karma','Knoll'],
+  L:['London','Laser','Ledge','Lance','Lyric','Lunar'],
+  M:['Morgan','Metro','Maple','Morse','Mystic','Maven'],
+  N:['Nancy','Nexus','Ninja','Nadir','Noble','Noire'],
+  O:['Oliver','Omega','Orbit','Onyx','Ozone','Optic'],
+  P:['Peter','Prism','Pluto','Polar','Proxy','Pulse'],
+  Q:['Queen','Quota','Quest','Quasar','Quill','Query'],
+  R:['Roger','Radar','Rover','Raven','Relay','Ridge'],
+  S:['Sugar','Solar','Storm','Sabre','Sonic','Surge'],
+  T:['Tommy','Turbo','Topaz','Tiger','Trace','Tuner'],
+  U:['Uncle','Ultra','Unity','Umbra','Uplink','Ursa'],
+  V:['Valor','Viper','Venom','Volta','Vortex','Verde'],
+  W:['William','Warden','Wave','Waltz','Wyvern','Wedge'],
+  X:['Xenon','Xero','Xeon','Xtra','Xpert','Xpath'],
+  Y:['Yellow','Yokel','Yucca','Yodel','Yarrow','Yotta'],
+  Z:['Zero','Zebra','Zenith','Zonal','Zodiac','Zinc']
+};
+
+// ── CONFIG ────────────────────────────────────────────────────────
+const GAME_DURATION  = 60;    // seconds
+const TIME_PER_LETTER_START = 4.5;  // seconds per letter at start
+const TIME_PER_LETTER_MIN   = 2.2;  // minimum after difficulty ramp
+const WRONG_PENALTY  = 30;
+const MAX_PTS        = 100;   // for instant answer
+const MIN_PTS        = 20;    // for answering just before timeout
+const STREAK_BONUS   = 25;    // bonus every 5-correct streak
+const WRONG_FLASH_MS = 600;
+const DISTRACTORS_POOL_SIZE = 3; // wrong options per question
+
+// ── STATE ─────────────────────────────────────────────────────────
+let gameRunning = false;
+let elapsed = 0, letterElapsed = 0, letterTimeout = 0;
+let score = 0, correct = 0, wrong = 0, streak = 0, bestStreak = 0;
+let currentLetter = '', correctWord = '';
+let letterQueue = [];           // shuffled queue, refills when empty
+let missedMap = {};             // letter -> {correct, gave}
+let lastTs = 0;
+let raf;
+let optionsFrozen = false;      // brief freeze after answer
+
+// ── HELPERS ──────────────────────────────────────────────────────
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function refillQueue(){
+  letterQueue = shuffle(LETTERS);
+}
+
+function getDisstractors(letter, correct){
+  // Pick 3 decoys that start with the same letter — forces real knowledge
+  const pool = (DECOYS[letter]||[]).filter(w=>w!==correct);
+  return shuffle(pool).slice(0,3);
+}
+
+function currentLetterTimeout(){
+  // Difficulty ramp: shrinks from START to MIN over first 20 correct answers
+  const t = TIME_PER_LETTER_START - (correct/20)*(TIME_PER_LETTER_START - TIME_PER_LETTER_MIN);
+  return Math.max(TIME_PER_LETTER_MIN, t);
+}
+
+// ── GAME LOOP ─────────────────────────────────────────────────────
+function loop(ts){
+  if(!lastTs) lastTs=ts;
+  const dt = Math.min((ts-lastTs)/1000, 0.05);
+  lastTs=ts; elapsed+=dt; letterElapsed+=dt;
+
+  // Main timer
+  const left = Math.max(0, GAME_DURATION-elapsed);
+  const ht = document.getElementById('h-time');
+  ht.textContent = Math.ceil(left);
+  ht.className = 'hv'+(left<=10?' danger':left<=20?' warn':'');
+
+  // Per-letter timer bar
+  letterTimeout = currentLetterTimeout();
+  const ratio = Math.max(0, 1 - letterElapsed/letterTimeout);
+  const bar = document.getElementById('timer-bar');
+  bar.style.width = (ratio*100)+'%';
+  bar.style.background = ratio>0.5?'#00b4d8':ratio>0.25?'#ffd166':'#e63946';
+  bar.style.transition = 'none';
+
+  // Letter timed out
+  if(letterElapsed >= letterTimeout && !optionsFrozen){
+    handleAnswer(null); // null = timeout = wrong
+    return;
+  }
+
+  if(left <= 0){ endGame(); return; }
+  raf = requestAnimationFrame(loop);
+}
+
+// ── QUESTION ──────────────────────────────────────────────────────
+function nextQuestion(){
+  optionsFrozen = false;
+  letterElapsed = 0;
+
+  if(letterQueue.length === 0) refillQueue();
+  currentLetter = letterQueue.pop();
+  correctWord   = NATO[currentLetter];
+
+  // Letter display
+  const ld = document.getElementById('letter-display');
+  ld.textContent = currentLetter;
+  ld.className = '';
+
+  // Build options: correct + 3 distractors, shuffled
+  const opts = shuffle([correctWord, ...getDisstractors(currentLetter, correctWord)]);
+  const container = document.getElementById('options');
+  container.innerHTML = '';
+  opts.forEach(word => {
+    const btn = document.createElement('button');
+    btn.className = 'opt';
+    btn.textContent = word;
+    btn.onclick = () => handleAnswer(word);
+    container.appendChild(btn);
+  });
+
+  // Streak display
+  const streakEl = document.getElementById('streak');
+  if(streak >= 5){
+    streakEl.textContent = '🔥 Racha ×' + streak;
+  } else if(streak >= 3){
+    streakEl.textContent = '⚡ ' + streak + ' seguidas';
+  } else {
+    streakEl.textContent = '';
+  }
+}
+
+// ── ANSWER ────────────────────────────────────────────────────────
+function handleAnswer(given){
+  if(optionsFrozen) return;
+  optionsFrozen = true;
+
+  const isCorrect = given === correctWord;
+  const buttons = document.querySelectorAll('.opt');
+
+  if(isCorrect){
+    // Score: interpolate between MAX and MIN based on time taken
+    const frac = Math.min(1, letterElapsed / currentLetterTimeout());
+    const pts = Math.round(MAX_PTS - (MAX_PTS - MIN_PTS) * frac);
+    // Streak bonus
+    streak++;
+    if(streak > bestStreak) bestStreak = streak;
+    const streakBonus = (streak % 5 === 0) ? STREAK_BONUS : 0;
+    score += pts + streakBonus;
+    correct++;
+    document.getElementById('h-score').textContent = score;
+    document.getElementById('h-correct').textContent = correct;
+
+    // Highlight correct button
+    buttons.forEach(b => { if(b.textContent===correctWord) b.className='opt correct'; });
+    flashScreen('green');
+
+    // Show streak bonus toast if earned
+    if(streakBonus){
+      showStreakToast('+'+streakBonus+' bonus de racha!');
+    }
+  } else {
+    score = Math.max(0, score - WRONG_PENALTY);
+    wrong++;
+    streak = 0;
+    document.getElementById('h-score').textContent = score;
+    document.getElementById('h-wrong').textContent = wrong;
+
+    // Track missed letters for review
+    if(given !== null){ // null = timeout
+      if(!missedMap[currentLetter]){
+        missedMap[currentLetter] = {correct:correctWord, gave:given};
+      }
+    } else {
+      if(!missedMap[currentLetter]){
+        missedMap[currentLetter] = {correct:correctWord, gave:'(tiempo agotado)'};
+      }
+    }
+
+    // Show correct, mark wrong
+    buttons.forEach(b => {
+      if(b.textContent===correctWord) b.className='opt reveal';
+      else if(b.textContent===given)  b.className='opt wrong';
+    });
+    flashScreen('red');
+    document.getElementById('letter-display').className='flash-wrong';
+  }
+
+  // Brief pause then next question
+  setTimeout(()=>{
+    if(!gameRunning) return;
+    nextQuestion();
+    raf = requestAnimationFrame(loop);
+  }, isCorrect ? 350 : 700);
+}
+
+// ── FEEDBACK ──────────────────────────────────────────────────────
+let flashTimer = null;
+function flashScreen(type){
+  const el = document.getElementById('flash');
+  el.className = type;
+  el.style.opacity = '1';
+  if(flashTimer) clearTimeout(flashTimer);
+  flashTimer = setTimeout(()=>{ el.style.opacity='0'; el.className=''; }, type==='green'?250:500);
+}
+
+let streakToastTimer = null;
+function showStreakToast(msg){
+  const el = document.getElementById('streak');
+  el.textContent = '🔥 ' + msg;
+  el.style.color = '#ffd166';
+  if(streakToastTimer) clearTimeout(streakToastTimer);
+  streakToastTimer = setTimeout(()=>{
+    el.style.color = '';
+    el.textContent = streak>=5?'🔥 Racha ×'+streak:'';
+  }, 1000);
+}
+
+// ── LIFECYCLE ─────────────────────────────────────────────────────
+function startGame(){
+  document.getElementById('intro').style.display='none';
+  document.getElementById('hud').style.display='flex';
+  document.getElementById('game').style.display='flex';
+
+  score=0; correct=0; wrong=0; streak=0; bestStreak=0;
+  elapsed=0; letterElapsed=0; lastTs=0; missedMap={}; gameRunning=true;
+  refillQueue();
+
+  document.getElementById('h-score').textContent='0';
+  document.getElementById('h-correct').textContent='0';
+  document.getElementById('h-wrong').textContent='0';
+  document.getElementById('h-time').textContent='60';
+
+  nextQuestion();
+  raf = requestAnimationFrame(loop);
+}
+
+function endGame(){
+  gameRunning = false;
+  cancelAnimationFrame(raf);
+
+  document.getElementById('hud').style.display='none';
+  document.getElementById('game').style.display='none';
+  document.getElementById('result').style.display='block';
+
+  const total = correct + wrong;
+  const acc = total>0 ? Math.round(correct/total*100) : 0;
+
+  document.getElementById('r-score').textContent = score;
+  document.getElementById('r-correct').textContent = correct;
+  document.getElementById('r-wrong').textContent = wrong;
+  document.getElementById('r-acc').textContent = acc+'%';
+  document.getElementById('r-streak').textContent = bestStreak;
+
+  let rating, sub;
+  if(acc>=95 && correct>=22){rating='ATCO Nivel 1';sub='Perfecto. Conoces el alfabeto de memoria — rendimiento de radiotelefonia listo para el examen.';}
+  else if(acc>=88 && correct>=18){rating='ATCO Nivel 2';sub='Buena precision y velocidad. Algunas letras te pillaron — merece un repaso final.';}
+  else if(acc>=75 && correct>=14){rating='Controlador Alumno';sub='Base solida. Las dudas bajo presion son lo que hay que trabajar ahora.';}
+  else if(acc>=60){rating='Pre-OJT';sub='El alfabeto esta casi dominado — algunas letras necesitan mas repeticion para ser automaticas.';}
+  else{rating='Solo Teoria';sub='Sigue practicando. El alfabeto OACI debe ser instantaneo y automatico para la radiotelefonia.';}
+
+  document.getElementById('r-rating').textContent = rating;
+  document.getElementById('r-sub').textContent = sub;
+
+  // Missed letters review
+  const missed = Object.entries(missedMap);
+  if(missed.length > 0){
+    const ml = document.getElementById('missed-list');
+    const mr = document.getElementById('missed-rows');
+    ml.style.display='block';
+    mr.innerHTML = missed.map(([letter,{correct:c,gave:g}])=>
+      `<div class="missed-row">
+        <span class="missed-l">${letter}</span>
+        <span class="missed-arrow">→</span>
+        <span class="missed-correct">${c}</span>
+        <span class="missed-arrow">·</span>
+        <span style="font-size:11px;color:#5a8aaa">dijiste:</span>
+        <span class="missed-gave">${g}</span>
+      </div>`
+    ).join('');
+  }
+
+  const shareStr = `✈️ NATO Alphabet Sprint — ${score} pts\n${correct} correct · ${wrong} wrong · ${acc}% accuracy · Best streak: ${bestStreak}\nRated: "${rating}"\n\nBeat my score → controlprep.com`;
+  document.getElementById('sharebox').innerHTML =
+    shareStr.replace(/\n/g,'<br>') + '<div class="sh">Toca para copiar y compartir</div>';
+  document.getElementById('sharebox').dataset.text = shareStr;
+}
+
+function copyShare(){
+  const t=document.getElementById('sharebox').dataset.text;
+  const el=document.querySelector('.sh');
+  if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(t).then(()=>{
+      if(el){el.textContent='Copiado!';setTimeout(()=>el.textContent='Toca para copiar y compartir',2500);}
+    }).catch(()=>fallbackCopy(t,el));
+  } else { fallbackCopy(t,el); }
+}
+function fallbackCopy(text,hintEl){
+  const ta=document.createElement('textarea');
+  ta.value=text; ta.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:80%;padding:12px;border-radius:8px;border:1px solid #00b4d8;background:#051020;color:#e8f4fb;font-size:13px;z-index:9999;resize:none';
+  ta.rows=6; document.body.appendChild(ta); ta.focus(); ta.select();
+  let copied=false; try{copied=document.execCommand('copy');}catch(e){}
+  if(copied){ document.body.removeChild(ta); if(hintEl){hintEl.textContent='Copiado!';setTimeout(()=>hintEl.textContent='Toca para copiar y compartir',2500);} }
+  else {
+    const hint=document.createElement('div');
+    hint.textContent='Selecciona todo y copia manualmente';
+    hint.style.cssText='position:fixed;top:calc(50% + 90px);left:50%;transform:translateX(-50%);color:#ffd166;font-size:12px;font-weight:700;z-index:9999';
+    document.body.appendChild(hint);
+    const close=document.createElement('button');
+    close.textContent='Cerrar'; close.style.cssText='position:fixed;top:calc(50% + 110px);left:50%;transform:translateX(-50%);padding:8px 20px;background:#00b4d8;color:#001a2e;border:none;border-radius:8px;font-weight:800;font-size:13px;cursor:pointer;z-index:9999';
+    close.onclick=()=>{document.body.removeChild(ta);document.body.removeChild(hint);document.body.removeChild(close);};
+    document.body.appendChild(close);
+  }
+}
+
+function resetGame(){
+  document.getElementById('result').style.display='none';
+  document.getElementById('missed-list').style.display='none';
+  document.getElementById('missed-rows').innerHTML='';
+  document.getElementById('intro').style.display='block';
+}
+</script>
+</body>
+</html>
