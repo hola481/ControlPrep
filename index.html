@@ -8958,10 +8958,11 @@ function engRenderResults(r){const total=r.grammar+r.vocabulary+r.fluency+r.cohe
 function engReset(newPrompt=true){engStopRec();_engFinal='';document.getElementById('eng-transcript').value='';document.getElementById('eng-results').style.display='none';document.getElementById('eng-loading').style.display='none';engUpdateBtn();if(newPrompt)engNewPrompt();}
 </script>
 
+</div>
 <!-- ══════════════ MINI GAMES LOBBY ══════════════ -->
 <div class="screen" id="minigames">
   <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="go('home')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
-  <div class="inner" style="padding-top:20px;padding-bottom:90px">
+  <div class="inner" style="padding-top:20px;padding-bottom:90px;overflow-y:auto;flex:1">
     <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#ffd166;margin-bottom:6px">Gratis · Nuevo cada semana</div>
     <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:4px">🎮 Mini Juegos</div>
     <div style="font-size:13px;color:#8cb8d8;margin-bottom:20px;line-height:1.5">Practica conceptos clave del examen CTA en menos de 2 minutos. Un juego nuevo cada semana.</div>
