@@ -1457,6 +1457,7 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
         <button data-aetab="errors" onclick="swAETab('errors')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Errores comunes</button>
         <button data-aetab="phrases" onclick="swAETab('phrases')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Fraseologia</button>
         <button data-aetab="vocab" onclick="swAETab('vocab')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Vocabulario</button>
+        <button data-aetab="speaking" onclick="swAETab('speaking')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">🎙️ Speaking</button>
       </div>
     </div><!-- end tabbar -->
     <div id="ae-c1tests" class="ae-tab"></div>
@@ -1468,6 +1469,7 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
     <div id="ae-errors" class="ae-tab" style="display:none"></div>
     <div id="ae-images" class="ae-tab" style="display:none"></div>
     <div id="ae-debate" class="ae-tab" style="display:none"></div>
+    <div id="ae-speaking" class="ae-tab" style="display:none"></div>
     </div><!-- end ae-main -->
   </div>
 </div>
@@ -4109,6 +4111,8 @@ goEl.classList.add('active');if(id!=='qscreen')stopTmr();
   if(id==='legal-privacy'||id==='legal-terms'||id==='legal-cookies'){renderLegalContent();document.getElementById('cookie-banner').style.display='none';}
   if(id==='profile'){const section=document.getElementById('profile-auth-section');const ed=document.getElementById('profile-email-display');if(section){section.style.display='block';var _li=document.getElementById('profile-logged-in');var _lo=document.getElementById('profile-logged-out');if(_li)_li.style.display=_currentUser?'block':'none';if(_lo)_lo.style.display=_currentUser?'none':'block';if(_currentUser&&ed)ed.textContent=_currentUser.email;}}
 if(id==='faq')renderFAQ();if(id==='studyplan')renderStudyPlan();
+  if(id==='english')engInitScreen();
+  if(id==='minigames')renderMiniGames();
   ['home','topics','papers'].forEach(n=>{
     const b=document.getElementById('ni-'+n);
     const d=document.getElementById('db-'+n);
@@ -4372,6 +4376,12 @@ function renderHomeDashboard(){
   }
   b+='</div></div>';
    // blog banner
+ b+='<div style="margin:0 0 12px;background:linear-gradient(135deg,#0a1f38,#112240);border:1px solid #2a5280;border-left:3px solid #ffd166;border-radius:14px;padding:16px;cursor:pointer;display:flex;align-items:center;gap:14px" onclick="go(\'minigames\')">'
+    +'<div style="font-size:32px;flex-shrink:0">🎮</div>'
+    +'<div style="flex:1"><div style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#ffd166;margin-bottom:4px">Nuevo · Gratis</div>'
+    +'<div style="font-size:14px;font-weight:800;color:#e8f4fd;margin-bottom:2px">Mini Juegos</div>'
+    +'<div style="font-size:12px;color:#8cb8d8;line-height:1.4">Practica conceptos clave en menos de 2 minutos. Nuevo juego cada semana.</div></div>'
+    +'<div style="font-size:18px;color:#ffd166;flex-shrink:0">→</div></div>';
   b+='<div style="margin:16px 0 0;background:linear-gradient(135deg,#0a1f38,#0c2a4a);border:1px solid #1d3a5c;border-radius:14px;padding:16px;cursor:pointer" onclick="window.open(\'https://controlprep.com/9-temas-examen-cta-enaire.html\',\'_blank\')">'
     +'<div style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:#00b4d8;margin-bottom:6px">📖 Blog · Guía de estudio</div>'
     +'<div style="font-size:14px;font-weight:800;color:#e8f4fd;margin-bottom:4px;line-height:1.3">Los 9 temas del examen CTA de ENAIRE: qué entra y cómo prepararlo</div>'
@@ -5328,6 +5338,169 @@ function swAETab(tab){
   if(panel)panel.style.display='block';
   renderAETab(tab);
   if(tab==='c1tests')renderAEC1Tests();
+  if(tab==='speaking')renderAESpeaking();
+}
+function renderAESpeaking(){
+  var el=document.getElementById('ae-speaking');
+  if(!el||el.dataset.loaded==='1')return;
+  el.dataset.loaded='1';
+  var _sp_prompts=[
+    {level:'B2',label:'B2 — Warm-up',prompt:'Tell me about yourself. Where are you from, what do you do, and why do you want to become an air traffic controller?'},
+    {level:'B2',label:'B2 — Daily life',prompt:'Describe your daily routine. What do you do to prepare for a demanding professional career?'},
+    {level:'B2',label:'B2 — Opinion',prompt:'Do you think working in shifts is positive or negative for a person\'s quality of life? Give reasons for your answer.'},
+    {level:'B2',label:'B2 — Comparison',prompt:'Compare living in a big city with living in a smaller town. Which do you prefer and why?'},
+    {level:'C1',label:'C1 — Abstract opinion',prompt:'Some people believe that automation will eventually replace air traffic controllers. To what extent do you agree or disagree with this view?'},
+    {level:'C1',label:'C1 — Current affairs',prompt:'Climate change is affecting aviation. Discuss the measures the aviation industry could take to reduce its environmental impact.'},
+    {level:'C1',label:'C1 — Image description',prompt:'Imagine you are looking at an image showing a very busy international airport terminal. Describe what you see in as much detail as possible, including what people are doing and what the atmosphere feels like.'},
+    {level:'C1',label:'C1 — Problem solving',prompt:'Air traffic in Europe is expected to double by 2050. What challenges does this create, and what solutions would you propose?'},
+    {level:'C1',label:'C1 — Debate position',prompt:'Some argue that English should be the only language permitted in aviation communications worldwide, even in domestic flights. Present arguments both for and against this position, then give your own view.'},
+    {level:'C1',label:'C1 — Complex narrative',prompt:'Describe a situation in which you had to remain calm under pressure. What happened, how did you manage it, and what did you learn from the experience?'},
+    {level:'C1+',label:'C1+ — Technical',prompt:'Explain the concept of separation minima in air traffic control. Why is it important, and what factors can affect it?'},
+    {level:'C1+',label:'C1+ — Unprepared',prompt:'You have just read that ENAIRE handles over 2 million flights per year across Spanish airspace. Discuss what this figure means in terms of workload, responsibility, and the skills required of a controller.'}
+  ];
+  var _sp_current=_sp_prompts[0];
+  var _sp_rec=null,_sp_recording=false,_sp_final='';
+  var levelColors={'B2':'#ffd166','C1':'#00b4d8','C1+':'#2dc653'};
+
+  var html='<div style="margin-bottom:16px">'
+    +'<div style="font-size:11px;font-family:\'IBM Plex Mono\',monospace;letter-spacing:.1em;text-transform:uppercase;color:#00b4d8;margin-bottom:4px">Fase 3A · Oral C1</div>'
+    +'<div style="font-size:18px;font-weight:700;color:#e8f4fd;margin-bottom:4px">Speaking Practice</div>'
+    +'<div style="font-size:13px;color:#8cb8d8;line-height:1.5">Prompts progress from B2 warm-up through C1 to C1+ exam-level difficulty. Speak your answer, then get detailed AI feedback on grammar, vocabulary, fluency and coherence.</div>'
+    +'</div>'
+    +'<div style="margin-bottom:12px">'
+    +'<div style="font-size:11px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa;margin-bottom:8px">Select a prompt</div>'
+    +'<div style="display:flex;flex-direction:column;gap:6px" id="sp-prompt-list">';
+  _sp_prompts.forEach(function(p,i){
+    var col=levelColors[p.level]||'#8cb8d8';
+    html+='<button onclick="spSelectPrompt('+i+')" id="sp-pb-'+i+'" style="text-align:left;background:#0c1e35;border:1.5px solid #1d3a5c;border-radius:10px;padding:10px 12px;cursor:pointer;font-family:\'IBM Plex Sans\',sans-serif;display:flex;align-items:center;gap:10px">'
+      +'<span style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;font-weight:700;color:'+col+';background:rgba(0,0,0,.3);border:1px solid '+col+';border-radius:6px;padding:2px 7px;white-space:nowrap">'+p.level+'</span>'
+      +'<span style="font-size:13px;color:#8cb8d8;line-height:1.4">'+p.label.replace(/^[^—]+— /,'')+'</span>'
+      +'</button>';
+  });
+  html+='</div></div>'
+    +'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa;margin-bottom:8px">Your prompt</div>'
+    +'<div id="sp-prompt-text" style="font-size:15px;font-weight:600;color:#e8f4fd;line-height:1.6">'+_sp_prompts[0].prompt+'</div>'
+    +'</div>'
+    +'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:12px;margin-bottom:12px">'
+    +'<div style="position:relative;display:flex;align-items:center;justify-content:center">'
+    +'<div id="sp-pulse" style="position:absolute;width:72px;height:72px;border-radius:50%;border:2px solid #00b4d8;opacity:0"></div>'
+    +'<button id="sp-mic" onclick="spToggleRec()" style="position:relative;width:60px;height:60px;border-radius:50%;border:none;background:#00b4d8;color:#000;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:24px;z-index:1;box-shadow:0 4px 16px rgba(0,180,216,.35)">🎙️</button>'
+    +'</div>'
+    +'<div id="sp-status" style="font-size:13px;color:#5a8aaa">Press the mic and speak in English</div>'
+    +'</div>'
+    +'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;padding:14px;margin-bottom:12px">'
+    +'<div style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa;margin-bottom:8px">Your answer (edit if needed)</div>'
+    +'<textarea id="sp-transcript" oninput="spUpdateBtn()" placeholder="Your spoken answer will appear here, or type directly…" style="width:100%;min-height:80px;background:#081523;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:14px;font-family:\'IBM Plex Sans\',sans-serif;color:#e8f4fd;resize:vertical;box-sizing:border-box;line-height:1.6"></textarea>'
+    +'<button id="sp-assess-btn" onclick="spAssess()" disabled style="display:block;width:100%;margin-top:10px;padding:13px;background:#00b4d8;color:#000;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:\'IBM Plex Sans\',sans-serif;cursor:not-allowed;opacity:.4">Assess my English</button>'
+    +'</div>'
+    +'<div id="sp-loading" style="display:none;text-align:center;padding:20px;color:#5a8aaa;font-size:13px">Analysing your English…</div>'
+    +'<div id="sp-results" style="display:none">'
+    +'<div id="sp-band" style="background:#0c2a4a;border:1px solid #00b4d8;border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:10px">'
+    +'<div style="text-align:center;min-width:56px"><div style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Score</div><div id="sp-overall" style="font-size:36px;font-weight:700;color:#00b4d8;font-family:\'IBM Plex Mono\',monospace">—</div></div>'
+    +'<div><div style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Level</div><div id="sp-level" style="font-size:16px;font-weight:700;color:#e8f4fd">—</div><div id="sp-level-desc" style="font-size:12px;color:#8cb8d8;margin-top:2px"></div></div>'
+    +'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">'
+    +'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px;text-align:center"><div style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Grammar</div><div id="sp-sc-grammar" style="font-size:26px;font-weight:700;font-family:\'IBM Plex Mono\',monospace">—</div><div style="font-size:11px;color:#5a8aaa">/ 25</div></div>'
+    +'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px;text-align:center"><div style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Vocabulary</div><div id="sp-sc-vocab" style="font-size:26px;font-weight:700;font-family:\'IBM Plex Mono\',monospace">—</div><div style="font-size:11px;color:#5a8aaa">/ 25</div></div>'
+    +'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px;text-align:center"><div style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Fluency</div><div id="sp-sc-fluency" style="font-size:26px;font-weight:700;font-family:\'IBM Plex Mono\',monospace">—</div><div style="font-size:11px;color:#5a8aaa">/ 25</div></div>'
+    +'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px;text-align:center"><div style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Coherence</div><div id="sp-sc-coherence" style="font-size:26px;font-weight:700;font-family:\'IBM Plex Mono\',monospace">—</div><div style="font-size:11px;color:#5a8aaa">/ 25</div></div>'
+    +'</div>'
+    +'<div style="background:#0a2010;border:1px solid #1a5030;border-left:3px solid #2dc653;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:8px"><div style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#2dc653;margin-bottom:6px">✅ What you did well</div><ul id="sp-fb-good" style="padding-left:16px;margin:0;font-size:13px;color:#8cb8d8;line-height:1.7"></ul></div>'
+    +'<div style="background:#201500;border:1px solid #50380a;border-left:3px solid #ffd166;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:8px"><div style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#ffd166;margin-bottom:6px">📝 Areas to improve</div><ul id="sp-fb-improve" style="padding-left:16px;margin:0;font-size:13px;color:#8cb8d8;line-height:1.7"></ul></div>'
+    +'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px 14px;margin-bottom:12px"><div style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa;margin-bottom:6px">Corrected version</div><div id="sp-corrected" style="font-size:13px;color:#8cb8d8;line-height:1.7;font-style:italic"></div></div>'
+    +'<button onclick="spReset()" style="display:block;width:100%;padding:12px;background:transparent;border:1.5px solid #1d3a5c;color:#5a8aaa;border-radius:10px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;cursor:pointer;margin-bottom:16px">Try another prompt</button>'
+    +'</div>';
+  el.innerHTML=html;
+  spSelectPrompt(0);
+  window._sp_prompts=_sp_prompts;
+  window._sp_current=_sp_prompts[0];
+  window._sp_rec=null;
+  window._sp_recording=false;
+  window._sp_final='';
+}
+function spSelectPrompt(i){
+  var prompts=window._sp_prompts;if(!prompts)return;
+  window._sp_current=prompts[i];
+  var pt=document.getElementById('sp-prompt-text');
+  if(pt)pt.textContent=prompts[i].prompt;
+  var levelColors={'B2':'#ffd166','C1':'#00b4d8','C1+':'#2dc653'};
+  prompts.forEach(function(p,j){
+    var btn=document.getElementById('sp-pb-'+j);
+    if(!btn)return;
+    var col=levelColors[p.level]||'#8cb8d8';
+    if(j===i){btn.style.borderColor=col;btn.style.background='rgba(0,0,0,.4)';}
+    else{btn.style.borderColor='#1d3a5c';btn.style.background='#0c1e35';}
+  });
+  spReset(false);
+}
+function spToggleRec(){window._sp_recording?spStopRec():spStartRec();}
+function spStartRec(){
+  if(!window._sp_rec){
+    var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!SR){var s=document.getElementById('sp-status');if(s)s.textContent='⚠️ Microphone not available — type your answer below';return;}
+    var r=new SR();r.lang='en-US';r.interimResults=true;r.continuous=true;
+    r.onresult=function(e){var interim='';for(var i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)window._sp_final+=e.results[i][0].transcript+' ';else interim+=e.results[i][0].transcript;}var t=document.getElementById('sp-transcript');if(t){t.value=(window._sp_final+interim).trim();spUpdateBtn();}};
+    r.onerror=function(){spStopRec();};
+    r.onend=function(){if(window._sp_recording)r.start();};
+    window._sp_rec=r;
+  }
+  window._sp_final='';var t=document.getElementById('sp-transcript');if(t)t.value='';
+  window._sp_recording=true;window._sp_rec.start();
+  var btn=document.getElementById('sp-mic');if(btn){btn.style.background='#e63946';btn.style.color='#fff';}
+  var pulse=document.getElementById('sp-pulse');if(pulse){pulse.style.animation='pulse 1.4s ease-out infinite';pulse.style.opacity='0.6';}
+  var st=document.getElementById('sp-status');if(st){st.textContent='🔴 Recording — speak clearly in English';st.style.color='#e63946';}
+}
+function spStopRec(){
+  window._sp_recording=false;if(window._sp_rec)window._sp_rec.stop();
+  var btn=document.getElementById('sp-mic');if(btn){btn.style.background='#00b4d8';btn.style.color='#000';}
+  var pulse=document.getElementById('sp-pulse');if(pulse){pulse.style.animation='';pulse.style.opacity='0';}
+  var st=document.getElementById('sp-status');if(st){st.textContent='Press the mic and speak in English';st.style.color='#5a8aaa';}
+  spUpdateBtn();
+}
+function spUpdateBtn(){
+  var btn=document.getElementById('sp-assess-btn'),t=document.getElementById('sp-transcript');
+  var has=t&&t.value.trim().length>4;
+  if(btn){btn.disabled=!has;btn.style.opacity=has?'1':'.4';btn.style.cursor=has?'pointer':'not-allowed';}
+}
+async function spAssess(){
+  var text=document.getElementById('sp-transcript');if(!text||!text.value.trim())return;
+  var txt=text.value.trim();
+  spStopRec();
+  var ab=document.getElementById('sp-assess-btn');if(ab){ab.disabled=true;ab.style.opacity='.4';}
+  var ld=document.getElementById('sp-loading');if(ld)ld.style.display='block';
+  var rs=document.getElementById('sp-results');if(rs)rs.style.display='none';
+  var level=window._sp_current?window._sp_current.level:'C1';
+  var sys='You are an expert English language examiner assessing spoken English from a Spanish non-native speaker preparing for the ENAIRE air traffic controller oral exam (Fase 3A), which tests C1 level. The prompt given was at level '+level+'. Evaluate their response on four criteria each out of 25 (total 100): 1.Grammar 2.Vocabulary (range and precision appropriate to C1) 3.Fluency & flow 4.Coherence & relevance. Be appropriately demanding for a C1 exam context — a score above 85 should only be awarded for genuinely strong C1 output. Respond ONLY with a JSON object, no markdown, no preamble: {"grammar":<0-25>,"vocabulary":<0-25>,"fluency":<0-25>,"coherence":<0-25>,"level":"<A2|B1|B2|C1|C2>","levelDesc":"<one sentence in English>","strengths":["<specific point>","<specific point>","<specific point>"],"improvements":["<specific correction or tip>","<specific correction or tip>","<specific correction or tip>"],"correctedVersion":"<lightly corrected and improved version of their answer, keeping their meaning>"}';
+  var usr='Prompt ('+level+'): "'+window._sp_current.prompt+'"\n\nCandidate spoken response:\n"'+txt+'"';
+  try{
+    var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:sys,messages:[{role:'user',content:usr}]})});
+    var data=await res.json();
+    var raw=data.content&&data.content.find(function(b){return b.type==='text';});
+    var r=JSON.parse((raw?raw.text:'').replace(/```json|```/g,'').trim());
+    spRenderResults(r);
+  }catch(e){var ld2=document.getElementById('sp-loading');if(ld2)ld2.textContent='⚠️ Connection error. Please try again.';}
+  finally{var ld3=document.getElementById('sp-loading');if(ld3)ld3.style.display='none';}
+}
+function spScoreColor(v,max){var p=v/max;return p>=.75?'#2dc653':p>=.5?'#ffd166':'#e63946';}
+function spRenderResults(r){
+  var total=r.grammar+r.vocabulary+r.fluency+r.coherence;
+  var ov=document.getElementById('sp-overall');if(ov){ov.textContent=total;ov.style.color=spScoreColor(total,100);}
+  var lv=document.getElementById('sp-level');if(lv)lv.textContent=r.level||'';
+  var ld=document.getElementById('sp-level-desc');if(ld)ld.textContent=r.levelDesc||'';
+  [['sp-sc-grammar',r.grammar],['sp-sc-vocab',r.vocabulary],['sp-sc-fluency',r.fluency],['sp-sc-coherence',r.coherence]].forEach(function(pair){var el=document.getElementById(pair[0]);if(el){el.textContent=pair[1];el.style.color=spScoreColor(pair[1],25);}});
+  var fg=document.getElementById('sp-fb-good');if(fg){fg.innerHTML='';(r.strengths||[]).forEach(function(s){var li=document.createElement('li');li.textContent=s;fg.appendChild(li);});}
+  var fi=document.getElementById('sp-fb-improve');if(fi){fi.innerHTML='';(r.improvements||[]).forEach(function(s){var li=document.createElement('li');li.textContent=s;fi.appendChild(li);});}
+  var fc=document.getElementById('sp-corrected');if(fc)fc.textContent=r.correctedVersion||'';
+  var rs=document.getElementById('sp-results');if(rs){rs.style.display='block';rs.scrollIntoView({behavior:'smooth',block:'start'});}
+}
+function spReset(newPrompt){
+  spStopRec();
+  window._sp_final='';window._sp_rec=null;
+  var t=document.getElementById('sp-transcript');if(t)t.value='';
+  var rs=document.getElementById('sp-results');if(rs)rs.style.display='none';
+  var ld=document.getElementById('sp-loading');if(ld){ld.style.display='none';ld.textContent='Analysing your English…';}
+  spUpdateBtn();
 }
 function renderAEC1Tests(){
   var el=document.getElementById('ae-c1tests');
@@ -8590,7 +8763,7 @@ cookieShowBanner();
 handleCheckoutReturn();
 sbInit();
 // Fix DOM nesting issue
-['login-screen','register-screen','forgot-screen','landing','landing-plan','topics','tdetail','qscreen','rscreen','papers','progress-screen','enaire-bridge','rv','planselect','glossary','bpracticas','search','profile','splash','aveng','feast','studyplan','legal-privacy','legal-terms','legal-cookies','faq','contact','conv2025'].forEach(sid=>{  const el=document.getElementById(sid);
+['login-screen','register-screen','forgot-screen','landing','landing-plan','topics','tdetail','qscreen','rscreen','papers','progress-screen','enaire-bridge','rv','planselect','glossary','bpracticas','search','profile','splash','aveng','feast','studyplan','legal-privacy','legal-terms','legal-cookies','faq','contact','conv2025','minigames','english'].forEach(sid=>{  const el=document.getElementById(sid);
   if(el)document.body.appendChild(el);
 });
 ['cookie-banner','cookie-config','login-screen','register-screen','forgot-screen'].forEach(id=>{
@@ -8688,6 +8861,143 @@ async function handleForgot(){
   } catch(err) {
     errEl.textContent = err.message; errEl.style.display = 'block';
   }
+}
+</script>
+
+<!-- ══════════════ ENGLISH SPEAKING PRACTICE ══════════════ -->
+<div class="screen" id="english">
+  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span></div></div>
+  <div id="english-gate" style="display:none;padding:32px 18px;text-align:center">
+    <div style="font-size:48px;margin-bottom:16px">🔒</div>
+    <div style="font-size:18px;font-weight:700;color:#e8f4fd;margin-bottom:8px">Práctica de Inglés — Premium</div>
+    <div style="font-size:14px;color:#8cb8d8;margin-bottom:24px">Esta función está disponible para suscriptores Premium.</div>
+    <button onclick="startLandingCheckout()" style="padding:14px 28px;background:#ffd166;color:#000;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer">Suscribirse a Premium →</button>
+  </div>
+  <div id="english-app" style="display:none;flex:1;overflow-y:auto;padding:0 0 80px">
+    <div style="padding:20px 18px 8px">
+      <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#00b4d8;margin-bottom:6px">Premium · Inglés Aeronáutico</div>
+      <div style="font-size:22px;font-weight:700;color:#e8f4fd">Práctica de Speaking</div>
+      <div style="font-size:13px;color:#8cb8d8;margin-top:4px">Habla en inglés y recibe una puntuación detallada con IA</div>
+    </div>
+    <div style="margin:12px 18px 0;background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;padding:14px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+        <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#5a8aaa">Tema</div>
+        <select id="eng-topic" onchange="engNewPrompt()" style="flex:1;background:#132842;border:1px solid #1d3a5c;color:#e8f4fd;border-radius:8px;padding:6px 10px;font-size:13px;font-family:'IBM Plex Sans',sans-serif">
+          <option value="atc">ATC / Aviación</option>
+          <option value="daily">Vida cotidiana</option>
+          <option value="work">Trabajo y carrera</option>
+          <option value="opinions">Opiniones</option>
+          <option value="custom">Personalizado</option>
+        </select>
+        <button onclick="engNewPrompt()" style="background:#1d3a5c;border:1px solid #2a5280;color:#e8f4fd;border-radius:8px;padding:6px 12px;font-size:12px;font-family:'IBM Plex Sans',sans-serif;cursor:pointer">Nuevo →</button>
+      </div>
+      <div style="font-size:10px;font-family:'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#5a8aaa;margin-bottom:6px">Tu pregunta</div>
+      <div id="eng-prompt" style="font-size:15px;font-weight:600;color:#e8f4fd;line-height:1.5">Describe a typical day working as an air traffic controller. What are the main challenges?</div>
+    </div>
+    <div style="margin:12px 18px 0;background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:12px">
+      <div id="eng-pulse-wrap" style="position:relative;display:flex;align-items:center;justify-content:center">
+        <div id="eng-pulse" style="position:absolute;width:72px;height:72px;border-radius:50%;border:2px solid #00b4d8;opacity:0"></div>
+        <button id="eng-mic" onclick="engToggleRec()" style="position:relative;width:60px;height:60px;border-radius:50%;border:none;background:#00b4d8;color:#000;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:24px;z-index:1;box-shadow:0 4px 16px rgba(0,180,216,.35)">🎙️</button>
+      </div>
+      <div id="eng-status" style="font-size:13px;color:#5a8aaa">Pulsa el micrófono para empezar</div>
+    </div>
+    <div style="margin:12px 18px 0;background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;padding:14px">
+      <div style="font-size:10px;font-family:'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#5a8aaa;margin-bottom:8px">Tu respuesta (edita si es necesario)</div>
+      <textarea id="eng-transcript" oninput="engUpdateBtn()" placeholder="Tu respuesta aparecerá aquí al hablar, o escribe directamente…" style="width:100%;min-height:80px;background:#081523;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:14px;font-family:'IBM Plex Sans',sans-serif;color:#e8f4fd;resize:vertical;box-sizing:border-box;line-height:1.6"></textarea>
+      <button id="eng-assess-btn" onclick="engAssess()" disabled style="display:block;width:100%;margin-top:10px;padding:13px;background:#00b4d8;color:#000;border:none;border-radius:10px;font-size:14px;font-weight:700;font-family:'IBM Plex Sans',sans-serif;cursor:pointer;opacity:.4">Evaluar mi inglés</button>
+    </div>
+    <div id="eng-loading" style="display:none;text-align:center;padding:20px;color:#5a8aaa;font-size:13px">Analizando tu inglés<span style="animation:blink 1.4s infinite;display:inline-block">.</span><span style="animation:blink 1.4s .2s infinite;display:inline-block">.</span><span style="animation:blink 1.4s .4s infinite;display:inline-block">.</span></div>
+    <div id="eng-results" style="display:none;margin:12px 18px 0;padding-bottom:8px">
+      <div id="eng-band" style="background:#0c2a4a;border:1px solid #00b4d8;border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;margin-bottom:10px">
+        <div style="text-align:center;min-width:56px">
+          <div style="font-size:10px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;color:#5a8aaa">Total</div>
+          <div id="eng-overall" style="font-size:36px;font-weight:700;color:#00b4d8;font-family:'IBM Plex Mono',monospace">—</div>
+        </div>
+        <div>
+          <div style="font-size:10px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;color:#5a8aaa">Nivel</div>
+          <div id="eng-level" style="font-size:16px;font-weight:700;color:#e8f4fd">—</div>
+          <div id="eng-level-desc" style="font-size:12px;color:#8cb8d8;margin-top:2px"></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+        <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px;text-align:center"><div style="font-size:10px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;color:#5a8aaa">Gramática</div><div id="eng-sc-grammar" style="font-size:26px;font-weight:700;font-family:'IBM Plex Mono',monospace">—</div><div style="font-size:11px;color:#5a8aaa">/ 25</div></div>
+        <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px;text-align:center"><div style="font-size:10px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;color:#5a8aaa">Vocabulario</div><div id="eng-sc-vocab" style="font-size:26px;font-weight:700;font-family:'IBM Plex Mono',monospace">—</div><div style="font-size:11px;color:#5a8aaa">/ 25</div></div>
+        <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px;text-align:center"><div style="font-size:10px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;color:#5a8aaa">Fluidez</div><div id="eng-sc-fluency" style="font-size:26px;font-weight:700;font-family:'IBM Plex Mono',monospace">—</div><div style="font-size:11px;color:#5a8aaa">/ 25</div></div>
+        <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px;text-align:center"><div style="font-size:10px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;color:#5a8aaa">Coherencia</div><div id="eng-sc-coherence" style="font-size:26px;font-weight:700;font-family:'IBM Plex Mono',monospace">—</div><div style="font-size:11px;color:#5a8aaa">/ 25</div></div>
+      </div>
+      <div style="background:#0a2010;border:1px solid #1a5030;border-left:3px solid #2dc653;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:8px">
+        <div style="font-size:10px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;color:#2dc653;margin-bottom:6px">✅ Lo que hiciste bien</div>
+        <ul id="eng-fb-good" style="padding-left:16px;margin:0;font-size:13px;color:#8cb8d8;line-height:1.7"></ul>
+      </div>
+      <div style="background:#201500;border:1px solid #50380a;border-left:3px solid #ffd166;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:8px">
+        <div style="font-size:10px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;color:#ffd166;margin-bottom:6px">📝 Áreas a mejorar</div>
+        <ul id="eng-fb-improve" style="padding-left:16px;margin:0;font-size:13px;color:#8cb8d8;line-height:1.7"></ul>
+      </div>
+      <div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:12px;padding:12px 14px;margin-bottom:12px">
+        <div style="font-size:10px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;color:#5a8aaa;margin-bottom:6px">Versión corregida</div>
+        <div id="eng-corrected" style="font-size:13px;color:#8cb8d8;line-height:1.7;font-style:italic"></div>
+      </div>
+      <button onclick="engReset()" style="display:block;width:100%;padding:12px;background:transparent;border:1.5px solid #1d3a5c;color:#5a8aaa;border-radius:10px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;cursor:pointer">Intentar con otra pregunta</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const _ENG_PROMPTS={atc:["Describe a typical day working as an air traffic controller. What are the main challenges?","Explain what RVSM airspace is and why it was introduced.","You are handing over a busy sector to an incoming controller. Describe the traffic situation.","What would you do if a pilot declared a PAN-PAN on your frequency?","Explain the difference between a clearance and an instruction in ATC.","Describe the ICAO phonetic alphabet and give an example of when precise communication is critical.","What is a NOTAM? Give an example of information a NOTAM might contain."],daily:["Talk about a typical day in your life — what do you do in the morning, afternoon, and evening?","Describe your home. What do you like or dislike about it?","What do you usually do at the weekend? Tell me about last weekend.","Talk about a hobby you enjoy. How did you start it?","Describe your favourite meal and explain how to prepare it."],work:["Describe your job or studies. What do you enjoy most about it?","Talk about your ideal job. What would it be and why?","Describe a challenge you faced at work or school and how you solved it.","What skills do you think are most important in today's job market?"],opinions:["Do you think social media has more positive or negative effects on society? Explain.","Should everyone learn a second language at school? Give your opinion.","What do you think is the biggest problem facing young people today?","Is it better to live in a city or in the countryside? What is your opinion?"],custom:[]};
+let _engCurrentPrompt=_ENG_PROMPTS.atc[0],_engRec=null,_engRecording=false,_engFinal='';
+function engInitScreen(){const gate=document.getElementById('english-gate'),app=document.getElementById('english-app');if(DEV_PREMIUM){gate.style.display='none';app.style.display='flex';app.style.flexDirection='column';}else{gate.style.display='block';app.style.display='none';}}
+function engNewPrompt(){const topic=document.getElementById('eng-topic').value;if(topic==='custom'){const p=prompt('Escribe tu propia pregunta en inglés:');if(p&&p.trim()){_engCurrentPrompt=p.trim();document.getElementById('eng-prompt').textContent=_engCurrentPrompt;}return;}const list=_ENG_PROMPTS[topic],old=document.getElementById('eng-prompt').textContent;let next=old;while(next===old&&list.length>1)next=list[Math.floor(Math.random()*list.length)];_engCurrentPrompt=next;document.getElementById('eng-prompt').textContent=next;engReset(false);}
+function engInitRec(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){document.getElementById('eng-status').textContent='⚠️ Micrófono no disponible — escribe tu respuesta';return null;}const r=new SR();r.lang='en-US';r.interimResults=true;r.continuous=true;r.onresult=e=>{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)_engFinal+=e.results[i][0].transcript+' ';else interim+=e.results[i][0].transcript;}document.getElementById('eng-transcript').value=(_engFinal+interim).trim();engUpdateBtn();};r.onerror=()=>engStopRec();r.onend=()=>{if(_engRecording)r.start();};return r;}
+function engToggleRec(){_engRecording?engStopRec():engStartRec();}
+function engStartRec(){if(!_engRec)_engRec=engInitRec();if(!_engRec)return;_engFinal='';document.getElementById('eng-transcript').value='';_engRecording=true;_engRec.start();const btn=document.getElementById('eng-mic');btn.style.background='#e63946';btn.style.color='#fff';document.getElementById('eng-pulse').style.animation='pulse 1.4s ease-out infinite';document.getElementById('eng-pulse').style.opacity='0.6';document.getElementById('eng-status').textContent='🔴 Grabando — habla en inglés…';document.getElementById('eng-status').style.color='#e63946';}
+function engStopRec(){_engRecording=false;if(_engRec)_engRec.stop();const btn=document.getElementById('eng-mic');btn.style.background='#00b4d8';btn.style.color='#000';document.getElementById('eng-pulse').style.animation='';document.getElementById('eng-pulse').style.opacity='0';document.getElementById('eng-status').textContent='Pulsa el micrófono para empezar';document.getElementById('eng-status').style.color='#5a8aaa';engUpdateBtn();}
+function engUpdateBtn(){const btn=document.getElementById('eng-assess-btn'),has=document.getElementById('eng-transcript').value.trim().length>4;btn.disabled=!has;btn.style.opacity=has?'1':'.4';btn.style.cursor=has?'pointer':'not-allowed';}
+async function engAssess(){const text=document.getElementById('eng-transcript').value.trim();if(!text)return;engStopRec();document.getElementById('eng-assess-btn').disabled=true;document.getElementById('eng-assess-btn').style.opacity='.4';document.getElementById('eng-loading').style.display='block';document.getElementById('eng-results').style.display='none';const sys=`You are an expert English language examiner assessing spoken English from a non-native speaker preparing for the ENAIRE air traffic controller selection. Evaluate on four criteria each out of 25 (total 100): 1.Grammar 2.Vocabulary 3.Fluency & flow 4.Coherence. Respond ONLY with a JSON object, no markdown, no preamble: {"grammar":<0-25>,"vocabulary":<0-25>,"fluency":<0-25>,"coherence":<0-25>,"level":"<A1|A2|B1|B2|C1|C2>","levelDesc":"<one sentence>","strengths":["<point>","<point>","<point>"],"improvements":["<tip>","<tip>","<tip>"],"correctedVersion":"<lightly corrected version>"}`;const usr=`Speaking prompt: "${_engCurrentPrompt}"\n\nStudent response:\n"${text}"`;try{const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:sys,messages:[{role:'user',content:usr}]})});const data=await res.json();const raw=data.content?.find(b=>b.type==='text')?.text||'';const r=JSON.parse(raw.replace(/```json|```/g,'').trim());engRenderResults(r);}catch(e){document.getElementById('eng-loading').textContent='⚠️ Error al conectar. Inténtalo de nuevo.';}finally{document.getElementById('eng-loading').style.display='none';}}
+function engScoreColor(v,max){const p=v/max;return p>=.75?'#2dc653':p>=.5?'#ffd166':'#e63946';}
+function engRenderResults(r){const total=r.grammar+r.vocabulary+r.fluency+r.coherence;const ov=document.getElementById('eng-overall');ov.textContent=total;ov.style.color=engScoreColor(total,100);document.getElementById('eng-level').textContent=r.level;document.getElementById('eng-level-desc').textContent=r.levelDesc||'';[['eng-sc-grammar',r.grammar],['eng-sc-vocab',r.vocabulary],['eng-sc-fluency',r.fluency],['eng-sc-coherence',r.coherence]].forEach(([id,v])=>{const el=document.getElementById(id);el.textContent=v;el.style.color=engScoreColor(v,25);});const fbG=document.getElementById('eng-fb-good');fbG.innerHTML='';(r.strengths||[]).forEach(s=>{const li=document.createElement('li');li.textContent=s;fbG.appendChild(li);});const fbI=document.getElementById('eng-fb-improve');fbI.innerHTML='';(r.improvements||[]).forEach(s=>{const li=document.createElement('li');li.textContent=s;fbI.appendChild(li);});document.getElementById('eng-corrected').textContent=r.correctedVersion||'';document.getElementById('eng-results').style.display='block';document.getElementById('eng-results').scrollIntoView({behavior:'smooth',block:'start'});}
+function engReset(newPrompt=true){engStopRec();_engFinal='';document.getElementById('eng-transcript').value='';document.getElementById('eng-results').style.display='none';document.getElementById('eng-loading').style.display='none';engUpdateBtn();if(newPrompt)engNewPrompt();}
+</script>
+
+<!-- ══════════════ MINI GAMES LOBBY ══════════════ -->
+<div class="screen" id="minigames">
+  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="go('home')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
+  <div class="inner" style="padding-top:20px;padding-bottom:90px">
+    <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#ffd166;margin-bottom:6px">Gratis · Nuevo cada semana</div>
+    <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:4px">🎮 Mini Juegos</div>
+    <div style="font-size:13px;color:#8cb8d8;margin-bottom:20px;line-height:1.5">Practica conceptos clave del examen CTA en menos de 2 minutos. Un juego nuevo cada semana.</div>
+    <div id="minigames-list"></div>
+  </div>
+</div>
+
+<script>
+var MINI_GAMES=[
+  {id:1,title:'OACI Alphabet Sprint',desc:'¿Cuántas letras del alfabeto OACI conoces en 60 segundos? Deletrea cada letra en OACI antes de que se acabe el tiempo. Rápido, adictivo, y clave para el examen.',topic:'Códigos OACI',week:'Mini Game 01',url:'OACI_Alphabet_Sprint_ES.html',img:'game01-banner.png'}
+];
+function renderMiniGames(){
+  var el=document.getElementById('minigames-list');
+  if(!el)return;
+  var html='';
+  MINI_GAMES.forEach(function(g){
+    html+='<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;overflow:hidden;margin-bottom:12px;cursor:pointer" onclick="window.open(\''+g.url+'\',\'_blank\')">';
+    if(g.img){
+      html+='<img src="'+g.img+'" alt="'+g.title+'" style="width:100%;display:block;border-radius:14px 14px 0 0;max-height:160px;object-fit:cover;object-position:left center">';
+    }
+    html+='<div style="padding:14px">'
+      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'
+      +'<span style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;font-weight:700;color:#ffd166;background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.3);border-radius:6px;padding:2px 7px">'+g.week+'</span>'
+      +'<span style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;color:#5a8aaa;text-transform:uppercase;letter-spacing:.06em">'+g.topic+'</span>'
+      +'</div>'
+      +'<div style="font-size:16px;font-weight:800;color:#e8f4fd;margin-bottom:4px">'+g.title+'</div>'
+      +'<div style="font-size:13px;color:#8cb8d8;line-height:1.5;margin-bottom:12px">'+g.desc+'</div>'
+      +'<div style="display:inline-flex;align-items:center;gap:8px;background:#ffd166;color:#000;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:800;padding:9px 18px;border-radius:9px">▶ Jugar ahora</div>'
+      +'</div></div>';
+  });
+  html+='<div style="background:#081523;border:1px dashed #1d3a5c;border-radius:14px;padding:20px;text-align:center;margin-top:4px">'
+    +'<div style="font-size:24px;margin-bottom:8px">🔜</div>'
+    +'<div style="font-size:13px;font-weight:700;color:#5a8aaa;margin-bottom:4px">Próximo juego — la semana que viene</div>'
+    +'<div style="font-size:12px;color:#3d5a72">Síguenos en LinkedIn para ser el primero en enterarte.</div>'
+    +'</div>';
+  el.innerHTML=html;
 }
 </script>
 
