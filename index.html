@@ -441,6 +441,7 @@ async function sbInit(){
       if(event==='INITIAL_SESSION'){
         await checkPremiumStatus();
         renderHomeDashboard();
+        renderPhases();
         updateHomeButtons();
         const cur=document.querySelector('.screen.active');
         if(!cur||cur.id!=='home') go('home');
@@ -1447,19 +1448,20 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
     <div id="ae-main" style="display:none">
     <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:4px">Inglés C1</div>
 <div style="font-size:13px;color:#8cb8d8;margin-bottom:20px">Preparación completa para las pruebas de inglés de ENAIRE</div>    <div>
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;width:100%" id="ae-tab-btns">
-        <button data-aetab="c1tests" onclick="swAETab('c1tests')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #00b4d8;background:rgba(0,180,216,.12);font-size:12px;font-weight:600;color:#00b4d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Tests C1</button>
-        <button data-aetab="images" onclick="swAETab('images')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Desc. imagenes</button>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;width:100%" id="ae-tab-btns">
+        <button data-aetab="images" onclick="swAETab('images')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Desc. imágenes</button>
         <button data-aetab="debate" onclick="swAETab('debate')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Debate</button>
-        <button data-aetab="pronunciation" onclick="swAETab('pronunciation')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Pronunciacion</button>
-        <button data-aetab="readback" onclick="swAETab('readback')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Readback</button>
-        <button data-aetab="emergency" onclick="swAETab('emergency')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Emergencias</button>
         <button data-aetab="errors" onclick="swAETab('errors')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Errores comunes</button>
-        <button data-aetab="phrases" onclick="swAETab('phrases')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Fraseologia</button>
-        <button data-aetab="vocab" onclick="swAETab('vocab')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Vocabulario</button>
-        <button data-aetab="speaking" onclick="swAETab('speaking')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">🎙️ Speaking</button>
-      </div>
-    </div><!-- end tabbar -->
+        <button data-aetab="practica" onclick="swAETab('practica')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Práctica</button>
+        <button data-aetab="c1tests" style="display:none"></button>
+        <button data-aetab="pronunciation" style="display:none"></button>
+        <button data-aetab="readback" style="display:none"></button>
+        <button data-aetab="emergency" style="display:none"></button>
+        <button data-aetab="phrases" style="display:none"></button>
+        <button data-aetab="vocab" style="display:none"></button>
+        <button data-aetab="speaking" style="display:none"></button>
+      </div><!-- end tabbar -->
+      <button onclick="go('fraseologia')" style="display:block;width:100%;padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;margin-bottom:16px">Fraseología →</button>
     <div id="ae-c1tests" class="ae-tab"></div>
     <div id="ae-vocab" class="ae-tab" style="display:none"></div>
     <div id="ae-phrases" class="ae-tab" style="display:none"></div>
@@ -1470,8 +1472,9 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
     <div id="ae-images" class="ae-tab" style="display:none"></div>
     <div id="ae-debate" class="ae-tab" style="display:none"></div>
     <div id="ae-speaking" class="ae-tab" style="display:none"></div>
+    <div id="ae-practica" class="ae-tab" style="display:none"></div>
     </div><!-- end ae-main -->
-  </div>
+      </div>
 </div>
 <!-- PDEA -->
 <div class="screen" id="pdea">
@@ -4113,6 +4116,7 @@ goEl.classList.add('active');if(id!=='qscreen')stopTmr();
 if(id==='faq')renderFAQ();if(id==='studyplan')renderStudyPlan();
   if(id==='english')engInitScreen();
   if(id==='minigames')renderMiniGames();
+  if(id==='fraseologia')initFraseologia();
   ['home','topics','papers'].forEach(n=>{
     const b=document.getElementById('ni-'+n);
     const d=document.getElementById('db-'+n);
@@ -5339,6 +5343,7 @@ function swAETab(tab){
   renderAETab(tab);
   if(tab==='c1tests')renderAEC1Tests();
   if(tab==='speaking')renderAESpeaking();
+  if(tab==='practica')renderAEPractica();
 }
 function renderAESpeaking(){
   var el=document.getElementById('ae-speaking');
@@ -6961,7 +6966,7 @@ function fase2List(){return [
 ];}
 var AE_MODE='all';
 var AE_WRITTEN=['c1tests'];
-var AE_ORAL=['images','debate','pronunciation','readback','emergency','errors','phrases','vocab'];
+var AE_ORAL=['images','debate','errors','practica'];
 function aeApplyMode(){
   var show=AE_MODE==='written'?AE_WRITTEN:(AE_MODE==='oral'?AE_ORAL:null);
   document.querySelectorAll('#ae-tab-btns button').forEach(function(btn){
@@ -6970,6 +6975,196 @@ function aeApplyMode(){
   });
   return show;
 }
+function renderAEPractica(){
+var el=document.getElementById('ae-practica');
+if(!el||el.dataset.loaded==='1')return;
+el.dataset.loaded='1';
+var _rl_passages=[
+  {title:'The Future of Urban Mobility',text:'Electric vehicles and autonomous transport systems are rapidly transforming the way people move around cities. Governments across Europe are investing heavily in infrastructure to support this transition, while car manufacturers race to bring affordable electric models to market. Critics, however, warn that without significant improvements to the electricity grid and charging networks, mass adoption remains a distant prospect.'},
+  {title:'Artificial Intelligence in Medicine',text:'Artificial intelligence is beginning to play a significant role in medical diagnosis and treatment planning. Machine learning algorithms can now detect certain cancers from scan images with accuracy comparable to experienced radiologists. Despite these advances, many doctors insist that the human element in medicine — empathy, judgement, and ethical reasoning — cannot be replicated by a machine.'},
+  {title:'The Psychology of Decision Making',text:'Research in behavioural psychology has revealed that human beings are far less rational in their decision making than previously assumed. We are influenced by cognitive biases, emotional states, and social pressures in ways we rarely recognise. Understanding these tendencies has important implications for public policy, financial planning, and the design of systems that help people make better choices.'},
+  {title:'Climate Change and Food Security',text:'Rising temperatures and increasingly unpredictable weather patterns pose a serious threat to global food production. Crop yields in many parts of the world are already being affected by prolonged droughts, flooding, and soil degradation. Scientists argue that a combination of technological innovation, changes in diet, and international cooperation will be essential if the world is to feed a growing population in the decades ahead.'},
+  {title:'The Value of Sleep',text:'Modern research has confirmed what many have long suspected: sleep is not a passive state but an active biological process essential to physical and mental health. During sleep, the brain consolidates memories, removes waste products, and repairs cellular damage. Chronic sleep deprivation has been linked to a wide range of serious conditions, including cardiovascular disease, obesity, and impaired cognitive function.'},
+  {title:'Remote Work and Productivity',text:'The widespread adoption of remote working during the pandemic prompted organisations to reconsider long-held assumptions about productivity and office culture. While many employees reported higher satisfaction and better work-life balance, managers raised concerns about collaboration, creativity, and the difficulty of maintaining team cohesion at a distance. The evidence suggests that a hybrid model, combining home and office working, may offer the best of both approaches.'},
+  {title:'The Importance of Critical Thinking',text:'In an era of information overload and widespread misinformation, the ability to think critically has never been more important. Critical thinking involves evaluating evidence carefully, recognising logical fallacies, and forming conclusions based on reason rather than emotion or assumption. Educators increasingly argue that these skills should be taught explicitly at every level of schooling rather than left to develop incidentally.'},
+  {title:'Ocean Conservation',text:'The world\'s oceans cover more than seventy percent of the Earth\'s surface and support an extraordinary diversity of life. Yet human activity — including overfishing, plastic pollution, and the acidification caused by rising carbon dioxide levels — is placing marine ecosystems under severe stress. Marine biologists warn that without urgent and coordinated international action, irreversible damage to ocean biodiversity may occur within this century.'},
+  {title:'Aviation and Sustainability',text:'The aviation industry faces growing pressure to reduce its environmental impact as awareness of climate change increases. Aircraft manufacturers are investing in more fuel-efficient engines and exploring the potential of sustainable aviation fuels derived from plant-based or waste materials. Some researchers believe that hydrogen-powered aircraft could eventually offer a genuinely zero-emission alternative, though significant technical and infrastructure challenges remain.'},
+  {title:'The Digital Divide',text:'Despite the rapid growth of digital technology, access to the internet and digital tools remains deeply unequal, both between and within countries. In many rural and low-income communities, limited connectivity restricts access to education, healthcare, and economic opportunity. Bridging this digital divide has become a priority for governments and international organisations, though progress has been uneven and the pace of change continues to outstrip efforts to achieve universal access.'}
+];
+var _rl_current=0;
+var _rl_rec=null,_rl_recording=false,_rl_final='';
+var _li_passages=[
+  {title:'The benefits of bilingualism',text:'Speaking more than one language offers significant cognitive advantages. Bilingual individuals often demonstrate greater mental flexibility, improved attention control, and enhanced problem-solving abilities. Research also suggests that speaking two languages regularly may delay the onset of dementia by several years. Beyond the cognitive benefits, bilingualism opens doors to new cultures, relationships, and professional opportunities in an increasingly interconnected world.'},
+  {title:'Technology in the classroom',text:'The integration of technology into education has transformed how teachers deliver content and how students engage with learning. Interactive whiteboards, online resources, and personalised learning platforms have made education more accessible and engaging. However, concerns remain about screen time, digital distraction, and the risk that technology may widen the gap between schools that can afford the latest tools and those that cannot.'},
+  {title:'The importance of physical activity',text:'Regular physical activity is one of the most effective ways to maintain both physical and mental health. Exercise reduces the risk of chronic diseases such as heart disease, type two diabetes, and certain cancers. It also improves mood, reduces anxiety, and promotes better sleep. Despite these well-documented benefits, a significant proportion of the global population fails to meet recommended activity levels, largely due to sedentary lifestyles and lack of time.'},
+  {title:'Cultural heritage and tourism',text:'Tourism can be a powerful force for preserving and celebrating cultural heritage, bringing economic benefits to local communities and raising awareness of the world\'s diverse traditions. At the same time, excessive tourism can place enormous pressure on historic sites, causing physical damage and eroding the authenticity of local culture. Sustainable tourism policies aim to balance these competing interests by managing visitor numbers and ensuring that communities retain control over their own heritage.'},
+  {title:'The future of work',text:'Automation and artificial intelligence are expected to transform the global labour market significantly over the coming decades. While some jobs will be eliminated, new roles will emerge that require distinctly human skills such as creativity, empathy, and complex reasoning. Economists argue that the key challenge is not unemployment but rather ensuring that workers have access to the retraining and education they need to adapt to a rapidly changing world.'}
+];
+var _li_current=0;
+var _conv_turns=[];
+var _conv_topic='';
+var _conv_active=false;
+var _conv_rec=null,_conv_recording=false,_conv_final='';
+var _conv_topics=[
+  'Do you think social media has had a positive or negative effect on society overall?',
+  'Some people argue that universities are no longer necessary in the modern world. What is your view?',
+  'Is it possible to balance economic growth with environmental sustainability?',
+  'Do you think governments should have the right to restrict freedom of speech online?',
+  'In your opinion, is globalisation more of a benefit or a threat to cultural identity?',
+  'Should wealthy countries do more to help developing nations address climate change?',
+  'Do you think artificial intelligence will ultimately create more jobs than it destroys?'
+];
+
+el.innerHTML=
+'<div style="padding:16px 0">'
++'<div style="font-size:16px;font-weight:800;color:#e8f4fd;margin-bottom:4px">🎯 Práctica de inglés</div>'
++'<div style="font-size:13px;color:#8cb8d8;margin-bottom:20px;line-height:1.5">Tres actividades con evaluación de IA para preparar la prueba oral de la Fase 3A.</div>'
+
++'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;padding:16px;margin-bottom:16px">'
++'<div style="font-size:13px;font-weight:700;color:#00b4d8;margin-bottom:4px">📖 Lectura en voz alta</div>'
++'<div style="font-size:12px;color:#8cb8d8;margin-bottom:12px;line-height:1.5">Lee el texto en voz alta en inglés. Recibirás una evaluación de tu pronunciación, fluidez y expresión, junto con una versión ideal de referencia.</div>'
++'<div id="rl-passage" style="background:#081523;border-radius:10px;padding:14px;margin-bottom:12px;font-size:14px;color:#e8f4fd;line-height:1.8;font-style:italic"></div>'
++'<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">'
++'<button onclick="rlPrev()" style="padding:6px 12px;background:#132842;border:1px solid #1d3a5c;color:#8cb8d8;border-radius:8px;font-family:\'IBM Plex Sans\',sans-serif;font-size:12px;cursor:pointer">← Anterior</button>'
++'<div id="rl-counter" style="flex:1;text-align:center;font-size:11px;font-family:\'IBM Plex Mono\',monospace;color:#5a8aaa"></div>'
++'<button onclick="rlNext()" style="padding:6px 12px;background:#132842;border:1px solid #1d3a5c;color:#8cb8d8;border-radius:8px;font-family:\'IBM Plex Sans\',sans-serif;font-size:12px;cursor:pointer">Siguiente →</button>'
++'</div>'
++'<div style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:12px">'
++'<div style="position:relative;display:flex;align-items:center;justify-content:center"><div id="rl-pulse" style="position:absolute;width:64px;height:64px;border-radius:50%;border:2px solid #00b4d8;opacity:0"></div>'
++'<button id="rl-mic" onclick="rlToggleRec()" style="position:relative;width:54px;height:54px;border-radius:50%;border:none;background:#00b4d8;color:#000;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;z-index:1">🎙️</button></div>'
++'<div id="rl-status" style="font-size:13px;color:#5a8aaa">Pulsa el micrófono y lee en voz alta</div>'
++'</div>'
++'<textarea id="rl-transcript" oninput="rlUpdateBtn()" placeholder="Tu lectura aparecerá aquí, o escribe directamente…" style="width:100%;min-height:60px;background:#081523;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:13px;font-family:\'IBM Plex Sans\',sans-serif;color:#e8f4fd;resize:vertical;box-sizing:border-box;line-height:1.6;margin-bottom:8px"></textarea>'
++'<button id="rl-btn" onclick="rlAssess()" disabled style="display:block;width:100%;padding:12px;background:#00b4d8;color:#000;border:none;border-radius:10px;font-size:13px;font-weight:700;font-family:\'IBM Plex Sans\',sans-serif;cursor:not-allowed;opacity:.4">Evaluar mi lectura</button>'
++'<div id="rl-loading" style="display:none;text-align:center;padding:16px;color:#5a8aaa;font-size:13px">Analizando…</div>'
++'<div id="rl-results" style="display:none;margin-top:12px">'
++'<div id="rl-band" style="background:#0c2a4a;border:1px solid #00b4d8;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;margin-bottom:10px">'
++'<div style="text-align:center;min-width:50px"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Puntuación</div><div id="rl-score" style="font-size:32px;font-weight:700;color:#00b4d8;font-family:\'IBM Plex Mono\',monospace">—</div></div>'
++'<div><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Nivel</div><div id="rl-level" style="font-size:15px;font-weight:700;color:#e8f4fd">—</div><div id="rl-level-desc" style="font-size:11px;color:#8cb8d8"></div></div>'
++'</div>'
++'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">'
++'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Pronunciación</div><div id="rl-sc-pron" style="font-size:22px;font-weight:700;font-family:\'IBM Plex Mono\',monospace">—</div><div style="font-size:10px;color:#5a8aaa">/ 33</div></div>'
++'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Fluidez</div><div id="rl-sc-flu" style="font-size:22px;font-weight:700;font-family:\'IBM Plex Mono\',monospace">—</div><div style="font-size:10px;color:#5a8aaa">/ 33</div></div>'
++'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Expresión</div><div id="rl-sc-exp" style="font-size:22px;font-weight:700;font-family:\'IBM Plex Mono\',monospace">—</div><div style="font-size:10px;color:#5a8aaa">/ 34</div></div>'
++'</div>'
++'<div style="background:#0a2010;border-left:3px solid #2dc653;border-radius:0 10px 10px 0;padding:10px 12px;margin-bottom:8px"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#2dc653;margin-bottom:4px">✅ Puntos fuertes</div><ul id="rl-good" style="padding-left:14px;margin:0;font-size:12px;color:#8cb8d8;line-height:1.7"></ul></div>'
++'<div style="background:#201500;border-left:3px solid #ffd166;border-radius:0 10px 10px 0;padding:10px 12px;margin-bottom:8px"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#ffd166;margin-bottom:4px">📝 A mejorar</div><ul id="rl-improve" style="padding-left:14px;margin:0;font-size:12px;color:#8cb8d8;line-height:1.7"></ul></div>'
++'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;margin-bottom:10px"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa;margin-bottom:4px">Versión de referencia</div><div id="rl-ideal" style="font-size:12px;color:#8cb8d8;line-height:1.7;font-style:italic"></div></div>'
++'<button onclick="rlReset()" style="display:block;width:100%;padding:10px;background:transparent;border:1.5px solid #1d3a5c;color:#5a8aaa;border-radius:10px;font-family:\'IBM Plex Sans\',sans-serif;font-size:12px;cursor:pointer">Intentar con otro texto</button>'
++'</div>'
++'</div>'
+
++'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;padding:16px;margin-bottom:16px">'
++'<div style="font-size:13px;font-weight:700;color:#ffd166;margin-bottom:4px">🎧 Comprensión auditiva</div>'
++'<div style="font-size:12px;color:#8cb8d8;margin-bottom:12px;line-height:1.5">Escucha el texto y luego résumelo con tus propias palabras. La IA evaluará tu comprensión.</div>'
++'<div id="li-passage-title" style="font-size:12px;font-family:\'IBM Plex Mono\',monospace;color:#5a8aaa;margin-bottom:8px"></div>'
++'<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">'
++'<button onclick="liPrev()" style="padding:6px 12px;background:#132842;border:1px solid #1d3a5c;color:#8cb8d8;border-radius:8px;font-family:\'IBM Plex Sans\',sans-serif;font-size:12px;cursor:pointer">← Anterior</button>'
++'<div id="li-counter" style="flex:1;text-align:center;font-size:11px;font-family:\'IBM Plex Mono\',monospace;color:#5a8aaa;line-height:2.2"></div>'
++'<button onclick="liNext()" style="padding:6px 12px;background:#132842;border:1px solid #1d3a5c;color:#8cb8d8;border-radius:8px;font-family:\'IBM Plex Sans\',sans-serif;font-size:12px;cursor:pointer">Siguiente →</button>'
++'</div>'
++'<button onclick="liPlay()" id="li-play-btn" style="display:block;width:100%;padding:11px;background:#132842;border:1.5px solid #ffd166;color:#ffd166;border-radius:10px;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:700;cursor:pointer;margin-bottom:12px">▶ Escuchar el texto</button>'
++'<div id="li-playing" style="display:none;text-align:center;font-size:12px;color:#ffd166;margin-bottom:8px">🔊 Reproduciendo… <button onclick="liStop()" style="background:none;border:none;color:#e63946;font-size:12px;cursor:pointer;font-family:\'IBM Plex Sans\',sans-serif">■ Parar</button></div>'
++'<textarea id="li-transcript" oninput="liUpdateBtn()" placeholder="Resume lo que has escuchado con tus propias palabras en inglés…" style="width:100%;min-height:80px;background:#081523;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:13px;font-family:\'IBM Plex Sans\',sans-serif;color:#e8f4fd;resize:vertical;box-sizing:border-box;line-height:1.6;margin-bottom:8px"></textarea>'
++'<button id="li-btn" onclick="liAssess()" disabled style="display:block;width:100%;padding:12px;background:#ffd166;color:#000;border:none;border-radius:10px;font-size:13px;font-weight:700;font-family:\'IBM Plex Sans\',sans-serif;cursor:not-allowed;opacity:.4">Evaluar mi comprensión</button>'
++'<div id="li-loading" style="display:none;text-align:center;padding:16px;color:#5a8aaa;font-size:13px">Analizando…</div>'
++'<div id="li-results" style="display:none;margin-top:12px">'
++'<div style="background:#0c2a4a;border:1px solid #ffd166;border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px">'
++'<div style="text-align:center;min-width:50px"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Puntuación</div><div id="li-score" style="font-size:32px;font-weight:700;color:#ffd166;font-family:\'IBM Plex Mono\',monospace">—</div></div>'
++'<div><div id="li-feedback" style="font-size:13px;color:#e8f4fd;line-height:1.6"></div></div>'
++'</div>'
++'<div style="background:#0a2010;border-left:3px solid #2dc653;border-radius:0 10px 10px 0;padding:10px 12px;margin-bottom:8px"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#2dc653;margin-bottom:4px">✅ Puntos clave captados</div><ul id="li-good" style="padding-left:14px;margin:0;font-size:12px;color:#8cb8d8;line-height:1.7"></ul></div>'
++'<div style="background:#201500;border-left:3px solid #ffd166;border-radius:0 10px 10px 0;padding:10px 12px;margin-bottom:10px"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#ffd166;margin-bottom:4px">📝 Puntos que faltaron</div><ul id="li-missed" style="padding-left:14px;margin:0;font-size:12px;color:#8cb8d8;line-height:1.7"></ul></div>'
++'<button onclick="liReset()" style="display:block;width:100%;padding:10px;background:transparent;border:1.5px solid #1d3a5c;color:#5a8aaa;border-radius:10px;font-family:\'IBM Plex Sans\',sans-serif;font-size:12px;cursor:pointer">Intentar con otro texto</button>'
++'</div>'
++'</div>'
+
++'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;padding:16px;margin-bottom:16px">'
++'<div style="font-size:13px;font-weight:700;color:#2dc653;margin-bottom:4px">💬 Conversación</div>'
++'<div style="font-size:12px;color:#8cb8d8;margin-bottom:12px;line-height:1.5">Mantén una conversación en inglés con la IA durante 7-8 turnos. Recibirás una evaluación detallada al final.</div>'
++'<div id="conv-topic-area" style="margin-bottom:12px">'
++'<div style="font-size:11px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa;margin-bottom:6px">Tema</div>'
++'<div id="conv-topic-display" style="font-size:14px;color:#e8f4fd;font-weight:600;line-height:1.5;background:#081523;border-radius:10px;padding:12px;margin-bottom:10px"></div>'
++'<button onclick="convNewTopic()" style="padding:7px 14px;background:#132842;border:1px solid #1d3a5c;color:#8cb8d8;border-radius:8px;font-family:\'IBM Plex Sans\',sans-serif;font-size:12px;cursor:pointer;margin-bottom:10px">Cambiar tema</button>'
++'</div>'
++'<div id="conv-chat" style="background:#081523;border-radius:10px;padding:12px;min-height:120px;max-height:320px;overflow-y:auto;margin-bottom:10px;display:flex;flex-direction:column;gap:10px"></div>'
++'<div id="conv-turn-count" style="font-size:11px;font-family:\'IBM Plex Mono\',monospace;color:#5a8aaa;text-align:right;margin-bottom:8px"></div>'
++'<div style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-bottom:10px">'
++'<div style="position:relative;display:flex;align-items:center;justify-content:center"><div id="conv-pulse" style="position:absolute;width:60px;height:60px;border-radius:50%;border:2px solid #2dc653;opacity:0"></div>'
++'<button id="conv-mic" onclick="convToggleRec()" style="position:relative;width:52px;height:52px;border-radius:50%;border:none;background:#2dc653;color:#000;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;z-index:1">🎙️</button></div>'
++'<div id="conv-status" style="font-size:12px;color:#5a8aaa">Pulsa el micrófono para hablar</div>'
++'</div>'
++'<textarea id="conv-input" placeholder="O escribe tu respuesta directamente…" style="width:100%;min-height:60px;background:#081523;border:1px solid #1d3a5c;border-radius:10px;padding:10px 12px;font-size:13px;font-family:\'IBM Plex Sans\',sans-serif;color:#e8f4fd;resize:vertical;box-sizing:border-box;line-height:1.6;margin-bottom:8px"></textarea>'
++'<div style="display:flex;gap:8px">'
++'<button id="conv-send-btn" onclick="convSend()" style="flex:1;padding:11px;background:#2dc653;color:#000;border:none;border-radius:10px;font-size:13px;font-weight:700;font-family:\'IBM Plex Sans\',sans-serif;cursor:pointer">Enviar →</button>'
++'<button onclick="convEnd()" style="padding:11px 14px;background:#132842;border:1px solid #1d3a5c;color:#8cb8d8;border-radius:10px;font-size:12px;font-family:\'IBM Plex Sans\',sans-serif;cursor:pointer">Finalizar y evaluar</button>'
++'</div>'
++'<div id="conv-loading" style="display:none;text-align:center;padding:14px;color:#5a8aaa;font-size:13px">Pensando…</div>'
++'<div id="conv-results" style="display:none;margin-top:12px">'
++'<div style="background:#0c2a4a;border:1px solid #2dc653;border-radius:12px;padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:12px">'
++'<div style="text-align:center;min-width:50px"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Puntuación</div><div id="conv-score" style="font-size:32px;font-weight:700;color:#2dc653;font-family:\'IBM Plex Mono\',monospace">—</div></div>'
++'<div><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Nivel</div><div id="conv-level" style="font-size:15px;font-weight:700;color:#e8f4fd">—</div><div id="conv-level-desc" style="font-size:11px;color:#8cb8d8"></div></div>'
++'</div>'
++'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">'
++'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Gramática</div><div id="conv-sc-gram" style="font-size:22px;font-weight:700;font-family:\'IBM Plex Mono\',monospace">—</div><div style="font-size:10px;color:#5a8aaa">/ 25</div></div>'
++'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Vocabulario</div><div id="conv-sc-vocab" style="font-size:22px;font-weight:700;font-family:\'IBM Plex Mono\',monospace">—</div><div style="font-size:10px;color:#5a8aaa">/ 25</div></div>'
++'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Fluidez</div><div id="conv-sc-flu" style="font-size:22px;font-weight:700;font-family:\'IBM Plex Mono\',monospace">—</div><div style="font-size:10px;color:#5a8aaa">/ 25</div></div>'
++'<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:10px;padding:10px;text-align:center"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#5a8aaa">Coherencia</div><div id="conv-sc-coh" style="font-size:22px;font-weight:700;font-family:\'IBM Plex Mono\',monospace">—</div><div style="font-size:10px;color:#5a8aaa">/ 25</div></div>'
++'</div>'
++'<div style="background:#0a2010;border-left:3px solid #2dc653;border-radius:0 10px 10px 0;padding:10px 12px;margin-bottom:8px"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#2dc653;margin-bottom:4px">✅ Lo que hiciste bien</div><ul id="conv-good" style="padding-left:14px;margin:0;font-size:12px;color:#8cb8d8;line-height:1.7"></ul></div>'
++'<div style="background:#201500;border-left:3px solid #ffd166;border-radius:0 10px 10px 0;padding:10px 12px;margin-bottom:10px"><div style="font-size:9px;font-family:\'IBM Plex Mono\',monospace;text-transform:uppercase;color:#ffd166;margin-bottom:4px">📝 Áreas a mejorar</div><ul id="conv-improve" style="padding-left:14px;margin:0;font-size:12px;color:#8cb8d8;line-height:1.7"></ul></div>'
++'<button onclick="convReset()" style="display:block;width:100%;padding:10px;background:transparent;border:1.5px solid #1d3a5c;color:#5a8aaa;border-radius:10px;font-family:\'IBM Plex Sans\',sans-serif;font-size:12px;cursor:pointer">Nueva conversación</button>'
++'</div>'
++'</div>'
++'</div>';
+
+// passage and conv init called inside renderAEPractica after HTML is built
+
+window._rl_passages=_rl_passages;
+window._rl_current=_rl_current;
+window._rl_rec=null;window._rl_recording=false;window._rl_final='';
+window._li_passages=_li_passages;
+window._li_current=_li_current;
+window._li_synth=window.speechSynthesis;
+window._li_utt=null;
+window._conv_turns=_conv_turns;
+window._conv_topic=_conv_topic;
+window._conv_active=_conv_active;
+window._conv_rec=null;window._conv_recording=false;window._conv_final='';
+window._conv_topics=_conv_topics;
+}
+
+function rlLoadPassage(){var p=window._rl_passages[window._rl_current];var el=document.getElementById('rl-passage');if(el)el.textContent='"'+p.text+'"';var c=document.getElementById('rl-counter');if(c)c.textContent=(window._rl_current+1)+' / '+window._rl_passages.length+' — '+p.title;rlReset(false);}
+function rlPrev(){if(window._rl_current>0){window._rl_current--;rlLoadPassage();}}
+function rlNext(){if(window._rl_current<window._rl_passages.length-1){window._rl_current++;rlLoadPassage();}}
+function rlToggleRec(){window._rl_recording?rlStopRec():rlStartRec();}
+function rlStartRec(){var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){var s=document.getElementById('rl-status');if(s)s.textContent='⚠️ Micrófono no disponible — escribe tu respuesta';return;}if(!window._rl_rec){var r=new SR();r.lang='en-US';r.interimResults=true;r.continuous=true;r.onresult=function(e){var interim='';for(var i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)window._rl_final+=e.results[i][0].transcript+' ';else interim+=e.results[i][0].transcript;}var t=document.getElementById('rl-transcript');if(t){t.value=(window._rl_final+interim).trim();rlUpdateBtn();}};r.onerror=function(){rlStopRec();};r.onend=function(){if(window._rl_recording)r.start();};window._rl_rec=r;}window._rl_final='';var t=document.getElementById('rl-transcript');if(t)t.value='';window._rl_recording=true;window._rl_rec.start();var btn=document.getElementById('rl-mic');if(btn){btn.style.background='#e63946';btn.style.color='#fff';}var pulse=document.getElementById('rl-pulse');if(pulse){pulse.style.animation='pulse 1.4s ease-out infinite';pulse.style.opacity='0.6';}var st=document.getElementById('rl-status');if(st){st.textContent='🔴 Grabando…';st.style.color='#e63946';}}
+function rlStopRec(){window._rl_recording=false;if(window._rl_rec)window._rl_rec.stop();var btn=document.getElementById('rl-mic');if(btn){btn.style.background='#00b4d8';btn.style.color='#000';}var pulse=document.getElementById('rl-pulse');if(pulse){pulse.style.animation='';pulse.style.opacity='0';}var st=document.getElementById('rl-status');if(st){st.textContent='Pulsa el micrófono y lee en voz alta';st.style.color='#5a8aaa';}rlUpdateBtn();}
+function rlUpdateBtn(){var btn=document.getElementById('rl-btn'),t=document.getElementById('rl-transcript');var has=t&&t.value.trim().length>10;if(btn){btn.disabled=!has;btn.style.opacity=has?'1':'.4';btn.style.cursor=has?'pointer':'not-allowed';}}
+async function rlAssess(){var t=document.getElementById('rl-transcript');if(!t||!t.value.trim())return;var txt=t.value.trim();rlStopRec();var btn=document.getElementById('rl-btn');if(btn){btn.disabled=true;btn.style.opacity='.4';}var ld=document.getElementById('rl-loading');if(ld)ld.style.display='block';var rs=document.getElementById('rl-results');if(rs)rs.style.display='none';var passage=window._rl_passages[window._rl_current];var sys='You are an expert English language examiner assessing a Spanish non-native speaker reading aloud a C1-level text as part of ENAIRE air traffic controller exam preparation. The original text is: "'+passage.text+'". Evaluate their reading on three criteria: 1.Pronunciation (0-33) 2.Fluency (0-33) 3.Expression (0-34). Respond ONLY with JSON, no markdown: {"pronunciation":<0-33>,"fluency":<0-33>,"expression":<0-34>,"level":"<A2|B1|B2|C1|C2>","levelDesc":"<one sentence in Spanish>","strengths":["<punto>","<punto>","<punto>"],"improvements":["<consejo>","<consejo>","<consejo>"],"idealVersion":"<the original text read back with brief notes on 2-3 key pronunciation points in Spanish, e.g. noting which syllables to stress>"}';var usr='Candidate read: "'+txt+'"';try{var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:sys,messages:[{role:'user',content:usr}]})});var data=await res.json();var raw=data.content&&data.content.find(function(b){return b.type==='text';});var r=JSON.parse((raw?raw.text:'').replace(/```json|```/g,'').trim());var total=r.pronunciation+r.fluency+r.expression;var sc=document.getElementById('rl-score');if(sc){sc.textContent=total;sc.style.color=total>=75?'#2dc653':total>=50?'#ffd166':'#e63946';}document.getElementById('rl-level').textContent=r.level||'';document.getElementById('rl-level-desc').textContent=r.levelDesc||'';[['rl-sc-pron',r.pronunciation],['rl-sc-flu',r.fluency],['rl-sc-exp',r.expression]].forEach(function(pair){var el2=document.getElementById(pair[0]);if(el2){el2.textContent=pair[1];el2.style.color=pair[1]/34>=.75?'#2dc653':pair[1]/34>=.5?'#ffd166':'#e63946';}});var fg=document.getElementById('rl-good');if(fg){fg.innerHTML='';(r.strengths||[]).forEach(function(s){var li=document.createElement('li');li.textContent=s;fg.appendChild(li);});}var fi=document.getElementById('rl-improve');if(fi){fi.innerHTML='';(r.improvements||[]).forEach(function(s){var li=document.createElement('li');li.textContent=s;fi.appendChild(li);});}var id=document.getElementById('rl-ideal');if(id)id.textContent=r.idealVersion||'';if(rs)rs.style.display='block';}catch(e){var ld2=document.getElementById('rl-loading');if(ld2)ld2.textContent='⚠️ Error al conectar. Inténtalo de nuevo.';}finally{var ld3=document.getElementById('rl-loading');if(ld3)ld3.style.display='none';}}
+function rlReset(newPassage){rlStopRec();window._rl_final='';window._rl_rec=null;var t=document.getElementById('rl-transcript');if(t)t.value='';var rs=document.getElementById('rl-results');if(rs)rs.style.display='none';var ld=document.getElementById('rl-loading');if(ld){ld.style.display='none';ld.textContent='Analizando…';}rlUpdateBtn();if(newPassage)rlNext();}
+
+function liLoadPassage(){var p=window._li_passages[window._li_current];var ti=document.getElementById('li-passage-title');if(ti)ti.textContent=(window._li_current+1)+' / '+window._li_passages.length+' — '+p.title;var c=document.getElementById('li-counter');if(c)c.textContent=(window._li_current+1)+' de '+window._li_passages.length;liReset(false);}
+function liPrev(){if(window._li_current>0){window._li_current--;liLoadPassage();}}
+function liNext(){if(window._li_current<window._li_passages.length-1){window._li_current++;liLoadPassage();}}
+function liPlay(){var p=window._li_passages[window._li_current];if(window.speechSynthesis.speaking)window.speechSynthesis.cancel();var utt=new SpeechSynthesisUtterance(p.text);utt.lang='en-GB';utt.rate=0.9;var pb=document.getElementById('li-play-btn');var pl=document.getElementById('li-playing');if(pb)pb.style.display='none';if(pl)pl.style.display='block';utt.onend=function(){if(pb)pb.style.display='block';if(pl)pl.style.display='none';};window.speechSynthesis.speak(utt);window._li_utt=utt;}
+function liStop(){window.speechSynthesis.cancel();var pb=document.getElementById('li-play-btn');var pl=document.getElementById('li-playing');if(pb)pb.style.display='block';if(pl)pl.style.display='none';}
+function liUpdateBtn(){var btn=document.getElementById('li-btn'),t=document.getElementById('li-transcript');var has=t&&t.value.trim().length>15;if(btn){btn.disabled=!has;btn.style.opacity=has?'1':'.4';btn.style.cursor=has?'pointer':'not-allowed';}}
+async function liAssess(){var t=document.getElementById('li-transcript');if(!t||!t.value.trim())return;var txt=t.value.trim();var p=window._li_passages[window._li_current];var btn=document.getElementById('li-btn');if(btn){btn.disabled=true;btn.style.opacity='.4';}var ld=document.getElementById('li-loading');if(ld)ld.style.display='block';var rs=document.getElementById('li-results');if(rs)rs.style.display='none';var sys='You are an English language examiner. A Spanish-speaking candidate preparing for the ENAIRE ATC oral exam listened to this text: "'+p.text+'". They then wrote a summary in English. Evaluate their comprehension and summary on a scale of 0-100. Respond ONLY with JSON, no markdown: {"score":<0-100>,"feedback":"<2 sentences in Spanish on overall comprehension>","captured":["<key point covered>","<key point covered>","<key point covered>"],"missed":["<key point missed>","<key point missed>"]}';var usr='Candidate summary: "'+txt+'"';try{var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:600,system:sys,messages:[{role:'user',content:usr}]})});var data=await res.json();var raw=data.content&&data.content.find(function(b){return b.type==='text';});var r=JSON.parse((raw?raw.text:'').replace(/```json|```/g,'').trim());var sc=document.getElementById('li-score');if(sc){sc.textContent=r.score;sc.style.color=r.score>=75?'#2dc653':r.score>=50?'#ffd166':'#e63946';}var fb=document.getElementById('li-feedback');if(fb)fb.textContent=r.feedback||'';var fg=document.getElementById('li-good');if(fg){fg.innerHTML='';(r.captured||[]).forEach(function(s){var li=document.createElement('li');li.textContent=s;fg.appendChild(li);});}var fm=document.getElementById('li-missed');if(fm){fm.innerHTML='';(r.missed||[]).forEach(function(s){var li=document.createElement('li');li.textContent=s;fm.appendChild(li);});}if(rs)rs.style.display='block';}catch(e){var ld2=document.getElementById('li-loading');if(ld2)ld2.textContent='⚠️ Error. Inténtalo de nuevo.';}finally{var ld3=document.getElementById('li-loading');if(ld3)ld3.style.display='none';}}
+function liReset(newPassage){liStop();var t=document.getElementById('li-transcript');if(t)t.value='';var rs=document.getElementById('li-results');if(rs)rs.style.display='none';var ld=document.getElementById('li-loading');if(ld){ld.style.display='none';ld.textContent='Analizando…';}liUpdateBtn();if(newPassage)liNext();}
+
+function convInit(){window._conv_turns=[];window._conv_active=false;var topics=window._conv_topics;window._conv_topic=topics[Math.floor(Math.random()*topics.length)];var td=document.getElementById('conv-topic-display');if(td)td.textContent=window._conv_topic;var chat=document.getElementById('conv-chat');if(chat)chat.innerHTML='';var tc=document.getElementById('conv-turn-count');if(tc)tc.textContent='';var rs=document.getElementById('conv-results');if(rs)rs.style.display='none';}
+function convNewTopic(){var topics=window._conv_topics;var old=window._conv_topic;var next=old;while(next===old&&topics.length>1)next=topics[Math.floor(Math.random()*topics.length)];window._conv_topic=next;var td=document.getElementById('conv-topic-display');if(td)td.textContent=next;var chat=document.getElementById('conv-chat');if(chat)chat.innerHTML='';window._conv_turns=[];window._conv_active=false;var rs=document.getElementById('conv-results');if(rs)rs.style.display='none';var tc=document.getElementById('conv-turn-count');if(tc)tc.textContent='';}
+function convAddMessage(role,text){var chat=document.getElementById('conv-chat');if(!chat)return;var isAI=role==='ai';var div=document.createElement('div');div.style.cssText='display:flex;gap:8px;align-items:flex-start;'+(isAI?'':'flex-direction:row-reverse;');var bubble=document.createElement('div');bubble.style.cssText='max-width:85%;padding:10px 12px;border-radius:'+(isAI?'4px 12px 12px 12px':'12px 4px 12px 12px')+';font-size:13px;line-height:1.6;color:#e8f4fd;background:'+(isAI?'#0c2a4a':'#132842')+';border:1px solid '+(isAI?'#1d4a6c':'#1d3a5c');bubble.textContent=text;var label=document.createElement('div');label.style.cssText='font-size:10px;font-family:\'IBM Plex Mono\',monospace;color:#5a8aaa;margin-top:4px;text-align:'+(isAI?'left':'right');label.textContent=isAI?'IA':'Tú';div.appendChild(bubble);var wrap=document.createElement('div');wrap.appendChild(div);wrap.appendChild(label);chat.appendChild(wrap);chat.scrollTop=chat.scrollHeight;}
+async function convSend(){var input=document.getElementById('conv-input');if(!input)return;var text=input.value.trim();if(!text)return;input.value='';convStopRec();if(!window._conv_active){window._conv_active=true;}convAddMessage('user',text);window._conv_turns.push({role:'user',content:text});var tc=document.getElementById('conv-turn-count');var userTurns=window._conv_turns.filter(function(t){return t.role==='user';}).length;if(tc)tc.textContent='Turno '+userTurns+' de 8';var ld=document.getElementById('conv-loading');if(ld)ld.style.display='block';var shouldEnd=userTurns>=8;var sys='You are an English conversation examiner helping a Spanish-speaking candidate prepare for the ENAIRE air traffic controller oral exam (Fase 3A). The conversation topic is: "'+window._conv_topic+'". You started the conversation by asking for their opinion on this topic. Your role is to respond naturally, ask follow-up questions, and keep the conversation going in English. Be encouraging but natural. If this is the end of the conversation (turn '+userTurns+' of 8), acknowledge it warmly and say the evaluation will now be provided.';var messages=window._conv_turns.slice();if(messages.length===1){messages.unshift({role:'assistant',content:window._conv_topic+' What is your opinion on this?'});}try{var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:300,system:sys,messages:messages})});var data=await res.json();var raw=data.content&&data.content.find(function(b){return b.type==='text';});var reply=raw?raw.text:'';if(reply){convAddMessage('ai',reply);window._conv_turns.push({role:'assistant',content:reply});}if(ld)ld.style.display='none';if(shouldEnd){setTimeout(convEnd,1200);}}catch(e){if(ld)ld.style.display='none';}}
+async function convEnd(){if(window._conv_turns.filter(function(t){return t.role==='user';}).length<2)return;var ld=document.getElementById('conv-loading');if(ld){ld.style.display='block';ld.textContent='Evaluando la conversación…';}var transcript=window._conv_turns.map(function(t){return(t.role==='user'?'Candidato: ':'IA: ')+t.content;}).join('\n');var sys='You are an expert English language examiner. Evaluate the candidate\'s English in this conversation on four criteria each out of 25 (total 100): 1.Grammar 2.Vocabulary 3.Fluency & flow 4.Coherence & relevance. The candidate is a Spanish speaker preparing for the ENAIRE ATC oral exam C1 level. Respond ONLY with JSON, no markdown: {"grammar":<0-25>,"vocabulary":<0-25>,"fluency":<0-25>,"coherence":<0-25>,"level":"<A2|B1|B2|C1|C2>","levelDesc":"<one sentence in Spanish>","strengths":["<punto>","<punto>","<punto>"],"improvements":["<consejo>","<consejo>","<consejo>"]}';try{var res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:800,system:sys,messages:[{role:'user',content:transcript}]})});var data=await res.json();var raw=data.content&&data.content.find(function(b){return b.type==='text';});var r=JSON.parse((raw?raw.text:'').replace(/```json|```/g,'').trim());var total=r.grammar+r.vocabulary+r.fluency+r.coherence;var sc=document.getElementById('conv-score');if(sc){sc.textContent=total;sc.style.color=total>=75?'#2dc653':total>=50?'#ffd166':'#e63946';}document.getElementById('conv-level').textContent=r.level||'';document.getElementById('conv-level-desc').textContent=r.levelDesc||'';[['conv-sc-gram',r.grammar],['conv-sc-vocab',r.vocabulary],['conv-sc-flu',r.fluency],['conv-sc-coh',r.coherence]].forEach(function(pair){var el2=document.getElementById(pair[0]);if(el2){el2.textContent=pair[1];el2.style.color=pair[1]/25>=.75?'#2dc653':pair[1]/25>=.5?'#ffd166':'#e63946';}});var fg=document.getElementById('conv-good');if(fg){fg.innerHTML='';(r.strengths||[]).forEach(function(s){var li=document.createElement('li');li.textContent=s;fg.appendChild(li);});}var fi=document.getElementById('conv-improve');if(fi){fi.innerHTML='';(r.improvements||[]).forEach(function(s){var li=document.createElement('li');li.textContent=s;fi.appendChild(li);});}var rs=document.getElementById('conv-results');if(rs){rs.style.display='block';rs.scrollIntoView({behavior:'smooth',block:'start'});}}catch(e){}finally{if(ld)ld.style.display='none';}}
+function convReset(){convStopRec();window._conv_turns=[];window._conv_active=false;window._conv_rec=null;var chat=document.getElementById('conv-chat');if(chat)chat.innerHTML='';var rs=document.getElementById('conv-results');if(rs)rs.style.display='none';var ld=document.getElementById('conv-loading');if(ld){ld.style.display='none';ld.textContent='Pensando…';}var tc=document.getElementById('conv-turn-count');if(tc)tc.textContent='';convNewTopic();}
+function convToggleRec(){window._conv_recording?convStopRec():convStartRec();}
+function convStartRec(){var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){var s=document.getElementById('conv-status');if(s)s.textContent='⚠️ Micrófono no disponible';return;}if(!window._conv_rec){var r=new SR();r.lang='en-US';r.interimResults=true;r.continuous=true;r.onresult=function(e){var interim='';for(var i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal)window._conv_final+=e.results[i][0].transcript+' ';else interim+=e.results[i][0].transcript;}var inp=document.getElementById('conv-input');if(inp)inp.value=(window._conv_final+interim).trim();};r.onerror=function(){convStopRec();};r.onend=function(){if(window._conv_recording)r.start();};window._conv_rec=r;}window._conv_final='';window._conv_recording=true;window._conv_rec.start();var btn=document.getElementById('conv-mic');if(btn){btn.style.background='#e63946';btn.style.color='#fff';}var pulse=document.getElementById('conv-pulse');if(pulse){pulse.style.animation='pulse 1.4s ease-out infinite';pulse.style.opacity='0.6';}var st=document.getElementById('conv-status');if(st){st.textContent='🔴 Grabando…';st.style.color='#e63946';}}
+function convStopRec(){window._conv_recording=false;if(window._conv_rec)window._conv_rec.stop();var btn=document.getElementById('conv-mic');if(btn){btn.style.background='#2dc653';btn.style.color='#000';}var pulse=document.getElementById('conv-pulse');if(pulse){pulse.style.animation='';pulse.style.opacity='0';}var st=document.getElementById('conv-status');if(st){st.textContent='Pulsa el micrófono para hablar';st.style.color='#5a8aaa';}}
+function convStartConversation(){convAddMessage('ai',window._conv_topic+' What is your opinion on this?');window._conv_turns.push({role:'assistant',content:window._conv_topic+' What is your opinion on this?'});window._conv_active=true;}
+function initFraseologia(){swFrasTab('phrases');}
+function swFrasTab(tab){document.querySelectorAll('#fras-tab-btns button').forEach(function(t){t.style.background='#0c1e35';t.style.borderColor='#1d3a5c';t.style.color='#8cb8d8';});var btn=document.querySelector('#fras-tab-btns button[data-frastab="'+tab+'"]');if(btn){btn.style.background='rgba(0,180,216,.12)';btn.style.borderColor='#00b4d8';btn.style.color='#00b4d8';}var el=document.getElementById('fras-content');if(!el)return;el.innerHTML='';var panel=document.createElement('div');panel.id='ae-'+tab;panel.className='ae-tab';el.appendChild(panel);panel.dataset.loaded='';renderAETab(tab);if(tab==='pronunciation')renderAEPronunciation();if(tab==='readback')renderAEReadback();if(tab==='emergency')renderAEEmergency();if(tab==='phrases')renderAEPhrases();if(tab==='vocab')renderAEVocab();}
 function openInglesOral(){openAvEng('oral');}
 function openInglesTests(){closeFase1();openAvEng('written');}
 function ensureFase1Ov(){
@@ -7608,7 +7803,7 @@ drawDot();
   };
 
 }
-function openEnglishLearn(){if(!DEV_PREMIUM){closeFase1();requirePremium('Las lecciones de Inglés C1');return;}var ov=document.getElementById('engov');if(!ov){ov=document.createElement('div');ov.id='engov';ov.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:#eaf1f7;z-index:99999;overflow:auto';document.body.appendChild(ov);}ov.innerHTML='<div style="display:flex;align-items:center;gap:10px;height:50px;padding:0 12px;background:#fff;border-bottom:1px solid #d6e0ea;position:sticky;top:0;z-index:2"><button id="engback" style="background:none;border:none;font-size:15px;font-weight:700;color:#1f6fb8;cursor:pointer">‹ Volver</button><span style="font-size:14px;font-weight:700;color:#16314c">Inglés C1 — Lecciones</span></div><iframe src="english-learn.html" style="width:100%;height:calc(100vh - 50px);border:0;display:block"></iframe>';document.getElementById('engback').onclick=function(){var o=document.getElementById('engov');if(o)o.remove();};}function openAvEng(mode){
+function openEnglishLearn(){if(!DEV_PREMIUM){closeFase1();requirePremium('Las lecciones de Inglés C1');return;}var ov=document.getElementById('engov');if(!ov){ov=document.createElement('div');ov.id='engov';ov.style.cssText='position:fixed;top:0;left:0;right:0;bottom:0;background:#eaf1f7;z-index:99999;overflow:auto';document.body.appendChild(ov);}ov.innerHTML='<div style=\"display:flex;align-items:center;gap:10px;height:50px;padding:0 12px;background:#fff;border-bottom:1px solid #d6e0ea;position:sticky;top:0;z-index:2\"><button id=\"engback\" style=\"background:none;border:none;font-size:15px;font-weight:700;color:#1f6fb8;cursor:pointer\">‹ Volver</button><span style=\"font-size:14px;font-weight:700;color:#16314c\">Inglés C1 — Lecciones</span></div><iframe src=\"https://controlprep.com/english-learn.html\" style=\"width:100%;height:calc(100vh - 50px);border:0;display:block\"></iframe>';document.getElementById('engback').onclick=function(){var o=document.getElementById('engov');if(o)o.remove();};}function openAvEng(mode){
   if(!DEV_PREMIUM){requirePremium('Aviation English OACI');return;}
   go('aveng');
  if(mode==='written'||mode==='oral'){AE_MODE=mode;setTimeout(function(){showAEMain(mode);},120);}else{AE_MODE='all';setTimeout(renderAEIntro,100);}
@@ -7665,6 +7860,7 @@ function aeIntroConfirm(){
 }
 function showAEMain(mode){
   if(mode)AE_MODE=mode;
+  localStorage.setItem('aeSkipIntro','1');
   const intro=document.getElementById('ae-intro');
   const main=document.getElementById('ae-main');
   if(intro)intro.innerHTML='';
@@ -8763,7 +8959,7 @@ cookieShowBanner();
 handleCheckoutReturn();
 sbInit();
 // Fix DOM nesting issue
-['login-screen','register-screen','forgot-screen','landing','landing-plan','topics','tdetail','qscreen','rscreen','papers','progress-screen','enaire-bridge','rv','planselect','glossary','bpracticas','search','profile','splash','aveng','feast','studyplan','legal-privacy','legal-terms','legal-cookies','faq','contact','conv2025','minigames','english'].forEach(sid=>{  const el=document.getElementById(sid);
+['login-screen','register-screen','forgot-screen','landing','landing-plan','topics','tdetail','qscreen','rscreen','papers','progress-screen','enaire-bridge','rv','planselect','glossary','bpracticas','search','profile','splash','aveng','feast','studyplan','legal-privacy','legal-terms','legal-cookies','faq','contact','conv2025','minigames','english','fraseologia'].forEach(sid=>{  const el=document.getElementById(sid);
   if(el)document.body.appendChild(el);
 });
 ['cookie-banner','cookie-config','login-screen','register-screen','forgot-screen'].forEach(id=>{
@@ -8959,6 +9155,24 @@ function engReset(newPrompt=true){engStopRec();_engFinal='';document.getElementB
 </script>
 
 </div>
+<!-- ══════════════ FRASEOLOGÍA SCREEN ══════════════ -->
+<div class="screen" id="fraseologia">
+  <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="go('aveng')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
+  <div class="inner" style="padding-top:20px;padding-bottom:90px">
+    <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#00b4d8;margin-bottom:6px">Inglés C1 · Fase 3A</div>
+    <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:4px">Fraseología y recursos</div>
+    <div style="font-size:13px;color:#8cb8d8;margin-bottom:20px">Fraseología aeronáutica, pronunciación, readback, emergencias y vocabulario.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px" id="fras-tab-btns">
+      <button data-frastab="phrases" onclick="swFrasTab('phrases')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #00b4d8;background:rgba(0,180,216,.12);font-size:12px;font-weight:600;color:#00b4d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Fraseología</button>
+      <button data-frastab="pronunciation" onclick="swFrasTab('pronunciation')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Pronunciación</button>
+      <button data-frastab="readback" onclick="swFrasTab('readback')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Readback</button>
+      <button data-frastab="emergency" onclick="swFrasTab('emergency')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4">Emergencias</button>
+      <button data-frastab="vocab" onclick="swFrasTab('vocab')" style="padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;width:100%;line-height:1.4;grid-column:1/-1">Vocabulario</button>
+    </div>
+    <div id="fras-content"></div>
+  </div>
+</div>
+
 <!-- ══════════════ MINI GAMES LOBBY ══════════════ -->
 <div class="screen" id="minigames">
   <div class="topbar"><div class="topbar-inner"><span class="logo">Control<span>Prep</span></span><button onclick="go('home')" style="padding:7px 14px;background:#1d3a5c;color:#e8f4fd;border:1.5px solid #2a5280;border-radius:9px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">← Volver</button></div></div>
