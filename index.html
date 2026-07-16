@@ -8965,7 +8965,7 @@ function engReset(newPrompt=true){engStopRec();_engFinal='';document.getElementB
   <div class="inner" style="padding-top:20px;padding-bottom:90px;overflow-y:auto;flex:1">
     <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#ffd166;margin-bottom:6px">Gratis · Nuevo cada semana</div>
     <div style="font-size:22px;font-weight:800;color:#e8f4fd;margin-bottom:4px">🎮 Mini Juegos</div>
-    <div style="font-size:13px;color:#8cb8d8;margin-bottom:20px;line-height:1.5">Practica conceptos clave del examen CTA en menos de 2 minutos. Un juego nuevo cada semana.</div>
+    <div style="font-size:13px;color:#8cb8d8;margin-bottom:20px;line-height:1.5">Juegos rápidos para futuros controladores de tránsito aéreo.</div>
     <div id="minigames-list"></div>
   </div>
 </div>
@@ -8978,25 +8978,27 @@ function renderMiniGames(){
   var el=document.getElementById('minigames-list');
   if(!el)return;
   var html='';
-  MINI_GAMES.forEach(function(g){
-    html+='<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;overflow:hidden;margin-bottom:12px;cursor:pointer" onclick="window.open(\''+g.url+'\',\'_blank\')">';
+MINI_GAMES.forEach(function(g){
+    html+='<div style="background:#0c1e35;border:1px solid #1d3a5c;border-radius:14px;overflow:hidden;margin-bottom:12px;cursor:pointer" onclick="window.open(\''+g.url+'\',\'_blank\')">'
+      +'<div style="display:flex;align-items:stretch">';
     if(g.img){
-      html+='<img src="'+g.img+'" alt="'+g.title+'" style="width:100%;display:block;border-radius:14px 14px 0 0">';
+      html+='<img src="'+g.img+'" alt="'+g.title+'" style="width:140px;min-width:140px;height:90px;object-fit:cover;object-position:center;display:block;flex-shrink:0">';
     }
-    html+='<div style="padding:14px">'
-      +'<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">'
-      +'<span style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;font-weight:700;color:#ffd166;background:rgba(255,209,102,.1);border:1px solid rgba(255,209,102,.3);border-radius:6px;padding:2px 7px">'+g.week+'</span>'
-      +'<span style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;color:#5a8aaa;text-transform:uppercase;letter-spacing:.06em">'+g.topic+'</span>'
+    html+='<div style="padding:12px 14px;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center">'
+      +'<div style="font-size:10px;font-family:\'IBM Plex Mono\',monospace;color:#5a8aaa;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px">'+g.topic+'</div>'
+      +'<div style="font-size:15px;font-weight:700;color:#e8f4fd;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+g.title+'</div>'
+      +'<div style="font-size:12px;color:#8cb8d8;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">'+g.desc+'</div>'
+      +'</div></div>'
+      +'<div style="padding:8px 14px;border-top:1px solid #1d3a5c;display:flex;align-items:center;justify-content:space-between">'
+      +'<span style="font-size:12px;color:#5a8aaa">~60 segundos</span>'
+      +'<span style="font-size:12px;font-weight:700;color:#00b4d8">Jugar ahora →</span>'
       +'</div>'
-      +'<div style="font-size:16px;font-weight:800;color:#e8f4fd;margin-bottom:4px">'+g.title+'</div>'
-      +'<div style="font-size:13px;color:#8cb8d8;line-height:1.5;margin-bottom:12px">'+g.desc+'</div>'
-      +'<div style="display:inline-flex;align-items:center;gap:8px;background:#ffd166;color:#000;font-family:\'IBM Plex Sans\',sans-serif;font-size:13px;font-weight:800;padding:9px 18px;border-radius:9px">▶ Jugar ahora</div>'
-      +'</div></div>';
+      +'</div>';
   });
   html+='<div style="background:#081523;border:1px dashed #1d3a5c;border-radius:14px;padding:20px;text-align:center;margin-top:4px">'
     +'<div style="font-size:24px;margin-bottom:8px">🔜</div>'
     +'<div style="font-size:13px;font-weight:700;color:#5a8aaa;margin-bottom:4px">Próximo juego — la semana que viene</div>'
-    +'<div style="font-size:12px;color:#3d5a72">Síguenos en LinkedIn para ser el primero en enterarte.</div>'
+    +'<div style="font-size:12px;color:#3d5a72">Síguenos en LinkedIn para estar al tanto.</div>'
     +'</div>';
   el.innerHTML=html;
 }
