@@ -5,6 +5,42 @@
   node_bundler = "esbuild"
 
 [[redirects]]
+  from = "/oaci_alphabet_sprint_es"
+  to = "/OACI_Alphabet_Sprint_ES.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/icao_alphabet_sprint_en"
+  to = "/ICAO_Alphabet_Sprint_EN.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/conflict-or-not-en"
+  to = "/conflict-or-not-en.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/conflict-or-not-es"
+  to = "/conflict-or-not-es.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/heading-snap-en"
+  to = "/Heading_Snap_EN.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/heading-snap-es"
+  to = "/Heading_Snap_ES.html"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/*.html"
   to = "/:splat"
   status = 200
