@@ -159,7 +159,7 @@ html,body{height:100%;background:#060f1e;font-family:-apple-system,'Segoe UI',Ro
 
 <script>
 // ── NATO ALPHABET ─────────────────────────────────────────────────
-const NATO = {
+var NATO = {
   A:'Alpha',   B:'Bravo',   C:'Charlie', D:'Delta',   E:'Echo',
   F:'Foxtrot', G:'Golf',    H:'Hotel',   I:'India',   J:'Juliet',
   K:'Kilo',    L:'Lima',    M:'Mike',    N:'November',O:'Oscar',
@@ -167,12 +167,12 @@ const NATO = {
   U:'Uniform', V:'Victor',  W:'Whiskey', X:'X-ray',   Y:'Yankee',
   Z:'Zulu'
 };
-const LETTERS = Object.keys(NATO);
-const WORDS   = Object.values(NATO);
+var LETTERS = Object.keys(NATO);
+var WORDS   = Object.values(NATO);
 
 // Same-first-letter decoys — plausible words that start with the correct letter
 // so the player must actually know the word, not just pattern-match initials
-const DECOYS = {
+var DECOYS = {
   A:['Able','Amber','Arrow','Arctic','Apex','Aries'],
   B:['Baker','Bullet','Boxer','Beacon','Blade','Bogey'],
   C:['Control','Condor','Cobra','Cedar','Carbon','Cadet'],
@@ -202,32 +202,32 @@ const DECOYS = {
 };
 
 // ── CONFIG ────────────────────────────────────────────────────────
-const GAME_DURATION  = 60;    // seconds
-const TIME_PER_LETTER_START = 4.5;  // seconds per letter at start
-const TIME_PER_LETTER_MIN   = 2.2;  // minimum after difficulty ramp
-const WRONG_PENALTY  = 30;
-const MAX_PTS        = 100;   // for instant answer
-const MIN_PTS        = 20;    // for answering just before timeout
-const STREAK_BONUS   = 25;    // bonus every 5-correct streak
-const WRONG_FLASH_MS = 600;
-const DISTRACTORS_POOL_SIZE = 3; // wrong options per question
+var GAME_DURATION  = 60;    // seconds
+var TIME_PER_LETTER_START = 4.5;  // seconds per letter at start
+var TIME_PER_LETTER_MIN   = 2.2;  // minimum after difficulty ramp
+var WRONG_PENALTY  = 30;
+var MAX_PTS        = 100;   // for instant answer
+var MIN_PTS        = 20;    // for answering just before timeout
+var STREAK_BONUS   = 25;    // bonus every 5-correct streak
+var WRONG_FLASH_MS = 600;
+var DISTRACTORS_POOL_SIZE = 3; // wrong options per question
 
 // ── STATE ─────────────────────────────────────────────────────────
-let gameRunning = false;
-let elapsed = 0, letterElapsed = 0, letterTimeout = 0;
-let score = 0, correct = 0, wrong = 0, streak = 0, bestStreak = 0;
-let currentLetter = '', correctWord = '';
-let letterQueue = [];           // shuffled queue, refills when empty
-let missedMap = {};             // letter -> {correct, gave}
-let lastTs = 0;
-let raf;
-let optionsFrozen = false;      // brief freeze after answer
+var gameRunning = false;
+var elapsed = 0, letterElapsed = 0, letterTimeout = 0;
+var score = 0, correct = 0, wrong = 0, streak = 0, bestStreak = 0;
+var currentLetter = '', correctWord = '';
+var letterQueue = [];           // shuffled queue, refills when empty
+var missedMap = {};             // letter -> {correct, gave}
+var lastTs = 0;
+var raf;
+var optionsFrozen = false;      // brief freeze after answer
 
 // ── HELPERS ──────────────────────────────────────────────────────
 function shuffle(arr){
-  const a=[...arr];
-  for(let i=a.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
+  var a=[...arr];
+  for(var i=a.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
     [a[i],a[j]]=[a[j],a[i]];
   }
   return a;
@@ -239,32 +239,32 @@ function refillQueue(){
 
 function getDisstractors(letter, correct){
   // Pick 3 decoys that start with the same letter — forces real knowledge
-  const pool = (DECOYS[letter]||[]).filter(w=>w!==correct);
+  var pool = (DECOYS[letter]||[]).filter(function(w){return w!==correct;});
   return shuffle(pool).slice(0,3);
 }
 
 function currentLetterTimeout(){
   // Difficulty ramp: shrinks from START to MIN over first 20 correct answers
-  const t = TIME_PER_LETTER_START - (correct/20)*(TIME_PER_LETTER_START - TIME_PER_LETTER_MIN);
+  var t = TIME_PER_LETTER_START - (correct/20)*(TIME_PER_LETTER_START - TIME_PER_LETTER_MIN);
   return Math.max(TIME_PER_LETTER_MIN, t);
 }
 
 // ── GAME LOOP ─────────────────────────────────────────────────────
 function loop(ts){
   if(!lastTs) lastTs=ts;
-  const dt = Math.min((ts-lastTs)/1000, 0.05);
+  var dt = Math.min((ts-lastTs)/1000, 0.05);
   lastTs=ts; elapsed+=dt; letterElapsed+=dt;
 
   // Main timer
-  const left = Math.max(0, GAME_DURATION-elapsed);
-  const ht = document.getElementById('h-time');
+  var left = Math.max(0, GAME_DURATION-elapsed);
+  var ht = document.getElementById('h-time');
   ht.textContent = Math.ceil(left);
   ht.className = 'hv'+(left<=10?' danger':left<=20?' warn':'');
 
   // Per-letter timer bar
   letterTimeout = currentLetterTimeout();
-  const ratio = Math.max(0, 1 - letterElapsed/letterTimeout);
-  const bar = document.getElementById('timer-bar');
+  var ratio = Math.max(0, 1 - letterElapsed/letterTimeout);
+  var bar = document.getElementById('timer-bar');
   bar.style.width = (ratio*100)+'%';
   bar.style.background = ratio>0.5?'#00b4d8':ratio>0.25?'#ffd166':'#e63946';
   bar.style.transition = 'none';
@@ -289,24 +289,24 @@ function nextQuestion(){
   correctWord   = NATO[currentLetter];
 
   // Letter display
-  const ld = document.getElementById('letter-display');
+  var ld = document.getElementById('letter-display');
   ld.textContent = currentLetter;
   ld.className = '';
 
   // Build options: correct + 3 distractors, shuffled
-  const opts = shuffle([correctWord, ...getDisstractors(currentLetter, correctWord)]);
-  const container = document.getElementById('options');
+  var optsArr = getDisstractors(currentLetter, correctWord); optsArr.push(correctWord); var opts = shuffle(optsArr);
+  var container = document.getElementById('options');
   container.innerHTML = '';
-  opts.forEach(word => {
-    const btn = document.createElement('button');
+  opts.forEach(function(word){
+    var btn = document.createElement('button');
     btn.className = 'opt';
     btn.textContent = word;
-    btn.onclick = () => handleAnswer(word);
+    (function(w){btn.onclick = function(){handleAnswer(w);};})(word);
     container.appendChild(btn);
   });
 
   // Streak display
-  const streakEl = document.getElementById('streak');
+  var streakEl = document.getElementById('streak');
   if(streak >= 5){
     streakEl.textContent = '🔥 Racha ×' + streak;
   } else if(streak >= 3){
@@ -321,24 +321,24 @@ function handleAnswer(given){
   if(optionsFrozen) return;
   optionsFrozen = true;
 
-  const isCorrect = given === correctWord;
-  const buttons = document.querySelectorAll('.opt');
+  var isCorrect = given === correctWord;
+  var buttons = document.querySelectorAll('.opt');
 
   if(isCorrect){
     // Score: interpolate between MAX and MIN based on time taken
-    const frac = Math.min(1, letterElapsed / currentLetterTimeout());
-    const pts = Math.round(MAX_PTS - (MAX_PTS - MIN_PTS) * frac);
+    var frac = Math.min(1, letterElapsed / currentLetterTimeout());
+    var pts = Math.round(MAX_PTS - (MAX_PTS - MIN_PTS) * frac);
     // Streak bonus
     streak++;
     if(streak > bestStreak) bestStreak = streak;
-    const streakBonus = (streak % 5 === 0) ? STREAK_BONUS : 0;
+    var streakBonus = (streak % 5 === 0) ? STREAK_BONUS : 0;
     score += pts + streakBonus;
     correct++;
     document.getElementById('h-score').textContent = score;
     document.getElementById('h-correct').textContent = correct;
 
     // Highlight correct button
-    buttons.forEach(b => { if(b.textContent===correctWord) b.className='opt correct'; });
+    buttons.forEach(function(b){ if(b.textContent===correctWord) b.className='opt correct'; });
     flashScreen('green');
 
     // Show streak bonus toast if earned
@@ -364,7 +364,7 @@ function handleAnswer(given){
     }
 
     // Show correct, mark wrong
-    buttons.forEach(b => {
+    buttons.forEach(function(b){
       if(b.textContent===correctWord) b.className='opt reveal';
       else if(b.textContent===given)  b.className='opt wrong';
     });
@@ -373,7 +373,7 @@ function handleAnswer(given){
   }
 
   // Brief pause then next question
-  setTimeout(()=>{
+  setTimeout(function(){
     if(!gameRunning) return;
     nextQuestion();
     raf = requestAnimationFrame(loop);
@@ -381,22 +381,22 @@ function handleAnswer(given){
 }
 
 // ── FEEDBACK ──────────────────────────────────────────────────────
-let flashTimer = null;
+var flashTimer = null;
 function flashScreen(type){
-  const el = document.getElementById('flash');
+  var el = document.getElementById('flash');
   el.className = type;
   el.style.opacity = '1';
   if(flashTimer) clearTimeout(flashTimer);
-  flashTimer = setTimeout(()=>{ el.style.opacity='0'; el.className=''; }, type==='green'?250:500);
+  flashTimer = setTimeout(function(){ el.style.opacity='0'; el.className=''; }, type==='green'?250:500);
 }
 
-let streakToastTimer = null;
+var streakToastTimer = null;
 function showStreakToast(msg){
-  const el = document.getElementById('streak');
+  var el = document.getElementById('streak');
   el.textContent = '🔥 ' + msg;
   el.style.color = '#ffd166';
   if(streakToastTimer) clearTimeout(streakToastTimer);
-  streakToastTimer = setTimeout(()=>{
+  streakToastTimer = setTimeout(function(){
     el.style.color = '';
     el.textContent = streak>=5?'🔥 Racha ×'+streak:'';
   }, 1000);
@@ -429,8 +429,8 @@ function endGame(){
   document.getElementById('game').style.display='none';
   document.getElementById('result').style.display='block';
 
-  const total = correct + wrong;
-  const acc = total>0 ? Math.round(correct/total*100) : 0;
+  var total = correct + wrong;
+  var acc = total>0 ? Math.round(correct/total*100) : 0;
 
   document.getElementById('r-score').textContent = score;
   document.getElementById('r-correct').textContent = correct;
@@ -438,7 +438,7 @@ function endGame(){
   document.getElementById('r-acc').textContent = acc+'%';
   document.getElementById('r-streak').textContent = bestStreak;
 
-  let rating, sub;
+  var rating, sub;
   if(acc>=95 && correct>=22){rating='ATCO Nivel 1';sub='Perfecto. Conoces el alfabeto de memoria — rendimiento de radiotelefonia listo para el examen.';}
   else if(acc>=88 && correct>=18){rating='ATCO Nivel 2';sub='Buena precision y velocidad. Algunas letras te pillaron — merece un repaso final.';}
   else if(acc>=75 && correct>=14){rating='Controlador Alumno';sub='Base solida. Las dudas bajo presion son lo que hay que trabajar ahora.';}
@@ -449,52 +449,48 @@ function endGame(){
   document.getElementById('r-sub').textContent = sub;
 
   // Missed letters review
-  const missed = Object.entries(missedMap);
+  var missed = Object.keys(missedMap).map(function(k){return [k, missedMap[k]];});
   if(missed.length > 0){
-    const ml = document.getElementById('missed-list');
-    const mr = document.getElementById('missed-rows');
+    var ml = document.getElementById('missed-list');
+    var mr = document.getElementById('missed-rows');
     ml.style.display='block';
-    mr.innerHTML = missed.map(([letter,{correct:c,gave:g}])=>
-      `<div class="missed-row">
-        <span class="missed-l">${letter}</span>
-        <span class="missed-arrow">→</span>
-        <span class="missed-correct">${c}</span>
-        <span class="missed-arrow">·</span>
-        <span style="font-size:11px;color:#5a8aaa">dijiste:</span>
-        <span class="missed-gave">${g}</span>
-      </div>`
-    ).join('');
+    var missedHtml = '';
+    missed.forEach(function(entry){
+      var letter=entry[0], c=entry[1].correct, g=entry[1].gave;
+      missedHtml += '<div class="missed-row"><span class="missed-l">'+letter+'</span><span class="missed-arrow">→</span><span class="missed-correct">'+c+'</span><span class="missed-arrow">·</span><span style="font-size:11px;color:#5a8aaa">dijiste:</span><span class="missed-gave">'+g+'</span></div>';
+    });
+    mr.innerHTML = missedHtml;
   }
 
-  const shareStr = `✈️ NATO Alphabet Sprint — ${score} pts\n${correct} correct · ${wrong} wrong · ${acc}% accuracy · Best streak: ${bestStreak}\nRated: "${rating}"\n\nBeat my score → controlprep.com`;
+  var shareStr = '✈️ NATO Alphabet Sprint — '+score+' pts\n'+correct+' correct · '+wrong+' wrong · '+acc+'% accuracy · Best streak: '+bestStreak+'\nRated: "'+rating+'"\n\nBeat my score → controlprep.com';
   document.getElementById('sharebox').innerHTML =
     shareStr.replace(/\n/g,'<br>') + '<div class="sh">Toca para copiar y compartir</div>';
   document.getElementById('sharebox').dataset.text = shareStr;
 }
 
 function copyShare(){
-  const t=document.getElementById('sharebox').dataset.text;
-  const el=document.querySelector('.sh');
+  var t=document.getElementById('sharebox').dataset.text;
+  var el=document.querySelector('.sh');
   if(navigator.clipboard&&window.isSecureContext){
-    navigator.clipboard.writeText(t).then(()=>{
-      if(el){el.textContent='Copiado!';setTimeout(()=>el.textContent='Toca para copiar y compartir',2500);}
-    }).catch(()=>fallbackCopy(t,el));
+    navigator.clipboard.writeText(t).then(function(){
+      if(el){el.textContent='Copiado!';setTimeout(function(){el.textContent='Toca para copiar y compartir';},2500);}
+    }).catch(function(){fallbackCopy(t,el);});
   } else { fallbackCopy(t,el); }
 }
 function fallbackCopy(text,hintEl){
-  const ta=document.createElement('textarea');
+  var ta=document.createElement('textarea');
   ta.value=text; ta.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:80%;padding:12px;border-radius:8px;border:1px solid #00b4d8;background:#051020;color:#e8f4fb;font-size:13px;z-index:9999;resize:none';
   ta.rows=6; document.body.appendChild(ta); ta.focus(); ta.select();
-  let copied=false; try{copied=document.execCommand('copy');}catch(e){}
-  if(copied){ document.body.removeChild(ta); if(hintEl){hintEl.textContent='Copiado!';setTimeout(()=>hintEl.textContent='Toca para copiar y compartir',2500);} }
+  var copied=false; try{copied=document.execCommand('copy');}catch(e){}
+  if(copied){ document.body.removeChild(ta); if(hintEl){hintEl.textContent='Copiado!';setTimeout(function(){hintEl.textContent='Toca para copiar y compartir';},2500);} }
   else {
-    const hint=document.createElement('div');
+    var hint=document.createElement('div');
     hint.textContent='Selecciona todo y copia manualmente';
     hint.style.cssText='position:fixed;top:calc(50% + 90px);left:50%;transform:translateX(-50%);color:#ffd166;font-size:12px;font-weight:700;z-index:9999';
     document.body.appendChild(hint);
-    const close=document.createElement('button');
+    var close=document.createElement('button');
     close.textContent='Cerrar'; close.style.cssText='position:fixed;top:calc(50% + 110px);left:50%;transform:translateX(-50%);padding:8px 20px;background:#00b4d8;color:#001a2e;border:none;border-radius:8px;font-weight:800;font-size:13px;cursor:pointer;z-index:9999';
-    close.onclick=()=>{document.body.removeChild(ta);document.body.removeChild(hint);document.body.removeChild(close);};
+    close.onclick=function(){document.body.removeChild(ta);document.body.removeChild(hint);document.body.removeChild(close);};
     document.body.appendChild(close);
   }
 }
