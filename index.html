@@ -437,6 +437,17 @@ async function sbInit(){
   _sb.auth.onAuthStateChange(async (event, session) => {
     if(session){
       _currentUser = session.user;
+      // Check session version — if it's been incremented on another device, force signout
+      try{
+        const {data: svCheck} = await _sb.from('profiles').select('session_version').eq('id', _currentUser.id).single();
+        const dbVersion = (svCheck && svCheck.session_version) || 0;
+        const localVersion = parseInt(localStorage.getItem('_cp_session_version') || '0');
+        if(dbVersion > localVersion){
+          await _sb.auth.signOut();
+          _currentUser = null;
+          return;
+        }
+      } catch(e){}
       // For returning users with existing session, make sure home renders
       if(event==='INITIAL_SESSION'){
         await checkPremiumStatus();
@@ -496,6 +507,9 @@ async function sbSignIn(email, password){
   const {data, error} = await _sb.auth.signInWithPassword({email, password});
   if(error) throw error;
   _currentUser = data.user;
+  // Store session version for this device
+  const {data: svData} = await _sb.from('profiles').select('session_version').eq('id', _currentUser.id).single();
+  localStorage.setItem('_cp_session_version', (svData && svData.session_version) || 0);
   // Check device limit
   const allowed = await checkDeviceLimit();
   if(!allowed){
@@ -1464,7 +1478,7 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
       <button onclick="go('fraseologia')" style="display:block;width:100%;padding:10px 8px;border-radius:10px;border:1.5px solid #1d3a5c;background:#0c1e35;font-size:12px;font-weight:600;color:#8cb8d8;cursor:pointer;font-family:'IBM Plex Sans',sans-serif;text-align:center;margin-bottom:16px">Fraseología →</button>
     <div id="ae-c1tests" class="ae-tab"></div>
     <div id="ae-vocab" class="ae-tab" style="display:none"></div>
-    <div id="ae-phrases" class="ae-tab" style="display:none"></div>
+    <di<div id="ae-phrases-static" class="ae-tab" style="display:none"></div>
     <div id="ae-readback" class="ae-tab" style="display:none"></div>
     <div id="ae-emergency" class="ae-tab" style="display:none"></div>
     <div id="ae-pronunciation" class="ae-tab" style="display:none"></div>
@@ -9025,14 +9039,26 @@ async function showDeviceLimitModal(email, password){
     btn:'Cerrar sesión en todos los dispositivos',
     onBtn: async function(){
       try{
-        await _sb.auth.signInWithPassword({email, password});
+        // Step 1: sign in to get a valid session and the user ID
+        const {data: signInData, error: signInError} = await _sb.auth.signInWithPassword({email, password});
+        if(signInError) throw signInError;
+        const userId = signInData.user.id;
+        // Step 2: clear devices array, increment session_version BEFORE global signout
+        const {data: profileData} = await _sb.from('profiles').select('session_version').eq('id', userId).single();
+        const newVersion = ((profileData && profileData.session_version) || 0) + 1;
+        await _sb.from('profiles').update({devices:[], session_version: newVersion}).eq('id', userId);
+        localStorage.setItem('_cp_session_version', newVersion);
+        // Step 3: global signout — kills all sessions including this one
         await _sb.auth.signOut({scope:'global'});
-        await _sb.from('profiles').update({devices:[]}).eq('id',(await _sb.auth.getUser()).data?.user?.id || '');
-        const {data, error} = await _sb.auth.signInWithPassword({email, password});
-        if(error) throw error;
-        _currentUser = data.user;
+        // Step 4: sign back in fresh on this device
+        const {data: freshData, error: freshError} = await _sb.auth.signInWithPassword({email, password});
+        if(freshError) throw freshError;
+        _currentUser = freshData.user;
+        // Step 5: register just this device and store session version
         const deviceId = getDeviceId();
-        await _sb.from('profiles').update({devices:[deviceId]}).eq('id', _currentUser.id);
+        await _sb.from('profiles').update({devices:[deviceId], session_version: newVersion}).eq('id', _currentUser.id);
+        localStorage.setItem('_cp_session_version', newVersion);
+        // Step 6: proceed into the app
         await checkPremiumStatus();
         renderHomeDashboard(); updateHomeButtons();
         go('home');
