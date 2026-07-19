@@ -447,6 +447,7 @@ async function sbInit(){
           _currentUser = null;
           return;
         }
+        localStorage.setItem('_cp_session_version', dbVersion);
       } catch(e){}
       // For returning users with existing session, make sure home renders
       if(event==='INITIAL_SESSION'){
@@ -507,9 +508,6 @@ async function sbSignIn(email, password){
   const {data, error} = await _sb.auth.signInWithPassword({email, password});
   if(error) throw error;
   _currentUser = data.user;
-  // Store session version for this device
-  const {data: svData} = await _sb.from('profiles').select('session_version').eq('id', _currentUser.id).single();
-  if(svData && svData.session_version !== undefined) localStorage.setItem('_cp_session_version', svData.session_version);
   // Check device limit
   const allowed = await checkDeviceLimit();
   if(!allowed){
