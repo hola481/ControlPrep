@@ -501,7 +501,7 @@ async function sbSignIn(email, password){
   if(!allowed){
     await _sb.auth.signOut();
     _currentUser = null;
-    throw new Error('Esta cuenta ya está activa en 2 dispositivos. Por favor cierra sesión en otro dispositivo antes de iniciar sesión aquí, o contacta con hola@controlprep.com.');
+    const e = new Error('DEVICE_LIMIT'); e.email = email; e.password = password; throw e;
   }
   await checkPremiumStatus();
   return data;
@@ -9008,9 +9008,40 @@ await sbSignIn(email, password);
     }
   } catch(err) {
     btn.textContent = 'Entrar'; btn.disabled = false;
-    errEl.textContent = err.message === 'Invalid login credentials' ? 'Email o contraseña incorrectos.' : err.message;
-    errEl.style.display = 'block';
+    if(err.message === 'DEVICE_LIMIT'){
+      showDeviceLimitModal(err.email, err.password);
+    } else {
+      errEl.textContent = err.message === 'Invalid login credentials' ? 'Email o contraseña incorrectos.' : err.message;
+      errEl.style.display = 'block';
+    }
   }
+}
+
+async function showDeviceLimitModal(email, password){
+  cpPop({
+    icon:'📱',
+    title:'Cuenta activa en 2 dispositivos',
+    msg:'Esta cuenta ya está activa en 2 dispositivos. Para usar este dispositivo, puedes cerrar sesión en todos los demás. Tendrás que volver a iniciar sesión en los otros dispositivos cuando quieras usarlos.',
+    btn:'Cerrar sesión en todos los dispositivos',
+    onBtn: async function(){
+      try{
+        await _sb.auth.signInWithPassword({email, password});
+        await _sb.auth.signOut({scope:'global'});
+        await _sb.from('profiles').update({devices:[]}).eq('id',(await _sb.auth.getUser()).data?.user?.id || '');
+        const {data, error} = await _sb.auth.signInWithPassword({email, password});
+        if(error) throw error;
+        _currentUser = data.user;
+        const deviceId = getDeviceId();
+        await _sb.from('profiles').update({devices:[deviceId]}).eq('id', _currentUser.id);
+        await checkPremiumStatus();
+        renderHomeDashboard(); updateHomeButtons();
+        go('home');
+      } catch(e){
+        cpPop({icon:'⚠️',title:'Error',msg:'No se ha podido cerrar sesión en los otros dispositivos. Inténtalo de nuevo o escríbenos a hola@controlprep.com.',btn:'Cerrar',onBtn:function(){}});
+      }
+    },
+    foot:'Esta acción cerrará tu sesión en todos los dispositivos excepto en éste'
+  });
 }
 
 async function handleRegister(){
