@@ -437,18 +437,7 @@ async function sbInit(){
   _sb.auth.onAuthStateChange(async (event, session) => {
     if(session){
       _currentUser = session.user;
-      // Check session version — if it's been incremented on another device, force signout
-      try{
-        const {data: svCheck} = await _sb.from('profiles').select('session_version').eq('id', _currentUser.id).single();
-        const dbVersion = (svCheck && svCheck.session_version) || 0;
-        const localVersion = parseInt(localStorage.getItem('_cp_session_version') || '0');
-        if(dbVersion > localVersion){
-          await _sb.auth.signOut();
-          _currentUser = null;
-          return;
-        }
-        localStorage.setItem('_cp_session_version', dbVersion);
-      } catch(e){}
+
       // For returning users with existing session, make sure home renders
       if(event==='INITIAL_SESSION'){
         await checkPremiumStatus();
@@ -9039,19 +9028,15 @@ async function showDeviceLimitModal(email, password){
         const {data: signInData, error: signInError} = await _sb.auth.signInWithPassword({email, password});
         if(signInError) throw signInError;
         const userId = signInData.user.id;
-        // Step 2: increment session_version — this kicks all other devices on their next request
-        const {data: profileData} = await _sb.from('profiles').select('session_version').eq('id', userId).single();
-        const newVersion = ((profileData && profileData.session_version) || 0) + 1;
-        await _sb.from('profiles').update({devices:[], session_version: newVersion}).eq('id', userId);
-        localStorage.setItem('_cp_session_version', newVersion);
+        // Step 2: clear devices array
+        await _sb.from('profiles').update({devices:[]}).eq('id', userId);
         // Step 3: sign in fresh on this device
         const {data: freshData, error: freshError} = await _sb.auth.signInWithPassword({email, password});
         if(freshError) throw freshError;
         _currentUser = freshData.user;
         // Step 4: register just this device
         const deviceId = getDeviceId();
-        await _sb.from('profiles').update({devices:[deviceId], session_version: newVersion}).eq('id', _currentUser.id);
-        localStorage.setItem('_cp_session_version', newVersion);
+        await _sb.from('profiles').update({devices:[deviceId]}).eq('id', _currentUser.id);
         // Step 5: proceed into the app
         await checkPremiumStatus();
         renderHomeDashboard(); updateHomeButtons();
