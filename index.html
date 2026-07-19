@@ -5349,7 +5349,7 @@ let _aeVocabFilter='All';
 
 function swAETab(tab){
   document.querySelectorAll('#ae-tab-btns button').forEach(t=>{t.style.background='#0c1e35';t.style.borderColor='#1d3a5c';t.style.color='#8cb8d8';});
-  document.querySelectorAll('#aveng .ae-tab').forEach(t=>t.style.display='none');
+  document.querySelectorAll('.ae-tab').forEach(t=>t.style.display='none');
   const btn=document.querySelector('#ae-tab-btns button[data-aetab="'+tab+'"]');
   if(btn){btn.style.background='rgba(0,180,216,.12)';btn.style.borderColor='#00b4d8';btn.style.color='#00b4d8';}
   const panel=document.getElementById('ae-'+tab);
