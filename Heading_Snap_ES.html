@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Heading Snap · ControlPrep Mini Games</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--navy:#0B1324;--navy2:#1F2937;--cian:#00BCD4;--turq:#40D0E1;--white:#FFFFFF;--muted:#7A9BB5;--danger:#E8505B;--safe:#4ADE80;--warn:#FACC15;}
+body{background:var(--navy);font-family:'Poppins',system-ui,sans-serif;color:var(--white);min-height:100vh;margin:0;padding:0;overflow-x:hidden;}
+.screen{display:none;min-height:100vh;width:100%;}
+.screen.active{display:block;}
+
+/* INTRO */
+#intro-screen{padding:24px 20px 30px;max-width:480px;margin:0 auto;}
+.brand{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--cian);opacity:.8;margin-bottom:6px;text-align:center;}
+.game-num{font-size:10px;font-weight:600;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-bottom:10px;text-align:center;}
+.game-title{font-size:44px;font-weight:900;color:var(--white);text-align:center;line-height:1.05;margin-bottom:4px;}
+.game-title span{color:var(--cian);}
+.game-sub{font-size:13px;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.5;}
+.compass-preview{text-align:center;margin:8px 0 14px;}
+.rules-card{background:var(--navy2);border:1px solid rgba(0,188,212,0.2);border-radius:16px;padding:20px 18px;width:100%;margin:8px 0;min-height:160px;}
+.rule-num{font-size:9px;letter-spacing:.2em;color:var(--cian);text-transform:uppercase;font-weight:700;margin-bottom:8px;}
+.rule-heading{font-size:18px;font-weight:700;color:var(--white);margin-bottom:8px;}
+.rule-body{font-size:12px;color:#B0CCE0;line-height:1.65;white-space:pre-line;}
+.rule-example{margin-top:10px;background:rgba(0,188,212,0.08);border-left:3px solid var(--cian);padding:8px 12px;border-radius:0 8px 8px 0;font-size:12px;color:var(--turq);white-space:pre-line;font-weight:600;}
+.dots{display:flex;gap:6px;margin:8px 0 4px;justify-content:center;}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--muted);transition:background .2s;}
+.dot.active{background:var(--cian);}
+.nav-row{display:flex;justify-content:center;gap:6px;margin-bottom:4px;}
+.btn-nav{background:transparent;color:var(--muted);border:none;font-size:12px;cursor:pointer;padding:7px 14px;font-family:inherit;}
+.btn-nav:hover{color:var(--cian);}
+.btn-start{display:block;width:100%;padding:14px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--cian),#0097a7);color:var(--navy);font-size:15px;font-weight:800;cursor:pointer;letter-spacing:.03em;margin-top:12px;font-family:inherit;text-align:center;}
+.btn-start:active{transform:scale(.97);}
+
+/* GAME */
+#game-screen{display:none;width:100%;max-width:480px;margin:0 auto;}
+#game-screen.active{display:block;}
+.hud{display:flex;justify-content:space-between;align-items:center;padding:12px 20px 8px;}
+.hud-block{text-align:center;}
+.hud-val{font-size:24px;font-weight:800;color:var(--white);font-variant-numeric:tabular-nums;line-height:1;}
+.hud-val.teal{color:var(--cian);}
+.hud-val.warn{color:var(--warn);}
+.hud-val.danger{color:var(--danger);}
+.hud-lbl{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+.timer-wrap{width:100%;height:4px;background:rgba(0,188,212,.12);}
+.timer-bar{height:100%;background:var(--cian);transition:width .1s linear,background .3s;width:100%;}
+
+/* Question card */
+.q-zone{padding:16px 20px 8px;text-align:center;}
+.q-num{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.compass-wrap{position:relative;display:inline-block;margin-bottom:14px;}
+canvas#compass{display:block;}
+.q-text{font-size:14px;color:#B0CCE0;line-height:1.6;margin-bottom:6px;}
+.q-text strong{color:var(--white);font-size:16px;}
+.q-clearance{background:var(--navy2);border:1px solid rgba(0,188,212,0.25);border-radius:12px;padding:14px 18px;margin:8px 0 4px;font-size:15px;font-weight:700;color:var(--white);text-align:center;line-height:1.5;}
+.q-clearance .cs{color:var(--cian);}
+.q-clearance .turn{color:var(--warn);}
+.q-clearance .deg{color:var(--turq);}
+.streak-line{font-size:12px;color:var(--warn);text-align:center;height:18px;font-weight:700;margin:2px 0;}
+
+/* Options grid */
+.options{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:8px 16px 20px;}
+.opt{border:2px solid rgba(0,188,212,.25);border-radius:12px;background:rgba(0,188,212,.07);padding:18px 8px;font-size:26px;font-weight:900;color:var(--white);cursor:pointer;text-align:center;font-family:inherit;transition:background .1s,border-color .1s;font-variant-numeric:tabular-nums;}
+.opt:active{transform:scale(.96);}
+.opt:disabled{cursor:default;}
+.opt.correct{background:rgba(74,222,128,.22);border-color:var(--safe);color:var(--safe);}
+.opt.wrong{background:rgba(232,80,91,.20);border-color:var(--danger);color:var(--danger);}
+.opt.reveal{background:rgba(74,222,128,.14);border-color:var(--safe);color:var(--safe);}
+
+/* Flash overlay */
+#flash{position:fixed;inset:0;pointer-events:none;opacity:0;transition:opacity .07s;}
+#flash.green{background:rgba(74,222,128,.13);}
+#flash.red{background:rgba(232,80,91,.22);}
+
+/* RESULT */
+#result-screen{padding:24px 20px 30px;max-width:480px;margin:0 auto;}
+.result-emoji{font-size:44px;text-align:center;margin-bottom:4px;}
+.result-rating{font-size:20px;font-weight:800;color:var(--white);text-align:center;margin-bottom:16px;}
+.result-card{background:var(--navy2);border:1px solid rgba(0,188,212,.2);border-radius:18px;padding:22px 18px;margin-bottom:14px;}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-bottom:14px;}
+.stat-box{background:rgba(0,188,212,.07);border-radius:10px;padding:11px 6px;text-align:center;}
+.stat-val{font-size:22px;font-weight:800;color:var(--cian);font-variant-numeric:tabular-nums;}
+.stat-lbl{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:2px;font-weight:600;}
+.breakdown-title{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:var(--muted);font-weight:700;margin:12px 0 6px;}
+.brow{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(255,255,255,.05);font-size:12px;}
+.brow:last-child{border-bottom:none;}
+.brow-type{color:#B0CCE0;}
+.acc-hi{color:var(--safe);font-weight:700;}
+.acc-mid{color:var(--warn);font-weight:700;}
+.acc-lo{color:var(--danger);font-weight:700;}
+.share-box{background:rgba(0,0,0,.3);border-radius:8px;padding:12px;font-size:11px;color:var(--muted);white-space:pre-line;margin:10px 0;font-family:monospace;line-height:1.5;}
+.btn-copy{display:block;width:100%;padding:13px;border:none;border-radius:11px;background:linear-gradient(135deg,var(--cian),#0097a7);color:var(--navy);font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:10px;text-align:center;}
+.btn-again{display:block;width:100%;padding:12px;border:1px solid rgba(0,188,212,.3);border-radius:11px;background:transparent;color:var(--cian);font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;}
+.btn-again:hover{background:rgba(0,188,212,.1);}
+
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--cian);color:var(--navy);padding:9px 22px;border-radius:30px;font-size:13px;font-weight:700;opacity:0;transition:all .3s;pointer-events:none;z-index:99;white-space:nowrap;font-family:inherit;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div id="flash"></div>
+
+<!-- INTRO -->
+<div class="screen active" id="intro-screen">
+  <div class="brand">ControlPrep · Mini Games</div>
+  <div class="game-num">Juego 37 de 52</div>
+  <div class="game-title">Heading <span>Snap</span></div>
+  <div class="game-sub">ATC emite un viraje. ¿Cuál es el nuevo rumbo?<br>30 preguntas · 60 segundos</div>
+  <div class="compass-preview">
+    <canvas id="intro-compass" width="140" height="140" style="border-radius:50%;"></canvas>
+  </div>
+  <div class="dots" id="intro-dots">
+    <div class="dot active"></div><div class="dot"></div><div class="dot"></div>
+  </div>
+  <div class="rules-card" id="rules-card"></div>
+  <div class="nav-row">
+    <button class="btn-nav" id="btn-prev" onclick="changeSlide(-1)">← Back</button>
+    <button class="btn-nav" id="btn-next" onclick="changeSlide(1)">Next →</button>
+  </div>
+  <button class="btn-start" onclick="startGame()">▶ EMPEZAR — 60 segundos</button>
+</div>
+
+<!-- GAME -->
+<div class="screen" id="game-screen">
+  <div class="hud">
+    <div class="hud-block"><div class="hud-val teal" id="h-score">0</div><div class="hud-lbl">Puntos</div></div>
+    <div class="hud-block"><div class="hud-val warn" id="h-time">60</div><div class="hud-lbl">Segundos</div></div>
+    <div class="hud-block"><div class="hud-val danger" id="h-wrong">0</div><div class="hud-lbl">Errores</div></div>
+  </div>
+  <div class="timer-wrap"><div class="timer-bar" id="timer-bar"></div></div>
+
+  <div class="q-zone">
+    <div class="q-num" id="q-num">Pregunta 1 de 30</div>
+    <div class="compass-wrap">
+      <canvas id="compass" width="200" height="200"></canvas>
+    </div>
+    <div class="q-clearance" id="q-clearance">—</div>
+    <div class="streak-line" id="streak-line"></div>
+  </div>
+
+  <div class="options" id="options"></div>
+</div>
+
+<!-- RESULT -->
+<div class="screen" id="result-screen">
+  <div class="brand" style="margin-bottom:10px;">ControlPrep · Mini Games · Juego 37</div>
+  <div class="result-emoji" id="result-emoji">🏆</div>
+  <div class="result-rating" id="result-rating">Expert Controller</div>
+  <div class="result-card">
+    <div class="stats-grid">
+      <div class="stat-box"><div class="stat-val" id="r-score">0</div><div class="stat-lbl">Puntos</div></div>
+      <div class="stat-box"><div class="stat-val" id="r-acc">0%</div><div class="stat-lbl">Accuracy</div></div>
+      <div class="stat-box"><div class="stat-val" id="r-streak">0</div><div class="stat-lbl">Mejor Racha</div></div>
+    </div>
+    <div class="breakdown-title">Precisión por tipo de pregunta</div>
+    <div id="breakdown-list"></div>
+    <div class="share-box" id="share-box"></div>
+  </div>
+  <button class="btn-copy" onclick="copyShare()">📋 Copiar Resultado</button>
+  <button class="btn-again" onclick="restartGame()">Jugar de Nuevo</button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ── HELPERS ── */
+function fmtHdg(h){if(h===0)h=360;return String(h).padStart(3,'0')+'°';}
+
+/* ── SLIDES ── */
+var slides = [
+  {
+    num:'01 — La tarea',
+    heading:'Calcula el nuevo rumbo',
+    body:'ATC emite una instrucción de viraje a una aeronave. Debes calcular el rumbo resultante.\n\nEs una habilidad mental clave evaluada en el examen de Fase 1 de ENAIRE — aritmética de rumbos rápida y automática bajo presión.',
+    example:''
+  },
+  {
+    num:'02 — Cómo funciona',
+    heading:'Rumbo actual + viraje = nuevo rumbo',
+    body:'You see the aircraft\'s current heading and the ATC clearance. Four options appear — tap the correct new heading.\n\nRemember: headings wrap around 360°.\n\n270° + turn right 120° = 030° (not 390°)',
+    example:'Actual: 350°\nAutorización: "Vire a la derecha 30 grados"\nRespuesta: 020°  ✓'
+  },
+  {
+    num:'03 — Puntuación',
+    heading:'La velocidad suma puntos extra',
+    body:'✓ Correcto: +100pts + bonus velocidad (responde en menos de 4 seg)\n✗ Incorrecto: −50pts\n\n🔥 5 seguidas = +150pts bonus racha\n\nLa dificultad aumenta — aparecen virajes mayores y rumbos más complejos.',
+    example:''
+  }
+];
+var slideIdx = 0;
+function renderSlide(){
+  var s = slides[slideIdx];
+  var html = '<div class="rule-num">'+s.num+'</div><div class="rule-heading">'+s.heading+'</div><div class="rule-body">'+s.body+'</div>';
+  if(s.example) html += '<div class="rule-example">'+s.example+'</div>';
+  document.getElementById('rules-card').innerHTML = html;
+  document.querySelectorAll('#intro-dots .dot').forEach(function(d,i){d.classList.toggle('active',i===slideIdx);});
+  document.getElementById('btn-prev').style.visibility = slideIdx===0?'hidden':'visible';
+  document.getElementById('btn-next').style.visibility = slideIdx===slides.length-1?'hidden':'visible';
+}
+function changeSlide(dir){slideIdx=Math.max(0,Math.min(slides.length-1,slideIdx+dir));renderSlide();}
+renderSlide();
+
+/* ── INTRO COMPASS ANIMATION ── */
+(function(){
+  var c = document.getElementById('intro-compass');
+  if(!c) return;
+  var ctx = c.getContext('2d');
+  var hdg = 0;
+  function draw(){
+    var W=c.width,H=c.height,cx=W/2,cy=H/2,r=cx-4;
+    ctx.clearRect(0,0,W,H);
+    ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.fillStyle='#080f1a';ctx.fill();
+    ctx.strokeStyle='rgba(0,188,212,0.35)';ctx.lineWidth=2;ctx.stroke();
+    // tick marks
+    for(var i=0;i<36;i++){
+      var a=(i*10-90)*Math.PI/180;
+      var isMajor=(i%9===0);
+      var r1=r-(isMajor?14:7), r2=r-2;
+      ctx.beginPath();ctx.moveTo(cx+r1*Math.cos(a),cy+r1*Math.sin(a));ctx.lineTo(cx+r2*Math.cos(a),cy+r2*Math.sin(a));
+      ctx.strokeStyle=isMajor?'rgba(0,188,212,0.8)':'rgba(0,188,212,0.3)';ctx.lineWidth=isMajor?2:1;ctx.stroke();
+    }
+    // N S E W labels
+    [['N',0],['E',90],['S',180],['W',270]].forEach(function(lbl){
+      var a=(lbl[1]-90)*Math.PI/180,lr=r-22;
+      ctx.fillStyle='rgba(0,188,212,0.7)';ctx.font='bold 11px Poppins,sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(lbl[0],cx+lr*Math.cos(a),cy+lr*Math.sin(a));
+    });
+    // heading needle
+    var needleRad=(hdg-90)*Math.PI/180;
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(cx+(r-8)*Math.cos(needleRad),cy+(r-8)*Math.sin(needleRad));
+    ctx.strokeStyle='#00BCD4';ctx.lineWidth=3;ctx.lineCap='round';ctx.stroke();ctx.lineCap='butt';
+    // centre dot
+    ctx.beginPath();ctx.arc(cx,cy,5,0,Math.PI*2);ctx.fillStyle='#00BCD4';ctx.fill();
+    // heading readout
+    ctx.fillStyle='rgba(255,255,255,0.9)';ctx.font='bold 16px Poppins,monospace';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(fmtHdg(hdg),cx,cy+32);
+    hdg=(hdg+1)%360;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── COMPASS DRAW (game) ── */
+var gc = document.getElementById('compass');
+var gx = gc.getContext('2d');
+
+function drawCompass(currentHdg, newHdg, revealed){
+  var W=gc.width,H=gc.height,cx=W/2,cy=H/2,r=cx-6;
+  gx.clearRect(0,0,W,H);
+  gx.beginPath();gx.arc(cx,cy,r,0,Math.PI*2);gx.fillStyle='#080f1a';gx.fill();
+  gx.strokeStyle='rgba(0,188,212,0.35)';gx.lineWidth=2;gx.stroke();
+  // ticks
+  for(var i=0;i<36;i++){
+    var a=(i*10-90)*Math.PI/180;
+    var isMaj=(i%9===0);
+    gx.beginPath();gx.moveTo(cx+(r-(isMaj?16:8))*Math.cos(a),cy+(r-(isMaj?16:8))*Math.sin(a));
+    gx.lineTo(cx+(r-2)*Math.cos(a),cy+(r-2)*Math.sin(a));
+    gx.strokeStyle=isMaj?'rgba(0,188,212,0.7)':'rgba(0,188,212,0.25)';gx.lineWidth=isMaj?2:1;gx.stroke();
+  }
+  // NSEW
+  [['N',0],['E',90],['S',180],['W',270]].forEach(function(lbl){
+    var a=(lbl[1]-90)*Math.PI/180,lr=r-24;
+    gx.fillStyle='rgba(0,188,212,0.65)';gx.font='bold 12px Poppins,sans-serif';gx.textAlign='center';gx.textBaseline='middle';
+    gx.fillText(lbl[0],cx+lr*Math.cos(a),cy+lr*Math.sin(a));
+  });
+  // Current heading needle (white/dim)
+  var cRad=(currentHdg-90)*Math.PI/180;
+  gx.beginPath();gx.moveTo(cx,cy);gx.lineTo(cx+(r-10)*Math.cos(cRad),cy+(r-10)*Math.sin(cRad));
+  gx.strokeStyle='rgba(255,255,255,0.35)';gx.lineWidth=2;gx.setLineDash([4,3]);gx.stroke();gx.setLineDash([]);
+  // New heading needle (teal, shown after answer)
+  if(revealed && newHdg !== null){
+    var nRad=(newHdg-90)*Math.PI/180;
+    gx.beginPath();gx.moveTo(cx,cy);gx.lineTo(cx+(r-10)*Math.cos(nRad),cy+(r-10)*Math.sin(nRad));
+    gx.strokeStyle='#4ADE80';gx.lineWidth=3;gx.lineCap='round';gx.stroke();gx.lineCap='butt';
+  }
+  // Centre
+  gx.beginPath();gx.arc(cx,cy,5,0,Math.PI*2);gx.fillStyle='#00BCD4';gx.fill();
+  // Heading label
+  gx.fillStyle='rgba(255,255,255,0.85)';gx.font='bold 15px Poppins,monospace';gx.textAlign='center';gx.textBaseline='middle';
+  gx.fillText(fmtHdg(currentHdg),cx,cy+28);
+}
+
+/* ── QUESTION GENERATION ── */
+var CALLSIGNS = ['IBE34K','VLG8FD','RYR12T','BAW26A','MAH4JR','EZY45C','AFR803','DLH77W','AEA21R','SAS901'];
+function rcs(){return CALLSIGNS[Math.floor(Math.random()*CALLSIGNS.length)];}
+function rhdg(){var h=Math.floor(Math.random()*36)*10;return h===0?360:h;}
+
+// Turn amounts: easy=small, medium=medium, hard=large+wrap-arounds
+var TURN_AMOUNTS = {
+  easy:   [10,20,30,40,50],
+  medium: [60,70,80,90,100,110,120],
+  hard:   [130,140,150,160,170,180]
+};
+
+function buildQuestion(diff){
+  var pool = diff===0?TURN_AMOUNTS.easy:diff===1?TURN_AMOUNTS.medium:TURN_AMOUNTS.hard;
+  var turnAmt = pool[Math.floor(Math.random()*pool.length)];
+  var dir = Math.random()<0.5?'left':'right';
+  var current = rhdg();
+  var correct;
+  if(dir==='right'){correct=(current+turnAmt)%360;if(correct===0)correct=360;}
+  else{correct=(current-turnAmt+360)%360;if(correct===0)correct=360;}
+
+  // Generate 3 wrong options — plausible but wrong
+  var wrongs = new Set();
+  var attempts = 0;
+  while(wrongs.size < 3 && attempts < 50){
+    attempts++;
+    // Common mistakes: wrong direction, off by 10, off by 20, forgetting wrap
+    var candidates = [
+      dir==='right'?(current-turnAmt+360)%360:(current+turnAmt)%360, // wrong direction
+      (correct+10)%360,
+      (correct-10+360)%360,
+      (correct+20)%360,
+      (correct-20+360)%360,
+      (correct+30)%360,
+      (correct-30+360)%360,
+    ];
+    var w = candidates[Math.floor(Math.random()*candidates.length)];
+    if(w===0)w=360;
+    if(w !== correct && !wrongs.has(w)) wrongs.add(w);
+  }
+  var options = [correct].concat(Array.from(wrongs));
+  // Shuffle options
+  for(var i=options.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=options[i];options[i]=options[j];options[j]=t;}
+
+  var typeLabel = diff===0?'Viraje pequeño (10–50°)':diff===1?'Viraje medio (60–120°)':'Viraje grande (130–180°)';
+  var dirWord = dir==='right'?'derecha':'izquierda';
+  return{cs:rcs(),current:current,turnAmt:turnAmt,dir:dir,dirWord:dirWord,correct:correct,options:options,type:typeLabel};
+}
+
+function buildQueue(){
+  var q=[];
+  for(var i=0;i<10;i++) q.push(buildQuestion(0));
+  for(var i=0;i<10;i++) q.push(buildQuestion(1));
+  for(var i=0;i<10;i++) q.push(buildQuestion(2));
+  for(var i=q.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=q[i];q[i]=q[j];q[j]=t;}
+  return q;
+}
+
+/* ── GAME STATE ── */
+var queue=[],qIdx=0,score=0,correct=0,wrong=0,streak=0,bestStreak=0;
+var timeLeft=60,timerInt=null,scStart=0,locked=false,typeStats={},flashTimer=null;
+
+function startGame(){
+  queue=buildQueue();qIdx=0;score=0;correct=0;wrong=0;streak=0;bestStreak=0;timeLeft=60;typeStats={};
+  showScreen('game-screen');
+  loadQuestion();
+  startTimer();
+}
+
+function loadQuestion(){
+  if(qIdx>=30||qIdx>=queue.length){endGame();return;}
+  var q=queue[qIdx];
+  locked=false;
+  document.getElementById('q-num').textContent='Pregunta '+(qIdx+1)+' de 30';
+  // Clearance text
+  document.getElementById('q-clearance').innerHTML=
+    '<span class="cs">'+q.cs+'</span>, vire a la <span class="turn">'+q.dirWord+'</span> <span class="deg">'+q.turnAmt+' degrees</span>';
+  // Draw compass with current heading
+  drawCompass(q.current, null, false);
+  // Build option buttons
+  var container=document.getElementById('options');
+  container.innerHTML='';
+  q.options.forEach(function(opt){
+    var btn=document.createElement('button');
+    btn.className='opt';
+    btn.textContent=fmtHdg(opt);
+    btn.onclick=function(){handleAnswer(opt,btn,q);};
+    container.appendChild(btn);
+  });
+  if(!typeStats[q.type])typeStats[q.type]={c:0,t:0};
+  scStart=Date.now();
+}
+
+function handleAnswer(chosen, btn, q){
+  if(locked) return;
+  locked=true;
+  var isCorrect=(chosen===q.correct);
+  var elapsed=(Date.now()-scStart)/1000;
+  var spd=Math.max(0,Math.round((4-Math.min(elapsed,4))/4*60));
+  typeStats[q.type].t++;
+
+  // Mark buttons
+  var btns=document.querySelectorAll('.opt');
+  btns.forEach(function(b){
+    b.disabled=true;
+    if(parseInt(b.textContent)===q.correct) b.className='opt reveal';
+  });
+
+  if(isCorrect){
+    btn.className='opt correct';
+    var sb=(streak>0&&streak%5===4)?150:0;
+    score+=100+spd+sb;streak++;if(streak>bestStreak)bestStreak=streak;correct++;typeStats[q.type].c++;
+    flashScreen('green');
+    drawCompass(q.current,q.correct,true);
+  } else {
+    btn.className='opt wrong';
+    score=Math.max(0,score-50);streak=0;wrong++;
+    flashScreen('red');
+    drawCompass(q.current,q.correct,true);
+  }
+
+  document.getElementById('h-score').textContent=score;
+  document.getElementById('h-wrong').textContent=wrong;
+  document.getElementById('streak-line').textContent=streak>=3?'🔥 '+streak+' racha':'';
+
+  setTimeout(function(){qIdx++;loadQuestion();}, isCorrect?900:1400);
+}
+
+function flashScreen(type){
+  var el=document.getElementById('flash');
+  el.className=type;el.style.opacity='1';
+  if(flashTimer)clearTimeout(flashTimer);
+  flashTimer=setTimeout(function(){el.style.opacity='0';el.className='';},type==='green'?200:450);
+}
+
+function startTimer(){
+  clearInterval(timerInt);
+  var bar=document.getElementById('timer-bar');
+  timerInt=setInterval(function(){
+    timeLeft--;
+    document.getElementById('h-time').textContent=timeLeft;
+    bar.style.width=(timeLeft/60*100)+'%';
+    bar.style.background=timeLeft<10?'#E8505B':timeLeft<20?'#FACC15':'#00BCD4';
+    if(timeLeft<=0){clearInterval(timerInt);endGame();}
+  },1000);
+}
+
+function endGame(){
+  clearInterval(timerInt);
+  showScreen('result-screen');
+  var total=correct+wrong,pct=total?Math.round(correct/total*100):0;
+  var ratings=[
+    [95,'🏆','Controlador Experto'],
+    [80,'⭐','ATCO Senior'],
+    [65,'👍','Competente'],
+    [50,'📡','Desarrollando Conciencia'],
+    [0,'📚','Sigue Practicando']
+  ];
+  var r=ratings.find(function(x){return pct>=x[0];});
+  document.getElementById('result-emoji').textContent=r[1];
+  document.getElementById('result-rating').textContent=r[2];
+  document.getElementById('r-score').textContent=score;
+  document.getElementById('r-acc').textContent=pct+'%';
+  document.getElementById('r-streak').textContent=bestStreak;
+  var bl=document.getElementById('breakdown-list');bl.innerHTML='';
+  Object.entries(typeStats).forEach(function(e){
+    var tp=e[0],s=e[1];if(!s.t)return;
+    var a=Math.round(s.c/s.t*100);
+    var cls=a>=80?'acc-hi':a>=50?'acc-mid':'acc-lo';
+    bl.innerHTML+='<div class="brow"><span class="brow-type">'+tp+'</span><span class="'+cls+'">'+a+'% ('+s.c+'/'+s.t+')</span></div>';
+  });
+  var filled=Math.round(pct/20);
+  var blocks=Array.from({length:5},function(_,i){return i<filled?'🟩':'🟥';}).join('');
+  document.getElementById('share-box').textContent='✈️ Heading Snap — ControlPrep Mini Game #37\n'+blocks+' '+pct+'% accuracy\n'+score+' pts · Mejor racha: '+bestStreak+'\n\n'+r[2]+'\n\ncontrolprep.com';
+}
+
+function copyShare(){
+  var txt=document.getElementById('share-box').textContent;
+  if(navigator.clipboard&&location.protocol==='https:'){
+    navigator.clipboard.writeText(txt).then(function(){showToast('¡Copiado! ✓');}).catch(function(){fbCopy(txt);});
+  } else {fbCopy(txt);}
+}
+function fbCopy(txt){
+  var ta=document.createElement('textarea');ta.value=txt;
+  ta.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:82%;padding:12px;border-radius:8px;border:1px solid #00BCD4;background:#0B1324;color:#fff;font-size:12px;z-index:9999;resize:none;';
+  ta.rows=6;document.body.appendChild(ta);ta.focus();ta.select();
+  var ok=false;try{ok=document.execCommand('copy');}catch(e){}
+  if(ok){document.body.removeChild(ta);showToast('¡Copiado! ✓');}
+  else{
+    var h=document.createElement('div');h.textContent='Select all & copy manually';
+    h.style.cssText='position:fixed;top:calc(50% + 95px);left:50%;transform:translateX(-50%);color:#FACC15;font-size:12px;font-weight:700;z-index:9999;';
+    var b=document.createElement('button');b.textContent='Close';
+    b.style.cssText='position:fixed;top:calc(50% + 118px);left:50%;transform:translateX(-50%);padding:7px 18px;background:#00BCD4;color:#0B1324;border:none;border-radius:8px;font-weight:800;cursor:pointer;z-index:9999;';
+    b.onclick=function(){document.body.removeChild(ta);document.body.removeChild(h);document.body.removeChild(b);};
+    document.body.appendChild(h);document.body.appendChild(b);
+  }
+}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2200);}
+function showScreen(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
+function restartGame(){slideIdx=0;renderSlide();showScreen('intro-screen');}
+</script>
+</body>
+</html>
