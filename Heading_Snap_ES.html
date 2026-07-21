@@ -105,7 +105,7 @@ canvas#compass{display:block;}
 <!-- INTRO -->
 <div class="screen active" id="intro-screen">
   <div class="brand">ControlPrep · Mini Games</div>
-  <div class="game-num">Juego 37 de 52</div>
+  <div class="game-num">Juego 02</div>
   <div class="game-title">Heading <span>Snap</span></div>
   <div class="game-sub">ATC emite un viraje. ¿Cuál es el nuevo rumbo?<br>30 preguntas · 60 segundos</div>
   <div class="compass-preview">
@@ -358,7 +358,7 @@ function loadQuestion(){
   document.getElementById('q-num').textContent='Pregunta '+(qIdx+1)+' de 30';
   // Clearance text
   document.getElementById('q-clearance').innerHTML=
-    '<span class="cs">'+q.cs+'</span>, vire a la <span class="turn">'+q.dirWord+'</span> <span class="deg">'+q.turnAmt+' degrees</span>';
+    '<span class="cs">'+q.cs+'</span>, vire a la <span class="turn">'+q.dirWord+'</span> <span class="deg">'+q.turnAmt+' grados</span>';
   // Draw compass with current heading
   drawCompass(q.current, null, false);
   // Build option buttons
