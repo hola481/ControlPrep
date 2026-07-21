@@ -159,6 +159,7 @@ canvas#compass{display:block;}
     <div class="share-box" id="share-box"></div>
   </div>
   <button class="btn-copy" onclick="copyShare()">📋 Copiar Resultado</button>
+  <div style="font-size:12px;color:#9CA3AF;margin:8px 0 4px;text-align:center">Pega tu resultado en los comentarios del post de ControlPrep 👇</div>
   <button class="btn-again" onclick="restartGame()">Jugar de Nuevo</button>
 </div>
 
@@ -455,7 +456,7 @@ function endGame(){
   });
   var filled=Math.round(pct/20);
   var blocks=Array.from({length:5},function(_,i){return i<filled?'🟩':'🟥';}).join('');
-  document.getElementById('share-box').textContent='✈️ Heading Snap — ControlPrep Mini Game #37\n'+blocks+' '+pct+'% accuracy\n'+score+' pts · Mejor racha: '+bestStreak+'\n\n'+r[2]+'\n\ncontrolprep.com';
+  document.getElementById('share-box').textContent='🧭 Acabo de jugar Heading Snap en ControlPrep. ¿Puedes superarme?\n\n'+blocks+' '+pct+'% precisión\nPuntuación: '+score+' pts\nMejor racha: '+bestStreak+'\n'+r[2]+'\n\n👉 Juega tú también → controlprep.com';
 }
 
 function copyShare(){
