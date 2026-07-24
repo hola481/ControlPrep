@@ -676,8 +676,8 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 .lp-hc-dot{width:10px;height:10px;border-radius:50%}
 .lp-hc-url{flex:1;background:#1a1a2e;border-radius:6px;padding:4px 10px;font-size:11px;color:#8cb8d8;font-family:'IBM Plex Mono',monospace;margin-left:8px}
 .lp-hc-track-wrap{overflow:hidden}
-.lp-hc-track{display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1)}
-.lp-hc-slide{min-width:100%;flex-shrink:0}
+.lp-hc-track{display:flex;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.lp-hc-slide{min-width:100%;position:relative}
 .lp-hc-slide img{width:100%;display:block;object-fit:cover;object-position:top;max-height:360px}
 .lp-hc-dots{display:flex;gap:6px;justify-content:center;padding:10px 0;background:#1a1a2e}
 .lp-hc-dot-el{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:background .2s,transform .2s}
@@ -812,7 +812,7 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 
     <div class="lp-hero-grid">
       <div>
-        <span class="lp-eyebrow lp-mono">ENAIRE · Convocatoria 2026 · Pendiente de publicación</span>
+        <span class="lp-eyebrow lp-mono">ENAIRE · Convocatoria 2026</span>
         <h1 class="lp-head">Preparación para la oposición <em>por quienes conocen el oficio.</em></h1>
         <p class="lp-sub">Creada por controladores licenciados con décadas de experiencia operativa en Europa — y respaldada por el único análisis publicado de la Convocatoria ENAIRE 2025: 5000 candidatos, cada fase, cada dato.</p>
         <div class="lp-cta-row">
@@ -1040,14 +1040,14 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 <!-- ================= WOW SHOT ================= -->
 <section class="lp-wow lp-fade">
   <div class="lp-wow-inner">
-    <div class="lp-kicker lp-mono">Fase 2 · FEAST</div>
+    <div class="lp-kicker lp-mono">Fase 2 · Psicotécnicos</div>
     <div class="lp-h2" style="margin-bottom:24px">El simulador que nadie espera</div>
     <img src="ss-psico.jpg" alt="Simulador de radar ATC — ControlPrep Fase 2" class="lp-wow-img">
     <div class="lp-wow-caption">
       <div class="lp-wow-tag">FASE 2</div>
       <div class="lp-wow-text">
         <h3>Radar Control — separación ATC en tiempo real</h3>
-        <p>Gestiona traffic, mantén separación, responde a radio calls y maneja flight strips simultáneamente. La prueba que más candidatos no esperan — aquí puedes prepararla antes de llegar a la prueba.</p>
+        <p>Gestiona traffic, mantén separación, responde a radio calls y maneja flight strips simultáneamente. La prueba que más candidatos no esperan — aquí puedes prepararla antes de llegar a Madrid.</p>
       </div>
     </div>
   </div>
@@ -1096,7 +1096,7 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 <section class="lp-section lp-fade" style="padding-top:6px">
   <div class="lp-wrap">
     <div class="lp-final">
-      <h2>Plazas limitadas en la próxima convocatoria. ¿Será una tuya?</h2>
+      <h2>Plazas limitadas en 2026. ¿Será una tuya?</h2>
       <p>Haz el test de nivel gratuito — sin registro, sin tarjeta — y descubre en 10 minutos exactamente dónde estás.</p>
       <a onclick="startLandingTest()" class="lp-btn lp-btn-primary" style="position:relative;z-index:2;cursor:pointer">Empezar test de nivel gratis →</a>
     </div>
@@ -1128,6 +1128,8 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
   }
   function go2(i){current=i;update();resetT();}
   function resetT(){clearInterval(timer);timer=setInterval(function(){current=(current+1)%total;update();},2800);}
+  // Ensure correct sizing after images load
+  window.addEventListener('resize', function(){update();});
   resetT();
 })();
 
