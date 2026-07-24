@@ -632,7 +632,6 @@ async function sbResetPassword(email){
   --shadow:0 12px 34px rgba(12,42,74,.10); --shadow-s:0 4px 14px rgba(12,42,74,.08);
 }
 .lp-root *{box-sizing:border-box;margin:0;padding:0}
-
 .lp-root{font-family:'IBM Plex Sans',system-ui,sans-serif;color:var(--ink);background:var(--sky);line-height:1.5;-webkit-font-smoothing:antialiased;width:100%}
 .lp-wrap{max-width:1080px;margin:0 auto;padding:0 22px}
 .lp-mono{font-family:'IBM Plex Mono',monospace;letter-spacing:.12em;text-transform:uppercase}
@@ -645,50 +644,46 @@ async function sbResetPassword(email){
 .lp-btn-ghost{background:transparent;color:#dceaf6;border:1.5px solid rgba(255,255,255,.28)}
 .lp-btn-ghost:hover{border-color:var(--cyan);color:#fff}
 
-/* ---------- HERO ---------- */
-.lp-hero{position:relative;background:linear-gradient(160deg,#0a1f38 0%,#0c2a4a 70%,#0e3258 100%);color:#eaf3fb;overflow:hidden;padding:26px 0 70px}
-.lp-scope{position:absolute;right:-180px;top:-60px;width:620px;height:620px;opacity:.5;pointer-events:none}
+/* HERO */
+.lp-hero{position:relative;background:linear-gradient(160deg,#0a1f38 0%,#0c2a4a 70%,#0e3258 100%);color:#eaf3fb;overflow:hidden;padding:26px 0 60px}
+.lp-scope{position:absolute;right:-180px;top:-60px;width:620px;height:620px;opacity:.3;pointer-events:none}
 .lp-hero-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
 .lp-logo{font-weight:700;font-size:21px;letter-spacing:-.01em}
 .lp-logo .lp-p{color:var(--cyan)}
 .lp-nav-mini{display:flex;gap:18px;align-items:center;font-size:14px;color:#bcd3e6}
 .lp-nav-mini a:hover{color:#fff}
-.lp-hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:30px;align-items:center;margin-top:46px}
+.lp-hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;margin-top:46px}
 .lp-eyebrow{font-size:12px;color:var(--cyan);margin-bottom:18px;display:inline-block;padding:6px 12px;border:1px solid rgba(0,180,216,.35);border-radius:999px;background:rgba(0,180,216,.07)}
 h1.lp-head{font-size:46px;line-height:1.08;font-weight:700;letter-spacing:-.02em}
 h1.lp-head em{font-style:normal;color:var(--cyan)}
-.lp-sub{margin-top:18px;font-size:18px;color:#c4d8e8;max-width:540px}
+.lp-sub{margin-top:18px;font-size:18px;color:#c4d8e8;max-width:520px}
 .lp-cta-row{margin-top:28px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
 .lp-cta-note{font-size:13px;color:#9fbcd2;display:flex;align-items:center;gap:7px}
 .lp-by-line{margin-top:26px;font-size:13.5px;color:#9fbcd2;display:flex;align-items:center;gap:9px}
 .lp-by-line b{color:#dceaf6;font-weight:600}
 .lp-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);display:inline-block}
 
-/* hero scope card (the "instrument" signature) */
-.lp-scope-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:20px;backdrop-filter:blur(4px)}
-.lp-scope-card .lp-lbl{font-size:11px;color:#8fb6d0}
-.lp-scope-card .lp-big{font-family:'IBM Plex Mono';font-size:15px;color:#eaf3fb;margin:3px 0 14px}
-.lp-gauge{height:9px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}
-.lp-gauge>span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--cyan),#5fe0ff)}
-.lp-scope-stats{display:flex;gap:10px;margin-top:16px}
-.lp-scope-stats div{flex:1;background:rgba(255,255,255,.05);border-radius:11px;padding:11px 12px}
-.lp-scope-stats .lp-n{font-family:'IBM Plex Mono';font-size:19px;color:#fff;font-weight:600}
-.lp-scope-stats .lp-t{font-size:11px;color:#9fbcd2;margin-top:2px}
+/* BROWSER FRAME VIDEO */
+.lp-browser{background:#1a1a2e;border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1)}
+.lp-browser-bar{background:#2a2a3e;padding:10px 14px;display:flex;align-items:center;gap:8px}
+.lp-browser-dot{width:10px;height:10px;border-radius:50%}
+.lp-browser-url{flex:1;background:#1a1a2e;border-radius:6px;padding:4px 10px;font-size:11px;color:#8cb8d8;font-family:'IBM Plex Mono',monospace;margin-left:8px}
+.lp-browser video{width:100%;display:block;max-height:320px;object-fit:cover}
 
-/* ---------- SECTION SHELL ---------- */
+/* SECTION SHELL */
 .lp-section{padding:66px 0}
 .lp-kicker{font-size:12px;color:var(--cyan-d);margin-bottom:12px}
 .lp-h2{font-size:32px;font-weight:700;letter-spacing:-.02em;line-height:1.12}
 .lp-lead{color:var(--muted);font-size:17px;margin-top:12px;max-width:600px}
 
-/* ---------- FOUNDER QUOTE ---------- */
+/* QUOTE */
 .lp-quote{background:linear-gradient(135deg,#0c2a4a,#0e3a63);color:#eaf3fb;border-radius:22px;padding:46px 44px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
 .lp-quote .lp-mark{font-family:'IBM Plex Mono';font-size:80px;line-height:.6;color:rgba(0,180,216,.4);position:absolute;top:26px;left:30px}
 .lp-quote p{font-size:22px;line-height:1.5;font-weight:500;position:relative;z-index:2;max-width:760px;margin-left:14px}
 .lp-quote .lp-sig{margin-top:22px;margin-left:14px;font-size:14px;color:var(--cyan);display:flex;align-items:center;gap:10px}
 .lp-quote .lp-badge{width:34px;height:34px;border-radius:9px;background:rgba(0,180,216,.16);display:grid;place-items:center;font-weight:700;color:#fff;font-size:14px}
 
-/* ---------- FLIGHT STRIPS (why) ---------- */
+/* FLIGHT STRIPS */
 .lp-strips{display:grid;gap:14px;margin-top:34px}
 .lp-strip{display:grid;grid-template-columns:118px 1fr;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow-s)}
 .lp-strip .lp-tag{background:var(--navy);color:#cfe6f3;display:flex;flex-direction:column;justify-content:center;padding:18px;border-right:3px solid var(--cyan)}
@@ -700,29 +695,44 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 .lp-strip.lp-gold .lp-tag{border-right-color:var(--gold)}
 .lp-strip.lp-green .lp-tag{border-right-color:var(--green)}
 
-/* ---------- SCREENSHOTS ---------- */
-.lp-shots{display:grid;grid-template-columns:repeat(2,1fr);gap:26px;margin-top:38px}
-.lp-shot{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:var(--shadow-s);display:flex;gap:20px;align-items:center}
-.lp-shot .lp-txt h3{font-size:18px;margin-bottom:6px}
-.lp-shot .lp-txt p{color:var(--muted);font-size:14px}
-.lp-shot .lp-txt .lp-pill{display:inline-block;font-size:11px;font-family:'IBM Plex Mono';color:var(--cyan-d);background:#e3f6fb;padding:3px 9px;border-radius:99px;margin-bottom:10px}
-/* phone mock */
-.lp-phone{flex:0 0 138px;width:138px;height:262px;background:#081626;border-radius:22px;padding:9px;box-shadow:0 10px 24px rgba(8,22,38,.28);position:relative}
-.lp-phone .lp-scr{background:linear-gradient(180deg,#0a1f38,#0c2a4a);border-radius:15px;height:100%;padding:12px 10px;overflow:hidden;color:#dceaf6} .lp-phone .lp-scr,.lp-phone .lp-notch{display:none} .lp-phone .lp-img{width:100%;height:100%;object-fit:cover;object-position:top;border-radius:15px;display:block}
-.lp-phone .lp-notch{position:absolute;top:14px;left:50%;transform:translateX(-50%);width:42px;height:5px;border-radius:99px;background:#1d3a5c;z-index:3}
-.lp-ph-h{font-size:10px;color:#9fbcd2;font-family:'IBM Plex Mono';margin:6px 0 9px}
-.lp-ph-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:9px;padding:8px;margin-bottom:7px}
-.lp-ph-card .lp-q{font-size:9.5px;line-height:1.35;color:#eaf3fb}
-.lp-ph-opt{font-size:9px;color:#bcd3e6;background:rgba(255,255,255,.05);border-radius:6px;padding:5px 7px;margin-top:5px;border:1px solid transparent}
-.lp-ph-opt.lp-ok{border-color:var(--green);color:#bff0cf}
-.lp-ph-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:4px}
-.lp-ph-grid i{aspect-ratio:1;border-radius:4px;background:rgba(255,255,255,.07)}
-.lp-ph-grid i.lp-on{background:rgba(255,209,102,.5)}
-.lp-ph-ring{width:54px;height:54px;border-radius:50%;margin:6px auto;background:conic-gradient(var(--green) 252deg,rgba(255,255,255,.1) 0);display:grid;place-items:center}
-.lp-ph-ring b{width:40px;height:40px;border-radius:50%;background:#0a1f38;display:grid;place-items:center;font-family:'IBM Plex Mono';font-size:12px;color:#fff}
-.lp-ph-svg{background:rgba(255,255,255,.05);border-radius:8px;padding:6px;margin-top:4px}
+/* CAROUSEL */
+.lp-carousel{position:relative;margin-top:40px;border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.lp-carousel-track{display:flex;transition:transform .5s cubic-bezier(.4,0,.2,1)}
+.lp-carousel-slide{min-width:100%;position:relative}
+.lp-carousel-slide img{width:100%;display:block;max-height:520px;object-fit:cover;object-position:top}
+.lp-carousel-label{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(10,31,56,.95));padding:28px 24px 20px;color:#fff}
+.lp-carousel-label .lp-cl-pill{display:inline-block;font-size:10px;font-family:'IBM Plex Mono',monospace;letter-spacing:.1em;text-transform:uppercase;background:rgba(0,180,216,.25);border:1px solid rgba(0,180,216,.5);border-radius:99px;padding:3px 10px;color:#5fe0ff;margin-bottom:8px}
+.lp-carousel-label h3{font-size:20px;font-weight:700;margin-bottom:4px}
+.lp-carousel-label p{font-size:14px;color:#c4d8e8}
+.lp-carousel-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(10,31,56,.7);border:1px solid rgba(255,255,255,.15);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;font-size:18px;backdrop-filter:blur(4px);transition:background .2s}
+.lp-carousel-nav:hover{background:rgba(0,180,216,.4)}
+.lp-carousel-prev{left:14px}
+.lp-carousel-next{right:14px}
+.lp-carousel-dots{display:flex;gap:7px;justify-content:center;margin-top:16px}
+.lp-carousel-dot{width:8px;height:8px;border-radius:50%;background:var(--line);cursor:pointer;transition:background .2s,transform .2s}
+.lp-carousel-dot.active{background:var(--cyan);transform:scale(1.3)}
 
-/* ---------- PLANS ---------- */
+/* VIDEO SECTION */
+.lp-video-section{background:linear-gradient(180deg,#0a1f38,#060f1e);padding:70px 0}
+.lp-video-wrap{max-width:900px;margin:0 auto;padding:0 22px}
+.lp-video-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:36px}
+.lp-video-card{border-radius:16px;overflow:hidden;box-shadow:0 16px 40px rgba(0,0,0,.5);background:#0a1929;cursor:pointer;position:relative}
+.lp-video-card video{width:100%;display:block;max-height:220px;object-fit:cover}
+.lp-video-card .lp-vc-label{padding:14px 16px;background:#0c2040}
+.lp-video-card .lp-vc-pill{font-size:10px;font-family:'IBM Plex Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
+.lp-video-card .lp-vc-title{font-size:14px;font-weight:700;color:#e8f4fd}
+.lp-video-card .lp-vc-sub{font-size:12px;color:#8cb8d8;margin-top:3px}
+
+/* WOW SHOT - radar */
+.lp-wow{margin:0;background:linear-gradient(180deg,var(--sky),var(--sky-2));padding:60px 0}
+.lp-wow-inner{max-width:1080px;margin:0 auto;padding:0 22px}
+.lp-wow-img{width:100%;border-radius:18px;box-shadow:0 24px 60px rgba(12,42,74,.18);border:1px solid var(--line);display:block}
+.lp-wow-caption{display:flex;gap:12px;margin-top:20px;align-items:flex-start}
+.lp-wow-tag{background:var(--navy);color:#fff;border-radius:10px;padding:8px 14px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;margin-top:2px}
+.lp-wow-text h3{font-size:18px;font-weight:700;margin-bottom:4px}
+.lp-wow-text p{font-size:14px;color:var(--muted)}
+
+/* PLANS */
 .lp-plans{display:grid;grid-template-columns:1fr 1.25fr;gap:22px;margin-top:38px;align-items:stretch}
 .lp-plan{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:30px;box-shadow:var(--shadow-s)}
 .lp-plan.lp-prem{background:linear-gradient(160deg,#0c2a4a,#0e3a63);color:#eaf3fb;border:1px solid #16527e;position:relative;box-shadow:var(--shadow)}
@@ -734,29 +744,37 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 .lp-plan.lp-prem .lp-price small{color:#9fbcd2}
 .lp-save{font-size:13px;color:var(--gold-d);margin-top:4px}
 .lp-plan.lp-prem .lp-save{color:var(--gold)}
-.lp-feat{list-style:none;margin:20px 0 24px;display:grid;gap:10px}
-.lp-feat li{font-size:14.5px;display:flex;gap:9px;align-items:flex-start}
-.lp-feat li::before{content:"✓";color:var(--cyan);font-weight:700;flex:0 0 auto}
-.lp-plan.lp-prem .lp-feat li::before{color:#5fe0ff}
-.lp-plan .lp-btn{width:100%;justify-content:center}
-.lp-badge-pop{position:absolute;top:-12px;right:24px;background:var(--gold);color:#3a2a00;font-size:11px;font-weight:700;font-family:'IBM Plex Mono';letter-spacing:.06em;padding:5px 12px;border-radius:99px}
+.lp-feat{list-style:none;margin:18px 0 24px}
+.lp-feat li{padding:7px 0;font-size:14.5px;border-bottom:1px solid var(--line);display:flex;gap:9px;align-items:flex-start}
+.lp-feat li::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0;margin-top:1px}
+.lp-plan.lp-prem .lp-feat li{border-color:rgba(255,255,255,.1)}
+.lp-badge-pop{position:absolute;top:-13px;right:24px;background:var(--gold);color:#2a1a00;font-size:11px;font-weight:800;padding:4px 14px;border-radius:99px;letter-spacing:.04em}
 
-/* ---------- FINAL CTA ---------- */
+/* FINAL CTA */
 .lp-final{background:linear-gradient(160deg,#0a1f38,#0c2a4a);color:#eaf3fb;text-align:center;border-radius:24px;padding:56px 30px;box-shadow:var(--shadow);position:relative;overflow:hidden}
 .lp-final h2{font-size:34px;font-weight:700;letter-spacing:-.02em;position:relative;z-index:2}
 .lp-final p{color:#c4d8e8;margin:14px 0 26px;font-size:17px;position:relative;z-index:2}
-.lp-root footer{text-align:center;color:var(--muted);font-size:13px;padding:36px 0 50px}
 
-@media(max-width:860px){
-  .lp-hero-grid{grid-template-columns:1fr}
-  h1.lp-head{font-size:36px}
-  .lp-shots,.lp-plans{grid-template-columns:1fr}
-  .lp-quote p{font-size:19px}
-  .lp-nav-mini{display:none}
-  .lp-scope{opacity:.28;right:-220px}
+/* SCROLL FADE */
+.lp-fade{opacity:0;transform:translateY(28px);transition:opacity .6s ease,transform .6s ease}
+.lp-fade.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .lp-hero-grid{grid-template-columns:1fr;gap:32px}
+  .lp-video-grid{grid-template-columns:1fr}
+  .lp-plans{grid-template-columns:1fr}
+  h1.lp-head{font-size:34px}
+}
+@media(max-width:600px){
+  .lp-strips .lp-strip{grid-template-columns:80px 1fr}
+  .lp-plans{grid-template-columns:1fr}
+  .lp-quote p{font-size:17px}
+  .lp-quote{padding:32px 24px}
 }
 </style>
 <div class="lp-root">
+
 <!-- ================= HERO ================= -->
 <header class="lp-hero">
   <svg class="lp-scope" viewBox="0 0 600 600" fill="none">
@@ -781,130 +799,243 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 
     <div class="lp-hero-grid">
       <div>
-        <span class="lp-eyebrow lp-mono">ENAIRE · Convocatoria 2026</span>
-        <h1 class="lp-head">Tu camino al <em>control aéreo</em> empieza aquí.</h1>
-        <p class="lp-sub">Temario, simulacros, inglés avanzado y psicotécnicos en una sola app. Descubre en 10 minutos si estás al nivel del proceso de selección de ENAIRE.</p>
+        <span class="lp-eyebrow lp-mono">ENAIRE · Convocatoria 2026 · Análisis real de 149 candidatos</span>
+        <h1 class="lp-head">Preparación para la oposición <em>por quienes conocen el oficio.</em></h1>
+        <p class="lp-sub">Creada por controladores licenciados con décadas de experiencia operativa en Europa — y respaldada por el único análisis publicado de la Convocatoria ENAIRE 2025: 149 candidatos, cada fase, cada dato.</p>
         <div class="lp-cta-row">
-          <a onclick="startLandingTest()" class="lp-btn lp-btn-primary" style="cursor:pointer">Empezar test de nivel →</a>
+          <a onclick="startLandingTest()" class="lp-btn lp-btn-primary" style="cursor:pointer">Empezar test de nivel gratis →</a>
           <span class="lp-cta-note"><span class="lp-dot"></span>Gratis · 10 min · sin registro</span>
         </div>
-        <div class="lp-by-line"><span class="lp-dot"></span><b>Diseñada por controladores,</b> para futuros controladores.</div>
+        <div class="lp-by-line"><span class="lp-dot"></span><b>Fundada por ATCOs licenciados con experiencia real en centros de control europeos de primer nivel.</b></div>
       </div>
 
-      <!-- signature: a "scope" instrument readout -->
-      <div class="lp-scope-card">
-        <div class="lp-lbl lp-mono">Test de nivel</div>
-        <div class="lp-big">› Comprobando tu preparación…</div>
-        <div class="lp-gauge"><span style="width:64%"></span></div>
-        <div class="lp-scope-stats">
-          <div><div class="lp-n">9</div><div class="lp-t">temas + inglés</div></div>
-          <div><div class="lp-n">13</div><div class="lp-t">psicotécnicos</div></div>
-          <div><div class="lp-n">∞</div><div class="lp-t">simulacros</div></div>
+      <!-- Browser frame with quiz video -->
+      <div class="lp-browser">
+        <div class="lp-browser-bar">
+          <div class="lp-browser-dot" style="background:#ff5f57"></div>
+          <div class="lp-browser-dot" style="background:#febc2e"></div>
+          <div class="lp-browser-dot" style="background:#28c840"></div>
+          <div class="lp-browser-url">controlprep.com</div>
         </div>
+        <video autoplay loop muted playsinline poster="ss-feedback.jpg">
+          <source src="demo-quiz.mp4" type="video/mp4">
+        </video>
       </div>
     </div>
   </div>
 </header>
 
-<!-- ================= FOUNDER QUOTE ================= -->
-<section class="lp-section" style="padding-bottom:34px">
+<!-- ================= STAT BAR ================= -->
+<div style="background:#0c2a4a;border-top:1px solid rgba(0,180,216,.2);border-bottom:1px solid rgba(0,180,216,.2);padding:18px 0">
+  <div class="lp-wrap" style="display:flex;gap:0;justify-content:space-around;flex-wrap:wrap">
+    <div style="text-align:center;padding:8px 20px">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:700;color:#fff">2.000+</div>
+      <div style="font-size:12px;color:#8cb8d8;margin-top:3px">preguntas con explicaciones</div>
+    </div>
+    <div style="text-align:center;padding:8px 20px;border-left:1px solid rgba(255,255,255,.08)">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:700;color:#fff">13</div>
+      <div style="font-size:12px;color:#8cb8d8;margin-top:3px">ejercicios psicotécnicos</div>
+    </div>
+    <div style="text-align:center;padding:8px 20px;border-left:1px solid rgba(255,255,255,.08)">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:700;color:#00b4d8">€189</div>
+      <div style="font-size:12px;color:#8cb8d8;margin-top:3px">acceso anual completo</div>
+    </div>
+    <div style="text-align:center;padding:8px 20px;border-left:1px solid rgba(255,255,255,.08)">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:700;color:#e63946">€74,95</div>
+      <div style="font-size:12px;color:#8cb8d8;margin-top:3px">lo que cobra la competencia/mes</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= QUOTE ================= -->
+<section class="lp-section lp-fade" style="padding-bottom:34px">
   <div class="lp-wrap">
     <div class="lp-quote">
       <span class="lp-mark">"</span>
-      <p>Sabemos exactamente lo que exige el proceso de selección de ENAIRE, porque lo hemos vivido. Por eso creamos ControlPrep: para darte la preparación completa, exigente y honesta que nos habría gustado tener. Si de verdad quieres tu plaza, este es tu sitio — y el primer paso es tuyo.</p>
-      <div class="lp-sig"><span class="lp-badge">CP</span> El equipo de ControlPrep</div>
+      <p>De cada 4.000 candidatos que se presentan, 149 consiguieron plaza en 2025. La mayoría no falló por falta de inteligencia — falló por falta de preparación real. ControlPrep existe para cambiar eso.</p>
+      <div class="lp-sig"><span class="lp-badge">CP</span> ControlPrep · Preparación para la oposición de Controlador de Tránsito Aéreo</div>
     </div>
   </div>
 </section>
 
-<!-- ================= WHY / FLIGHT STRIPS ================= -->
-<section class="lp-section" id="lp-why" style="padding-top:20px">
+<!-- ================= WHY ================= -->
+<section class="lp-section lp-fade" id="lp-why" style="padding-top:20px">
   <div class="lp-wrap">
     <div class="lp-kicker lp-mono">Por qué ControlPrep</div>
     <div class="lp-h2">Una preparación que habla tu idioma.</div>
-    <p class="lp-lead">Cada parte está pensada por quienes han pasado por la selección, no por una editorial genérica.</p>
+    <p class="lp-lead">Cada parte está pensada por quienes conocen el proceso desde dentro, no por una editorial genérica.</p>
     <div class="lp-strips">
       <div class="lp-strip">
         <div class="lp-tag"><div class="lp-code">REAL</div><div class="lp-sub">fuentes oficiales</div></div>
-        <div class="lp-body"><h3>Contenido fiel al examen</h3><p>Temario y preguntas basados en las fuentes oficiales de ENAIRE, no en material de terceros sin contrastar.</p></div>
+        <div class="lp-body"><h3>Contenido fiel al examen</h3><p>Temario y preguntas basados en las fuentes oficiales de ENAIRE, con referencia exacta al manual y sección en cada respuesta.</p></div>
       </div>
       <div class="lp-strip lp-green">
-        <div class="lp-tag"><div class="lp-code">CTRL</div><div class="lp-sub">por controladores</div></div>
-        <div class="lp-body"><h3>Diseñada por controladores</h3><p>Quienes ya han superado el proceso saben qué se pregunta y cómo. Esa experiencia está en cada tema.</p></div>
+        <div class="lp-tag"><div class="lp-code">CTRL</div><div class="lp-sub">expertos reales</div></div>
+        <div class="lp-body"><h3>Creada por ATCOs licenciados</h3><p>No por una editorial ni por alguien que memorizó el temario. Por controladores con experiencia operativa real en centros europeos de primer nivel.</p></div>
       </div>
       <div class="lp-strip lp-gold">
         <div class="lp-tag"><div class="lp-code">FULL</div><div class="lp-sub">todo en uno</div></div>
-        <div class="lp-body"><h3>Todo en un solo lugar</h3><p>Temario, simulacros, inglés avanzado y psicotécnicos. Sin saltar entre webs, apps y PDFs.</p></div>
+        <div class="lp-body"><h3>Todo incluido, sin sorpresas</h3><p>Temario, simulacros, inglés avanzado y psicotécnicos en una sola plataforma. Sin créditos, sin módulos extra, sin letra pequeña.</p></div>
+      </div>
+      <div class="lp-strip">
+        <div class="lp-tag"><div class="lp-code">€189</div><div class="lp-sub">acceso anual</div></div>
+        <div class="lp-body"><h3>Un precio que tiene sentido</h3><p>€15,75 al mes. La competencia cobra €74,95. Prepararte para la oposición más exigente de España no tiene por qué costarte una fortuna.</p></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================= SCREENSHOTS ================= -->
-<section class="lp-section" id="lp-features" style="background:linear-gradient(180deg,#e2eefb,#eef5fb);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+<!-- ================= SCREENSHOT CAROUSEL ================= -->
+<section class="lp-section lp-fade" id="lp-features" style="background:linear-gradient(180deg,#e2eefb,#eef5fb);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding-bottom:50px">
   <div class="lp-wrap">
     <div class="lp-kicker lp-mono">Qué incluye</div>
-    <div class="lp-h2">Todo lo que necesitas para llegar preparado.</div>
-    <div class="lp-shots">
+    <div class="lp-h2">Fase 1 cubierta al completo. Todo en un solo sitio.</div>
+    <p class="lp-lead" style="margin-bottom:0">Desliza para explorar cada módulo de la plataforma.</p>
 
-      <!-- Resúmenes -->
-      <div class="lp-shot">
-        <div class="lp-phone"><div class="lp-notch"></div><div class="lp-scr">
-          </div><img class="lp-img" src="lp-resumenes.jpg" alt="Resumen del temario en ControlPrep"><div style="display:none"><div class="lp-ph-h">RESÚMENES</div>
-          <div class="lp-ph-card"><div class="lp-q" style="font-weight:600">Clases de espacio aéreo</div>
-            <div class="lp-ph-svg"><svg viewBox="0 0 110 56" width="100%"><rect x="4" y="6" width="100" height="10" rx="2" fill="#00b4d8" fill-opacity=".5"/><rect x="4" y="20" width="100" height="10" rx="2" fill="#1fb255" fill-opacity=".5"/><rect x="4" y="34" width="100" height="10" rx="2" fill="#ffb703" fill-opacity=".5"/><text x="8" y="14" font-size="6" fill="#fff" font-family="monospace">A · IFR</text><text x="8" y="28" font-size="6" fill="#fff" font-family="monospace">C · IFR/VFR</text><text x="8" y="42" font-size="6" fill="#fff" font-family="monospace">G · libre</text></svg></div>
+    <div class="lp-carousel" id="lpCarousel">
+      <div class="lp-carousel-track" id="lpTrack">
+
+        <div class="lp-carousel-slide">
+          <img src="ss-home.jpg" alt="Dashboard ControlPrep">
+          <div class="lp-carousel-label">
+            <div class="lp-cl-pill">Dashboard</div>
+            <h3>Tu centro de mando</h3>
+            <p>Progreso por tema, las 3 fases del proceso, tu plan de estudio y nivel global en un vistazo.</p>
           </div>
-          <div class="lp-ph-card"><div class="lp-q">Esquemas visuales y mnemotécnicas para fijar cada tema.</div></div>
-        </div></div>
-        <div class="lp-txt"><span class="lp-pill">RESÚMENES</span><h3>Resúmenes y esquemas visuales</h3><p>Cada tema condensado con diagramas y reglas mnemotécnicas para memorizar de verdad.</p></div>
-      </div>
+        </div>
 
-      <!-- Psicotécnicos -->
-      <div class="lp-shot">
-        <div class="lp-phone"><div class="lp-notch"></div><div class="lp-scr">
-          </div><img class="lp-img" src="lp-psico.jpg" alt="Ejercicio psicotécnico en ControlPrep"><div style="display:none"><div class="lp-ph-h">PSICOTÉCNICOS</div>
-          <div class="lp-ph-card"><div class="lp-q" style="font-weight:600">Memoria de trabajo</div>
-            <div class="lp-ph-grid"><i></i><i class="lp-on"></i><i></i><i class="lp-on"></i><i class="lp-on"></i><i></i><i></i><i></i><i></i><i></i><i class="lp-on"></i><i></i></div>
+        <div class="lp-carousel-slide">
+          <img src="ss-phases.jpg" alt="Las 3 fases del proceso ENAIRE">
+          <div class="lp-carousel-label">
+            <div class="lp-cl-pill">Fases del proceso</div>
+            <h3>Las 3 fases, cubiertas</h3>
+            <p>Conocimientos, psicotécnicos e inglés oral — cada fase con su módulo de preparación específico.</p>
           </div>
-          <div class="lp-ph-card" style="text-align:center"><div class="lp-ph-ring"><b>8/10</b></div><div class="lp-q" style="text-align:center">13 ejercicios cognitivos tipo FEAST</div></div>
-        </div></div>
-        <div class="lp-txt"><span class="lp-pill">PSICOTÉCNICOS</span><h3>13 ejercicios psicotécnicos</h3><p>Memoria, atención dividida, razonamiento espacial y más — la parte que más sorprende en la selección.</p></div>
-      </div>
+        </div>
 
-      <!-- Inglés -->
-      <div class="lp-shot">
-        <div class="lp-phone"><div class="lp-notch"></div><div class="lp-scr">
-          </div><img class="lp-img" src="lp-ingles.jpg" alt="Inglés aeronáutico en ControlPrep"><div style="display:none"><div class="lp-ph-h">INGLÉS AVANZADO</div>
-          <div class="lp-ph-card"><div class="lp-q" style="font-weight:600">Completa la frase</div><div class="lp-q" style="margin-top:4px">"The crew had to ___ to an alternate airport."</div></div>
-          <div class="lp-ph-opt">diverge</div>
-          <div class="lp-ph-opt lp-ok">divert ✓</div>
-          <div class="lp-ph-opt">deviate</div>
-        </div></div>
-        <div class="lp-txt"><span class="lp-pill">INGLÉS AVANZADO</span><h3>Inglés avanzado</h3><p>Prepárate para la prueba de inglés de la selección, a nivel avanzado — con algún escenario de aviación de propina.</p></div>
-      </div>
+        <div class="lp-carousel-slide">
+          <img src="ss-question.jpg" alt="Pregunta de temario en ControlPrep">
+          <div class="lp-carousel-label">
+            <div class="lp-cl-pill">Banco de preguntas</div>
+            <h3>2.000+ preguntas con fuente oficial</h3>
+            <p>Cada pregunta vinculada a su sección exacta del manual ENAIRE. Estudias el contenido que entra en el examen.</p>
+          </div>
+        </div>
 
-      <!-- Simulacros -->
-      <div class="lp-shot">
-        <div class="lp-phone"><div class="lp-notch"></div><div class="lp-scr">
-          </div><img class="lp-img" src="lp-simulacro.jpg" alt="Pregunta de examen en ControlPrep"><div style="display:none"><div class="lp-ph-h">SIMULACRO · 1/25</div>
-          <div class="lp-ph-card"><div class="lp-q" style="font-weight:600">¿Qué significa QNH?</div></div>
-          <div class="lp-ph-opt">Altitud de transición</div>
-          <div class="lp-ph-opt lp-ok">Reglaje para altitud sobre el mar ✓</div>
-          <div class="lp-ph-opt">Presión estándar 1013</div>
-          <div class="lp-ph-card" style="text-align:center;margin-top:7px"><div class="lp-q" style="text-align:center">Cronómetro · simulacros ilimitados</div></div>
-        </div></div>
-        <div class="lp-txt"><span class="lp-pill">SIMULACROS</span><h3>Simulacros cronometrados</h3><p>Practica en condiciones reales de examen, con repetición espaciada de tus errores.</p></div>
-      </div>
+        <div class="lp-carousel-slide">
+          <img src="ss-feedback.jpg" alt="Feedback correcto con fuente en ControlPrep">
+          <div class="lp-carousel-label">
+            <div class="lp-cl-pill">Feedback instantáneo</div>
+            <h3>Correcto. Aquí está el porqué.</h3>
+            <p>Cada respuesta explica la razón y cita el manual. Aprendes en el momento, no días después.</p>
+          </div>
+        </div>
 
+        <div class="lp-carousel-slide">
+          <img src="ss-simulacro.jpg" alt="Simulacro cronometrado en ControlPrep">
+          <div class="lp-carousel-label">
+            <div class="lp-cl-pill">Simulacros</div>
+            <h3>50 preguntas · cronómetro · penalización −0,33</h3>
+            <p>Las mismas condiciones que el día del examen. Cuando llegues a Madrid, ya habrás estado ahí.</p>
+          </div>
+        </div>
+
+        <div class="lp-carousel-slide">
+          <img src="ss-psico.jpg" alt="Simulador de radar ATC en ControlPrep">
+          <div class="lp-carousel-label">
+            <div class="lp-cl-pill">Psicotécnicos · Fase 2</div>
+            <h3>Simulador de radar ATC</h3>
+            <p>Control de separación, flight strips, radio management. La prueba que más sorprende — aquí puedes entrenarla.</p>
+          </div>
+        </div>
+
+        <div class="lp-carousel-slide">
+          <img src="ss-english.jpg" alt="Inglés oral con evaluación IA en ControlPrep">
+          <div class="lp-carousel-label">
+            <div class="lp-cl-pill">Inglés oral · Fase 3</div>
+            <h3>Lee en voz alta. La IA te evalúa.</h3>
+            <p>Pronunciación, fluidez y expresión valoradas fonema a fonema. Puntuación CEFR inmediata.</p>
+          </div>
+        </div>
+
+        <div class="lp-carousel-slide">
+          <img src="ss-topics.jpg" alt="Rendimiento por tema en ControlPrep">
+          <div class="lp-carousel-label">
+            <div class="lp-cl-pill">Analítica</div>
+            <h3>Sabes exactamente dónde estás</h3>
+            <p>Tu porcentaje real por cada uno de los 9 temas. El plan de estudio se adapta a tus puntos débiles.</p>
+          </div>
+        </div>
+
+        <div class="lp-carousel-slide">
+          <img src="ss-minigames.jpg" alt="Mini Juegos en ControlPrep">
+          <div class="lp-carousel-label">
+            <div class="lp-cl-pill">Mini Juegos · Gratis</div>
+            <h3>OACI Alphabet Sprint · Heading Snap · y más</h3>
+            <p>Practica conceptos clave en 60 segundos. Nuevo juego cada semana. Incluido en el plan gratuito.</p>
+          </div>
+        </div>
+
+      </div>
+      <button class="lp-carousel-nav lp-carousel-prev" onclick="lpCarouselMove(-1)">‹</button>
+      <button class="lp-carousel-nav lp-carousel-next" onclick="lpCarouselMove(1)">›</button>
+    </div>
+    <div class="lp-carousel-dots" id="lpDots"></div>
+  </div>
+</section>
+
+<!-- ================= VIDEO SECTION ================= -->
+<div class="lp-video-section lp-fade">
+  <div class="lp-video-wrap">
+    <div class="lp-kicker lp-mono" style="color:#5fe0ff">Vélo en acción</div>
+    <div class="lp-h2" style="color:#eaf3fb">No te lo cuentes. Míralo.</div>
+    <p style="color:#8cb8d8;margin-top:12px;font-size:16px">Grabaciones reales de la plataforma. Lo que ves es lo que usas.</p>
+    <div class="lp-video-grid">
+      <div class="lp-video-card">
+        <video autoplay loop muted playsinline poster="ss-feedback.jpg">
+          <source src="demo-quiz.mp4" type="video/mp4">
+        </video>
+        <div class="lp-vc-label">
+          <div class="lp-vc-pill">Temario · Feedback</div>
+          <div class="lp-vc-title">Pregunta respondida. Explicación inmediata.</div>
+          <div class="lp-vc-sub">Con referencia al manual oficial ENAIRE en cada respuesta.</div>
+        </div>
+      </div>
+      <div class="lp-video-card">
+        <video autoplay loop muted playsinline poster="ss-home.jpg">
+          <source src="demo-dashboard.mp4" type="video/mp4">
+        </video>
+        <div class="lp-vc-label">
+          <div class="lp-vc-pill">Dashboard · Progreso</div>
+          <div class="lp-vc-title">Tu plataforma de preparación completa.</div>
+          <div class="lp-vc-sub">Fases, rendimiento por tema, plan de estudio y mini juegos.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= WOW SHOT ================= -->
+<section class="lp-wow lp-fade">
+  <div class="lp-wow-inner">
+    <div class="lp-kicker lp-mono">Fase 2 · Psicotécnicos</div>
+    <div class="lp-h2" style="margin-bottom:24px">El simulador que nadie espera</div>
+    <img src="ss-psico.jpg" alt="Simulador de radar ATC — ControlPrep Fase 2" class="lp-wow-img">
+    <div class="lp-wow-caption">
+      <div class="lp-wow-tag">FASE 2</div>
+      <div class="lp-wow-text">
+        <h3>Radar Control — separación ATC en tiempo real</h3>
+        <p>Gestiona traffic, mantén separación, responde a radio calls y maneja flight strips simultáneamente. La prueba que más candidatos no esperan — aquí puedes prepararla antes de llegar a Madrid.</p>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ================= PLANS ================= -->
-<section class="lp-section" id="lp-plans">
+<section class="lp-section lp-fade" id="lp-plans">
   <div class="lp-wrap">
     <div class="lp-kicker lp-mono">Planes</div>
-    <div class="lp-h2">Empieza gratis. Sube a Premium cuando quieras.</div>
+    <div class="lp-h2">Empieza gratis. Premium a €189/año — menos que dos horas de academia.</div>
     <div class="lp-plans">
       <div class="lp-plan">
         <div class="lp-ptag">Gratuito</div>
@@ -915,6 +1046,7 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
           <li>30 preguntas por tema</li>
           <li>Simulacros de práctica</li>
           <li>Test de nivel ENAIRE</li>
+          <li>Mini juegos semanales</li>
         </ul>
         <a onclick="localStorage.setItem('landingSeen','1');go('home')" class="lp-btn lp-btn-primary" style="cursor:pointer">Ir al temario</a>
       </div>
@@ -923,13 +1055,13 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
         <div class="lp-ptag">Premium</div>
         <h3>Para conseguir tu plaza</h3>
         <div class="lp-price">€24,99<small> /mes</small></div>
-        <div class="lp-save">o €189/año — ahorras 4 meses</div>
+        <div class="lp-save">o €189/año — €15,75/mes · la competencia cobra €74,95/mes</div>
         <ul class="lp-feat">
           <li>Acceso a más de 2.000 preguntas con explicaciones</li>
           <li>Simulacros ilimitados y cronometrados</li>
           <li>Repetición espaciada — repasa tus errores en el momento justo</li>
-          <li>Inglés avanzado para la prueba de ENAIRE</li>
-          <li>Módulo completo de preparación FEAST</li>
+          <li>Inglés avanzado + fraseología OACI para la prueba oral</li>
+          <li>Módulo completo de preparación FEAST y psicotécnicos</li>
           <li>Plan de estudio personalizado · sin anuncios</li>
         </ul>
         <a onclick="startLandingCheckout()" class="lp-btn lp-btn-gold" style="cursor:pointer">Hazte Premium</a>
@@ -939,19 +1071,79 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 </section>
 
 <!-- ================= FINAL CTA ================= -->
-<section class="lp-section" style="padding-top:6px">
+<section class="lp-section lp-fade" style="padding-top:6px">
   <div class="lp-wrap">
     <div class="lp-final">
-      <h2>¿Estás al nivel? Compruébalo en 10 minutos.</h2>
-      <p>Haz el test de nivel gratuito y descubre exactamente dónde estás hoy.</p>
-      <a onclick="startLandingTest()" class="lp-btn lp-btn-primary" style="position:relative;z-index:2;cursor:pointer">Empezar test de nivel →</a>
+      <h2>Solo 149 plazas en 2025. ¿Estará una tuya?</h2>
+      <p>Haz el test de nivel gratuito — sin registro, sin tarjeta — y descubre en 10 minutos exactamente dónde estás.</p>
+      <a onclick="startLandingTest()" class="lp-btn lp-btn-primary" style="position:relative;z-index:2;cursor:pointer">Empezar test de nivel gratis →</a>
     </div>
   </div>
 </section>
 
-<footer>ControlPrep · Preparación para el proceso de selección de Controlador de Tránsito Aéreo · ENAIRE</footer>
+<footer style="text-align:center;padding:20px;font-size:12px;color:#8cb8d8;background:#060f1e">ControlPrep · Preparación para el proceso de selección de Controlador de Tránsito Aéreo · ENAIRE</footer>
+
+<script>
+// ---- CAROUSEL ----
+(function(){
+  var slides = document.querySelectorAll('#lpCarousel .lp-carousel-slide');
+  var track = document.getElementById('lpTrack');
+  var dotsEl = document.getElementById('lpDots');
+  var current = 0;
+  var total = slides.length;
+  var timer;
+
+  // Build dots
+  for(var i=0;i<total;i++){
+    var d=document.createElement('div');
+    d.className='lp-carousel-dot'+(i===0?' active':'');
+    d.setAttribute('data-i',i);
+    d.onclick=function(){lpCarouselGo(+this.getAttribute('data-i'));};
+    dotsEl.appendChild(d);
+  }
+
+  function update(){
+    track.style.transform='translateX(-'+current*100+'%)';
+    document.querySelectorAll('.lp-carousel-dot').forEach(function(d,i){
+      d.classList.toggle('active',i===current);
+    });
+  }
+
+  window.lpCarouselMove=function(dir){
+    current=(current+dir+total)%total;
+    update();
+    resetTimer();
+  };
+  window.lpCarouselGo=function(i){
+    current=i;
+    update();
+    resetTimer();
+  };
+
+  function resetTimer(){
+    clearInterval(timer);
+    timer=setInterval(function(){current=(current+1)%total;update();},3500);
+  }
+
+  // Pause on hover
+  document.getElementById('lpCarousel').addEventListener('mouseenter',function(){clearInterval(timer);});
+  document.getElementById('lpCarousel').addEventListener('mouseleave',resetTimer);
+
+  resetTimer();
+})();
+
+// ---- SCROLL FADE ----
+(function(){
+  var els=document.querySelectorAll('#landing .lp-fade');
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');}});
+  },{threshold:0.12});
+  els.forEach(function(el){io.observe(el);});
+})();
+</script>
 </div>
 </div>
+
 <!-- LANDING PLAN SCREEN -->
 <div class="screen" id="landing-plan" style="background:#0a1f38">
 
@@ -960,8 +1152,8 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 <div style="background:linear-gradient(150deg,#0a1f38,#050d1a);padding:40px 20px 36px;text-align:center">
   <div id="lp2-result" style="margin-bottom:18px"></div>
   <div style="font-size:11px;color:#00b4d8;font-weight:800;text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px">ENAIRE · Controlador de Tránsito Aéreo</div>
-  <h1 style="font-size:26px;font-weight:900;color:#e8f4fd;margin-bottom:12px;line-height:1.3">Tu plaza de controlador<br>está al alcance</h1>
-  <p style="font-size:14px;color:#8cb8d8;max-width:460px;margin:0 auto 24px;line-height:1.65">La preparación marca la diferencia. <strong style="color:#e8f4fd">ControlPrep</strong> es la plataforma más completa para la oposición de controlador aéreo.</p>
+  <h1 style="font-size:26px;font-weight:900;color:#e8f4fd;margin-bottom:12px;line-height:1.3">Ya sabes dónde estás.<br>Ahora sabes qué trabajar.</h1>
+  <p style="font-size:14px;color:#8cb8d8;max-width:460px;margin:0 auto 24px;line-height:1.65">El test muestra tu punto de partida. <strong style="color:#e8f4fd">ControlPrep Premium</strong> te lleva desde aquí hasta el nivel que exige ENAIRE — con más de 2.000 preguntas, psicotécnicos, inglés y simulacros cronometrados.</p>
   <button onclick="document.getElementById('lp2-pricing').scrollIntoView({behavior:'smooth'})" style="display:inline-block;padding:14px 28px;background:#00b4d8;color:#000;border:none;border-radius:12px;font-family:'IBM Plex Sans',sans-serif;font-size:15px;font-weight:800;cursor:pointer">Ver planes ↓</button>
 </div>
 
@@ -1032,7 +1224,7 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
   <div style="margin:28px 0 24px">
     <div style="text-align:center;margin-bottom:16px">
       <div style="font-size:11px;font-weight:700;letter-spacing:.08em;color:#5a8aaa;text-transform:uppercase;margin-bottom:6px">Comparativa de plataformas</div>
-      <div style="font-size:20px;font-weight:800;color:#e8f4fd;line-height:1.25">La preparación más completa de Fase 1.<br>Al precio más justo del mercado.</div>
+      <div style="font-size:20px;font-weight:800;color:#e8f4fd;line-height:1.25">La preparación más completa de Fase 1.<br>A menos de la mitad del precio de la competencia.</div>
     </div>
     <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
       <table style="width:100%;border-collapse:collapse;font-family:'IBM Plex Sans',sans-serif;font-size:13px;min-width:320px">
@@ -1615,6 +1807,18 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
         <div style="display:flex;gap:8px;margin-bottom:16px">
           <button id="btn-monthly" onclick="selectBilling('monthly')" style="flex:1;padding:10px;border-radius:10px;border:2px solid #1d3a5c;background:transparent;color:#5a8aaa;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Mensual · €24.99</button>
           <button id="btn-annual" onclick="selectBilling('annual')" style="flex:1;padding:10px;border-radius:10px;border:2px solid #ffd166;background:rgba(255,209,102,.15);color:#ffd166;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;cursor:pointer">Pago único · €189 ⭐</button>
+        </div>
+        <div style="background:rgba(0,180,216,.07);border:1px solid rgba(0,180,216,.2);border-radius:12px;padding:14px 16px;margin-bottom:16px">
+          <div style="font-size:13px;font-weight:800;color:#e8f4fd;margin-bottom:8px">Lo que desbloqueas ahora:</div>
+          <div style="display:flex;flex-direction:column;gap:5px">
+            <div style="font-size:12px;color:#c8dff0">✓ Más de 2.000 preguntas con explicaciones y fuentes</div>
+            <div style="font-size:12px;color:#c8dff0">✓ 13 ejercicios psicotécnicos — la parte que más sorprende</div>
+            <div style="font-size:12px;color:#c8dff0">✓ Inglés C1 + fraseología aeronáutica OACI</div>
+            <div style="font-size:12px;color:#c8dff0">✓ Simulacros ilimitados con penalización −0,33 real</div>
+            <div style="font-size:12px;color:#c8dff0">✓ Plan de estudio personalizado por puntos débiles</div>
+            <div style="font-size:12px;color:#c8dff0">✓ Sin anuncios · sin créditos · sin módulos extra</div>
+          </div>
+          <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(0,180,216,.15);font-size:11px;color:#8cb8d8">€15,75/mes con el plan anual · La competencia cobra €74,95/mes · Cancela cuando quieras</div>
         </div>
         <label style="display:flex;align-items:flex-start;gap:8px;margin:0 0 12px;font-size:12.5px;line-height:1.5;color:#c8dff0;text-align:left;cursor:pointer"><input type="checkbox" id="consentCheck" onchange="var e=document.getElementById('checkout-error');if(this.checked&&e)e.style.display='none';" style="margin-top:3px;flex-shrink:0;width:16px;height:16px;cursor:pointer"><span>He leído y acepto los <a href="#" onclick="event.stopPropagation();go('legal-terms');return false;" style="color:#00b4d8;text-decoration:underline">Términos</a> y la <a href="#" onclick="event.stopPropagation();go('legal-privacy');return false;" style="color:#00b4d8;text-decoration:underline">Política de Privacidad</a>.</span></label>
         <label style="display:flex;align-items:flex-start;gap:8px;margin:0 0 12px;font-size:12.5px;line-height:1.5;color:#c8dff0;text-align:left;cursor:pointer"><input type="checkbox" id="withdrawalCheck" onchange="var e=document.getElementById('checkout-error');if(this.checked&&e)e.style.display='none';" style="margin-top:3px;flex-shrink:0;width:16px;height:16px;cursor:pointer"><span>Solicito expresamente que el acceso a los contenidos digitales comience de forma inmediata tras el pago y reconozco que, por ello, perderé mi derecho de desistimiento de 14 días una vez iniciada la prestación (art. 103.a RD Leg. 1/2007).</span></label>
@@ -4377,7 +4581,26 @@ function renderHomeDashboard(){
   if(prem){
     b+='<button class="hh-act hh-pri" style="width:100%;margin-top:10px" onclick="go(\'studyplan\')">🗓️ Ver mi plan de estudio personalizado</button>';
   } else {
-    b+='<div class="hh-prem" style="margin-top:10px" onclick="go(\'planselect\')"><div class="hh-ph"><span style="font-size:15px">🗓️</span><span class="hh-pt">Plan de estudio personalizado</span><span class="hh-plk">🔒 Premium</span></div><div class="hh-pd">Un calendario semanal a tu medida — con horas, objetivos y repaso espaciado — adaptado a tu fecha objetivo y a tus puntos débiles.</div><div class="hh-pb">Desbloquear mi plan personalizado</div></div>';
+    b+='<div style="margin-top:10px;border:1.5px solid rgba(255,209,102,.35);border-radius:14px;overflow:hidden;cursor:pointer" onclick="go(\'planselect\')">'
+   +'<div style="padding:12px 14px;background:linear-gradient(135deg,#0c1e35,#132842)">'
+   +'<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">'
+   +'<div style="display:flex;align-items:center;gap:8px"><span style="font-size:15px">🗓️</span><span style="font-size:13px;font-weight:800;color:#e8f4fd">Plan de estudio personalizado</span></div>'
+   +'<span style="background:rgba(255,209,102,.15);color:#ffd166;border:1px solid rgba(255,209,102,.4);border-radius:20px;padding:2px 8px;font-size:10px;font-weight:800">🔒 Premium</span>'
+   +'</div>'
+   +'<div style="position:relative;border-radius:10px;overflow:hidden">'
+   +'<div style="filter:blur(3px);opacity:.45;pointer-events:none;padding:10px;background:#0a1929;border-radius:10px">'
+   +'<div style="height:10px;background:#1d3a5c;border-radius:6px;margin-bottom:6px;width:80%"></div>'
+   +'<div style="display:flex;gap:6px;margin-bottom:6px"><div style="height:28px;flex:1;background:#00b4d8;border-radius:6px;opacity:.4"></div><div style="height:28px;flex:2;background:#1d3a5c;border-radius:6px"></div></div>'
+   +'<div style="height:10px;background:#1d3a5c;border-radius:6px;margin-bottom:6px;width:60%"></div>'
+   +'<div style="display:flex;gap:6px"><div style="height:28px;flex:2;background:#1d3a5c;border-radius:6px"></div><div style="height:28px;flex:1;background:#ffd166;border-radius:6px;opacity:.4"></div></div>'
+   +'</div>'
+   +'<div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px">'
+   +'<div style="font-size:12px;color:#c8dff0;text-align:center;line-height:1.4">Calendario semanal · objetivos por tema · repaso espaciado</div>'
+   +'<div style="background:#ffd166;color:#000;font-size:12px;font-weight:800;padding:6px 16px;border-radius:8px">Desbloquear mi plan</div>'
+   +'</div>'
+   +'</div>'
+   +'</div>'
+   +'</div>';
   }
   b+='</div></div>';
    // blog banner
@@ -8865,6 +9088,8 @@ mkBtn('← Volver al tema','#e2ebf3','#11243a','1.5px solid #dde8f1',()=>go('tde
 function initLandingPlan(){
   var res=window._cpLandingResult;
   var el=document.getElementById('lp2-result');
+  var h1=document.querySelector('#landing-plan h1');
+  var sub=document.querySelector('#landing-plan h1+p');
   if(!el)return;
   if(res&&res.tot){
     var pct=res.pct||Math.round(res.sc/res.tot*100);
@@ -8875,6 +9100,20 @@ function initLandingPlan(){
       +'<div style="font-size:48px;font-weight:900;color:'+col+';line-height:1">'+res.sc+'<span style="font-size:20px;font-weight:400;color:#8cb8d8"> / '+res.tot+'</span></div>'
       +'<div style="font-size:13px;color:#8cb8d8;margin-top:6px">'+msg+'</div>'
       +'</div>';
+    // Update headline and subtext to reflect the result
+    if(h1){
+      if(pct>=75){
+        h1.innerHTML='Buen resultado.<br>Ahora consolídalo.';
+      } else if(pct>=50){
+        h1.innerHTML='Prometedor.<br>Aquí está lo que te falta.';
+      } else {
+        h1.innerHTML='Punto de partida claro.<br>Ahora a trabajar.';
+      }
+    }
+    if(sub){
+      var gap=pct>=75?'Estás dentro del rango competitivo. ControlPrep Premium te da el banco completo, los psicotécnicos y los simulacros para mantenerlo y mejorarlo.':pct>=50?'Tienes base. Con más de 2.000 preguntas, 13 ejercicios psicotécnicos y simulacros cronometrados, Premium cierra la brecha en semanas.':'La mayoría empieza así. Con constancia y la preparación correcta, el rango aprobado (75–85%) es alcanzable. Aquí tienes todo lo que necesitas.';
+      sub.innerHTML=gap;
+    }
   } else {
     el.innerHTML='<div style="font-size:14px;color:#8cb8d8;margin-bottom:4px">Bienvenido de nuevo a ControlPrep</div>';
   }
