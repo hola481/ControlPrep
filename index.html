@@ -645,14 +645,14 @@ async function sbResetPassword(email){
 .lp-btn-ghost:hover{border-color:var(--cyan);color:#fff}
 
 /* HERO */
-.lp-hero{position:relative;background:linear-gradient(160deg,#0a1f38 0%,#0c2a4a 70%,#0e3258 100%);color:#eaf3fb;overflow:hidden;padding:26px 0 60px}
+.lp-hero{position:relative;background:linear-gradient(160deg,#0a1f38 0%,#0c2a4a 70%,#0e3258 100%);color:#eaf3fb;overflow:hidden;padding:26px 0 50px}
 .lp-scope{position:absolute;right:-180px;top:-60px;width:620px;height:620px;opacity:.3;pointer-events:none}
 .lp-hero-top{display:flex;align-items:center;justify-content:space-between;position:relative;z-index:2}
 .lp-logo{font-weight:700;font-size:21px;letter-spacing:-.01em}
 .lp-logo .lp-p{color:var(--cyan)}
 .lp-nav-mini{display:flex;gap:18px;align-items:center;font-size:14px;color:#bcd3e6}
 .lp-nav-mini a:hover{color:#fff}
-.lp-hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1.3fr;gap:40px;align-items:start;margin-top:46px}
+.lp-hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1.2fr;gap:36px;align-items:start;margin-top:46px}
 .lp-eyebrow{font-size:12px;color:var(--cyan);margin-bottom:18px;display:inline-block;padding:6px 12px;border:1px solid rgba(0,180,216,.35);border-radius:999px;background:rgba(0,180,216,.07)}
 h1.lp-head{font-size:46px;line-height:1.08;font-weight:700;letter-spacing:-.02em}
 h1.lp-head em{font-style:normal;color:var(--cyan)}
@@ -664,11 +664,24 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 .lp-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);display:inline-block}
 
 /* BROWSER FRAME VIDEO */
-.lp-browser{background:#1a1a2e;border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1)}
+.lp-browser{background:#1a1a2e;border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);width:100%}
 .lp-browser-bar{background:#2a2a3e;padding:10px 14px;display:flex;align-items:center;gap:8px}
 .lp-browser-dot{width:10px;height:10px;border-radius:50%}
 .lp-browser-url{flex:1;background:#1a1a2e;border-radius:6px;padding:4px 10px;font-size:11px;color:#8cb8d8;font-family:'IBM Plex Mono',monospace;margin-left:8px}
 .lp-browser video{width:100%;display:block;object-fit:cover}
+
+/* HERO MINI CAROUSEL */
+.lp-hero-carousel{background:#1a1a2e;border-radius:14px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1)}
+.lp-hc-bar{background:#2a2a3e;padding:10px 14px;display:flex;align-items:center;gap:8px}
+.lp-hc-dot{width:10px;height:10px;border-radius:50%}
+.lp-hc-url{flex:1;background:#1a1a2e;border-radius:6px;padding:4px 10px;font-size:11px;color:#8cb8d8;font-family:'IBM Plex Mono',monospace;margin-left:8px}
+.lp-hc-track-wrap{overflow:hidden}
+.lp-hc-track{display:flex;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.lp-hc-slide{min-width:100%;flex-shrink:0}
+.lp-hc-slide img{width:100%;display:block;object-fit:cover;object-position:top;max-height:360px}
+.lp-hc-dots{display:flex;gap:6px;justify-content:center;padding:10px 0;background:#1a1a2e}
+.lp-hc-dot-el{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);cursor:pointer;transition:background .2s,transform .2s}
+.lp-hc-dot-el.active{background:var(--cyan);transform:scale(1.4)}
 
 /* SECTION SHELL */
 .lp-section{padding:66px 0}
@@ -799,9 +812,9 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 
     <div class="lp-hero-grid">
       <div>
-        <span class="lp-eyebrow lp-mono">ENAIRE · Convocatoria 2026 · Análisis real de 149 candidatos</span>
+        <span class="lp-eyebrow lp-mono">ENAIRE · Convocatoria 2026 · Pendiente de publicación</span>
         <h1 class="lp-head">Preparación para la oposición <em>por quienes conocen el oficio.</em></h1>
-        <p class="lp-sub">Creada por controladores licenciados con décadas de experiencia operativa en Europa — y respaldada por el único análisis publicado de la Convocatoria ENAIRE 2025: 149 candidatos, cada fase, cada dato.</p>
+        <p class="lp-sub">Creada por controladores licenciados con décadas de experiencia operativa en Europa — y respaldada por el único análisis publicado de la Convocatoria ENAIRE 2025: 5000 candidatos, cada fase, cada dato.</p>
         <div class="lp-cta-row">
           <a onclick="startLandingTest()" class="lp-btn lp-btn-primary" style="cursor:pointer">Empezar test de nivel gratis →</a>
           <span class="lp-cta-note"><span class="lp-dot"></span>Gratis · 10 min · sin registro</span>
@@ -809,17 +822,26 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
         <div class="lp-by-line"><span class="lp-dot"></span><b>Fundada por ATCOs licenciados con experiencia real en centros de control europeos de primer nivel.</b></div>
       </div>
 
-      <!-- Browser frame with quiz video -->
-      <div class="lp-browser">
-        <div class="lp-browser-bar">
-          <div class="lp-browser-dot" style="background:#ff5f57"></div>
-          <div class="lp-browser-dot" style="background:#febc2e"></div>
-          <div class="lp-browser-dot" style="background:#28c840"></div>
-          <div class="lp-browser-url">controlprep.com</div>
+      <!-- Hero mini carousel -->
+      <div class="lp-hero-carousel">
+        <div class="lp-hc-bar">
+          <div class="lp-hc-dot" style="background:#ff5f57"></div>
+          <div class="lp-hc-dot" style="background:#febc2e"></div>
+          <div class="lp-hc-dot" style="background:#28c840"></div>
+          <div class="lp-hc-url">controlprep.com</div>
         </div>
-        <video autoplay loop muted playsinline poster="ss-feedback.jpg">
-          <source src="demo-quiz.mp4" type="video/mp4">
-        </video>
+        <div class="lp-hc-track-wrap">
+          <div class="lp-hc-track" id="lpHeroTrack">
+            <div class="lp-hc-slide"><img src="ss-home.jpg" alt="Dashboard ControlPrep"></div>
+            <div class="lp-hc-slide"><img src="ss-phases.jpg" alt="Fases del proceso ENAIRE"></div>
+            <div class="lp-hc-slide"><img src="ss-feedback.jpg" alt="Feedback con fuente oficial"></div>
+            <div class="lp-hc-slide"><img src="ss-psico.jpg" alt="Simulador de radar ATC"></div>
+            <div class="lp-hc-slide"><img src="ss-simulacro.jpg" alt="Simulacro cronometrado"></div>
+            <div class="lp-hc-slide"><img src="ss-english.jpg" alt="Inglés oral con IA"></div>
+            <div class="lp-hc-slide"><img src="ss-minigames.jpg" alt="Mini Juegos"></div>
+          </div>
+        </div>
+        <div class="lp-hc-dots" id="lpHeroDots"></div>
       </div>
     </div>
   </div>
@@ -852,7 +874,7 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
   <div class="lp-wrap">
     <div class="lp-quote">
       <span class="lp-mark">"</span>
-      <p>De cada 4.000 candidatos que se presentan, 149 consiguieron plaza en 2025. La mayoría no falló por falta de inteligencia — falló por falta de preparación real. ControlPrep existe para cambiar eso.</p>
+      <p>De los 5.000 candidatos que se presentaron, 149 consiguieron plaza en 2025. La mayoría no falló por falta de inteligencia — falló por falta de preparación real. ControlPrep existe para cambiar eso.</p>
       <div class="lp-sig"><span class="lp-badge">CP</span> ControlPrep · Preparación para la oposición de Controlador de Tránsito Aéreo</div>
     </div>
   </div>
@@ -1018,14 +1040,14 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 <!-- ================= WOW SHOT ================= -->
 <section class="lp-wow lp-fade">
   <div class="lp-wow-inner">
-    <div class="lp-kicker lp-mono">Fase 2 · Psicotécnicos</div>
+    <div class="lp-kicker lp-mono">Fase 2 · FEAST</div>
     <div class="lp-h2" style="margin-bottom:24px">El simulador que nadie espera</div>
     <img src="ss-psico.jpg" alt="Simulador de radar ATC — ControlPrep Fase 2" class="lp-wow-img">
     <div class="lp-wow-caption">
       <div class="lp-wow-tag">FASE 2</div>
       <div class="lp-wow-text">
         <h3>Radar Control — separación ATC en tiempo real</h3>
-        <p>Gestiona traffic, mantén separación, responde a radio calls y maneja flight strips simultáneamente. La prueba que más candidatos no esperan — aquí puedes prepararla antes de llegar a Madrid.</p>
+        <p>Gestiona traffic, mantén separación, responde a radio calls y maneja flight strips simultáneamente. La prueba que más candidatos no esperan — aquí puedes prepararla antes de llegar a la prueba.</p>
       </div>
     </div>
   </div>
@@ -1074,7 +1096,7 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 <section class="lp-section lp-fade" style="padding-top:6px">
   <div class="lp-wrap">
     <div class="lp-final">
-      <h2>Solo 149 plazas en 2025. ¿Estará una tuya?</h2>
+      <h2>Plazas limitadas en la próxima convocatoria. ¿Será una tuya?</h2>
       <p>Haz el test de nivel gratuito — sin registro, sin tarjeta — y descubre en 10 minutos exactamente dónde estás.</p>
       <a onclick="startLandingTest()" class="lp-btn lp-btn-primary" style="position:relative;z-index:2;cursor:pointer">Empezar test de nivel gratis →</a>
     </div>
@@ -1084,6 +1106,31 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
 <footer style="text-align:center;padding:20px;font-size:12px;color:#8cb8d8;background:#060f1e">ControlPrep · Preparación para el proceso de selección de Controlador de Tránsito Aéreo · ENAIRE</footer>
 
 <script>
+// ---- HERO CAROUSEL ----
+(function(){
+  var track=document.getElementById('lpHeroTrack');
+  var dotsEl=document.getElementById('lpHeroDots');
+  if(!track||!dotsEl)return;
+  var slides=track.querySelectorAll('.lp-hc-slide');
+  var total=slides.length;
+  var current=0;
+  var timer;
+  for(var i=0;i<total;i++){
+    var d=document.createElement('div');
+    d.className='lp-hc-dot-el'+(i===0?' active':'');
+    d.setAttribute('data-i',i);
+    d.onclick=function(){go2(+this.getAttribute('data-i'));};
+    dotsEl.appendChild(d);
+  }
+  function update(){
+    track.style.transform='translateX(-'+current*100+'%)';
+    dotsEl.querySelectorAll('.lp-hc-dot-el').forEach(function(d,i){d.classList.toggle('active',i===current);});
+  }
+  function go2(i){current=i;update();resetT();}
+  function resetT(){clearInterval(timer);timer=setInterval(function(){current=(current+1)%total;update();},2800);}
+  resetT();
+})();
+
 // ---- CAROUSEL ----
 (function(){
   var slides = document.querySelectorAll('#lpCarousel .lp-carousel-slide');
