@@ -400,13 +400,13 @@ body{font-family:'IBM Plex Sans',sans-serif;background:#050d1a;color:var(--tx);m
   /* Landing contained */
   #landing .inner{max-width:700px}
 
-  /* FEAST sidebar */
-  #feast-section-exercises{display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:start}
-  #feast-tabs{flex-direction:column!important;flex-wrap:nowrap!important;margin-bottom:0!important;gap:4px!important;position:sticky;top:70px}
-  #feast-tabs .ftab{width:100%;text-align:left;box-sizing:border-box}
+  /* FEAST - no sidebar, always stacked */
+  #feast-section-exercises{display:block}
+  #feast-tabs{flex-direction:row!important;flex-wrap:wrap!important;margin-bottom:1rem!important;gap:6px!important}
+  #feast-exercises{width:100%;box-sizing:border-box}
 }
 @media(max-width:767px){.dnav{display:none}}
-.hidden{display:none!important}.snavg{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;padding:12px;background:#e2ebf3;border-radius:10px;border:1px solid #dde8f1}.snavb{width:32px;height:32px;border-radius:6px;border:1.5px solid #1d3a5c;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer}@media(max-width:480px){.snavg{gap:4px;padding:8px}.snavb{width:25px;height:25px;font-size:10px;border-radius:5px}}
+#feast-exercises{width:100%;box-sizing:border-box}.hidden{display:none!important}.snavg{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;padding:12px;background:#e2ebf3;border-radius:10px;border:1px solid #dde8f1}.snavb{width:32px;height:32px;border-radius:6px;border:1.5px solid #1d3a5c;font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer}@media(max-width:480px){.snavg{gap:4px;padding:8px}.snavb{width:25px;height:25px;font-size:10px;border-radius:5px}}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -833,10 +833,10 @@ h1.lp-head em{font-style:normal;color:var(--cyan)}
         <div class="lp-hc-track-wrap">
           <div class="lp-hc-track" id="lpHeroTrack">
             <div class="lp-hc-slide"><img src="ss-home.jpg" alt="Dashboard ControlPrep"></div>
-            <div class="lp-hc-slide"><img src="ss-phases.jpg" alt="Fases del proceso ENAIRE"></div>
+            <div class="lp-hc-slide"><img src="ss-conflict.jpg" alt="Simulador de conflictos ATC"></div>
             <div class="lp-hc-slide"><img src="ss-feedback.jpg" alt="Feedback con fuente oficial"></div>
             <div class="lp-hc-slide"><img src="ss-psico.jpg" alt="Simulador de radar ATC"></div>
-            <div class="lp-hc-slide"><img src="ss-simulacro.jpg" alt="Simulacro cronometrado"></div>
+            <div class="lp-hc-slide"><img src="ss-sequence.jpg" alt="Simulador de secuencias"></div>
             <div class="lp-hc-slide"><img src="ss-english.jpg" alt="Inglés oral con IA"></div>
             <div class="lp-hc-slide"><img src="ss-minigames.jpg" alt="Mini Juegos"></div>
           </div>
